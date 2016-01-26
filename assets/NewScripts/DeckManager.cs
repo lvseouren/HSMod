@@ -32,13 +32,16 @@ public class DeckManager : MonoBehaviour {
     */
 
     //This will hold the initial position for when cards are drawn from the deck.
-    public Transform newCardPos;
+    public Transform newCardPosition;
     //This will hold the position of the card just when it is drawn.
     public Transform newCardShownPosition;
     //The speed of lerping.
     public float lerpSpeed;
     //I think its easier to just change the lerp location with a timer instead of checking the position, so this is the timer.
-    public float lerpTimer;
+    float lerpTimer;
+
+    //Just some checks
+    int drawMove = 0;
 
 
 
@@ -46,6 +49,9 @@ public class DeckManager : MonoBehaviour {
     {
         //Shoud be 30 on start.
         remainingCards = allCardsInDeck.Count;
+
+        //Placeholder - need to check card draw
+        Draw();
     }
 	
 	void Update ()
@@ -61,7 +67,7 @@ public class DeckManager : MonoBehaviour {
         {
             //Get a random card
             //(Have to add by 1 because the second number is exclusive)
-            int randomNumber = UnityEngine.Random.Range(0, remainingCards + 1);
+            int randomNumber = UnityEngine.Random.Range(0, remainingCards);
 
             //Set the drawn card
             GameObject drawnCard = allCardsInDeck[randomNumber];
@@ -78,8 +84,29 @@ public class DeckManager : MonoBehaviour {
     //Requires a card
     public void AddCardToHand(GameObject setCard)
     {
+        lerpTimer += 1f * Time.deltaTime;
+
         //Create a new card and have it positioned + rotated in the deck.
-        Instantiate(setCard, newCardPos.transform.position, newCardPos.transform.rotation);
+        if(drawMove == 0)
+        {
+            Instantiate(setCard, newCardPosition.transform.position, newCardPosition.transform.rotation);
+            drawMove = 1;
+        }
+
+        if(drawMove == 1)
+        {
+            if(lerpTimer > 0f && lerpTimer < 3f)
+            {
+                setCard.transform.position = Vector3.Lerp(setCard.transform.position, newCardShownPosition.position, lerpSpeed * Time.deltaTime);
+                setCard.transform.rotation = Quaternion.Lerp(setCard.transform.rotation, newCardShownPosition.rotation, lerpSpeed * Time.deltaTime);
+            }
+
+            if(lerpTimer > 3f)
+            {
+
+            }
+        
+        }
     }
 
     public void Discard()
