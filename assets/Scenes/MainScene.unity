@@ -3456,7 +3456,7 @@ MonoBehaviour:
   remainingCards: 0
   newCardPosition: {fileID: 1844431874}
   newCardShownPosition: {fileID: 1544553687}
-  lerpSpeed: 2.6
+  lerpSpeed: 2.8
 --- !u!1 &2116187895
 GameObject:
   m_ObjectHideFlags: 0

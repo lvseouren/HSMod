@@ -69,11 +69,22 @@ public class DeckManager : MonoBehaviour {
 
         if (drawMove == 2)
         {
-            if (lerpTimer > 0f/* && lerpTimer < 3f*/)
+            if (lerpTimer > 0f)
             {
-                print("Moving");
-                setCardCloned.transform.position = Vector3.Lerp(setCardCloned.transform.position, newCardShownPosition.transform.position, lerpSpeed * Time.deltaTime);
-                setCardCloned.transform.rotation = Quaternion.Lerp(setCardCloned.transform.rotation, newCardShownPosition.transform.rotation, lerpSpeed * Time.deltaTime);
+                if(lerpTimer > 3f)
+                {
+                    print("Moving to hand");
+
+                    /*
+                        Equation to move and shift into hand
+                    */
+                }
+                else
+                {
+                    print("Moving to shown position");
+                    setCardCloned.transform.position = Vector3.Lerp(setCardCloned.transform.position, newCardShownPosition.transform.position, lerpSpeed * Time.deltaTime);
+                    setCardCloned.transform.rotation = Quaternion.Lerp(setCardCloned.transform.rotation, newCardShownPosition.transform.rotation, lerpSpeed * Time.deltaTime);
+                }
             }
 
             if (lerpTimer > 5f)
