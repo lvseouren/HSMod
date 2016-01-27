@@ -160,6 +160,50 @@ MonoBehaviour:
   zRotation: 0
   yRotation: -1
   xRotation: 0
+--- !u!1 &65303510
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 65303511}
+  - 114: {fileID: 65303512}
+  m_Layer: 0
+  m_Name: Hand
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &65303511
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 65303510}
+  m_LocalRotation: {x: 0.5000001, y: 0.5, z: 0.5, w: 0.49999994}
+  m_LocalPosition: {x: -0.63, y: 3.248, z: -2.343}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1687304032}
+  m_RootOrder: 2
+--- !u!114 &65303512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 65303510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdcdbf4b30b9e9149aa485f8a9d4d12a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardsInHand: []
+  rotationOffset: 0
+  xPositionOffset: 0
+  yPositionOffset: 0
+  emptySlot: {fileID: 0}
 --- !u!1 &174119955
 GameObject:
   m_ObjectHideFlags: 0
@@ -1218,7 +1262,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0.019607844}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0.019607844}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -1227,7 +1271,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 17.4
   orthographic: 1
   orthographic size: 2.7385495
   m_Depth: -1
@@ -2690,6 +2734,7 @@ Transform:
   m_Children:
   - {fileID: 782726871}
   - {fileID: 2023719731}
+  - {fileID: 65303511}
   m_Father: {fileID: 0}
   m_RootOrder: 4
 --- !u!1 &1689876070
@@ -3453,10 +3498,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allCardsInDeck:
   - {fileID: 144672, guid: ed068ad33cdaf7641bb002aab686501d, type: 2}
+  - {fileID: 144672, guid: ed068ad33cdaf7641bb002aab686501d, type: 2}
+  - {fileID: 144672, guid: ed068ad33cdaf7641bb002aab686501d, type: 2}
+  - {fileID: 144672, guid: ed068ad33cdaf7641bb002aab686501d, type: 2}
+  - {fileID: 144672, guid: ed068ad33cdaf7641bb002aab686501d, type: 2}
+  - {fileID: 144672, guid: ed068ad33cdaf7641bb002aab686501d, type: 2}
+  - {fileID: 144672, guid: ed068ad33cdaf7641bb002aab686501d, type: 2}
+  - {fileID: 144672, guid: ed068ad33cdaf7641bb002aab686501d, type: 2}
+  - {fileID: 144672, guid: ed068ad33cdaf7641bb002aab686501d, type: 2}
+  - {fileID: 144672, guid: ed068ad33cdaf7641bb002aab686501d, type: 2}
   remainingCards: 0
   newCardPosition: {fileID: 1844431874}
   newCardShownPosition: {fileID: 1544553687}
   lerpSpeed: 2.8
+  myHand: {fileID: 65303510}
+  zOffset: 0
+  yOffset: 0
+  angleVariation: 0
+  xDistance: 0
+  powFactor: 0
+  zRotation: 0
+  yRotation: 0
+  xRotation: 0
 --- !u!1 &2116187895
 GameObject:
   m_ObjectHideFlags: 0

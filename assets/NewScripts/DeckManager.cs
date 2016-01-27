@@ -45,9 +45,22 @@ public class DeckManager : MonoBehaviour {
 
     GameObject setCard;
     GameObject setCardCloned;
+    Transform emptyHandSlot;
+
+    public GameObject myHand;
+    HandManager handManager;
+
+    public float zOffset, yOffset, angleVariation, xDistance, powFactor;
+    public float zRotation, yRotation, xRotation;
+
+
+
 
     void Start ()
     {
+        //
+        handManager = myHand.GetComponent<HandManager>();
+
         //Shoud be 30 on start.
         remainingCards = allCardsInDeck.Count;
 
@@ -57,6 +70,8 @@ public class DeckManager : MonoBehaviour {
 	
 	void Update ()
     {
+        if (Input.GetButtonDown("Fire2")) Draw();
+
         lerpTimer += 1f * Time.deltaTime;
 
         //Create a new card and have it positioned + rotated in the deck.
@@ -64,6 +79,7 @@ public class DeckManager : MonoBehaviour {
         {
             print("Created");
             setCardCloned = Instantiate(setCard, newCardPosition.transform.position, newCardPosition.transform.rotation) as GameObject;
+            handManager.cardsInHand.Add(setCardCloned);
             drawMove = 2;
         }
 
@@ -71,9 +87,13 @@ public class DeckManager : MonoBehaviour {
         {
             if (lerpTimer > 0f)
             {
-                if(lerpTimer > 3f)
+                if(lerpTimer > 1.5f)
                 {
                     print("Moving to hand");
+
+                    emptyHandSlot = handManager.emptySlot;
+                    setCardCloned.transform.position = Vector3.Slerp(setCardCloned.transform.position, emptyHandSlot.transform.position, lerpSpeed * Time.deltaTime);
+                    setCardCloned.transform.rotation = Quaternion.Lerp(setCardCloned.transform.rotation, emptyHandSlot.transform.rotation, lerpSpeed * Time.deltaTime);
 
                     /*
                         Equation to move and shift into hand
@@ -87,9 +107,10 @@ public class DeckManager : MonoBehaviour {
                 }
             }
 
-            if (lerpTimer > 5f)
+            if (lerpTimer > 3f)
             {
                 setCard = null;
+                setCardCloned = null;
                 drawMove = 0;
             }
         }
