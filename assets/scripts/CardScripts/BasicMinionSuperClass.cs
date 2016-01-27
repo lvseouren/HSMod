@@ -3,18 +3,20 @@ using System.Collections;
 
 public class BasicMinionSuperClass : MonoBehaviour {
 
-
 	public int baseHealth ;
 	public int baseAttack ;
 	public int currentAttack ;
 	public int currentHealth ;
-	public int manaCost ;
+	public int baseManaCost ;
+    public int currentManaCost;
 	public string TAG ;
 
+    public bool hasSpellImmunity;
 	public bool hasDivinieShield ;
 	public bool hasWindfury ;
 	public bool hasStealth ;
 	public bool hasCharge ;
+    public bool hasTaunt; 
 
 	public bool hasTargetAbility ;
 	public bool canTargetAllies ;
