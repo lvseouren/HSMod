@@ -43,7 +43,8 @@ public class DeckManager : MonoBehaviour {
     //Just some checks
     int drawMove = 0;
 
-
+    GameObject setCard;
+    GameObject setCardCloned;
 
     void Start ()
     {
@@ -56,8 +57,32 @@ public class DeckManager : MonoBehaviour {
 	
 	void Update ()
     {
-	
-	}
+        lerpTimer += 1f * Time.deltaTime;
+
+        //Create a new card and have it positioned + rotated in the deck.
+        if (drawMove == 1)
+        {
+            print("Created");
+            setCardCloned = Instantiate(setCard, newCardPosition.transform.position, newCardPosition.transform.rotation) as GameObject;
+            drawMove = 2;
+        }
+
+        if (drawMove == 2)
+        {
+            if (lerpTimer > 0f/* && lerpTimer < 3f*/)
+            {
+                print("Moving");
+                setCardCloned.transform.position = Vector3.Lerp(setCardCloned.transform.position, newCardShownPosition.transform.position, lerpSpeed * Time.deltaTime);
+                setCardCloned.transform.rotation = Quaternion.Lerp(setCardCloned.transform.rotation, newCardShownPosition.transform.rotation, lerpSpeed * Time.deltaTime);
+            }
+
+            if (lerpTimer > 5f)
+            {
+                setCard = null;
+                drawMove = 0;
+            }
+        }
+    }
 
     //Unlike in real HS, as of now I think it would be better to have the draw function go as so, without an actual set deck.
     public void Draw()
@@ -66,46 +91,24 @@ public class DeckManager : MonoBehaviour {
         if(remainingCards > 0)
         {
             //Get a random card
-            //(Have to add by 1 because the second number is exclusive)
-            int randomNumber = UnityEngine.Random.Range(0, remainingCards);
+            //----(Have to add by 1 because the second number is exclusive)
+            int randomNumber = UnityEngine.Random.Range(0, remainingCards /* + 1*/ );
 
             //Set the drawn card
-            GameObject drawnCard = allCardsInDeck[randomNumber];
+            setCard = allCardsInDeck[randomNumber];
 
-            AddCardToHand(drawnCard);
+            //Initiate Movement
+            drawMove = 1;
 
+            //Remove the card from the deck
+            allCardsInDeck.RemoveAt(randomNumber);
+
+            //Refresh amount of cards
+            remainingCards = allCardsInDeck.Count;
         }
         else
         {
             Fatigue();
-        }
-    }
-
-    //Requires a card
-    public void AddCardToHand(GameObject setCard)
-    {
-        lerpTimer += 1f * Time.deltaTime;
-
-        //Create a new card and have it positioned + rotated in the deck.
-        if(drawMove == 0)
-        {
-            Instantiate(setCard, newCardPosition.transform.position, newCardPosition.transform.rotation);
-            drawMove = 1;
-        }
-
-        if(drawMove == 1)
-        {
-            if(lerpTimer > 0f && lerpTimer < 3f)
-            {
-                setCard.transform.position = Vector3.Lerp(setCard.transform.position, newCardShownPosition.position, lerpSpeed * Time.deltaTime);
-                setCard.transform.rotation = Quaternion.Lerp(setCard.transform.rotation, newCardShownPosition.rotation, lerpSpeed * Time.deltaTime);
-            }
-
-            if(lerpTimer > 3f)
-            {
-
-            }
-        
         }
     }
 
