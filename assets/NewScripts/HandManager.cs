@@ -10,15 +10,14 @@ public class HandManager : MonoBehaviour {
     public float rotationOffset;
     public float xPositionOffset;
     public float yPositionOffset;
+    internal Transform emptySlot;
 
-    public Transform emptySlot;
-
-    void Update()
+    /*void Update()
     {
         foreach(GameObject card in cardsInHand)
         {
             //Needs something to auto arrange cards in hand
         }
-    }
+    }*/
 
 }

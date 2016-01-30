@@ -77,7 +77,6 @@ public class DeckManager : MonoBehaviour {
         //Create a new card and have it positioned + rotated in the deck.
         if (drawMove == 1)
         {
-            print("Created");
             setCardCloned = Instantiate(setCard, newCardPosition.transform.position, newCardPosition.transform.rotation) as GameObject;
             handManager.cardsInHand.Add(setCardCloned);
             drawMove = 2;
@@ -89,8 +88,6 @@ public class DeckManager : MonoBehaviour {
             {
                 if(lerpTimer > 1.5f)
                 {
-                    print("Moving to hand");
-
                     emptyHandSlot = handManager.emptySlot;
                     setCardCloned.transform.position = Vector3.Slerp(setCardCloned.transform.position, emptyHandSlot.transform.position, lerpSpeed * Time.deltaTime);
                     setCardCloned.transform.rotation = Quaternion.Lerp(setCardCloned.transform.rotation, emptyHandSlot.transform.rotation, lerpSpeed * Time.deltaTime);
@@ -101,7 +98,6 @@ public class DeckManager : MonoBehaviour {
                 }
                 else
                 {
-                    print("Moving to shown position");
                     setCardCloned.transform.position = Vector3.Lerp(setCardCloned.transform.position, newCardShownPosition.transform.position, lerpSpeed * Time.deltaTime);
                     setCardCloned.transform.rotation = Quaternion.Lerp(setCardCloned.transform.rotation, newCardShownPosition.transform.rotation, lerpSpeed * Time.deltaTime);
                 }
