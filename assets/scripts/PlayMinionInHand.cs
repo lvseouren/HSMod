@@ -1,13 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class PlayMinionInHand : CardInHand {
 
-
-
 	protected override void OnMouseDown () {
 
-		if (GameLoop.AvaiableMana < GetComponent<MinionCard> ().manaCost) {
+		if (GameLoop.AvailableMana < GetComponent<MinionCard> ().manaCost) {
 			Debug.Log ("Not enough mana");
 			return;
 		}
@@ -44,7 +41,7 @@ public class PlayMinionInHand : CardInHand {
 
 	protected override void OnMouseDrag () {
 
-		if (GameLoop.AvaiableMana < GetComponent<MinionCard>().manaCost) {
+		if (GameLoop.AvailableMana < GetComponent<MinionCard>().manaCost) {
 			Debug.Log ("Not enough mana");
 			return;
 		}
@@ -79,13 +76,8 @@ public class PlayMinionInHand : CardInHand {
 		GetComponent<MinionCard>().OnPlay (index);
 		GetComponentInParent<ArrangeChildren>().StartCoroutine (
 			GetComponentInParent<ArrangeChildren>().delayArrange ());
-		GameLoop.AvaiableMana -= GetComponent<MinionCard> ().manaCost;
+		GameLoop.AvailableMana -= GetComponent<MinionCard> ().manaCost;
 		EventManager.TriggerEvent(EventManager.ON_MANA_USAGE);
 		GameObject.Destroy (this.gameObject);
 	}
-
-
-
-
-
 }

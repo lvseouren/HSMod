@@ -1,6 +1,4 @@
 using UnityEngine;
-using System.Collections;
-
 
 public class textureswap : MonoBehaviour {
 	public Texture[] textures;
@@ -12,11 +10,8 @@ public class textureswap : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
-			
 			currentTextures&= textures.Length;
 			GetComponent<Renderer>().material.mainTexture = textures[currentTextures];
-	
 	}
 	void OnMouseDown ()
 	{

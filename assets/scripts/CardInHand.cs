@@ -102,7 +102,7 @@ public class CardInHand : MonoBehaviour {
 		}
 
 		if (GetComponent<MinionCard> ()) {
-			if (GameLoop.AvaiableMana < GetComponent<MinionCard> ().manaCost) {
+			if (GameLoop.AvailableMana < GetComponent<MinionCard> ().manaCost) {
 				Debug.Log ("Not enough mana");
 				yield break;
 			}
@@ -167,6 +167,4 @@ public class CardInHand : MonoBehaviour {
 		preview.enabled = false;
 		
 	}
-
-
 }
