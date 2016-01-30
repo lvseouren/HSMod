@@ -92,8 +92,4 @@ public class Deck : MonoBehaviour {
         }
         
     }
-
-
-
-
 }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class spin : MonoBehaviour {
+public class Spin : MonoBehaviour {
 	
 	public float angAmt ;
 	bool comecou = false ;
