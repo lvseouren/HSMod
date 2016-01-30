@@ -18,8 +18,10 @@ public class ManaTextUpdate : MonoBehaviour {
 
 	void UpdateText () {
 		if (GameLoop.isMyTurn && MyManaText)
-			GetComponentInChildren<Text> ().text = GameLoop.AvailableMana + "/" + GameLoop.myMana;
+			GetComponentInChildren<Text> ().text = GameLoop.AvaiableMana + "/" + GameLoop.myMana;
 		else if (!GameLoop.isMyTurn && !MyManaText )
-			GetComponentInChildren<Text> ().text = GameLoop.AvailableMana + "/" + GameLoop.theirMana;
+			GetComponentInChildren<Text> ().text = GameLoop.AvaiableMana + "/" + GameLoop.theirMana;
 	}
+
+
 }

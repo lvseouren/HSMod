@@ -81,6 +81,7 @@ public class DeckManager : MonoBehaviour {
             setCardCloned = Instantiate(setCard, newCardPosition.transform.position, newCardPosition.transform.rotation) as GameObject;
             handManager.cardsInHand.Add(setCardCloned);
             drawMove = 2;
+			lerpTimer = 0;
         }
 
         if (drawMove == 2)

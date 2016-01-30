@@ -12,13 +12,15 @@ public class HandManager : MonoBehaviour {
     public float yPositionOffset;
 
     public Transform emptySlot;
+	public GameObject cardSlots;
 
     void Update()
     {
         foreach(GameObject card in cardsInHand)
         {
-            //Needs something to auto arrange cards in hand
+			emptySlot = cardSlots.transform.GetChild (cardsInHand.Count-1);
         }
+
     }
 
 }

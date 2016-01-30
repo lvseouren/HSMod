@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class InsertChild : MonoBehaviour {
 
@@ -9,6 +10,7 @@ public class InsertChild : MonoBehaviour {
 			return ;
 		}
 
+
 		newChild.transform.SetParent (transform);
 //		for (int i = position+1; i < transform.childCount; i ++) {
 //			transform.GetChild(i).SetSiblingIndex ( i+1 );
@@ -17,4 +19,6 @@ public class InsertChild : MonoBehaviour {
 
 		//GetComponent<ArrangeChildren> ().ArrangeCards ();
 	}
+
+
 }

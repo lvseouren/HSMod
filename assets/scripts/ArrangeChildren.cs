@@ -27,11 +27,11 @@ public class ArrangeChildren : MonoBehaviour {
 	public void ArrangeCardsInstant () {
 		
 		
-		float halfHand = ( transform.childCount + 1 )/2f;
+		float metadeDaMao = ( transform.childCount + 1 )/2f;
 		
 		int i = 1;
 		foreach (Transform t in transform) {
-			float dif = i - halfHand;
+			float dif = i - metadeDaMao;
 			
 			Vector3 temp = t.localPosition;
 			temp.z = - Mathf.Pow ((Mathf.Abs (dif)), powFactor) * zOffset;
@@ -64,12 +64,12 @@ public class ArrangeChildren : MonoBehaviour {
 
 
 
-		float halfHand = ( transform.childCount + 1 )/2f;
+		float metadeDaMao = ( transform.childCount + 1 )/2f;
 
 		int i = 1;
 		foreach (Transform t in transform) {
 
-			float dif = i - halfHand;
+			float dif = i - metadeDaMao;
 
 			Vector3 temp = t.localPosition;
 			temp.z = - Mathf.Pow ((Mathf.Abs (dif)), powFactor) * zOffset;

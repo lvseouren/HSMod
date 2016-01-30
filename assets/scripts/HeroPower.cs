@@ -6,7 +6,9 @@ public class HeroPower : MonoBehaviour {
 	public GameObject token ;
 	private bool alreadyUsedThisTurn ;
 	public int manaCost ;
-    
+
+
+
 	void OnEnable () {
 		EventManager.StartListening (EventManager.ON_TURN_START, RefreshHeroPower);
 	}
@@ -17,22 +19,22 @@ public class HeroPower : MonoBehaviour {
 
 	void RefreshHeroPower () {
 		if (alreadyUsedThisTurn)
-			GetComponent<Spin>().StartCoroutine (GetComponent<Spin>().fliping() );
+			GetComponent<spin>().StartCoroutine (GetComponent<spin>().fliping() );
 
 		alreadyUsedThisTurn = false;
 	}
 
 	void OnMouseDown () {
-		if (GameLoop.AvailableMana < 2) {
+		if (GameLoop.AvaiableMana < 2) {
 			Debug.Log ("not enough mana");
 			return;
 		}
 		if (!alreadyUsedThisTurn) {
-			GetComponent<Spin>().StartCoroutine (GetComponent<Spin>().fliping() );
+			GetComponent<spin>().StartCoroutine (GetComponent<spin>().fliping() );
 			alreadyUsedThisTurn = true ;
 			GetComponent<SummonMinion>().OnBattleCry () ;
 		}
-		GameLoop.AvailableMana -= 2;
+		GameLoop.AvaiableMana -= 2;
 		EventManager.TriggerEvent (EventManager.ON_MANA_USAGE);
 	}
 

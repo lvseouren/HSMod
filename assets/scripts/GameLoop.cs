@@ -15,9 +15,9 @@ public class GameLoop : MonoBehaviour
 	public static GamePhases currentGamePhase ;
 	public int cardsInHand = 3 ;
 
-	public static int myMana = 1, theirMana = 1 ;
+	public static int myMana = 10, theirMana = 1;
 
-	public static int AvailableMana = 1;
+	public static int AvaiableMana = 10;
 
 	public static bool isMyTurn = true ;
 
@@ -40,10 +40,10 @@ public class GameLoop : MonoBehaviour
 		isMyTurn = !isMyTurn;
 		if (isMyTurn && myMana < 10) {
 			myMana ++;
-			AvailableMana = myMana;
+			AvaiableMana = myMana;
 		} else if (theirMana < 10) {
 			theirMana++;
-			AvailableMana = theirMana;
+			AvaiableMana = theirMana;
 		}
 	}
 	
@@ -72,4 +72,6 @@ public class GameLoop : MonoBehaviour
 		EventManager.TriggerEvent (EventManager.ON_TURN_END);
 		currentGamePhase = GamePhases.END_TURN;
 	}
+
+
 }

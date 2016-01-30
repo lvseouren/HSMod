@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using System.Collections;
 
-public class BottomLeft : MonoBehaviour {
+public class bottomleft : MonoBehaviour {
 	public int counter;
 	public Texture2D left_bottom2 ;
 	void Start ()

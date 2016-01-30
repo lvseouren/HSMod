@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-using System;
-using UnityEngine.Events;
 
-public class CCUIManager : MonoBehaviour {
+public class CCUIManeger : MonoBehaviour {
     //basic card info
-    Toggle creatureToggle;
+    Toggle creaturetoggle;
     Toggle spellToggle;
     Toggle weaponToggle;
     Toggle tokenToggle;
@@ -20,6 +18,7 @@ public class CCUIManager : MonoBehaviour {
     GameObject weaponInfo;
     GameObject tokenInfo;
 
+    
     void Reset()
     {
         
@@ -28,6 +27,7 @@ public class CCUIManager : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        Debug.Log("fuckdis");
         creatureInfo = GameObject.Find("CreatureInfoText");
         creatureInfo.SetActive(false);
         spellInfo = GameObject.Find("SpellInfoText");
@@ -36,17 +36,20 @@ public class CCUIManager : MonoBehaviour {
         weaponInfo.SetActive(false);
         tokenInfo = GameObject.Find("TokenInfoText");
         tokenInfo.SetActive(false);
-        creatureToggle = GameObject.Find("CreatureToggle").GetComponent<Toggle>();
-        creatureToggle.onValueChanged.AddListener(togglingCreatureType);
+        creaturetoggle = GameObject.Find("CreatureToggle").GetComponent<Toggle>();
+        creaturetoggle.onValueChanged.AddListener(toggelingCreatureType);
         spellToggle = GameObject.Find("SpellToggle").GetComponent<Toggle>();
-        spellToggle.onValueChanged.AddListener(togglingSpellType);
+        spellToggle.onValueChanged.AddListener(toggelingSpellType);
         weaponToggle = GameObject.Find("WeaponToggle").GetComponent<Toggle>();
-        weaponToggle.onValueChanged.AddListener(togglingWeaponType);
+        weaponToggle.onValueChanged.AddListener(toggelingWeaponType);
         tokenToggle = GameObject.Find("TokenToggle").GetComponent<Toggle>();
-        tokenToggle.onValueChanged.AddListener(togglingTokenType);
-    }
+        tokenToggle.onValueChanged.AddListener(toggelingTokenType);
 
-    public void togglingCreatureType(bool value)
+
+
+    }
+	
+    public void toggelingCreatureType(bool value)
     {
         Debug.Log(creatureInfo +""+ value);
         Debug.Log(creatureInfo.gameObject.activeSelf);
@@ -65,13 +68,13 @@ public class CCUIManager : MonoBehaviour {
             creatureInfo.SetActive(false);
         
     }
-    public void togglingSpellType(bool value)
+    public void toggelingSpellType(bool value)
     {
 
         if (value)
         {
             creatureInfo.SetActive(false);
-            creatureToggle.isOn = false;
+            creaturetoggle.isOn = false;
             spellInfo.SetActive(true);
             weaponInfo.SetActive(false);
             weaponToggle.isOn = false;
@@ -81,12 +84,12 @@ public class CCUIManager : MonoBehaviour {
         else
             spellInfo.SetActive(false);
     }
-    public void togglingWeaponType(bool value)
+    public void toggelingWeaponType(bool value)
     {
         if (value)
         {
             creatureInfo.SetActive(false);
-            creatureToggle.isOn = false;
+            creaturetoggle.isOn = false;
             spellInfo.SetActive(false);
             spellToggle.isOn = false;
             weaponInfo.SetActive(true);
@@ -96,12 +99,12 @@ public class CCUIManager : MonoBehaviour {
         else
             weaponInfo.SetActive(false);
     }
-    public void togglingTokenType(bool value)
+    public void toggelingTokenType(bool value)
     {
         if (value)
         {
             creatureInfo.SetActive(false);
-            creatureToggle.isOn = false;
+            creaturetoggle.isOn = false;
             spellInfo.SetActive(false);
             spellToggle.isOn = false;
             weaponInfo.SetActive(false);

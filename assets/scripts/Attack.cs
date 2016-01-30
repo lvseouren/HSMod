@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Attack : MonoBehaviour {
 
-	private GameObject pointer ;
-	private LineRenderer line;
+	private GameObject seta ;
+	private LineRenderer linha;
 
 	public bool canTargetAllies , canTargetHero , canTargetOponents ;
 	public bool isSleeping ;
@@ -13,7 +13,7 @@ public class Attack : MonoBehaviour {
 	Vector3 screenPoint , curScreenPoint , curPosition , aux;
 
 	void Awake () {
-		pointer = GameObject.FindGameObjectWithTag ("Seta");
+		seta = GameObject.FindGameObjectWithTag ("Seta");
 		if (GetComponent<Hero> ())
 			return;
 		if (GetComponent<BasicMinionSuperClass> ().hasCharge) {
@@ -38,7 +38,7 @@ public class Attack : MonoBehaviour {
 
 
 	void Start () {
-		line = pointer.GetComponent<LineRenderer> ();
+		linha = seta.GetComponent<LineRenderer> ();
 	}
 
 	void OnMouseDown () {
@@ -47,13 +47,13 @@ public class Attack : MonoBehaviour {
 		if (isSleeping)
 			return;
 
-		line.enabled = true;
+		linha.enabled = true;
 		screenPoint = Camera.main.WorldToScreenPoint(transform.position);
 		curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 		curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
-		pointer.transform.position = curPosition;
-		line.SetPosition (0 , new Vector3 (this.transform.position.x , 10f , this.transform.position.z) );
-		line.SetPosition (1 , curPosition);
+		seta.transform.position = curPosition;
+		linha.SetPosition (0 , new Vector3 (this.transform.position.x , 10f , this.transform.position.z) );
+		linha.SetPosition (1 , curPosition);
 	}
 
 	void OnMouseDrag () {
@@ -63,7 +63,7 @@ public class Attack : MonoBehaviour {
 			return;
 		curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 		curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
-		line.SetPosition (1 , curPosition);
+		linha.SetPosition (1 , curPosition);
 	}
 
 	void OnMouseUp () {
@@ -71,22 +71,24 @@ public class Attack : MonoBehaviour {
 			return;
 		if (isSleeping)
 			return;
-		line.enabled = false;
+		linha.enabled = false;
 		curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 		curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
 		RaycastHit[] hits;
 		hits = Physics.RaycastAll( Camera.main.ScreenToWorldPoint ( Input.mousePosition ) , Vector3.down , 1000.0F);
-		//bool played = false ;
+		bool played = false ;
 		for (int i = 0; i < hits.Length; i++) {
 			if(hits[i].transform.name == "TheirHero"){
 
 				StartCoroutine (attack ( hits[i].transform.position , hits[i].transform.gameObject) );
-                
+
+
 				alreadyAttackedThisTurn = true ;
 			}else if (hits[i].transform.parent!= null && hits[i].transform.parent.name == "TheirSideOfBf"){
 
 				StartCoroutine (attack (hits[i].transform.position , hits[i].transform.gameObject) );
-                
+
+
 			}
 		}
 	}
@@ -112,7 +114,9 @@ public class Attack : MonoBehaviour {
 			hit.GetComponent<BasicMinionSuperClass>().currentHealth -=
 				GetComponent<BasicMinionSuperClass>().currentAttack;
 		}
-        
+
+
+
 		alreadyAttackedThisTurn = true ;
 
 		while (Vector3.Distance ( this.transform.position , initialPosition ) > 0.01f) {
@@ -120,4 +124,8 @@ public class Attack : MonoBehaviour {
 			yield return null;
 		}
 	}
+
+
+
+
 }
