@@ -96,7 +96,8 @@ public class DeckManager : MonoBehaviour {
                     setCardCloned.transform.rotation = Quaternion.Lerp(setCardCloned.transform.rotation, emptyHandSlot.transform.rotation, lerpSpeed * Time.deltaTime);
 
                     /*
-                        Equation to move and shift into hand
+                        Equation to move and shift into hand should go somewhere here
+                    
                     */
                 }
                 else
