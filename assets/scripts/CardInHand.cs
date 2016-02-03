@@ -36,7 +36,7 @@ public class CardInHand : MonoBehaviour {
 		if (CardsInHandState.currentState == CardsInHandState.States.DRAWING)
 			return;
 		
-		if (GameLoop.currentGamePhase != GameLoop.GamePhases.PLAY_TURN)
+		if (GameLoop.currentGameState != GameLoop.GameState.PLAY_PHASE)
 			return;
 		if (!GameLoop.isMyTurn) {
 			Debug.Log ("Its not my turn");
@@ -64,7 +64,7 @@ public class CardInHand : MonoBehaviour {
 	protected virtual void OnMouseDrag () {
 		if (CardsInHandState.currentState != CardsInHandState.States.HOLDING_CARD)
 			return;
-		if (GameLoop.currentGamePhase != GameLoop.GamePhases.PLAY_TURN)
+		if (GameLoop.currentGameState != GameLoop.GameState.PLAY_PHASE)
 			return;
 		if (!GameLoop.isMyTurn) {
 			Debug.Log ("Its not my turn");
@@ -93,7 +93,7 @@ public class CardInHand : MonoBehaviour {
 		GameObject.Destroy (empty);
 		yield return null;
 		
-		if (GameLoop.currentGamePhase != GameLoop.GamePhases.PLAY_TURN)
+		if (GameLoop.currentGameState != GameLoop.GameState.PLAY_PHASE)
 			yield break;
 		
 		if (!GameLoop.isMyTurn) {
