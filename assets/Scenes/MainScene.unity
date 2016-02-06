@@ -160,8 +160,6 @@ MonoBehaviour:
   zRotation: 0
   yRotation: -1
   xRotation: 0
-<<<<<<< HEAD
-=======
 --- !u!1 &65303510
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,7 +206,6 @@ MonoBehaviour:
   xPositionOffset: 0
   yPositionOffset: 0
   emptySlot: {fileID: 0}
->>>>>>> refs/remotes/origin/GameLoop
 --- !u!1 &174119955
 GameObject:
   m_ObjectHideFlags: 0
@@ -1319,6 +1316,10 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &753993434 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 400000, guid: a6b74bf3fcc207549898beb9158c6db0, type: 3}
+  m_PrefabInternal: {fileID: 1570934258}
 --- !u!1 &766372802
 GameObject:
   m_ObjectHideFlags: 0
@@ -2342,8 +2343,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3bb901d06334694cb50bdc604f726f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-<<<<<<< HEAD
-=======
 --- !u!1 &1517300551
 GameObject:
   m_ObjectHideFlags: 0
@@ -2398,7 +2397,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2137676745}
   m_RootOrder: 1
->>>>>>> refs/remotes/origin/GameLoop
 --- !u!1 &1565729783
 GameObject:
   m_ObjectHideFlags: 0
@@ -2463,8 +2461,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 386082840}
   m_RootOrder: 5
-<<<<<<< HEAD
-=======
 --- !u!1001 &1570934258
 Prefab:
   m_ObjectHideFlags: 0
@@ -2527,7 +2523,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a6b74bf3fcc207549898beb9158c6db0, type: 3}
   m_IsPrefabParent: 0
->>>>>>> refs/remotes/origin/GameLoop
 --- !u!1 &1600551828
 GameObject:
   m_ObjectHideFlags: 0
@@ -2795,6 +2790,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 782726871}
+  - {fileID: 2023719731}
+  - {fileID: 65303511}
   m_Father: {fileID: 0}
   m_RootOrder: 4
 --- !u!1 &1689876070
@@ -3140,8 +3137,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1812848202}
   m_Mesh: {fileID: 4300028, guid: db2075b8b280bca449102c63164a8826, type: 3}
-<<<<<<< HEAD
-=======
 --- !u!1 &1844431873
 GameObject:
   m_ObjectHideFlags: 0
@@ -3169,7 +3164,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2137676745}
   m_RootOrder: 0
->>>>>>> refs/remotes/origin/GameLoop
 --- !u!1 &1881640833
 GameObject:
   m_ObjectHideFlags: 0
@@ -3545,8 +3539,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2008983529}
   m_Mesh: {fileID: 4300002, guid: db2075b8b280bca449102c63164a8826, type: 3}
-<<<<<<< HEAD
-=======
 --- !u!1 &2023719730
 GameObject:
   m_ObjectHideFlags: 0
@@ -3604,7 +3596,6 @@ MonoBehaviour:
   newCardShownPosition: {fileID: 1544553687}
   lerpSpeed: 2.8
   myHand: {fileID: 65303510}
->>>>>>> refs/remotes/origin/GameLoop
 --- !u!1 &2116187895
 GameObject:
   m_ObjectHideFlags: 0
@@ -3671,7 +3662,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c083dce43b7aedd4b89bb28447d9201b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardsToDraw: 3
+  cardsInHand: 3
 --- !u!1 &2123757888
 GameObject:
   m_ObjectHideFlags: 0
@@ -3796,3 +3787,32 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2132453550}
+--- !u!1 &2137676744
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2137676745}
+  m_Layer: 0
+  m_Name: Positions
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2137676745
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2137676744}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1844431874}
+  - {fileID: 1544553687}
+  m_Father: {fileID: 2023719731}
+  m_RootOrder: 1
