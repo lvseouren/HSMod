@@ -10,12 +10,12 @@ public class EventManager : MonoBehaviour {
 	public static string ON_TURN_PLAY  = "ON_TURN_PLAY" ;
 	public static string ON_TURN_END   = "ON_TURN_END"  ;
 	public static string ON_MANA_USAGE = "ON_MANA_USAGE";
-
+    public static string ON_BATTLECRY  = "ON_BATTLECRY";
+    public static string ON_DEATHRATTLE = "ON_DEATHRATTLE";
 
 	private static EventManager eventManager ;
 
 	private Dictionary <string,UnityEvent>  eventDictionary;
-
 
 	public static EventManager instance {
 		get {
@@ -59,12 +59,10 @@ public class EventManager : MonoBehaviour {
 		}
 	}
 
-
 	public static void  TriggerEvent (string EventName) {
 		UnityEvent thisEvent = null;
 		if (instance.eventDictionary.TryGetValue (EventName, out thisEvent)) {
 			thisEvent.Invoke ();
 		}
-
 	}
 }

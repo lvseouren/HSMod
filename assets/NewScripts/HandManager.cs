@@ -5,22 +5,30 @@ using System.Collections;
 
 public class HandManager : MonoBehaviour {
 
-    public List<GameObject> cardsInHand = new List<GameObject>();
-
+    // public List<GameObject> cardsInHand = new List<GameObject>();
+    
+    //This position will be referenced for the calculations.
+    public Transform centerPosition;
     public float rotationOffset;
     public float xPositionOffset;
     public float yPositionOffset;
 
+    [HideInInspector]
     public Transform emptySlot;
-	public GameObject cardSlots;
 
-    void Update()
+
+    void Start()
     {
-        foreach(GameObject card in cardsInHand)
-        {
-			emptySlot = cardSlots.transform.GetChild (cardsInHand.Count-1);
-        }
 
+    }
+    
+
+    public void OrganizeHand()
+    {
+        foreach (Transform card in transform)
+        {
+
+        }
     }
 
 }

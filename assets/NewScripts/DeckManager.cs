@@ -50,11 +50,6 @@ public class DeckManager : MonoBehaviour {
     public GameObject myHand;
     HandManager handManager;
 
-    public float zOffset, yOffset, angleVariation, xDistance, powFactor;
-    public float zRotation, yRotation, xRotation;
-
-
-
 
     void Start ()
     {
@@ -79,9 +74,9 @@ public class DeckManager : MonoBehaviour {
         {
             print("Created");
             setCardCloned = Instantiate(setCard, newCardPosition.transform.position, newCardPosition.transform.rotation) as GameObject;
-            handManager.cardsInHand.Add(setCardCloned);
+            setCardCloned.transform.parent = myHand.transform.FindChild("CardsInHand");
+            //handManager.cardsInHand.Add(setCardCloned);
             drawMove = 2;
-			lerpTimer = 0;
         }
 
         if (drawMove == 2)
@@ -92,13 +87,19 @@ public class DeckManager : MonoBehaviour {
                 {
                     print("Moving to hand");
 
-                    emptyHandSlot = handManager.emptySlot;
-                    setCardCloned.transform.position = Vector3.Slerp(setCardCloned.transform.position, emptyHandSlot.transform.position, lerpSpeed * Time.deltaTime);
-                    setCardCloned.transform.rotation = Quaternion.Lerp(setCardCloned.transform.rotation, emptyHandSlot.transform.rotation, lerpSpeed * Time.deltaTime);
+                    //Make the card a child of hand now.
+                   
+                    myHand.GetComponent<HandManager>().OrganizeHand();
+                    setCard = null;
+                    setCardCloned = null;
+                    drawMove = 0;
 
-                    /*
-                        Equation to move and shift into hand
-                    */
+                    //Empty slot should be configured already by HandManager
+                    //emptyHandSlot = handManager.emptySlot;
+
+                    //Movement no longer required as lerping should be done in HandManager.
+                    //setCardCloned.transform.position = Vector3.Slerp(setCardCloned.transform.position, emptyHandSlot.transform.position, lerpSpeed * Time.deltaTime);
+                    //setCardCloned.transform.rotation = Quaternion.Lerp(setCardCloned.transform.rotation, emptyHandSlot.transform.rotation, lerpSpeed * Time.deltaTime);
                 }
                 else
                 {
@@ -106,13 +107,6 @@ public class DeckManager : MonoBehaviour {
                     setCardCloned.transform.position = Vector3.Lerp(setCardCloned.transform.position, newCardShownPosition.transform.position, lerpSpeed * Time.deltaTime);
                     setCardCloned.transform.rotation = Quaternion.Lerp(setCardCloned.transform.rotation, newCardShownPosition.transform.rotation, lerpSpeed * Time.deltaTime);
                 }
-            }
-
-            if (lerpTimer > 3f)
-            {
-                setCard = null;
-                setCardCloned = null;
-                drawMove = 0;
             }
         }
     }
