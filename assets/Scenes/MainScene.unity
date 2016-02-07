@@ -3662,7 +3662,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c083dce43b7aedd4b89bb28447d9201b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardsInHand: 3
+  cardsToDraw: 3
 --- !u!1 &2123757888
 GameObject:
   m_ObjectHideFlags: 0
