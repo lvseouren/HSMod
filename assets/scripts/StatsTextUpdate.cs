@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
 public class StatsTextUpdate : MonoBehaviour {
+
+    public bool Health = true;
 
 	private Color normal = Color.white , boosted = Color.green , damaged = Color.red ;
 	private Text front , back ;
@@ -39,8 +41,39 @@ public class StatsTextUpdate : MonoBehaviour {
 		back.text = currentHp.ToString ();
 	}
 
-	void Update () {
-		UpdateHealth ();
-	}
+    public void UpdateAttack()
+    {
+        int currentAttack = 0;
+        int maxAttack = 0;
+        if (heroScript)
+        {
+            //currentAttack = heroScript.currentHp;
+            //maxAttack = heroScript.maximumHp;
+        }
+        else
+        {
+            currentAttack = minion.currentAttack;
+            maxAttack = minion.baseAttack;
+        }
+        if (currentAttack == maxAttack)
+        {
+            front.color = normal;
+        }
+        else if (currentAttack < maxAttack)
+        {
+            front.color = normal;
+        }
+        else
+        {
+            front.color = boosted;
+        }
+        front.text = currentAttack.ToString();
+        back.text = currentAttack.ToString();
+    }
+
+    void Update () {
+        if(Health)UpdateHealth ();
+        else UpdateAttack();
+    }
 
 }
