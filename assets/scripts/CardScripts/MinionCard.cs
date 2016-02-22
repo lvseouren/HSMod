@@ -14,8 +14,8 @@ public class MinionCard : MonoBehaviour {
 		foreach (GameObject t in token) {
 			GameObject instance = Instantiate (t);
 			mybf.GetComponent<InsertChild>().insertChildInPosition ( index , instance );
-			instance.GetComponent<BasicMinionSuperClass>().OnSummon () ;
-			instance.GetComponent<BasicMinionSuperClass>().OnBattleCry ();
+			//instance.GetComponent<BasicMinionSuperClass>().OnSummon () ;
+			//instance.GetComponent<BasicMinionSuperClass>().OnBattleCry ();
 
 		}
 

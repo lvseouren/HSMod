@@ -24,6 +24,34 @@ public class BasicMinionSuperClass : MonoBehaviour {
 	public bool canTargetHeroes ;
 	public bool isFrozen ;
 
+    void OnEnable()
+    {
+        Events.minionDealDamageEvent += DealDamage;
+    }
+
+    void OnDisable()
+    {
+        Events.minionDealDamageEvent -= DealDamage;
+    }
+
+    public void DealDamage(BasicMinionSuperClass attacker, BasicMinionSuperClass defender)
+    {
+        // very simple for testing
+        defender.currentHealth -= attacker.currentAttack;
+    }
+    
+    public void Death()
+    {
+        Events.minionDeathrattleEvent += Deathrattle;
+    }
+
+    public void Deathrattle()
+    {
+        // do deathrattle stuff
+        Events.minionDeathrattleEvent -= Deathrattle;
+    }
+
+    /* old guy stuff
 	void OnEnable () {
 
 	}
@@ -47,5 +75,5 @@ public class BasicMinionSuperClass : MonoBehaviour {
 	public virtual void OnDeathRattle () {
 
 	}
-
+    */
 }

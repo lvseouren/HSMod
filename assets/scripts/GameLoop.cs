@@ -11,13 +11,8 @@ public class GameLoop : MonoBehaviour
 		DRAW_PHASE,
 		PLAY_PHASE,
 		TURN_END,
-        // NYI will be needed later
-        BATTLECRY_PHASE,
-        DEATHRATTLE_PHASE,
+        IDLE,
         DEATH_PHASE,
-        SUMMON_PHASE, // effect like murloc knight, playing cards in PLAY_PHASE
-	    INSPIRE_PHASE,
-        ACTIVE_EFFECT // TODO: better name, lightning for example "do something on minion death", cultmaster etc.
     }
 	
 	public static GameState currentGameState ;
@@ -25,12 +20,6 @@ public class GameLoop : MonoBehaviour
     public Player currentPlayer;
 
 	public int cardsToDraw = 3 ;
-
-	public static int myMana = 1, theirMana = 1 ;
-
-	public static int AvaiableMana = 1;
-
-	public static bool isMyTurn = true ;
 
 	void Start () {
         _player1.Init();
@@ -40,18 +29,18 @@ public class GameLoop : MonoBehaviour
         currentPlayer = _player1; // totally random choice
 
 		for (int i = 0; i < cardsToDraw; i++) {
-			OnDrawCard ();
+			DrawPhase();
             // TODO: discard
             currentPlayer.cardsInHand += 1;
 		}
 
-		OnTurnStart ();
+		TurnStart ();
 	}
 
 	public void EndTurn () {
-		OnEndTurn ();
+		TurnEnd ();
 		ChangeTurns ();
-		OnTurnStart ();
+		TurnStart ();
 	}
 
 	private void ChangeTurns () {
@@ -67,7 +56,45 @@ public class GameLoop : MonoBehaviour
         }
     
 	}
-	
+
+    // others states will be changed by playing cards etc.
+    // need to find the right order of going through phases.
+
+    public void TurnStart()
+    {
+        Debug.Log("Turn Start");
+        currentGameState = GameState.TURN_START;
+        // fire events here that should be fired at turn start like Demolisher's effect
+
+
+        DrawPhase();
+    }
+
+    public void DrawPhase()
+    {
+        Debug.Log("Draw Phase");
+        currentGameState = GameState.DRAW_PHASE;
+        // is discard done?
+        currentPlayer.deck.Draw(); // in this function fire events that should start when u draw a card. for example Shadow beast from priest decks
+        // any other potential effects on Draw?
+        currentGameState = GameState.IDLE;
+    }
+
+    // should be called by EndTurn
+    // which should be called by pressing end turn button NYI
+    public void TurnEnd()
+    {
+        Debug.Log("Turn End");
+        currentGameState = GameState.TURN_END;
+        // fire events here which should be fired at turn end like Ragnaros
+
+    }
+
+
+    // STUFF DONE BY THE OLD GUY.
+    // MAYBE ONE DAY IT WILL BE NEEDED
+    // OR WHEN WE FIGURE OUT HOW TO USE EVENTS
+    /* 
 	public void OnTurnStart () {
 		Debug.Log ("OnTurnStart");
 		EventManager.TriggerEvent (EventManager.ON_TURN_START);
@@ -93,4 +120,5 @@ public class GameLoop : MonoBehaviour
 		EventManager.TriggerEvent (EventManager.ON_TURN_END);
 		currentGameState = GameState.TURN_END;
 	}
+    */
 }

@@ -8,13 +8,14 @@ public class Player {
     private bool _rivendareDeathRattleEffect = false;
     //
     //
-
+    
     public int cardsInHand;
     public int maxCardsInHand; //maybe later add effects that increase it?
     public int currentMana;
     public int maxMana;
     public int availableMana;
     public int overloadedMana; //next turn overload
+    public DeckManager deck;
 
     // set base values
     public void Init()

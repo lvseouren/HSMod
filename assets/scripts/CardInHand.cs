@@ -38,10 +38,12 @@ public class CardInHand : MonoBehaviour {
 		
 		if (GameLoop.currentGameState != GameLoop.GameState.PLAY_PHASE)
 			return;
+
+        /* old guy's shit
 		if (!GameLoop.isMyTurn) {
 			Debug.Log ("Its not my turn");
-			return;
-		}
+			return; 
+		}*/
 
 		originalLocalScale = transform.localScale;
 		transform.localScale = new Vector3 (0.5f, 0.5f, 0.5f);
@@ -66,10 +68,13 @@ public class CardInHand : MonoBehaviour {
 			return;
 		if (GameLoop.currentGameState != GameLoop.GameState.PLAY_PHASE)
 			return;
+
+        /* old guy's shit again
 		if (!GameLoop.isMyTurn) {
 			Debug.Log ("Its not my turn");
 			return;
-		}
+         
+		}*/
 
 		curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 		curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
@@ -96,19 +101,21 @@ public class CardInHand : MonoBehaviour {
 		if (GameLoop.currentGameState != GameLoop.GameState.PLAY_PHASE)
 			yield break;
 		
+        /*
 		if (!GameLoop.isMyTurn) {
 			Debug.Log ("Its not my turn");
 			yield break;
-		}
+		}*/
 
+        /* needs to be redone
 		if (GetComponent<MinionCard> ()) {
-			if (GameLoop.AvaiableMana < GetComponent<MinionCard> ().manaCost) {
+			if (GameLoop.AvailableMana < GetComponent<MinionCard> ().manaCost) {
 				Debug.Log ("Not enough mana");
 				yield break;
 			}
 		}else if (GetComponent<PlaySpellInHand>()){
 
-		}
+		}*/
 
 
 

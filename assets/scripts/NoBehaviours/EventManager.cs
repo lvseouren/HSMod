@@ -22,7 +22,7 @@ public class EventManager : MonoBehaviour {
 			if (!eventManager) {
 				eventManager = FindObjectOfType (typeof (EventManager)) as EventManager ;
 				if (!eventManager){
-					Debug.LogError ("Couldn't find script");
+					Debug.LogError ("NO ACTIVE EVENT MANAGER ON SCENE");
 				}else {
 					eventManager.Init();
 				}
@@ -59,7 +59,7 @@ public class EventManager : MonoBehaviour {
 		}
 	}
 
-	public static void  TriggerEvent (string EventName) {
+	public static void TriggerEvent (string EventName) {
 		UnityEvent thisEvent = null;
 		if (instance.eventDictionary.TryGetValue (EventName, out thisEvent)) {
 			thisEvent.Invoke ();
