@@ -138,7 +138,7 @@ Transform:
   m_LocalPosition: {x: -0.6214433, y: 4.425679, z: -2.2600398}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 258284372}
+  - {fileID: 536848054}
   m_Father: {fileID: 306431525}
   m_RootOrder: 7
 --- !u!114 &21136677
@@ -422,10 +422,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 230162237}
   m_Mesh: {fileID: 4300020, guid: db2075b8b280bca449102c63164a8826, type: 3}
---- !u!4 &258284372 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 460220, guid: d523459bbd768f74999e3f52a4ad65a4, type: 2}
-  m_PrefabInternal: {fileID: 536848053}
 --- !u!1 &306431524
 GameObject:
   m_ObjectHideFlags: 0
@@ -1121,6 +1117,10 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d523459bbd768f74999e3f52a4ad65a4, type: 2}
   m_IsPrefabParent: 0
+--- !u!4 &536848054 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 536848053}
 --- !u!1 &564567840
 GameObject:
   m_ObjectHideFlags: 0
@@ -1562,7 +1562,7 @@ Prefab:
   m_IsPrefabParent: 0
 --- !u!4 &1088265900 stripped
 Transform:
-  m_PrefabParentObject: {fileID: 460220, guid: 4c924ef287342704089e819f8e34d063, type: 2}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 1088265899}
 --- !u!1 &1092652116
 GameObject:
@@ -1998,7 +1998,7 @@ Prefab:
   m_IsPrefabParent: 0
 --- !u!4 &1204652733 stripped
 Transform:
-  m_PrefabParentObject: {fileID: 460220, guid: 37304f4b9ec603e49a89703257b0add9, type: 2}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 1204652732}
 --- !u!1001 &1208700735
 Prefab:
@@ -2044,7 +2044,7 @@ Prefab:
   m_IsPrefabParent: 0
 --- !u!4 &1208700736 stripped
 Transform:
-  m_PrefabParentObject: {fileID: 460220, guid: 5bae59907d8db9d4db662fb9af1fad3c, type: 2}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 1208700735}
 --- !u!1 &1225402756
 GameObject:
@@ -3284,7 +3284,7 @@ Prefab:
   m_IsPrefabParent: 0
 --- !u!4 &1886408160 stripped
 Transform:
-  m_PrefabParentObject: {fileID: 460220, guid: 5d827220c76bdec4c8e898127a99850e, type: 2}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 1886408159}
 --- !u!1 &1911310905
 GameObject:
