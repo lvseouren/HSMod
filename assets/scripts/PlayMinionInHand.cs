@@ -3,14 +3,14 @@ using System.Collections;
 
 public class PlayMinionInHand : CardInHand {
 
-
+    // commented old guys stuff giving errors since we are probably still going to throw this away.
 
 	protected override void OnMouseDown () {
-
+        /*
 		if (GameLoop.AvaiableMana < GetComponent<MinionCard> ().manaCost) {
 			Debug.Log ("Not enough mana");
 			return;
-		}
+		}*/
 
 		base.OnMouseDown ();
 
@@ -43,11 +43,11 @@ public class PlayMinionInHand : CardInHand {
 	}
 
 	protected override void OnMouseDrag () {
-
+        /*
 		if (GameLoop.AvaiableMana < GetComponent<MinionCard>().manaCost) {
 			Debug.Log ("Not enough mana");
 			return;
-		}
+		}*/
 
 		base.OnMouseDrag ();
 
@@ -79,7 +79,7 @@ public class PlayMinionInHand : CardInHand {
 		GetComponent<MinionCard>().OnPlay (index);
 		GetComponentInParent<ArrangeChildren>().StartCoroutine (
 			GetComponentInParent<ArrangeChildren>().delayArrange ());
-		GameLoop.AvaiableMana -= GetComponent<MinionCard> ().manaCost;
+		//GameLoop.AvaiableMana -= GetComponent<MinionCard> ().manaCost;
 		EventManager.TriggerEvent(EventManager.ON_MANA_USAGE);
 		GameObject.Destroy (this.gameObject);
 	}

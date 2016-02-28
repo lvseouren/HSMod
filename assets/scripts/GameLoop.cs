@@ -16,8 +16,9 @@ public class GameLoop : MonoBehaviour
     }
 	
 	public static GameState currentGameState ;
-    private Player _player1 = new Player(), _player2 = new Player();
-    public Player currentPlayer;
+    //lets assume player1 == us
+    public static Player _player1 = new Player(), _player2 = new Player();
+    public static Player currentPlayer;
 
 	public int cardsToDraw = 3 ;
 

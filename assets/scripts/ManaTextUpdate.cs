@@ -16,11 +16,14 @@ public class ManaTextUpdate : MonoBehaviour {
 		EventManager.StopListening (EventManager.ON_MANA_USAGE, UpdateText);
 	}
 
+    //old guys stuff
 	void UpdateText () {
+        /*
 		if (GameLoop.isMyTurn && MyManaText)
 			GetComponentInChildren<Text> ().text = GameLoop.AvaiableMana + "/" + GameLoop.myMana;
 		else if (!GameLoop.isMyTurn && !MyManaText )
 			GetComponentInChildren<Text> ().text = GameLoop.AvaiableMana + "/" + GameLoop.theirMana;
+         */
 	}
 
 

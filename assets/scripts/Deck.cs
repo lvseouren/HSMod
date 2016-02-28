@@ -40,7 +40,7 @@ public class Deck : MonoBehaviour {
         int randomNr = Random.Range(0, myDeckCards.Length);
 
 		GameObject temp = (GameObject)Instantiate ( myDeckCards[randomNr] , myDeck.transform.position , myDeck.transform.rotation );
-        if (GameLoop.isMyTurn)
+        if (GameLoop.currentPlayer == GameLoop._player1) // assuming player1 is us
             reduceDeck(myDeckCards, randomNr);
 		temp.transform.Rotate ( new Vector3 ( 0 , 0 , 0) );
 
@@ -64,7 +64,8 @@ public class Deck : MonoBehaviour {
 
 		temp.transform.localScale = originalLocalScale;
 
-		if (GameLoop.isMyTurn) {
+		if (GameLoop.currentPlayer == GameLoop._player1) //assuming player1 is us 
+        {
 			temp.transform.SetParent (myHand.transform);
 			myHand.GetComponent<ArrangeChildren> ().ArrangeCards ();
 		} else {
