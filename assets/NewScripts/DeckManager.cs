@@ -1,153 +1,35 @@
 ﻿using UnityEngine;
-using System;
-//Required for using lists
-using System.Collections.Generic;
 using System.Collections;
-
-// Please correct me if I do something stupid or wrong :D
-//
-// This script will be used to manage all things deck related when in game.
-// Includes:
-//      - Card draw / Card burn / Discard
-//      - Card positioning and shifting in hand
-//      - Card related animations (e.g. card draw, holding card mid-air, hovering over card)
-//      - Total card amount / Card shuffling / Card additions 
-//      - How the deck model looks depending on the remaining number of cards
-//
-//
+using System.Collections.Generic;
 
 public class DeckManager : MonoBehaviour {
 
-    //This list will hold all the cards; every card will be a seperate gameobject.
-    //Lists are more flexible and dynamic than arrays (in c# at least) so theyre probably the better option.
-    //Size will start at 30, and will collapse or grow depending on how many cards are left.
-    //Oh, this way would also make it easier to make your own decks.
+	public GameObject deck;
+	public GameObject yourHand;
 
-    public List<GameObject> allCardsInDeck = new List<GameObject>();
-    public int remainingCards;
+	public List<GameObject> _fullDeck = new List<GameObject>();
 
-    /*
-        We should lerp the position between these two (both position and rotation) 
-        These positions will also be changed for the oppponent.
-    */
+	void Start () {
+		for(int i = 0; i < deck.transform.childCount; i++) {
+			_fullDeck.Add (deck.transform.GetChild(i).gameObject);
+		}
 
-    //This will hold the initial position for when cards are drawn from the deck.
-    public Transform newCardPosition;
-    //This will hold the position of the card just when it is drawn.
-    public Transform newCardShownPosition;
-    //The speed of lerping.
-    public float lerpSpeed;
-    //I think its easier to just change the lerp location with a timer instead of checking the position, so this is the timer.
-    float lerpTimer;
+		for (int t = 0; t < _fullDeck.Count; t++ ) {
+			var tmp = _fullDeck[t];
+			int r = Random.Range(t, _fullDeck.Count);
+			_fullDeck[t] = _fullDeck[r];
+			_fullDeck[r] = tmp;
+		}
 
-    //Just some checks
-    int drawMove = 0;
+		Draw ();
+		Draw ();
+		Draw ();
+	}
 
-    GameObject setCard;
-    GameObject setCardCloned;
-    Transform emptyHandSlot;
-
-    public GameObject myHand;
-    HandManager handManager;
-
-
-    void Start ()
-    {
-        //
-        handManager = myHand.GetComponent<HandManager>();
-
-        //Shoud be 30 on start.
-        remainingCards = allCardsInDeck.Count;
-
-        //Placeholder - need to check card draw
-        Draw();
-    }
-	
-	void Update ()
-    {
-        if (Input.GetButtonDown("Fire2")) Draw();
-
-        lerpTimer += 1f * Time.deltaTime;
-
-        //Create a new card and have it positioned + rotated in the deck.
-        if (drawMove == 1)
-        {
-            print("Created");
-            setCardCloned = Instantiate(setCard, newCardPosition.transform.position, newCardPosition.transform.rotation) as GameObject;
-            setCardCloned.transform.parent = myHand.transform.FindChild("CardsInHand");
-            //handManager.cardsInHand.Add(setCardCloned);
-            drawMove = 2;
-        }
-
-        if (drawMove == 2)
-        {
-            if (lerpTimer > 0f)
-            {
-                if(lerpTimer > 1.5f)
-                {
-                    print("Moving to hand");
-
-                    //Make the card a child of hand now.
-                   
-                    myHand.GetComponent<HandManager>().OrganizeHand();
-                    setCard = null;
-                    setCardCloned = null;
-                    drawMove = 0;
-
-                    //Empty slot should be configured already by HandManager
-                    //emptyHandSlot = handManager.emptySlot;
-
-                    //Movement no longer required as lerping should be done in HandManager.
-                    //setCardCloned.transform.position = Vector3.Slerp(setCardCloned.transform.position, emptyHandSlot.transform.position, lerpSpeed * Time.deltaTime);
-                    //setCardCloned.transform.rotation = Quaternion.Lerp(setCardCloned.transform.rotation, emptyHandSlot.transform.rotation, lerpSpeed * Time.deltaTime);
-                }
-                else
-                {
-                    print("Moving to shown position");
-                    setCardCloned.transform.position = Vector3.Lerp(setCardCloned.transform.position, newCardShownPosition.transform.position, lerpSpeed * Time.deltaTime);
-                    setCardCloned.transform.rotation = Quaternion.Lerp(setCardCloned.transform.rotation, newCardShownPosition.transform.rotation, lerpSpeed * Time.deltaTime);
-                }
-            }
-        }
-    }
-
-    //Unlike in real HS, as of now I think it would be better to have the draw function go as so, without an actual set deck.
-    public void Draw()
-    {
-        //Check if there are any cards in the deck, otherwise start fatiguing.
-        if(remainingCards > 0)
-        {
-            //Get a random card
-            //----(Have to add by 1 because the second number is exclusive)
-            int randomNumber = UnityEngine.Random.Range(0, remainingCards /* + 1*/ );
-
-            //Set the drawn card
-            setCard = allCardsInDeck[randomNumber];
-
-            //Initiate Movement
-            drawMove = 1;
-
-            //Remove the card from the deck
-            allCardsInDeck.RemoveAt(randomNumber);
-
-            //Refresh amount of cards
-            remainingCards = allCardsInDeck.Count;
-        }
-        else
-        {
-            Fatigue();
-        }
-    }
-
-    public void Discard()
-    {
-
-    }
-
-    public void Fatigue()
-    {
-
-    }
-
-
+	public void Draw() {
+		GameObject newCard = Instantiate (_fullDeck [0]);
+		_fullDeck.Remove (_fullDeck [0]);
+		newCard.transform.localScale = newCard.transform.localScale / 2;
+		newCard.transform.SetParent (yourHand.transform);
+	}
 }

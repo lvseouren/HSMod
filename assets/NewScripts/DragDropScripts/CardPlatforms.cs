@@ -39,6 +39,7 @@ public class CardPlatforms : MonoBehaviour, IDropHandler, IPointerEnterHandler, 
 			if(_drag.yourHand != _drag.cardDropZone) {
 				_token.transform.SetParent (transform);
 				_token.transform.SetSiblingIndex (_drag.tokenHolder.transform.GetSiblingIndex());
+				_token.transform.localScale = _token.transform.localScale / 2;
 				_drag.selfDestruct = true;
 			}
 		}

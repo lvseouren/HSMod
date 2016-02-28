@@ -54,7 +54,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: df5bc1f5b47944edca287d50a587a836, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e9d6fad796d6b40648ae773e195024c4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -88,12 +88,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 120940}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34367a2de15be444eb6d7c913643c65b, type: 3}
+  m_Script: {fileID: 11500000, guid: f41afdb9ea33043969257ddc7cd49aef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   yourHand: {fileID: 0}
   cardDropZone: {fileID: 0}
-  token: {fileID: 113588, guid: 536eb326a7812409598591c03742e89e, type: 2}
+  token: {fileID: 113588, guid: 8e6cc221373ab40a1bcb68a3201237fd, type: 2}
   tokenHolder: {fileID: 0}
   selfDestruct: 0
 --- !u!222 &22257150
