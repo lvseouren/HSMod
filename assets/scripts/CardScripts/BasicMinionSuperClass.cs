@@ -16,7 +16,9 @@ public class BasicMinionSuperClass : MonoBehaviour {
 	public bool hasWindfury ;
 	public bool hasStealth ;
 	public bool hasCharge ;
-    public bool hasTaunt; 
+    public bool hasTaunt;
+    public bool hasMegaWindfury;
+    public bool hasMegaDivineShield;
 
 	public bool hasTargetAbility ;
 	public bool canTargetAllies ;
