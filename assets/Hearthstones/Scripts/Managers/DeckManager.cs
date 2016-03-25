@@ -1,35 +1,53 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
-public class DeckManager : MonoBehaviour {
+public class DeckManager : MonoBehaviour
+{
+    public GameObject Deck;
+	public GameObject Hand;
 
-	public GameObject deck;
-	public GameObject yourHand;
+	private List<GameObject> _currentDeck = new List<GameObject>();
 
-	public List<GameObject> _fullDeck = new List<GameObject>();
-
-	void Start () {
-		for(int i = 0; i < deck.transform.childCount; i++) {
-			_fullDeck.Add (deck.transform.GetChild(i).gameObject);
+	private void Start()
+    {
+        // Looping on all cards of the Deck
+		for (int i = 0; i < Deck.transform.childCount; i++)
+        {
+            // Adding the card to the current deck
+			_currentDeck.Add(Deck.transform.GetChild(i).gameObject);
 		}
 
-		for (int t = 0; t < _fullDeck.Count; t++ ) {
-			var tmp = _fullDeck[t];
-			int r = Random.Range(t, _fullDeck.Count);
-			_fullDeck[t] = _fullDeck[r];
-			_fullDeck[r] = tmp;
+        // Shuffling all the cards in the deck
+		for (int t = 0; t < _currentDeck.Count; t++)
+        {
+			GameObject tmp = _currentDeck[t];
+			int r = Random.Range(t, _currentDeck.Count);
+			_currentDeck[t] = _currentDeck[r];
+			_currentDeck[r] = tmp;
 		}
 
-		Draw ();
-		Draw ();
-		Draw ();
-	}
+        // Drawing the 3 starting cards
+	    Draw(3);
+    }
 
-	public void Draw() {
-		GameObject newCard = Instantiate (_fullDeck [0]);
-		_fullDeck.Remove (_fullDeck [0]);
-		newCard.transform.localScale = newCard.transform.localScale / 2;
-		newCard.transform.SetParent (yourHand.transform);
-	}
+    public void Draw(int draws)
+    {
+        // Looping x number of times
+        for (int i = 0; i < draws; i++)
+        {
+            // Drawing a card
+            Draw();
+        }
+    }
+
+	public void Draw()
+    {
+        // Instantiating a new card
+		GameObject drawedCard = Instantiate(_currentDeck[0]);
+		drawedCard.transform.localScale = drawedCard.transform.localScale / 2;
+		drawedCard.transform.SetParent(Hand.transform);
+
+        // Removing the instantiated card from the deck
+        _currentDeck.RemoveAt(0);
+    }
 }
