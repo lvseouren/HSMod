@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c0364c90d9ca468385934ae0a48d2d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maps:
+  Maps:
   - {fileID: 104346, guid: 3cdfed9bb1f8547799b27bf57efb49e0, type: 2}
   - {fileID: 128862, guid: d127358bb32ee4ff9814ecccfc9208b2, type: 2}
   - {fileID: 133264, guid: a24b329b877af4d77894a492bcf6c504, type: 2}
@@ -191,7 +191,8 @@ MonoBehaviour:
   - {fileID: 108954, guid: 0fd84ea4cb3f441c499dbd4021f41291, type: 2}
   - {fileID: 122682, guid: f45cd278238d2485cb858a57d86324f4, type: 2}
   - {fileID: 105288, guid: 8cba7ed9965f84df295515289f9ef695, type: 2}
-  currentMap: {fileID: 1901202846}
+  CurrentMap: {fileID: 1901202846}
+  debug: 0
 --- !u!4 &277837383
 Transform:
   m_ObjectHideFlags: 0
