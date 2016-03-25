@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
-	public List<GameObject> Maps = new List<GameObject>();
-	public GameObject CurrentMap;
-    
-	private int _mapNumber = 0;
+    public List<GameObject> Maps = new List<GameObject>();
+    public GameObject CurrentMap;
 
-	private void Update()
+    private int _mapNumber = 0;
+
+    private void Update()
     {
         // Checking if the user has pressed the Left Arrow
         if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -23,7 +23,8 @@ public class BoardManager : MonoBehaviour
                 // Substracting 1 to the map number count
                 _mapNumber--;
             }
-
+            
+            // Switching the map
             SwitchMap();
         }
 
@@ -41,6 +42,7 @@ public class BoardManager : MonoBehaviour
                 _mapNumber++;
             }
 
+            // Switching the map
             SwitchMap();
         }
     }
