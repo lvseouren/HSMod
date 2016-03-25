@@ -17,6 +17,7 @@ TagManager:
   - Hero
   - Seta
   - creatureInfo
+  - CollectionCard
   layers:
   - Default
   - TransparentFX
