@@ -4,9 +4,9 @@ using System.Collections.Generic;
 public class DeckManager : MonoBehaviour
 {
     public GameObject Deck;
-	public GameObject Hand;
+    public GameObject Hand;
 
-	private List<GameObject> _currentDeck = new List<GameObject>();
+    private List<GameObject> _currentDeck = new List<GameObject>();
 
     private void Start()
     {
@@ -15,19 +15,19 @@ public class DeckManager : MonoBehaviour
         {
             // Adding the card to the current deck
             _currentDeck.Add(Deck.transform.GetChild(i).gameObject);
-		}
+        }
 
         // Shuffling all the cards in the deck
         for (int t = 0; t < _currentDeck.Count; t++)
         {
-		    GameObject tmp = _currentDeck[t];
-	        int r = Random.Range(t, _currentDeck.Count);
-	        _currentDeck[t] = _currentDeck[r];
-	        _currentDeck[r] = tmp;
-		}
+            GameObject tmp = _currentDeck[t];
+            int r = Random.Range(t, _currentDeck.Count);
+            _currentDeck[t] = _currentDeck[r];
+            _currentDeck[r] = tmp;
+        }
 
         // Drawing the 3 starting cards
-	    Draw(3);
+        Draw(3);
     }
 
     public void Draw(int draws)
@@ -40,12 +40,12 @@ public class DeckManager : MonoBehaviour
         }
     }
 
-	public void Draw()
+    public void Draw()
     {
         // Instantiating a new card
-		GameObject drawedCard = Instantiate(_currentDeck[0]);
-		drawedCard.transform.localScale = drawedCard.transform.localScale / 2;
-		drawedCard.transform.SetParent(Hand.transform);
+        GameObject drawedCard = Instantiate(_currentDeck[0]);
+        drawedCard.transform.localScale = drawedCard.transform.localScale / 2;
+        drawedCard.transform.SetParent(Hand.transform);
 
         // Removing the instantiated card from the deck
         _currentDeck.RemoveAt(0);
