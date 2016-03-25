@@ -170,9 +170,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89221235667c5449ea6887203dd896b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deck: {fileID: 193915567}
-  yourHand: {fileID: 308520977}
-  _fullDeck: []
+  Deck: {fileID: 193915567}
+  Hand: {fileID: 308520977}
 --- !u!114 &277837382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,7 +204,7 @@ Transform:
   m_Children:
   - {fileID: 1757570539}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
 --- !u!1 &308520977
 GameObject:
   m_ObjectHideFlags: 0
@@ -1275,6 +1274,7 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -1444,7 +1444,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!1001 &967058950
 Prefab:
   m_ObjectHideFlags: 0
@@ -2064,7 +2064,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1408397769}
   m_LocalRotation: {x: 0.7071067, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 800, y: 1300, z: 600}
+  m_LocalPosition: {x: 800, y: 1100, z: 600}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2198,6 +2198,10 @@ Prefab:
     - target: {fileID: 422960, guid: 7a8f57fc0797a47dcb223ff35c0c22f0, type: 2}
       propertyPath: m_RootOrder
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 132036, guid: 7a8f57fc0797a47dcb223ff35c0c22f0, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7a8f57fc0797a47dcb223ff35c0c22f0, type: 2}
@@ -2847,7 +2851,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 424460, guid: 3cdfed9bb1f8547799b27bf57efb49e0, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3cdfed9bb1f8547799b27bf57efb49e0, type: 2}
