@@ -29,8 +29,6 @@
 
     }
 
-    public virtual void On
-
     #endregion
 
     #region Methods
