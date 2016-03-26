@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BasicSpellSuperClass : MonoBehaviour {
+public class BasicSpellSuperClass : MonoBehaviour
+{
     public int baseManaCost;
     public int currentManaCost;
     public int baseDamage;

@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Attack : MonoBehaviour {
-
+public class Attack : MonoBehaviour
+{
 	public GameObject seta, Ready ;
 	public LineRenderer linha;
 

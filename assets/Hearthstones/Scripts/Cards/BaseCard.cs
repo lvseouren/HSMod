@@ -7,6 +7,19 @@
     public Rarity Rarity;
 
     // Image ?
+
+    // OnDrawn Event
+    public delegate void DrawnEventHandler(BaseCard sender);
+
+    public event DrawnEventHandler Drawn;
+
+    protected virtual void OnDrawn()
+    {
+        if (Drawn != null)
+        {
+            Drawn(this);
+        }
+    }
 }
 
 public enum Class

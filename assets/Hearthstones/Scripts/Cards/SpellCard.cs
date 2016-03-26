@@ -9,12 +9,12 @@
 
     public void Cast(MinionCard targetMinion)
     {
-
+        
     }
 
     public void Cast(Hero targetHero)
     {
-
+        
     }
 }
 

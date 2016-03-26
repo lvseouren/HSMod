@@ -3,7 +3,6 @@ using System.Collections;
 
 public class BasicMinionSuperClass : MonoBehaviour
 {
-
     public int baseHealth;
     public int baseAttack;
     public int currentAttack;
