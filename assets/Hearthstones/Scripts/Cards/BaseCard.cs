@@ -1,25 +1,27 @@
-﻿public class BaseCard
+﻿public abstract class BaseCard
 {
     public string Name;
     public string Description;
     public int Cost;
     public Class Class;
     public Rarity Rarity;
+    public bool Combo;
 
-    // Image ?
+    // TODO : Image, Voices, Effects?
 
-    // OnDrawn Event
-    public delegate void DrawnEventHandler(BaseCard sender);
+    #region Hand/Deck Events
 
-    public event DrawnEventHandler Drawn;
-
-    protected virtual void OnDrawn()
+    public virtual void OnDrawn()
     {
-        if (Drawn != null)
-        {
-            Drawn(this);
-        }
+        
     }
+
+    public virtual void OnDiscarded()
+    {
+        
+    }
+
+    #endregion
 }
 
 public enum Class

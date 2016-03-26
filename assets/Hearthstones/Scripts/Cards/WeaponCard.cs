@@ -4,6 +4,37 @@
     public int CurrentAttack;
     public int Durability;
 
+    public bool Windfury;
+    public bool Forgetful;
+
+    #region Events
+
+    public virtual void OnPlayed()
+    {
+
+    }
+
+    public virtual void OnPreAttack()
+    {
+
+    }
+
+    public virtual void OnAttacked()
+    {
+
+    }
+
+    public virtual void OnDestroyed()
+    {
+
+    }
+
+    public virtual void On
+
+    #endregion
+
+    #region Methods
+
     public void Attack(MinionCard targetMinion)
     {
         
@@ -23,4 +54,6 @@
     {
         
     }
+
+    #endregion
 }
