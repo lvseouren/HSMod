@@ -1,35 +1,25 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class Hero : MonoBehaviour {
-	public int maximumHp = 30 ;
-	public int currentHp ;
-	public int attack = 0 ;
-    public int armor = 0;
+public class Hero : MonoBehaviour, IDamageable
+{
+    // Stats //
+    public int Attack = 0;
+    public int BaseHP = 30;
+	public int CurrentHp;
+    public int Armor = 0;
 
-	public bool isFrozen;
-	public bool hasWindfury;
-	public bool isInvulnerable;
-    public bool hasSpellImmunity;
+    // Effects //
+    public bool Frozen = false;
+	public bool Immune = false;
+    public bool Forgetful = false;
 
-    // later can make other functions like this for other battle modes
-    // unless we don't make brawl etc
-    void StandardInitialization(){
-        armor = 0;
-        maximumHp = 30;
-        attack = 0;
-        isFrozen = false;
-        hasWindfury = false;
-        isInvulnerable = false;
+	private void Start()
+	{
+        
+	}
+
+    public void Damage(int damageAmount)
+    {
+
     }
-
-	// Use this for initialization
-	void Start () {
-        StandardInitialization();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }
