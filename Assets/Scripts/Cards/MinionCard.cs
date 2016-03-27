@@ -1,4 +1,4 @@
-﻿public class MinionCard : BaseCard
+﻿public class MinionCard : BaseCard, IDamageable
 {
     // Stats //
     public int BaseAttack;
@@ -6,7 +6,7 @@
     public int Health;
     public MinionType MinionType;
 
-    // Properties //
+    // Effects //
     public bool Taunt = false;
     public bool Charge = false;
     public bool Stealth = false;
@@ -63,12 +63,14 @@
         
     }
 
-    public virtual void Attack(MinionCard otherMinion)
+    public virtual void Attack(IDamageable target)
     {
-        
+        // TODO : Attack stuff
+
+        //EventManager.OnMinionAttacked(this, target, damage);
     }
 
-    public virtual void Attack(Hero hero)
+    public void Damage(int damageAmount)
     {
         
     }

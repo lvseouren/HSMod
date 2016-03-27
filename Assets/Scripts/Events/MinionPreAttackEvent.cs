@@ -1,14 +1,15 @@
 ﻿public class MinionPreAttackEvent
 {
-    private bool _willAttack = true;
+    private bool _isCancelled = false;
 
     public MinionCard Minion;
-    // TODO : Target enemy (hero/minion) as the same type (interface IAttackable ?)
+    public IDamageable Target;
+    public bool IsCancelled => _isCancelled;
 
     // TODO : Switch target method
 
     public void Cancel()
     {
-        _willAttack = false;
+        _isCancelled = true;
     }
 }

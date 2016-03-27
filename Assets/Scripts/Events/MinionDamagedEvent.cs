@@ -1,7 +1,6 @@
 ﻿public class MinionDamagedEvent
 {
-    public int Damage;
-
-    // TODO : Attacker enemy (hero/minion) as the same type (interface IAttackable ?)
+    public IDamageable Attacker;
     public MinionCard Minion;
+    public int Damage;
 }
