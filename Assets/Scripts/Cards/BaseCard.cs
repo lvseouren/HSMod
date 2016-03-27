@@ -5,7 +5,7 @@
     public int Cost;
     public CardClass CardClass;
     public Rarity Rarity;
-    public bool Golden;
+    public bool Golden = false;
 
     public bool Combo = false;
 
