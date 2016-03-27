@@ -3,15 +3,14 @@ using System.Collections;
 
 public class GameLoop : MonoBehaviour
 {
-
     /* Active state of the game
      * MULLIGAN happens once at the start of match
      * START is when a specific player's turn start
      * END is when a specific player's turn ends
      * ACTIVE happens between START and END
      */
-	public enum GameState
-	{
+    public enum GameState
+    {
         Mulligan,
         Start,
         End,
@@ -19,12 +18,14 @@ public class GameLoop : MonoBehaviour
     }
 
     public GameState CurrentGameState;
-    private Player _bottomPlayer, _topPlayer;
     public Player CurrentPlayer;
+
+    private Player _topPlayer;
+    private Player _bottomPlayer;
 
     private static GameLoop _instance;
 
-    public static GameLoop Instance 
+    public static GameLoop Instance
     {
         get
         {
@@ -40,10 +41,11 @@ public class GameLoop : MonoBehaviour
             return _instance;
         }
     }
-    
+
     public void Start()
     {
         CurrentGameState = GameState.Mulligan;
+
         _bottomPlayer = new Player();
         _topPlayer = new Player();
 

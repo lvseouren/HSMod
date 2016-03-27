@@ -207,8 +207,8 @@ public class Attack : MonoBehaviour
 
         if (hit.GetComponent<Hero>() != null)
         {
-            hit.GetComponent<Hero>().currentHp -= GetComponent<BasicMinionSuperClass>().currentAttack;
-            hit.GetComponent<Hero>().attack -= GetComponent<BasicMinionSuperClass>().currentHealth;
+            hit.GetComponent<Hero>().CurrentHp -= GetComponent<BasicMinionSuperClass>().currentAttack;
+            hit.GetComponent<Hero>().Attack -= GetComponent<BasicMinionSuperClass>().currentHealth;
         }
 
         if (hit.GetComponent<BasicMinionSuperClass>() != null)
