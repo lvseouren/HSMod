@@ -1,8 +1,8 @@
 public class DeathwhisperNecrolyte : MinionCard
 {
-    public DeathwhsiperNecrolyte()
+    public DeathwhisperNecrolyte()
     {
-        Name = "Deathwhsiper Necrolyte";
+        Name = "Deathwhisper Necrolyte";
         Description = "Your other Undead have +1 Attack.";
 
         CardClass = CardClass.DeathKnight;
