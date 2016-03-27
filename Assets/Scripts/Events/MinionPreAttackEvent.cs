@@ -4,7 +4,10 @@
 
     public MinionCard Minion;
     public IDamageable Target;
-    public bool IsCancelled => _isCancelled;
+    public bool IsCancelled
+    {
+        get { return _isCancelled; }
+    }
 
     // TODO : Switch target method
 
