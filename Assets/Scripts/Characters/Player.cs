@@ -5,30 +5,36 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public Hero Hero;
-    //public Deck Deck;
     //public List<Secret> Secrets;
-    
-    public int cardsInHand;
-    public int maxCardsInHand; //maybe later add effects that increase it?
-    public int currentMana;
-    public int maxMana;
-    public int availableMana;
-    public int overloadedMana; //next turn overload
-    public DeckManager deck;
+    public List<BaseCard> Hand;
+    public Deck Deck;
+
+    public int MaxCardsInHand; //maybe later add effects that increase it?
+    public int CurrentMana;
+    public int MaxMana;
+    public int AvailableMana;
+    public int OverloadedMana; //next turn overload
+
+    public int GetHandSize()
+    {
+        return Hand.Count;
+    }
 
     // set base values
+    // TODO: add deck and hero
     public void Init()
     {
-        cardsInHand = 0;
-        currentMana = 0;
-        maxMana = 10;
-        availableMana = 0;
-        maxCardsInHand = 10;
-        overloadedMana = 0;
+        //Secrets = new List<Secret>();
+        Hand = new List<BaseCard>();
+        CurrentMana = 0;
+        MaxMana = 10;
+        AvailableMana = 0;
+        MaxCardsInHand = 10;
+        OverloadedMana = 0;
     }
 
     public void RefillMana()
     {
-        availableMana = currentMana - overloadedMana;
+        AvailableMana = CurrentMana - OverloadedMana;
     }
 }

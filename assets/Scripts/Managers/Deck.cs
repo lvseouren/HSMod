@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class DeckManager : MonoBehaviour
+public class Deck : MonoBehaviour
 {
-    public GameObject Deck;
+    public GameObject _Deck;
     public GameObject Hand;
 
     private List<GameObject> _currentDeck = new List<GameObject>();
@@ -11,10 +11,10 @@ public class DeckManager : MonoBehaviour
     private void Start()
     {
         // Looping on all cards of the Deck
-        for (int i = 0; i < Deck.transform.childCount; i++)
+        for (int i = 0; i < _Deck.transform.childCount; i++)
         {
             // Adding the card to the current deck
-            _currentDeck.Add(Deck.transform.GetChild(i).gameObject);
+            _currentDeck.Add(_Deck.transform.GetChild(i).gameObject);
         }
 
         // Shuffling all the cards in the deck
@@ -43,9 +43,9 @@ public class DeckManager : MonoBehaviour
     public void Draw()
     {
         // Instantiating a new card
-        GameObject drawedCard = Instantiate(_currentDeck[0]);
-        drawedCard.transform.localScale = drawedCard.transform.localScale / 2;
-        drawedCard.transform.SetParent(Hand.transform);
+        GameObject drawnCard = Instantiate(_currentDeck[0]);
+        drawnCard.transform.localScale = drawnCard.transform.localScale / 2;
+        drawnCard.transform.SetParent(Hand.transform);
 
         // Removing the instantiated card from the deck
         _currentDeck.RemoveAt(0);

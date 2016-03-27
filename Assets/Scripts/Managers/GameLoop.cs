@@ -4,122 +4,106 @@ using System.Collections;
 public class GameLoop : MonoBehaviour
 {
 
+    /* Active state of the game
+     * MULLIGAN happens once at the start of match
+     * START is when a specific player's turn start
+     * END is when a specific player's turn ends
+     * ACTIVE happens between START and END
+     */
 	public enum GameState
 	{
-        MULLIGAN_PHASE,
-		TURN_START,
-		DRAW_PHASE,
-		PLAY_PHASE,
-		TURN_END,
-        IDLE,
-        DEATH_PHASE,
+        Mulligan,
+        Start,
+        End,
+        Active
     }
-	
-	public static GameState currentGameState ;
-    //lets assume player1 == us
-    public static Player _player1 = new Player(), _player2 = new Player();
-    public static Player currentPlayer;
 
-	public int cardsToDraw = 3 ;
+    public GameState CurrentGameState;
+    private Player _bottomPlayer, _topPlayer;
+    public Player CurrentPlayer;
 
-	void Start () {
-        _player1.Init();
-        _player2.Init();
+    private static GameLoop _instance;
 
-        //TODO: Choose player on mulligan phase
-        currentPlayer = _player1; // totally random choice
-
-		for (int i = 0; i < cardsToDraw; i++) {
-			DrawPhase();
-            // TODO: discard
-            currentPlayer.cardsInHand += 1;
-		}
-
-		TurnStart ();
-	}
-
-	public void EndTurn () {
-		TurnEnd ();
-		ChangeTurns ();
-		TurnStart ();
-	}
-
-	private void ChangeTurns () {
-        if (currentPlayer == _player1)
-            currentPlayer = _player2;
-        else
-            currentPlayer = _player1;
-
-        if (currentPlayer.currentMana < currentPlayer.maxMana)
+    public static GameLoop Instance 
+    {
+        get
         {
-            currentPlayer.currentMana++;
-            currentPlayer.RefillMana();
-        }
-    
-	}
+            if (!_instance)
+            {
+                _instance = FindObjectOfType(typeof(GameLoop)) as GameLoop;
+                if (!_instance)
+                {
+                    Debug.LogError("NO GameLoop instance found on scene.");
+                }
 
-    // others states will be changed by playing cards etc.
-    // need to find the right order of going through phases.
+            }
+            return _instance;
+        }
+    }
+    
+    public void Start()
+    {
+        CurrentGameState = GameState.Mulligan;
+        _bottomPlayer = new Player();
+        _topPlayer = new Player();
+
+        _bottomPlayer.Init();
+        _topPlayer.Init();
+
+        // Choose starting player
+        if (Random.Range(0, 2) == 1)
+            CurrentPlayer = _topPlayer;
+        else
+            CurrentPlayer = _bottomPlayer;
+
+    }
 
     public void TurnStart()
     {
-        Debug.Log("Turn Start");
-        currentGameState = GameState.TURN_START;
-        // fire events here that should be fired at turn start like Demolisher's effect
+        // what happens right after mulligan
+        if (CurrentGameState == GameState.Mulligan)
+        {
+            if (CurrentPlayer.Equals(_bottomPlayer))
+            {
+                _bottomPlayer.Deck.Draw(3);
+                _topPlayer.Deck.Draw(4);
+                // TODO: give _topPlayer coin
+            }
+            else
+            {
+                _topPlayer.Deck.Draw(3);
+                _bottomPlayer.Deck.Draw(4);
+                // TODO: give _bottomPlayer coin
+            }
+        }
 
+        CurrentGameState = GameState.Start;
+        // TODO: fire all the necessary events?
 
-        DrawPhase();
+        CurrentPlayer.Deck.Draw(1);
+
+        if (CurrentPlayer.CurrentMana < 10)
+            CurrentPlayer.CurrentMana++;
+
+        CurrentPlayer.RefillMana();
+
+        CurrentGameState = GameState.Active;
     }
 
-    public void DrawPhase()
-    {
-        Debug.Log("Draw Phase");
-        currentGameState = GameState.DRAW_PHASE;
-        // is discard done?
-        currentPlayer.deck.Draw(); // in this function fire events that should start when u draw a card. for example Shadow beast from priest decks
-        // any other potential effects on Draw?
-        currentGameState = GameState.IDLE;
-    }
-
-    // should be called by EndTurn
-    // which should be called by pressing end turn button NYI
     public void TurnEnd()
     {
-        Debug.Log("Turn End");
-        currentGameState = GameState.TURN_END;
-        // fire events here which should be fired at turn end like Ragnaros
+        CurrentGameState = GameState.End;
+        // TODO: fire all necessary events?
 
+        ChangePlayers();
+        TurnStart();
     }
 
-
-    // STUFF DONE BY THE OLD GUY.
-    // MAYBE ONE DAY IT WILL BE NEEDED
-    // OR WHEN WE FIGURE OUT HOW TO USE EVENTS
-    /* 
-	public void OnTurnStart () {
-		Debug.Log ("OnTurnStart");
-		EventManager.TriggerEvent (EventManager.ON_TURN_START);
-		currentGameState = GameState.TURN_START;
-		OnDrawCard ();
-	}
-
-	public void OnDrawCard () {
-		Debug.Log ("OnDrawCard");
-		EventManager.TriggerEvent (EventManager.ON_DRAW_CARD);
-		currentGameState = GameState.DRAW_PHASE;
-		OnPlayTurn ();
-	}
-
-	public void OnPlayTurn () {
-		Debug.Log ("OnPlayTurn");
-		EventManager.TriggerEvent (EventManager.ON_TURN_PLAY);
-		currentGameState = GameState.PLAY_PHASE;
-	}
-
-	public 	void OnEndTurn () {
-		Debug.Log ("OnEndTurn");
-		EventManager.TriggerEvent (EventManager.ON_TURN_END);
-		currentGameState = GameState.TURN_END;
-	}
-    */
+    public void ChangePlayers()
+    {
+        if (CurrentPlayer.Equals(_bottomPlayer))
+            CurrentPlayer = _topPlayer;
+        else
+            CurrentPlayer = _bottomPlayer;
+    }
 }
