@@ -15,8 +15,8 @@ public class DancingRuneblade : MinionCard
         Health = 1;
     }
 
-    public override void OnDead()
+    public override void OnPlayed()
     {
-        // TODO : +1 Attack Aura
+        // TODO : Gain Attack and Health equal to your weapon's Attack and Durability
     }
 }

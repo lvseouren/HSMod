@@ -17,8 +17,8 @@ public class Ghoul : MinionCard
         Charge = true;
     }
 
-    public override void OnPlayed()
+    public override void OnTurnEnd()
     {
-        // TODO : Die.
+        // TODO : Destroy this minion.
     }
 }
