@@ -1,16 +1,21 @@
 ﻿public class MinionCard : BaseCard
 {
+    // Stats //
     public int BaseAttack;
     public int CurrentAttack;
     public int Health;
     public MinionType MinionType;
-    public bool Taunt;
-    public bool Charge;
-    public bool Stealth;
-    public bool DivineShield;
-    public bool Elusive;
-    public bool Forgetful;
-    public int SpellDamage;
+
+    // Properties //
+    public bool Taunt = false;
+    public bool Charge = false;
+    public bool Stealth = false;
+    public bool DivineShield = false;
+    public bool Elusive = false;
+    public bool Forgetful = false;
+    public bool Frozen = false;
+    public bool Silenced = false;
+    public int SpellDamage = 0;
 
     #region Events
 
@@ -85,5 +90,6 @@ public enum MinionType
     Dragon,
     Pirate,
     Demon,
-    Totem
+    Totem,
+    Undead // Custom
 }

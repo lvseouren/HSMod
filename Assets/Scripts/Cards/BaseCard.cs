@@ -3,9 +3,10 @@
     public string Name;
     public string Description;
     public int Cost;
-    public Class Class;
+    public CardClass CardClass;
     public Rarity Rarity;
-    public bool Combo;
+
+    public bool Combo = false;
 
     // TODO : Image, Voices, Effects?
 
@@ -24,8 +25,9 @@
     #endregion
 }
 
-public enum Class
+public enum CardClass
 {
+    Neutral,
     Druid,
     Hunter,
     Mage,
