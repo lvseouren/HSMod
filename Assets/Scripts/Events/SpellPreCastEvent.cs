@@ -1,13 +1,20 @@
 ﻿public class SpellPreCastEvent
 {
-    private bool _willCast = true;
-
     public Hero Hero;
     public SpellCard Spell;
-    // TODO : Target enemy (hero/minion) as the same type (interface IAttackable ?), could be null if notarget spell
+    public ICharacter Target;
+
+    public bool IsCancelled
+    {
+        get { return _isCancelled; }
+    }
+
+    private bool _isCancelled = false;
+
+    // TODO : Switch target method
 
     public void Cancel()
     {
-        _willCast = false;
+        _isCancelled = true;
     }
 }

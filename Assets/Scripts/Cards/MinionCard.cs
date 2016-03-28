@@ -1,10 +1,13 @@
-﻿public class MinionCard : BaseCard, IDamageable
+﻿public class MinionCard : BaseCard, ICharacter
 {
-    // Stats //
-    public int BaseAttack;
-    public int CurrentAttack;
-    public int Health;
+    // Base Stats //
+    public int BaseAttack { get; set; }
+    public int BaseHealth { get; set; }
     public MinionType MinionType;
+
+    // In-Game Stats //
+    public int CurrentAttack { get; set; }
+    public int CurrentHealth { get; set; }
 
     // Effects //
     public bool Taunt = false;
@@ -63,18 +66,24 @@
         // TODO : Buff list + buff class probably
     }
 
-    public virtual void Attack(IDamageable target)
+    public virtual void Attack(ICharacter target)
     {
+        //EventManager.OnMinionPreAttack(this, target);
+
+        if (target is Hero)
+        {
+            //EventManager.OnHeroPreAttacked
+        }
         // TODO : Attack stuff
 
-        //EventManager.OnMinionAttacked(this, target, damage);
+        //EventManager.OnMinionAttack(this, target, damage);
     }
 
     public virtual void Damage(int damageAmount)
     {
-        this.Health -= damageAmount;
+        this.BaseHealth -= damageAmount;
 
-        if (this.Health < 0)
+        if (this.BaseHealth < 0)
         {
             Die();
         }

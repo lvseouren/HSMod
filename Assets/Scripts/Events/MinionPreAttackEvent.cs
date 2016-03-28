@@ -1,13 +1,14 @@
 ﻿public class MinionPreAttackEvent
 {
-    private bool _isCancelled = false;
-
     public MinionCard Minion;
-    public IDamageable Target;
+    public ICharacter Target;
+
     public bool IsCancelled
     {
         get { return _isCancelled; }
     }
+
+    private bool _isCancelled = false;
 
     // TODO : Switch target method
 

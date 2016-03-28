@@ -12,7 +12,7 @@ public class DeathwhisperNecrolyte : MinionCard
         Cost = 2;
         BaseAttack = 1;
         CurrentAttack = 1;
-        Health = 4;
+        BaseHealth = 4;
     }
 
     public override void OnDead()

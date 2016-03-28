@@ -11,7 +11,7 @@
         Cost = 2;
     }
 
-    public override void Cast(IDamageable target)
+    public override void Cast(ICharacter target)
     {
         //EventManager.OnSpellPreCast();
 

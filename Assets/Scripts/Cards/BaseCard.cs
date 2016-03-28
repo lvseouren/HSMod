@@ -2,7 +2,7 @@
 
 public abstract class BaseCard : MonoBehaviour
 {
-    // Stats //
+    // Base Stats //
     public string Name;
     public string Description;
     public int Cost;

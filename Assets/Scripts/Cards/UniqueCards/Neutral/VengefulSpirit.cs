@@ -12,7 +12,7 @@
         Cost = 2;
         BaseAttack = 2;
         CurrentAttack = 2;
-        Health = 2;
+        BaseHealth = 2;
     }
 
     public override void OnDead()

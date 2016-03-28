@@ -1,5 +1,5 @@
 ﻿public class MinionDiedEvent
 {
-    public IDamageable Killer;
+    public ICharacter Killer;
     public MinionCard Minion;
 }

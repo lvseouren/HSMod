@@ -19,23 +19,25 @@ public class EventManager
 
     private EventManager() { }
 
-    // Minion Events //
+    // Minion Event Subjects //
     public Subject<MinionPlayedEvent> MinionPlayedHandler = new Subject<MinionPlayedEvent>();
     public Subject<MinionPreAttackEvent> MinionPreAttackHandler = new Subject<MinionPreAttackEvent>();
-    public Subject<MinionAttackedEvent> MinionAttackedHandler = new Subject<MinionAttackedEvent>();
+    public Subject<MinionAttackEvent> MinionAttackHandler = new Subject<MinionAttackEvent>();
+    public Subject<MinionPreDamagedEvent> MinionPreDamagedHandler = new Subject<MinionPreDamagedEvent>();
     public Subject<MinionDamagedEvent> MinionDamagedHandler = new Subject<MinionDamagedEvent>();
     public Subject<MinionDiedEvent> MinionDiedHandler = new Subject<MinionDiedEvent>();
 
-    // Hero Events //
+    // Hero Event Subjects //
     public Subject<HeroPreAttackEvent> HeroPreAttackHandler = new Subject<HeroPreAttackEvent>();
-    public Subject<HeroAttackedEvent> HeroAttackedHandler = new Subject<HeroAttackedEvent>();
+    public Subject<HeroAttackEvent> HeroAttackHandler = new Subject<HeroAttackEvent>();
+    public Subject<HeroPreDamagedEvent> HeroPreDamagedHandler = new Subject<HeroPreDamagedEvent>();
     public Subject<HeroDamagedEvent> HeroDamagedHandler = new Subject<HeroDamagedEvent>();
 
-    // Spell Events //
+    // Spell Event Subjects //
     public Subject<SpellPreCastEvent> SpellPreCastHandler = new Subject<SpellPreCastEvent>();
-    public Subject<SpellCastedEvent> SpellCastedHandler = new Subject<SpellCastedEvent>();
+    public Subject<SpellCastEvent> SpellCastHandler = new Subject<SpellCastEvent>();
 
-    // Card Events //
+    // Card Event Subjects //
     public Subject<CardDrawnEvent> CardDrawnHandler = new Subject<CardDrawnEvent>();
     public Subject<CardDiscardedEvent> CardDiscardedHandler = new Subject<CardDiscardedEvent>();
 
@@ -43,6 +45,8 @@ public class EventManager
     {
         // TODO : SETUP
     }
+
+    #region Minion Event Handlers
 
     public void OnMinionPlayed(Player player, MinionCard minion)
     {
@@ -55,7 +59,7 @@ public class EventManager
         MinionPlayedHandler.OnNext(minionPlayedEvent);
     }
 
-    public void OnMinionPreAttack(MinionCard minion, IDamageable target)
+    public bool OnMinionPreAttack(MinionCard minion, ICharacter target)
     {
         MinionPreAttackEvent minionPreAttackEvent = new MinionPreAttackEvent()
         {
@@ -65,24 +69,35 @@ public class EventManager
 
         MinionPreAttackHandler.OnNext(minionPreAttackEvent);
 
-        if (minionPreAttackEvent.IsCancelled == false)
-        {
-            minion.Attack(target);
-        }
+        return minionPreAttackEvent.IsCancelled;
     }
 
-    public void OnMinionAttacked(MinionCard minion, IDamageable target)
+    public void OnMinionAttack(MinionCard minion, ICharacter target, int damageAmount)
     {
-        MinionPreAttackEvent minionPreAttackEvent = new MinionPreAttackEvent()
+        MinionAttackEvent minionAttackEvent = new MinionAttackEvent()
         {
             Minion = minion,
-            Target = target
+            Target = target,
+            Damage = damageAmount
         };
 
-        MinionPreAttackHandler.OnNext(minionPreAttackEvent);
+        MinionAttackHandler.OnNext(minionAttackEvent);
     }
 
-    public void OnMinionDamaged(IDamageable attacker, MinionCard minion, int damage)
+    public bool OnMinionPreDamaged(ICharacter attacker, MinionCard minion)
+    {
+        MinionPreDamagedEvent minionPreDamagedEvent = new MinionPreDamagedEvent()
+        {
+            Attacker = attacker,
+            Minion = minion,
+        };
+
+        MinionPreDamagedHandler.OnNext(minionPreDamagedEvent);
+
+        return minionPreDamagedEvent.IsCancelled;
+    }
+
+    public void OnMinionDamaged(ICharacter attacker, MinionCard minion, int damage)
     {
         MinionDamagedEvent minionDamagedEvent = new MinionDamagedEvent()
         {
@@ -94,8 +109,7 @@ public class EventManager
         MinionDamagedHandler.OnNext(minionDamagedEvent);
     }
 
-    // TODO : Make a new interface IDamager ? spells can kill but they can't be killed...
-    public void OnMinionDied(IDamageable killer, MinionCard minion)
+    public void OnMinionDied(ICharacter killer, MinionCard minion)
     {
         MinionDiedEvent minionDiedEvent = new MinionDiedEvent()
         {
@@ -105,4 +119,60 @@ public class EventManager
 
         MinionDiedHandler.OnNext(minionDiedEvent);
     }
+
+    #endregion
+
+    #region Hero Event Handlers
+
+    public bool OnHeroPreAttack(Hero hero, ICharacter target)
+    {
+        HeroPreAttackEvent heroPreAttackEvent = new HeroPreAttackEvent()
+        {
+            Hero = hero,
+            Target = target
+        };
+
+        HeroPreAttackHandler.OnNext(heroPreAttackEvent);
+
+        return heroPreAttackEvent.IsCancelled;
+    }
+
+    public void OnHeroAttack(Hero hero, ICharacter target, int damageAmount)
+    {
+        HeroAttackEvent heroAttackEvent = new HeroAttackEvent()
+        {
+            Hero = hero,
+            Target = target,
+            Damage = damageAmount
+        };
+
+        HeroAttackHandler.OnNext(heroAttackEvent);
+    }
+
+    public bool OnHeroPreDamaged(ICharacter attacker, Hero hero)
+    {
+        HeroPreDamagedEvent heroPreDamagedEvent = new HeroPreDamagedEvent()
+        {
+            Attacker = attacker,
+            Hero = hero
+        };
+
+        HeroPreDamagedHandler.OnNext(heroPreDamagedEvent);
+
+        return heroPreDamagedEvent.IsCancelled;
+    }
+
+    public void OnHeroDamaged(ICharacter attacker, Hero hero, int damageAmount)
+    {
+        HeroDamagedEvent heroDamagedEvent = new HeroDamagedEvent()
+        {
+            Attacker = attacker,
+            Hero = hero,
+            Damage = damageAmount
+        };
+
+        HeroDamagedHandler.OnNext(heroDamagedEvent);
+    }
+
+    #endregion
 }

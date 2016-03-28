@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 
-public class Hero : MonoBehaviour, IDamageable
+public class Hero : MonoBehaviour, ICharacter
 {
-    // Stats //
-    public int Attack = 0;
-    public int BaseHP = 30;
-    public int CurrentHp;
+    // Base Stats //
+    public int BaseAttack { get; set; }
+    public int BaseHealth { get; set; }
+
+    // In-Game Stats //
+    public int CurrentAttack { get; set; }
+    public int CurrentHealth { get; set; }
     public int Armor = 0;
 
     // Effects //
@@ -16,6 +19,11 @@ public class Hero : MonoBehaviour, IDamageable
     private void Start()
     {
 
+    }
+
+    public void Attack(ICharacter target)
+    {
+        
     }
 
     public void Damage(int damageAmount)

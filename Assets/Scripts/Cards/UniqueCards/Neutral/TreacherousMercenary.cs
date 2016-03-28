@@ -12,7 +12,7 @@
         Cost = 3;
         BaseAttack = 4;
         CurrentAttack = 4;
-        Health = 2;
+        BaseHealth = 2;
 
         Charge = true;
     }

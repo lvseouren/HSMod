@@ -1,7 +1,7 @@
-﻿public class HeroPreAttackEvent
+﻿public class MinionPreDamagedEvent
 {
-    public Hero Hero;
-    public ICharacter Target;
+    public ICharacter Attacker;
+    public MinionCard Minion;
 
     public bool IsCancelled
     {
@@ -16,4 +16,6 @@
     {
         _isCancelled = true;
     }
+
+    // TODO : Attack type? Maybe melee, spell, passive, etc
 }

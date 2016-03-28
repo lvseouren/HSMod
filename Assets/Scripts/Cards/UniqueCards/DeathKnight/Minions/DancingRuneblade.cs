@@ -12,7 +12,7 @@ public class DancingRuneblade : MinionCard
         Cost = 1;
         BaseAttack = 1;
         CurrentAttack = 1;
-        Health = 1;
+        BaseHealth = 1;
     }
 
     public override void OnPlayed()

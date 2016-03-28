@@ -7,7 +7,7 @@
         
     }
 
-    public virtual void Cast(IDamageable target)
+    public virtual void Cast(ICharacter target)
     {
         
     }

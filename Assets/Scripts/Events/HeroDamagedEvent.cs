@@ -1,7 +1,8 @@
 ﻿public class HeroDamagedEvent
 {
-    // TODO : Attacker enemy (hero/minion) as the same type (interface IAttackable ?)
+    public ICharacter Attacker;
     public Hero Hero;
+    public int Damage;
 
     // TODO : Attack type? Maybe melee, spell, passive, etc
 }
