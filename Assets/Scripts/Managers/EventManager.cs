@@ -174,4 +174,36 @@ public class EventManager
     }
 
     #endregion
+
+    #region Spell Event Handlers
+
+    public bool OnSpellPreCast(Hero hero, SpellCard spell, ICharacter target)
+    {
+        // WARNING : May have problems here with the target being null for NoTarget spells
+        SpellPreCastEvent spellPreCastEvent = new SpellPreCastEvent()
+        {
+            Hero = hero,
+            Spell = spell,
+            Target = target
+        };
+
+        SpellPreCastHandler.OnNext(spellPreCastEvent);
+
+        return spellPreCastEvent.IsCancelled;
+    }
+
+    public void OnSpellCast(Hero hero, SpellCard spell, ICharacter target)
+    {
+        // WARNING : May have problems here with the target being null for NoTarget spells
+        SpellCastEvent spellCastEvent = new SpellCastEvent()
+        {
+            Hero = hero,
+            Spell = spell,
+            Target = target
+        };
+
+        SpellCastHandler.OnNext(spellCastEvent);
+    }
+
+    #endregion
 }
