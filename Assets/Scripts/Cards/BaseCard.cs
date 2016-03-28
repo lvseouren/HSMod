@@ -1,5 +1,8 @@
-﻿public abstract class BaseCard
+﻿using UnityEngine;
+
+public abstract class BaseCard : MonoBehaviour
 {
+    // Stats //
     public string Name;
     public string Description;
     public int Cost;
@@ -7,6 +10,10 @@
     public Rarity Rarity;
     public bool Golden = false;
 
+    // In-Game Stats //
+    public Player Player;
+
+    // Effects //
     public bool Combo = false;
 
     // TODO : Image, Voices, Effects?

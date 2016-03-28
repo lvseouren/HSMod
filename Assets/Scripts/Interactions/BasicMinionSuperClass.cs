@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-// WARNING : MinionCard is now the base class for all minion cards. This script should be deleted in the upcoming commits
+/** WARNING : MinionCard is now the base class for all minion cards. This script should be deleted in the upcoming commits
 public class BasicMinionSuperClass : MonoBehaviour
 {
     public int baseHealth;
@@ -54,7 +54,7 @@ public class BasicMinionSuperClass : MonoBehaviour
         Events.minionDeathrattleEvent -= Deathrattle;
     }
 
-    /* old guy stuff
+    // old guy stuff
 	void OnEnable () {
 
 	}
@@ -78,5 +78,5 @@ public class BasicMinionSuperClass : MonoBehaviour
 	public virtual void OnDeathRattle () {
 
 	}
-    */
 }
+*/

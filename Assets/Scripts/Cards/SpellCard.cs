@@ -2,17 +2,12 @@
 {
     public TargetType TargetType;
 
-    public void Cast()
+    public virtual void Cast()
     {
         
     }
 
-    public void Cast(MinionCard targetMinion)
-    {
-        
-    }
-
-    public void Cast(Hero targetHero)
+    public virtual void Cast(IDamageable target)
     {
         
     }

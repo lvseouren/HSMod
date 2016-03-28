@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-// WARNING : SpellCard is now the base class for all spell cards. This script should be deleted in the upcoming commits
+/** WARNING : SpellCard is now the base class for all spell cards. This script should be deleted in the upcoming commits
 public class BasicSpellSuperClass : MonoBehaviour
 {
     public int baseManaCost;
@@ -27,3 +27,4 @@ public class BasicSpellSuperClass : MonoBehaviour
 	
 	}
 }
+*/

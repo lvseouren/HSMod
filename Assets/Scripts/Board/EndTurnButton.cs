@@ -5,6 +5,6 @@ public class EndTurnButton : MonoBehaviour {
 
     void OnMouseDown()
     {
-        GameLoop.Instance.TurnEnd();
+        GameManager.Instance.TurnEnd();
     }
 }

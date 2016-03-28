@@ -17,7 +17,7 @@ public class EventManager : MonoBehaviour
 
     // Spell Events //
     public Subject<SpellPreCastEvent> SpellPreCastHandler = new Subject<SpellPreCastEvent>();
-    public Subject<SpellCastEvent> SpellCastHandler = new Subject<SpellCastEvent>();
+    public Subject<SpellCastedEvent> SpellCastedHandler = new Subject<SpellCastedEvent>();
 
     // Card Events //
     public Subject<CardDrawnEvent> CardDrawnHandler = new Subject<CardDrawnEvent>();

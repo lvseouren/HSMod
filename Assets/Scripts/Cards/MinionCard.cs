@@ -60,7 +60,7 @@
 
     public virtual void AddBuff(object buff)
     {
-        
+        // TODO : Buff list + buff class probably
     }
 
     public virtual void Attack(IDamageable target)
@@ -70,19 +70,26 @@
         //EventManager.OnMinionAttacked(this, target, damage);
     }
 
-    public void Damage(int damageAmount)
+    public virtual void Damage(int damageAmount)
     {
-        
+        this.Health -= damageAmount;
+
+        if (this.Health < 0)
+        {
+            Die();
+        }
     }
 
     public virtual void Die()
     {
-        
+        Destroy();
     }
 
     public virtual void Destroy()
     {
-        
+        // TODO : Play destroy animation (dust and stuff)
+
+        Destroy(this.gameObject);
     }
 
     #endregion
@@ -90,6 +97,7 @@
 
 public enum MinionType
 {
+    // Classic Types //
     General,
     Murloc,
     Beast,
@@ -98,5 +106,7 @@ public enum MinionType
     Pirate,
     Demon,
     Totem,
-    Undead // Custom
+
+    // Custom Types //
+    Undead
 }
