@@ -3,27 +3,27 @@ using System.Collections.Generic;
 
 public class Deck : MonoBehaviour
 {
-    public GameObject _Deck;
-    public GameObject Hand;
+    public GameObject DeckObject;
+    public GameObject HandObject;
 
     private List<GameObject> _currentDeck = new List<GameObject>();
 
     private void Start()
     {
         // Looping on all cards of the Deck
-        for (int i = 0; i < _Deck.transform.childCount; i++)
+        for (int i = 0; i < DeckObject.transform.childCount; i++)
         {
             // Adding the card to the current deck
-            _currentDeck.Add(_Deck.transform.GetChild(i).gameObject);
+            _currentDeck.Add(DeckObject.transform.GetChild(i).gameObject);
         }
 
         // Shuffling all the cards in the deck
         for (int t = 0; t < _currentDeck.Count; t++)
         {
             GameObject tmp = _currentDeck[t];
-            int r = Random.Range(t, _currentDeck.Count);
-            _currentDeck[t] = _currentDeck[r];
-            _currentDeck[r] = tmp;
+            int random = Random.Range(t, _currentDeck.Count);
+            _currentDeck[t] = _currentDeck[random];
+            _currentDeck[random] = tmp;
         }
 
         // Drawing the 3 starting cards
@@ -45,7 +45,7 @@ public class Deck : MonoBehaviour
         // Instantiating a new card
         GameObject drawnCard = Instantiate(_currentDeck[0]);
         drawnCard.transform.localScale = drawnCard.transform.localScale / 2;
-        drawnCard.transform.SetParent(Hand.transform);
+        drawnCard.transform.SetParent(HandObject.transform);
 
         // Removing the instantiated card from the deck
         _currentDeck.RemoveAt(0);
