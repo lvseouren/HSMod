@@ -24,7 +24,7 @@
 
     public virtual void OnPlayed()
     {
-
+        
     }
 
     public virtual void OnAttack()
@@ -70,11 +70,20 @@
     {
         //EventManager.OnMinionPreAttack(this, target);
 
+        // TODO : Forgetful stuff (50% chance to miss)
+
         if (target is Hero)
         {
-            //EventManager.OnHeroPreAttacked
+            //EventManager.OnHeroPreDamaged(this, target);
+            // TODO : Attack stuff
+            //EventManager.OnHeroDamaged(this, target, damageAmount);
         }
-        // TODO : Attack stuff
+        else if (target is MinionCard)
+        {
+            //EventManager.OnMinionPreDamaged(this, target);
+            // TODO : Attack and receive damage too
+            //EventManager.OnMinionDamaged(this, target, damageAmount);
+        }
 
         //EventManager.OnMinionAttack(this, target, damage);
     }
@@ -89,16 +98,32 @@
         }
     }
 
+    public virtual void Spawn()
+    {
+        // TODO : Custom animations, sounds, etc ?
+        // TODO : Position in battlefield
+        CurrentAttack = BaseAttack;
+        CurrentHealth = BaseHealth;
+    }
+
     public virtual void Die()
     {
+        //EventManager.OnMinionDied(this);
+        // TODO : Custom animations, sounds, etc ?
+        // TODO : Add card to list of dead minions
         Destroy();
+    }
+
+    public virtual void Transform(MinionCard other)
+    {
+        // TODO : Play transform animation
+        // TODO : Transform minion without triggering anything
     }
 
     public virtual void Destroy()
     {
         // TODO : Play destroy animation (dust and stuff)
-
-        Destroy(this.gameObject);
+        // TODO : Remove card from battlefield
     }
 
     #endregion

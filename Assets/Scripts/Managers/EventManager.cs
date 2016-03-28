@@ -109,11 +109,10 @@ public class EventManager
         MinionDamagedHandler.OnNext(minionDamagedEvent);
     }
 
-    public void OnMinionDied(ICharacter killer, MinionCard minion)
+    public void OnMinionDied(MinionCard minion)
     {
         MinionDiedEvent minionDiedEvent = new MinionDiedEvent()
         {
-            Killer = killer,
             Minion = minion
         };
 
