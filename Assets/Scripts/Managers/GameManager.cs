@@ -1,40 +1,25 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class GameLoop : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    /* Active state of the game
-     * MULLIGAN happens once at the start of match
-     * START is when a specific player's turn start
-     * END is when a specific player's turn ends
-     * ACTIVE happens between START and END
-     */
-    public enum GameState
-    {
-        Mulligan,
-        Start,
-        End,
-        Active
-    }
-
     public GameState CurrentGameState;
     public Player CurrentPlayer;
 
     private Player _topPlayer;
     private Player _bottomPlayer;
 
-    private static GameLoop _instance;
+    private static GameManager _instance;
 
-    public static GameLoop Instance
+    public static GameManager Instance
     {
         get
         {
             if (!_instance)
             {
-                _instance = FindObjectOfType(typeof(GameLoop)) as GameLoop;
+                _instance = FindObjectOfType(typeof(GameManager)) as GameManager;
                 if (!_instance)
                 {
-                    Debug.LogError("NO GameLoop instance found on scene.");
+                    Debug.LogError("NO GameManager instance found on scene.");
                 }
 
             }
@@ -49,22 +34,23 @@ public class GameLoop : MonoBehaviour
         _bottomPlayer = new Player();
         _topPlayer = new Player();
 
-        _bottomPlayer.Init();
-        _topPlayer.Init();
-
-        // Choose starting player
+        // Randomize the starting player
         if (Random.Range(0, 2) == 1)
+        {
             CurrentPlayer = _topPlayer;
+        }
         else
+        {
             CurrentPlayer = _bottomPlayer;
-
+        }
     }
 
     public void TurnStart()
     {
-        // what happens right after mulligan
+        // Start up after Mulligan
         if (CurrentGameState == GameState.Mulligan)
         {
+            // TODO : Move this section to a separate one, that allows discarding cards and such stuff (Mulligan)
             if (CurrentPlayer.Equals(_bottomPlayer))
             {
                 _bottomPlayer.Deck.Draw(3);
@@ -80,12 +66,15 @@ public class GameLoop : MonoBehaviour
         }
 
         CurrentGameState = GameState.Start;
-        // TODO: fire all the necessary events?
+        // TODO: Fire OnTurnStart event
 
         CurrentPlayer.Deck.Draw(1);
+        // TODO : Fire OnCardDrawn event
 
         if (CurrentPlayer.CurrentMana < 10)
+        {
             CurrentPlayer.CurrentMana++;
+        }
 
         CurrentPlayer.RefillMana();
 
@@ -95,7 +84,7 @@ public class GameLoop : MonoBehaviour
     public void TurnEnd()
     {
         CurrentGameState = GameState.End;
-        // TODO: fire all necessary events?
+        // TODO: Fire OnTurnEnded event
 
         ChangePlayers();
         TurnStart();
@@ -103,9 +92,27 @@ public class GameLoop : MonoBehaviour
 
     public void ChangePlayers()
     {
-        if (CurrentPlayer.Equals(_bottomPlayer))
+        if (CurrentPlayer == _bottomPlayer)
+        {
             CurrentPlayer = _topPlayer;
+        }
         else
+        {
             CurrentPlayer = _bottomPlayer;
+        }
     }
+}
+
+/* Active state of the game
+ * MULLIGAN happens once at the start of match
+ * START is when a specific player's turn start
+ * END is when a specific player's turn ends
+ * ACTIVE happens between START and END
+ */
+public enum GameState
+{
+    Mulligan,
+    Start,
+    End,
+    Active
 }

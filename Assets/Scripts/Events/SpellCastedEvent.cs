@@ -1,4 +1,4 @@
-﻿public class SpellCastEvent
+﻿public class SpellCastedEvent
 {
     public Hero Hero;
     public SpellCard Spell;
