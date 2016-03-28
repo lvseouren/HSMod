@@ -1,8 +1,24 @@
 ﻿using System.Reactive.Subjects;
-using UnityEngine;
 
-public class EventManager : MonoBehaviour
+public class EventManager
 {
+    // Singleton //
+    private static EventManager _instance;
+
+    public static EventManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = new EventManager();
+            }
+            return _instance;
+        }
+    }
+
+    private EventManager() { }
+
     // Minion Events //
     public Subject<MinionPlayedEvent> MinionPlayedHandler = new Subject<MinionPlayedEvent>();
     public Subject<MinionPreAttackEvent> MinionPreAttackHandler = new Subject<MinionPreAttackEvent>();
