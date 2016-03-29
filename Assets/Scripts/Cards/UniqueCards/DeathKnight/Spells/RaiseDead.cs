@@ -15,7 +15,7 @@ public class RaiseDead : SpellCard
     {
         //EventManager.OnSpellPreCast();
 
-        target.Damage(2 + this.Player.SpellDamage);
+        // TODO : Summon 3/3 Ghoul
 
         //EventManager.OnSpellCasted();
     }

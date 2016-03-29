@@ -13,10 +13,11 @@ public class UnholyFrenzy : SpellCard
 
     public override void Cast(ICharacter target)
     {
-        //EventManager.OnSpellPreCast();
+        //EventManager.OnSpellPreCast(this);
 
-        target.Damage(2 + this.Player.SpellDamage);
+        target.Damage(1);
+        // TODO : Add +4 attack
 
-        //EventManager.OnSpellCasted();
+        //EventManager.OnSpellCasted(this);
     }
 }

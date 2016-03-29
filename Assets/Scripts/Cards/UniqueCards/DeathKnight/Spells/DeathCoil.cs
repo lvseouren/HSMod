@@ -11,9 +11,11 @@ public class DeathCoil : SpellCard
         Cost = 1;
     }
 
-    public override void Cast(ICharacter target)
+    public override void Cast(BaseCard target)
     {
         //EventManager.OnSpellPreCast();
+
+        if (target)
 
         target.Damage(2 + this.Player.SpellDamage);
 
