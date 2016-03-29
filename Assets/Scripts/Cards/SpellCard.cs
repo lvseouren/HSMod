@@ -4,7 +4,12 @@
 
     public virtual void Cast()
     {
-        
+
+    }
+
+    public virtual void Cast(BaseCard target)
+    {
+
     }
 
     public virtual void Cast(ICharacter target)

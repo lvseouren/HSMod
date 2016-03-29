@@ -2,7 +2,6 @@
 {
     public Hero Hero;
     public SpellCard Spell;
-    public ICharacter Target;
 
     public bool IsCancelled
     {

@@ -2,5 +2,4 @@
 {
     public Hero Hero;
     public SpellCard Spell;
-    public ICharacter Target;
 }

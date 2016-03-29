@@ -177,14 +177,13 @@ public class EventManager
 
     #region Spell Event Handlers
 
-    public bool OnSpellPreCast(Hero hero, SpellCard spell, ICharacter target)
+    public bool OnSpellPreCast(Hero hero, SpellCard spell)
     {
         // WARNING : May have problems here with the target being null for NoTarget spells
         SpellPreCastEvent spellPreCastEvent = new SpellPreCastEvent()
         {
             Hero = hero,
-            Spell = spell,
-            Target = target
+            Spell = spell
         };
 
         SpellPreCastHandler.OnNext(spellPreCastEvent);
@@ -192,17 +191,42 @@ public class EventManager
         return spellPreCastEvent.IsCancelled;
     }
 
-    public void OnSpellCast(Hero hero, SpellCard spell, ICharacter target)
+    public void OnSpellCast(Hero hero, SpellCard spell)
     {
         // WARNING : May have problems here with the target being null for NoTarget spells
         SpellCastEvent spellCastEvent = new SpellCastEvent()
         {
             Hero = hero,
-            Spell = spell,
-            Target = target
+            Spell = spell
         };
 
         SpellCastHandler.OnNext(spellCastEvent);
+    }
+
+    #endregion 
+
+    #region Card Event Handlers
+
+    public void OnCardDrawn(Hero hero, BaseCard card)
+    {
+        CardDrawnEvent cardDrawnEvent = new CardDrawnEvent()
+        {
+            Hero = hero,
+            Card = card
+        };
+
+        CardDrawnHandler.OnNext(cardDrawnEvent);
+    }
+
+    public void OnCardDiscarded(Hero hero, BaseCard card)
+    {
+        CardDiscardedEvent cardDiscardedEvent = new CardDiscardedEvent()
+        {
+            Hero = hero,
+            Card = card
+        };
+
+        CardDiscardedHandler.OnNext(cardDiscardedEvent);
     }
 
     #endregion
