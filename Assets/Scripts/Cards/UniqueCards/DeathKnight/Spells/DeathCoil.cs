@@ -10,7 +10,7 @@ public class DeathCoil : SpellCard
 
         TargetType = TargetType.TargetAllMinions;
 
-        Cost = 1;
+        BaseCost = 1;
     }
 
     public override void Cast(MinionCard target)

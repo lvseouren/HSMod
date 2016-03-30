@@ -10,7 +10,7 @@ public class CorpseExplosion : SpellCard
 
         TargetType = TargetType.TargetAllMinions;
 
-        Cost = 2;
+        BaseCost = 2;
     }
 
     public override void Cast(MinionCard target)

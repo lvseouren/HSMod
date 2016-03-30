@@ -10,7 +10,7 @@ public class RaiseDead : SpellCard
 
         TargetType = TargetType.NoTarget;
 
-        Cost = 3;
+        BaseCost = 3;
     }
 
     public override void Cast(ICharacter target)

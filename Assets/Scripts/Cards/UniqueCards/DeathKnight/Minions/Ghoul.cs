@@ -9,9 +9,8 @@ public class Ghoul : MinionCard
         Rarity = Rarity.Common;
         MinionType = MinionType.General;
 
-        Cost = 1;
+        BaseCost = 1;
         BaseAttack = 1;
-        CurrentAttack = 1;
         BaseHealth = 1;
 
         Charge = true;

@@ -10,14 +10,14 @@ public class Necrosis : SpellCard
 
         TargetType = TargetType.TargetAll;
 
-        Cost = 4;
+        BaseCost = 4;
     }
 
     public override void Cast(ICharacter target)
     {
         //EventManager.OnSpellPreCast();
 
-        target.Damage(4 + this.Player.SpellDamage);
+        target.Damage(null, 4 + this.Player.SpellDamage);
 
         //EventManager.OnSpellCasted();
     }

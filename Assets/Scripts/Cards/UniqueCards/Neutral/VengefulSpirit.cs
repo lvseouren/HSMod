@@ -9,7 +9,7 @@
         Rarity = Rarity.Common;
         MinionType = MinionType.Undead;
 
-        Cost = 2;
+        BaseCost = 2;
         BaseAttack = 2;
         CurrentAttack = 2;
         BaseHealth = 2;

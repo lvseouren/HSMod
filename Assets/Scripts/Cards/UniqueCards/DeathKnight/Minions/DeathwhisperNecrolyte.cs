@@ -9,9 +9,8 @@ public class DeathwhisperNecrolyte : MinionCard
         Rarity = Rarity.Common;
         MinionType = MinionType.Undead;
 
-        Cost = 2;
+        BaseCost = 2;
         BaseAttack = 1;
-        CurrentAttack = 1;
         BaseHealth = 4;
     }
 

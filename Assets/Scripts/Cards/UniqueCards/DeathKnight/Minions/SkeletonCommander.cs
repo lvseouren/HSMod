@@ -1,4 +1,6 @@
-﻿public class SkeletonCommander : MinionCard
+﻿using System;
+
+public class SkeletonCommander : MinionCard
 {
     public SkeletonCommander()
     {
@@ -9,14 +11,21 @@
         Rarity = Rarity.Common;
         MinionType = MinionType.Undead;
 
-        Cost = 1;
+        BaseCost = 1;
         BaseAttack = 1;
-        CurrentAttack = 1;
         BaseHealth = 1;
     }
 
-    public override void OnDead()
+    public override void OnPlayed()
     {
-        // TODO : The next Undead you play gets +1/+1.
+        EventManager.Instance.MinionPlayedHandler.Subscribe(UndeadBuff);
+    }
+
+    public void UndeadBuff(MinionPlayedEvent minionPlayedEvent)
+    {
+        if (minionPlayedEvent.Player == this.Player && minionPlayedEvent.Minion.MinionType == MinionType.Undead)
+        {
+            // TODO : Add +1/+1 buff.
+        }
     }
 }
