@@ -7,7 +7,7 @@
 
     }
 
-    public virtual void Cast(BaseCard target)
+    public virtual void Cast(MinionCard target)
     {
 
     }

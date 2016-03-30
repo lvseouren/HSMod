@@ -8,6 +8,7 @@
     // In-Game Stats //
     public int CurrentAttack { get; set; }
     public int CurrentHealth { get; set; }
+    public int MaxHealth { get; set; }
 
     // Effects //
     public bool Taunt = false;
@@ -24,7 +25,12 @@
 
     public virtual void OnPlayed()
     {
-        
+
+    }
+
+    public virtual void OnPreAttack()
+    {
+
     }
 
     public virtual void OnAttack()
@@ -32,9 +38,14 @@
 
     }
 
-    public virtual void OnDamaged()
+    public virtual void OnPreDamaged(ICharacter attacker, ref int damageAmount)
     {
+        
+    }
 
+    public virtual void OnDamaged(ICharacter attacker, int damageAmount)
+    {
+        
     }
 
     public virtual void OnDead()
@@ -88,9 +99,16 @@
         //EventManager.OnMinionAttack(this, target, damage);
     }
 
-    public virtual void Damage(int damageAmount)
+    public virtual void Damage(ICharacter character, int damageAmount)
     {
+        // TODO : NEEDS EVENT CLASSES TO MANAGE DAMAGE INFO AROUND THE METHOD
+
+        this.OnPreDamaged(character, ref damageAmount);
+
+        // TODO : Sprite -> Show health loss on card
         this.BaseHealth -= damageAmount;
+
+        this.OnDamaged(character, damageAmount);
 
         if (this.BaseHealth < 0)
         {
@@ -114,16 +132,21 @@
         Destroy();
     }
 
-    public virtual void Transform(MinionCard other)
+    public void Destroy()
+    {
+        // TODO : Play destroy animation (dust and stuff)
+        // TODO : Remove card from battlefield
+    }
+
+    public void Transform(MinionCard other)
     {
         // TODO : Play transform animation
         // TODO : Transform minion without triggering anything
     }
 
-    public virtual void Destroy()
+    public bool IsAlive()
     {
-        // TODO : Play destroy animation (dust and stuff)
-        // TODO : Remove card from battlefield
+        return this.CurrentHealth > 0;
     }
 
     #endregion

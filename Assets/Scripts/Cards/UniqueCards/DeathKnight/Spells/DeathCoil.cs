@@ -8,16 +8,31 @@ public class DeathCoil : SpellCard
         CardClass = CardClass.DeathKnight;
         Rarity = Rarity.Common;
 
+        TargetType = TargetType.TargetAllMinions;
+
         Cost = 1;
     }
 
-    public override void Cast(BaseCard target)
+    public override void Cast(MinionCard target)
     {
         //EventManager.OnSpellPreCast();
 
-        if (target)
+        if (target.MinionType == MinionType.Undead && target.Player == this.Player)
+        {
+            // TODO : Heal animation and sound
+            target.CurrentHealth = target.MaxHealth;
+            
+            target.OnSelectedBySpell();
+        }
+        else
+        {
+            bool isCancelled = EventManager.Instance.OnMinionPreDamaged(this.Player.Hero, target);
 
-        target.Damage(2 + this.Player.SpellDamage);
+            if (isCancelled == false)
+            {
+                target.Damage(null, 2 + this.Player.SpellDamage);
+            }
+        }
 
         //EventManager.OnSpellCasted();
     }

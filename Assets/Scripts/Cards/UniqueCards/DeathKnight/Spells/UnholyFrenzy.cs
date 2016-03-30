@@ -8,6 +8,8 @@ public class UnholyFrenzy : SpellCard
         CardClass = CardClass.DeathKnight;
         Rarity = Rarity.Common;
 
+        TargetType = TargetType.TargetAllMinions;
+
         Cost = 1;
     }
 
@@ -15,7 +17,7 @@ public class UnholyFrenzy : SpellCard
     {
         //EventManager.OnSpellPreCast(this);
 
-        target.Damage(1);
+        target.Damage(null, 1);
         // TODO : Add +4 attack
 
         //EventManager.OnSpellCasted(this);

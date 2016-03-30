@@ -8,6 +8,8 @@
         CardClass = CardClass.DeathKnight;
         Rarity = Rarity.Common;
 
+        TargetType = TargetType.TargetAll;
+
         Cost = 2;
     }
 
@@ -15,7 +17,7 @@
     {
         //EventManager.OnSpellPreCast();
 
-        target.Damage(2 + this.Player.SpellDamage);
+        target.Damage(null, 2 + this.Player.SpellDamage);
         // TODO : Summon a 1/1 Ghoul with Charge.
 
         //EventManager.OnSpellCasted();

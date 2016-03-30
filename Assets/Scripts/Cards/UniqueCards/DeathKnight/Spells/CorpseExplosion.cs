@@ -8,10 +8,12 @@ public class CorpseExplosion : SpellCard
         CardClass = CardClass.DeathKnight;
         Rarity = Rarity.Common;
 
+        TargetType = TargetType.TargetAllMinions;
+
         Cost = 2;
     }
 
-    public override void Cast(BaseCard target)
+    public override void Cast(MinionCard target)
     {
         //EventManager.OnSpellPreCast();
 

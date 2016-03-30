@@ -8,6 +8,8 @@ public class RaiseDead : SpellCard
         CardClass = CardClass.DeathKnight;
         Rarity = Rarity.Common;
 
+        TargetType = TargetType.NoTarget;
+
         Cost = 3;
     }
 

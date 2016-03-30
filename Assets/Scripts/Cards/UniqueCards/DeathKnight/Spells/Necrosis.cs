@@ -8,6 +8,8 @@ public class Necrosis : SpellCard
         CardClass = CardClass.DeathKnight;
         Rarity = Rarity.Rare;
 
+        TargetType = TargetType.TargetAll;
+
         Cost = 4;
     }
 

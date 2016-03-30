@@ -9,6 +9,7 @@ public class Hero : MonoBehaviour, ICharacter
     // In-Game Stats //
     public int CurrentAttack { get; set; }
     public int CurrentHealth { get; set; }
+    public int MaxHealth { get; set; }
     public int Armor = 0;
 
     // Effects //
