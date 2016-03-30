@@ -27,7 +27,7 @@ public class Hero : MonoBehaviour, ICharacter
         
     }
 
-    public void Damage(int damageAmount)
+    public void Damage(ICharacter attacker, int damageAmount)
     {
 
     }
