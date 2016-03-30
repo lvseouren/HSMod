@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class EndTurnButton : MonoBehaviour {
+public class EndTurnButton : MonoBehaviour
+{
+    private bool _isEnabled;
 
-    void OnMouseDown()
+    private void OnMouseDown()
     {
-        GameManager.Instance.TurnEnd();
+        if (_isEnabled)
+        {
+            GameManager.Instance.TurnEnd();
+        }
     }
 }
