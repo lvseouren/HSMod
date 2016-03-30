@@ -5,13 +5,14 @@ public abstract class BaseCard : MonoBehaviour
     // Base Stats //
     public string Name;
     public string Description;
-    public int Cost;
+    public int BaseCost;
     public CardClass CardClass;
     public Rarity Rarity;
     public bool Golden = false;
 
     // In-Game Stats //
     public Player Player;
+    public int CurrentCost;
 
     // Effects //
     public bool Combo = false;

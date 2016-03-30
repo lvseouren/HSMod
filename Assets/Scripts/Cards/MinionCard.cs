@@ -1,4 +1,6 @@
-﻿public class MinionCard : BaseCard, ICharacter
+﻿using UnityEngine;
+
+public class MinionCard : BaseCard, ICharacter
 {
     // Base Stats //
     public int BaseAttack { get; set; }
@@ -72,34 +74,45 @@
 
     #region Methods
 
-    public virtual void AddBuff(object buff)
+    public void AddBuff(object buff)
     {
         // TODO : Buff list + buff class probably
     }
 
-    public virtual void Attack(ICharacter target)
+    public void Attack(ICharacter target)
     {
         //EventManager.OnMinionPreAttack(this, target);
 
-        // TODO : Forgetful stuff (50% chance to miss)
+        // TODO : Check for enemy count > 0
+        if (this.Forgetful){
+
+            if (Random.Range(0, 1) == 1)
+            {
+                // target = Random target
+            }
+        }
 
         if (target is Hero)
         {
             //EventManager.OnHeroPreDamaged(this, target);
+
             // TODO : Attack stuff
+
             //EventManager.OnHeroDamaged(this, target, damageAmount);
         }
         else if (target is MinionCard)
         {
             //EventManager.OnMinionPreDamaged(this, target);
+
             // TODO : Attack and receive damage too
+
             //EventManager.OnMinionDamaged(this, target, damageAmount);
         }
 
         //EventManager.OnMinionAttack(this, target, damage);
     }
 
-    public virtual void Damage(ICharacter character, int damageAmount)
+    public void Damage(ICharacter character, int damageAmount)
     {
         // TODO : NEEDS EVENT CLASSES TO MANAGE DAMAGE INFO AROUND THE METHOD
 
@@ -116,7 +129,7 @@
         }
     }
 
-    public virtual void Spawn()
+    public void Spawn()
     {
         // TODO : Custom animations, sounds, etc ?
         // TODO : Position in battlefield
@@ -124,7 +137,7 @@
         CurrentHealth = BaseHealth;
     }
 
-    public virtual void Die()
+    public void Die()
     {
         //EventManager.OnMinionDied(this);
         // TODO : Custom animations, sounds, etc ?

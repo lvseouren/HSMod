@@ -1,9 +1,14 @@
 ﻿public class WeaponCard : BaseCard
 {
+    // Base Stats //
     public int BaseAttack;
-    public int CurrentAttack;
-    public int Durability;
+    public int BaseDurability;
 
+    // In-Game Stats //
+    public int CurrentAttack;
+    public int CurrentDurability;
+
+    // Effects //
     public bool Windfury;
     public bool Forgetful;
 
