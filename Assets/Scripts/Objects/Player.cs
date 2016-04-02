@@ -4,14 +4,15 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public Hero Hero = new Hero();
-    //public List<Secret> Secrets;
-    public List<BaseCard> Hand = new List<BaseCard>();
-    public Deck Deck;
+    public Hand Hand = new Hand();
+    public Deck Deck = new Deck();
 
-    public int MaxCardsInHand; //maybe later add effects that increase it?
+    public GameObject DeckGameObject;
+
+    public List<SpellCard> Secrets;
 
     public int CurrentMana = 0;
-    public int MaxMana = 10;
+    public int MaximumMana = 10;
     public int AvailableMana = 0;
     public int OverloadedMana = 0;
 
@@ -20,11 +21,6 @@ public class Player : MonoBehaviour
     public void Start()
     {
         
-    }
-
-    public int GetHandSize()
-    {
-        return Hand.Count;
     }
 
     public void RefillMana()

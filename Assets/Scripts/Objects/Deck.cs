@@ -1,12 +1,19 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-public class Deck : MonoBehaviour
+public class Deck
 {
+    public Player Player;
+
     public GameObject DeckObject;
     public GameObject HandObject;
 
+    // This needs to be redesigned
     private List<GameObject> _currentDeck = new List<GameObject>();
+
+    public List<BaseCard> Cards = new List<BaseCard>();
+
+    public int Fatigue = 0;
 
     private void Start()
     {
@@ -42,12 +49,21 @@ public class Deck : MonoBehaviour
 
     public void Draw()
     {
-        // Instantiating a new card
-        GameObject drawnCard = Instantiate(_currentDeck[0]);
-        drawnCard.transform.localScale = drawnCard.transform.localScale / 2;
-        drawnCard.transform.SetParent(HandObject.transform);
+        if (Cards.Count > 0)
+        {
+            // Instantiating a new card
+            GameObject drawnCard = GameObject.Instantiate(_currentDeck[0]);
+            drawnCard.transform.localScale = drawnCard.transform.localScale/2;
+            drawnCard.transform.SetParent(HandObject.transform);
 
-        // Removing the instantiated card from the deck
-        _currentDeck.RemoveAt(0);
+            // Removing the instantiated card from the deck
+            _currentDeck.RemoveAt(0);
+        }
+        else
+        {
+            Fatigue++;
+
+            // TODO : Deal fatigue damage
+        }
     }
 }
