@@ -32,6 +32,7 @@ public class EventManager
     public Subject<HeroAttackEvent> HeroAttackHandler = new Subject<HeroAttackEvent>();
     public Subject<HeroPreDamagedEvent> HeroPreDamagedHandler = new Subject<HeroPreDamagedEvent>();
     public Subject<HeroDamagedEvent> HeroDamagedHandler = new Subject<HeroDamagedEvent>();
+    public Subject<HeroGainArmorEvent> HeroGainArmorHandler = new Subject<HeroGainArmorEvent>();
 
     // Spell Event Subjects //
     public Subject<SpellPreCastEvent> SpellPreCastHandler = new Subject<SpellPreCastEvent>();
@@ -40,6 +41,13 @@ public class EventManager
     // Card Event Subjects //
     public Subject<CardDrawnEvent> CardDrawnHandler = new Subject<CardDrawnEvent>();
     public Subject<CardDiscardedEvent> CardDiscardedHandler = new Subject<CardDiscardedEvent>();
+
+    // Weapon Event Subjects //
+    public Subject<WeaponEquipEvent> WeaponEquipHandler = new Subject<WeaponEquipEvent>();
+
+    // Secret Event Subjects //
+    public Subject<SecretPlayedEvent> SecretPlayedHandler = new Subject<SecretPlayedEvent>();
+    public Subject<SecretRevealedEvent> SecretRevealedHandler = new Subject<SecretRevealedEvent>(); 
 
     public void Start()
     {
@@ -173,6 +181,17 @@ public class EventManager
         HeroDamagedHandler.OnNext(heroDamagedEvent);
     }
 
+    public void OnHeroGainArmor(Hero hero, int armorAmount)
+    {
+        HeroGainArmorEvent heroGainArmorEvent = new HeroGainArmorEvent()
+        {
+            Hero = hero,
+            Armor = armorAmount
+        };
+
+        HeroGainArmorHandler.OnNext(heroGainArmorEvent);
+    }
+
     #endregion
 
     #region Spell Event Handlers
@@ -227,6 +246,47 @@ public class EventManager
         };
 
         CardDiscardedHandler.OnNext(cardDiscardedEvent);
+    }
+
+    #endregion
+
+    #region Weapon Event Handlers
+
+    public void OnWeaponEquip(Player player, WeaponCard weapon)
+    {
+        WeaponEquipEvent weaponEquipEvent = new WeaponEquipEvent()
+        {
+            Player = player,
+            Weapon = weapon
+        };
+
+        WeaponEquipHandler.OnNext(weaponEquipEvent);
+    }
+
+    #endregion
+
+    #region Secret Event Handlers
+
+    public void OnSecretPlayed(Player player, SpellCard secret)
+    {
+        SecretPlayedEvent secretPlayedEvent = new SecretPlayedEvent()
+        {
+            Player = player,
+            Secret = secret
+        };
+
+        SecretPlayedHandler.OnNext(secretPlayedEvent);
+    }
+
+    public void OnSecretRevealed(Player player, SpellCard secret)
+    {
+        SecretRevealedEvent secretRevealedEvent = new SecretRevealedEvent()
+        {
+            Player = player,
+            Secret = secret
+        };
+
+        SecretRevealedHandler.OnNext(secretRevealedEvent);
     }
 
     #endregion
