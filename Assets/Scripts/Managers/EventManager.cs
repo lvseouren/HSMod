@@ -207,22 +207,22 @@ public class EventManager
 
     #region Card Event Handlers
 
-    public void OnCardDrawn(Hero hero, BaseCard card)
+    public void OnCardDrawn(Player player, BaseCard card)
     {
         CardDrawnEvent cardDrawnEvent = new CardDrawnEvent()
         {
-            Hero = hero,
+            Player = player,
             Card = card
         };
 
         CardDrawnHandler.OnNext(cardDrawnEvent);
     }
 
-    public void OnCardDiscarded(Hero hero, BaseCard card)
+    public void OnCardDiscarded(Player player, BaseCard card)
     {
         CardDiscardedEvent cardDiscardedEvent = new CardDiscardedEvent()
         {
-            Hero = hero,
+            Player = player,
             Card = card
         };
 

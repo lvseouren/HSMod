@@ -1,5 +1,5 @@
 ﻿public class CardDrawnEvent
 {
-    public Hero Hero;
+    public Player Player;
     public BaseCard Card;
 }
