@@ -29,8 +29,6 @@ public class GameManager : MonoBehaviour
 
     public void Start()
     {
-        CurrentGameState = GameState.Mulligan;
-
         _bottomPlayer = new Player();
         _topPlayer = new Player();
 
@@ -43,54 +41,65 @@ public class GameManager : MonoBehaviour
         {
             CurrentPlayer = _bottomPlayer;
         }
+
+        Mulligan();
+    }
+
+    public void Mulligan()
+    {
+        CurrentGameState = GameState.Mulligan;
+
+        if (CurrentPlayer.Equals(_bottomPlayer))
+        {
+            _bottomPlayer.Deck.Draw(3);
+            _topPlayer.Deck.Draw(4);
+            // TODO: give _topPlayer coin
+        }
+        else
+        {
+            _topPlayer.Deck.Draw(3);
+            _bottomPlayer.Deck.Draw(4);
+            // TODO: give _bottomPlayer coin
+        }
     }
 
     public void TurnStart()
     {
-        // Start up after Mulligan
-        if (CurrentGameState == GameState.Mulligan)
-        {
-            // TODO : Move this section to a separate one, that allows discarding cards and such stuff (Mulligan)
-            if (CurrentPlayer.Equals(_bottomPlayer))
-            {
-                _bottomPlayer.Deck.Draw(3);
-                _topPlayer.Deck.Draw(4);
-                // TODO: give _topPlayer coin
-            }
-            else
-            {
-                _topPlayer.Deck.Draw(3);
-                _bottomPlayer.Deck.Draw(4);
-                // TODO: give _bottomPlayer coin
-            }
-        }
-
+        // Switching to Start Turn state
         CurrentGameState = GameState.Start;
-        // TODO: Fire OnTurnStart event
+        //EventManager.Instance.OnTurnStart(Player player);
 
+        // Drawing 1 card
         CurrentPlayer.Deck.Draw(1);
-        // TODO : Fire OnCardDrawn event
 
-        if (CurrentPlayer.CurrentMana < 10)
+        // Suming 1 to the turn mana if it's lower than 10
+        if (CurrentPlayer.TurnMana < 10)
         {
-            CurrentPlayer.CurrentMana++;
+            CurrentPlayer.TurnMana++;
         }
 
+        // Refilling mana crystalls
         CurrentPlayer.RefillMana();
 
+        // Switching to Active Turn state
         CurrentGameState = GameState.Active;
+
+        // TODO : Give the CurrentPlayer the control of the turn
     }
 
     public void TurnEnd()
     {
+        // Switching to End Turn state
         CurrentGameState = GameState.End;
-        // TODO: Fire OnTurnEnded event
+        //EventManager.Instance.OnTurnEnd(Player player);
 
-        ChangePlayers();
+        SwitchCurrentPlayer();
+
+        // Starting the next turn
         TurnStart();
     }
 
-    public void ChangePlayers()
+    public void SwitchCurrentPlayer()
     {
         if (CurrentPlayer == _bottomPlayer)
         {
@@ -103,11 +112,14 @@ public class GameManager : MonoBehaviour
     }
 }
 
+
+// WARNING : Probably won't need gamestates anyways, but we'll keep them for now
+
 /* Active state of the game
  * MULLIGAN happens once at the start of match
  * START is when a specific player's turn start
- * END is when a specific player's turn ends
  * ACTIVE happens between START and END
+ * END is when a specific player's turn ends
  */
 public enum GameState
 {
