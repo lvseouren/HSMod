@@ -37,17 +37,26 @@ public class Deck
         Draw(3);
     }
 
-    public void Draw(int draws)
+    public List<BaseCard> Draw(int draws)
     {
+        List<BaseCard> drawnCards = new List<BaseCard>();
+
         // Looping x number of times
         for (int i = 0; i < draws; i++)
         {
             // Drawing a card
-            Draw();
+            BaseCard drawnCard = Draw();
+
+            if (drawnCard != null)
+            {
+                drawnCards.Add(drawnCard);
+            }
         }
+
+        return drawnCards;
     }
 
-    public void Draw()
+    public BaseCard Draw()
     {
         if (Cards.Count > 0)
         {
@@ -58,12 +67,24 @@ public class Deck
 
             // Removing the instantiated card from the deck
             _currentDeck.RemoveAt(0);
+
+            // Getting the BaseCard component from the instantiated card
+            BaseCard drawnBaseCard = drawnCard.GetComponent<BaseCard>();
+
+            // Triggering OnDrawn events (card and global)
+            drawnBaseCard.OnDrawn();
+            EventManager.Instance.OnCardDrawn(this.Player, drawnBaseCard);
+
+            return drawnBaseCard;
         }
         else
         {
             Fatigue++;
 
-            // TODO : Deal fatigue damage
+            // Deal fatigue damage
+            this.Player.Hero.Damage(null, Fatigue);
+
+            return null;
         }
     }
 }

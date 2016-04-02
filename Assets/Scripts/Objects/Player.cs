@@ -11,10 +11,10 @@ public class Player : MonoBehaviour
 
     public List<SpellCard> Secrets;
 
-    public int CurrentMana = 0;
     public int MaximumMana = 10;
-    public int AvailableMana = 0;
+    public int TurnMana = 0;
     public int OverloadedMana = 0;
+    public int AvailableMana = 0;
 
     public int SpellDamage = 0;
 
@@ -25,6 +25,6 @@ public class Player : MonoBehaviour
 
     public void RefillMana()
     {
-        AvailableMana = CurrentMana - OverloadedMana;
+        AvailableMana = TurnMana - OverloadedMana;
     }
 }
