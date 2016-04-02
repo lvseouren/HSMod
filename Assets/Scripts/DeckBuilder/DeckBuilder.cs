@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DeckBuilder : MonoBehaviour {
-
+public class DeckBuilder : MonoBehaviour
+{
     public GameObject[] Collection;
     public GameObject[] DisplayedCards = new GameObject[8];
     public GameObject[] Deck = new GameObject[30];
@@ -14,22 +14,22 @@ public class DeckBuilder : MonoBehaviour {
     private const int _firstCardXCoordinate = -7;
     private const int _firstCardYCoordinate = 4;
 
-    void Start()
+    private void Start()
     {
         // assuming we already got collection from somewhere
         TESTING_ONLY_FILL_ARRAY();
-       
+
         if (Collection != null)
         {
             Display();
-
         }
 
     }
 
-    void TESTING_ONLY_FILL_ARRAY()
+    private void TESTING_ONLY_FILL_ARRAY()
     {
-        if (Collection == null){
+        if (Collection == null)
+        {
             Debug.LogError("TESTING ONLY ERROR");
             return;
         }
@@ -45,27 +45,27 @@ public class DeckBuilder : MonoBehaviour {
 
     }
 
-    void Display()
+    private void Display()
     {
         for (int i = 0; i < 8; i++)
         {
-            int _newX = _firstCardXCoordinate + (i * 5)%20;
+            int _newX = _firstCardXCoordinate + (i * 5) % 20;
             int _newY = _firstCardYCoordinate - ((int)i / 4) * 8;
-            Instantiate(DisplayedCards[i], new Vector3(_newX,_newY, 0f), Quaternion.identity);
+            Instantiate(DisplayedCards[i], new Vector3(_newX, _newY, 0f), Quaternion.identity);
         }
     }
 
-    void DisplayNext()
-    {
-        
-    }
-
-    void DisplayPrev()
+    private void DisplayNext()
     {
 
     }
 
-    void ClearDisplayedCards()
+    private void DisplayPrev()
+    {
+
+    }
+
+    private void ClearDisplayedCards()
     {
         if (DisplayedCards == null)
             return;
@@ -79,15 +79,4 @@ public class DeckBuilder : MonoBehaviour {
             }
         }
     }
-
-    // one day we will implement this
-    // to get our collection from somewhere
-    /*
-    GameObject[] GetCollection()
-    {
-
-    }
-    */
-
-
 }
