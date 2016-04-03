@@ -21,29 +21,36 @@ public class EventManager
 
     // Minion Event Subjects //
     public Subject<MinionPlayedEvent> MinionPlayedHandler = new Subject<MinionPlayedEvent>();
+
     public Subject<MinionPreAttackEvent> MinionPreAttackHandler = new Subject<MinionPreAttackEvent>();
-    public Subject<MinionAttackEvent> MinionAttackHandler = new Subject<MinionAttackEvent>();
-    public Subject<MinionPreDamagedEvent> MinionPreDamagedHandler = new Subject<MinionPreDamagedEvent>();
+    public Subject<MinionAttackedEvent> MinionAttackedHandler = new Subject<MinionAttackedEvent>();
+
+    public Subject<MinionPreDamageEvent> MinionPreDamageHandler = new Subject<MinionPreDamageEvent>();
     public Subject<MinionDamagedEvent> MinionDamagedHandler = new Subject<MinionDamagedEvent>();
+
     public Subject<MinionDiedEvent> MinionDiedHandler = new Subject<MinionDiedEvent>();
 
     // Hero Event Subjects //
     public Subject<HeroPreAttackEvent> HeroPreAttackHandler = new Subject<HeroPreAttackEvent>();
-    public Subject<HeroAttackEvent> HeroAttackHandler = new Subject<HeroAttackEvent>();
-    public Subject<HeroPreDamagedEvent> HeroPreDamagedHandler = new Subject<HeroPreDamagedEvent>();
+    public Subject<HeroAttackedEvent> HeroAttackedHandler = new Subject<HeroAttackedEvent>();
+
+    public Subject<HeroPreDamageEvent> HeroPreDamageHandler = new Subject<HeroPreDamageEvent>();
     public Subject<HeroDamagedEvent> HeroDamagedHandler = new Subject<HeroDamagedEvent>();
+
     public Subject<HeroGainArmorEvent> HeroGainArmorHandler = new Subject<HeroGainArmorEvent>();
 
     // Spell Event Subjects //
     public Subject<SpellPreCastEvent> SpellPreCastHandler = new Subject<SpellPreCastEvent>();
-    public Subject<SpellCastEvent> SpellCastHandler = new Subject<SpellCastEvent>();
+    public Subject<SpellCastedEvent> SpellCastedHandler = new Subject<SpellCastedEvent>();
 
     // Card Event Subjects //
+    public Subject<CardPlayedEvent> CardPlayedHandler = new Subject<CardPlayedEvent>();
     public Subject<CardDrawnEvent> CardDrawnHandler = new Subject<CardDrawnEvent>();
+
     public Subject<CardDiscardedEvent> CardDiscardedHandler = new Subject<CardDiscardedEvent>();
 
     // Weapon Event Subjects //
-    public Subject<WeaponEquipEvent> WeaponEquipHandler = new Subject<WeaponEquipEvent>();
+    public Subject<WeaponEquippedEvent> WeaponEquippedHandler = new Subject<WeaponEquippedEvent>();
 
     // Secret Event Subjects //
     public Subject<SecretPlayedEvent> SecretPlayedHandler = new Subject<SecretPlayedEvent>();
@@ -80,29 +87,29 @@ public class EventManager
         return minionPreAttackEvent.IsCancelled;
     }
 
-    public void OnMinionAttack(MinionCard minion, ICharacter target, int damageAmount)
+    public void OnMinionAttacked(MinionCard minion, ICharacter target, int damageAmount)
     {
-        MinionAttackEvent minionAttackEvent = new MinionAttackEvent()
+        MinionAttackedEvent minionAttackedEvent = new MinionAttackedEvent()
         {
             Minion = minion,
             Target = target,
             Damage = damageAmount
         };
 
-        MinionAttackHandler.OnNext(minionAttackEvent);
+        MinionAttackedHandler.OnNext(minionAttackedEvent);
     }
 
-    public bool OnMinionPreDamaged(ICharacter attacker, MinionCard minion)
+    public bool OnMinionPreDamage(ICharacter attacker, MinionCard minion)
     {
-        MinionPreDamagedEvent minionPreDamagedEvent = new MinionPreDamagedEvent()
+        MinionPreDamageEvent minionPreDamageEvent = new MinionPreDamageEvent()
         {
             Attacker = attacker,
             Minion = minion,
         };
 
-        MinionPreDamagedHandler.OnNext(minionPreDamagedEvent);
+        MinionPreDamageHandler.OnNext(minionPreDamageEvent);
 
-        return minionPreDamagedEvent.IsCancelled;
+        return minionPreDamageEvent.IsCancelled;
     }
 
     public void OnMinionDamaged(ICharacter attacker, MinionCard minion, int damage)
@@ -144,29 +151,29 @@ public class EventManager
         return heroPreAttackEvent.IsCancelled;
     }
 
-    public void OnHeroAttack(Hero hero, ICharacter target, int damageAmount)
+    public void OnHeroAttacked(Hero hero, ICharacter target, int damageAmount)
     {
-        HeroAttackEvent heroAttackEvent = new HeroAttackEvent()
+        HeroAttackedEvent heroAttackedEvent = new HeroAttackedEvent()
         {
             Hero = hero,
             Target = target,
             Damage = damageAmount
         };
 
-        HeroAttackHandler.OnNext(heroAttackEvent);
+        HeroAttackedHandler.OnNext(heroAttackedEvent);
     }
 
-    public bool OnHeroPreDamaged(ICharacter attacker, Hero hero)
+    public bool OnHeroPreDamage(ICharacter attacker, Hero hero)
     {
-        HeroPreDamagedEvent heroPreDamagedEvent = new HeroPreDamagedEvent()
+        HeroPreDamageEvent heroPreDamageEvent = new HeroPreDamageEvent()
         {
             Attacker = attacker,
             Hero = hero
         };
 
-        HeroPreDamagedHandler.OnNext(heroPreDamagedEvent);
+        HeroPreDamageHandler.OnNext(heroPreDamageEvent);
 
-        return heroPreDamagedEvent.IsCancelled;
+        return heroPreDamageEvent.IsCancelled;
     }
 
     public void OnHeroDamaged(ICharacter attacker, Hero hero, int damageAmount)
@@ -210,21 +217,32 @@ public class EventManager
         return spellPreCastEvent.IsCancelled;
     }
 
-    public void OnSpellCast(Hero hero, SpellCard spell)
+    public void OnSpellCasted(Hero hero, SpellCard spell)
     {
         // WARNING : May have problems here with the target being null for NoTarget spells
-        SpellCastEvent spellCastEvent = new SpellCastEvent()
+        SpellCastedEvent spellCastedEvent = new SpellCastedEvent()
         {
             Hero = hero,
             Spell = spell
         };
 
-        SpellCastHandler.OnNext(spellCastEvent);
+        SpellCastedHandler.OnNext(spellCastedEvent);
     }
 
     #endregion 
 
     #region Card Event Handlers
+
+    public void OnCardPlayed(Player player, BaseCard card)
+    {
+        CardPlayedEvent cardPlayedEvent = new CardPlayedEvent()
+        {
+            Player = player,
+            Card = card
+        };
+
+        CardPlayedHandler.OnNext(cardPlayedEvent);
+    }
 
     public void OnCardDrawn(Player player, BaseCard card)
     {
@@ -252,15 +270,15 @@ public class EventManager
 
     #region Weapon Event Handlers
 
-    public void OnWeaponEquip(Player player, WeaponCard weapon)
+    public void OnWeaponEquipped(Player player, WeaponCard weapon)
     {
-        WeaponEquipEvent weaponEquipEvent = new WeaponEquipEvent()
+        WeaponEquippedEvent weaponEquippedEvent = new WeaponEquippedEvent()
         {
             Player = player,
             Weapon = weapon
         };
 
-        WeaponEquipHandler.OnNext(weaponEquipEvent);
+        WeaponEquippedHandler.OnNext(weaponEquippedEvent);
     }
 
     #endregion

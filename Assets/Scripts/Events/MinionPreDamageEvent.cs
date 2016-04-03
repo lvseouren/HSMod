@@ -1,4 +1,4 @@
-﻿public class MinionPreDamagedEvent
+﻿public class MinionPreDamageEvent
 {
     public ICharacter Attacker;
     public MinionCard Minion;

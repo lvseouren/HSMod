@@ -94,7 +94,7 @@ public class MinionCard : BaseCard, ICharacter
 
         if (target is Hero)
         {
-            //EventManager.OnHeroPreDamaged(this, target);
+            //EventManager.OnHeroPreDamage(this, target);
 
             // TODO : Attack stuff
 
@@ -102,14 +102,14 @@ public class MinionCard : BaseCard, ICharacter
         }
         else if (target is MinionCard)
         {
-            //EventManager.OnMinionPreDamaged(this, target);
+            //EventManager.OnMinionPreDamage(this, target);
 
             // TODO : Attack and receive damage too
 
             //EventManager.OnMinionDamaged(this, target, damageAmount);
         }
 
-        //EventManager.OnMinionAttack(this, target, damage);
+        //EventManager.OnMinionAttacked(this, target, damage);
     }
 
     public void Damage(ICharacter character, int damageAmount)

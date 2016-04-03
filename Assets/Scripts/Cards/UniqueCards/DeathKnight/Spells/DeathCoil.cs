@@ -26,7 +26,7 @@ public class DeathCoil : SpellCard
         }
         else
         {
-            bool isCancelled = EventManager.Instance.OnMinionPreDamaged(this.Player.Hero, target);
+            bool isCancelled = EventManager.Instance.OnMinionPreDamage(this.Player.Hero, target);
 
             if (isCancelled == false)
             {

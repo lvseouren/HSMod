@@ -1,4 +1,4 @@
-﻿public class HeroAttackEvent
+﻿public class HeroAttackedEvent
 {
     public Hero Hero;
     public ICharacter Target;
