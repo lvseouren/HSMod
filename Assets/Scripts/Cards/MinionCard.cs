@@ -91,28 +91,69 @@ public class MinionCard : BaseCard, ICharacter
         {
             if (Random.Range(0, 1) == 1)
             {
-                // target = Random target
+                // target = select a random target
             }
         }
 
-        if (target is Hero)
+        // Firing OnPreAttack events
+        this.OnPreAttack();
+        MinionPreAttackEvent minionPreAttackEvent = EventManager.Instance.OnMinionPreAttack(this, target);
+
+        // Checking if the Attack was cancelled
+        if (minionPreAttackEvent.IsCancelled == false)
         {
-            //EventManager.OnHeroPreDamage(this, target);
+            // Checking the target type
+            if (target is Hero)
+            {
+                // Casting ICharacter to Hero
+                Hero heroTarget = (Hero) target;
 
-            // TODO : Attack stuff
+                // Firing OnHeroPreDamage event
+                HeroPreDamageEvent heroPreDamageEvent = EventManager.Instance.OnHeroPreDamage(this, heroTarget);
 
-            //EventManager.OnHeroDamaged(this, target, damageAmount);
+                // Checking if the Attack was cancelled
+                if (heroPreDamageEvent.IsCancelled == false)
+                {
+                    // Getting the atttack values
+                    int attackerAttack = this.CurrentAttack;
+
+                    target.Damage(this, this.CurrentAttack);
+
+                    EventManager.Instance.OnHeroDamaged(this, heroTarget, attackerAttack);
+                }
+            }
+            else if (target is MinionCard)
+            {
+                // Casting ICharacter to MinionCard
+                MinionCard minionTarget = (MinionCard) target;
+
+                // Firing OnMinionPreDamage event
+                MinionPreDamageEvent minionPreDamageEvent = EventManager.Instance.OnMinionPreDamage(this, minionTarget);
+
+                // Checking if the Attack was cancelled
+                if (minionPreDamageEvent.IsCancelled == false)
+                {
+                    // Getting the atttack values
+                    int attackerAttack = this.CurrentAttack;
+                    int targetAttack = target.CurrentAttack;
+
+                    // Damaging both minions
+                    target.Damage(this, attackerAttack);
+                    this.Damage(target, targetAttack);
+
+                    // Triggering specific and global events for both minions
+                    minionTarget.OnDamaged(this, attackerAttack);
+                    EventManager.Instance.OnMinionDamaged(this, minionTarget);
+
+                    this.OnDamaged(target, targetAttack);
+                    EventManager.Instance.OnMinionDamaged(minionTarget, this);
+                }
+            }
+
+            // Firing OnAttacked events
+            this.OnAttacked();
+            EventManager.Instance.OnMinionAttacked(this, target);
         }
-        else if (target is MinionCard)
-        {
-            //EventManager.OnMinionPreDamage(this, target);
-
-            // TODO : Attack and receive damage too
-
-            //EventManager.OnMinionDamaged(this, target, damageAmount);
-        }
-
-        //EventManager.OnMinionAttacked(this, target, damage);
     }
 
     public void Damage(ICharacter character, int damageAmount)
@@ -146,6 +187,16 @@ public class MinionCard : BaseCard, ICharacter
         // TODO : Custom animations, sounds, etc ?
         // TODO : Add card to list of dead minions
         Destroy();
+    }
+
+    public void ReturnToHand()
+    {
+        
+    }
+
+    public void ReturnToDeck()
+    {
+        
     }
 
     public void Destroy()

@@ -74,7 +74,7 @@ public class EventManager
         MinionPlayedHandler.OnNext(minionPlayedEvent);
     }
 
-    public bool OnMinionPreAttack(MinionCard minion, ICharacter target)
+    public MinionPreAttackEvent OnMinionPreAttack(MinionCard minion, ICharacter target)
     {
         MinionPreAttackEvent minionPreAttackEvent = new MinionPreAttackEvent()
         {
@@ -84,22 +84,21 @@ public class EventManager
 
         MinionPreAttackHandler.OnNext(minionPreAttackEvent);
 
-        return minionPreAttackEvent.IsCancelled;
+        return minionPreAttackEvent;
     }
 
-    public void OnMinionAttacked(MinionCard minion, ICharacter target, int damageAmount)
+    public void OnMinionAttacked(MinionCard minion, ICharacter target)
     {
         MinionAttackedEvent minionAttackedEvent = new MinionAttackedEvent()
         {
             Minion = minion,
-            Target = target,
-            Damage = damageAmount
+            Target = target
         };
 
         MinionAttackedHandler.OnNext(minionAttackedEvent);
     }
 
-    public bool OnMinionPreDamage(ICharacter attacker, MinionCard minion)
+    public MinionPreDamageEvent OnMinionPreDamage(ICharacter attacker, MinionCard minion)
     {
         MinionPreDamageEvent minionPreDamageEvent = new MinionPreDamageEvent()
         {
@@ -109,16 +108,15 @@ public class EventManager
 
         MinionPreDamageHandler.OnNext(minionPreDamageEvent);
 
-        return minionPreDamageEvent.IsCancelled;
+        return minionPreDamageEvent;
     }
 
-    public void OnMinionDamaged(ICharacter attacker, MinionCard minion, int damage)
+    public void OnMinionDamaged(ICharacter attacker, MinionCard minion)
     {
         MinionDamagedEvent minionDamagedEvent = new MinionDamagedEvent()
         {
             Attacker = attacker,
-            Minion = minion,
-            Damage = damage
+            Minion = minion
         };
 
         MinionDamagedHandler.OnNext(minionDamagedEvent);
@@ -163,7 +161,7 @@ public class EventManager
         HeroAttackedHandler.OnNext(heroAttackedEvent);
     }
 
-    public bool OnHeroPreDamage(ICharacter attacker, Hero hero)
+    public HeroPreDamageEvent OnHeroPreDamage(ICharacter attacker, Hero hero)
     {
         HeroPreDamageEvent heroPreDamageEvent = new HeroPreDamageEvent()
         {
@@ -173,7 +171,7 @@ public class EventManager
 
         HeroPreDamageHandler.OnNext(heroPreDamageEvent);
 
-        return heroPreDamageEvent.IsCancelled;
+        return heroPreDamageEvent;
     }
 
     public void OnHeroDamaged(ICharacter attacker, Hero hero, int damageAmount)
