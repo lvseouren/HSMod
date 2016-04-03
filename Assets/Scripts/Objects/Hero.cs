@@ -27,8 +27,9 @@ public class Hero : MonoBehaviour, ICharacter
         
     }
 
-    public void Damage(ICharacter attacker, int damageAmount)
+    public void Damage(int damageAmount)
     {
-
+        this.CurrentHealth -= damageAmount;
+        // TODO : Sprite -> Show health loss on hero portrait
     }
 }

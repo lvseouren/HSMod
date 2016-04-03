@@ -15,7 +15,7 @@ public class DeathCoil : SpellCard
 
     public override void Cast(MinionCard target)
     {
-        //EventManager.OnSpellPreCast();
+        SpellPreCastEvent spellPreCastEvent = EventManager.Instance.OnSpellPreCast(this.Player, this);
 
         if (target.MinionType == MinionType.Undead && target.Player == this.Player)
         {
@@ -26,11 +26,11 @@ public class DeathCoil : SpellCard
         }
         else
         {
-            bool isCancelled = EventManager.Instance.OnMinionPreDamage(this.Player.Hero, target);
+            MinionPreDamageEvent minionPreDamageEvent = EventManager.Instance.OnMinionPreDamage(this.Player.Hero, target);
 
-            if (isCancelled == false)
+            if (minionPreDamageEvent.IsCancelled == false)
             {
-                target.Damage(null, 2 + this.Player.SpellDamage);
+                target.Damage(2 + this.Player.SpellDamage);
             }
         }
 

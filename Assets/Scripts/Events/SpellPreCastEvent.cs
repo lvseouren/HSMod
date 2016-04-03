@@ -1,6 +1,6 @@
 ﻿public class SpellPreCastEvent
 {
-    public Hero Hero;
+    public Player Player;
     public SpellCard Spell;
 
     public bool IsCancelled

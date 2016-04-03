@@ -17,7 +17,7 @@
     {
         //EventManager.OnSpellPreCast();
 
-        target.Damage(null, 2 + this.Player.SpellDamage);
+        target.Damage(2 + this.Player.SpellDamage);
         // TODO : Summon a 1/1 Ghoul with Charge.
 
         //EventManager.OnSpellCasted();

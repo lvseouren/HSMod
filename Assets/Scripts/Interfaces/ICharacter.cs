@@ -8,5 +8,5 @@
     int CurrentAttack { get; set; }
 
     void Attack(ICharacter target);
-    void Damage(ICharacter attacker, int damageAmount);
+    void Damage(int damageAmount);
 }

@@ -117,7 +117,7 @@ public class MinionCard : BaseCard, ICharacter
                     // Getting the atttack values
                     int attackerAttack = this.CurrentAttack;
 
-                    target.Damage(this, this.CurrentAttack);
+                    heroTarget.Damage(this.CurrentAttack);
 
                     EventManager.Instance.OnHeroDamaged(this, heroTarget, attackerAttack);
                 }
@@ -138,8 +138,8 @@ public class MinionCard : BaseCard, ICharacter
                     int targetAttack = target.CurrentAttack;
 
                     // Damaging both minions
-                    target.Damage(this, attackerAttack);
-                    this.Damage(target, targetAttack);
+                    minionTarget.Damage(attackerAttack);
+                    this.Damage(targetAttack);
 
                     // Triggering specific and global events for both minions
                     minionTarget.OnDamaged(this, attackerAttack);
@@ -147,6 +147,10 @@ public class MinionCard : BaseCard, ICharacter
 
                     this.OnDamaged(target, targetAttack);
                     EventManager.Instance.OnMinionDamaged(minionTarget, this);
+
+                    // Checking death of both minions
+                    minionTarget.CheckDie();
+                    this.CheckDie();
                 }
             }
 
@@ -156,21 +160,10 @@ public class MinionCard : BaseCard, ICharacter
         }
     }
 
-    public void Damage(ICharacter character, int damageAmount)
+    public void Damage(int damageAmount)
     {
-        // TODO : NEEDS EVENT CLASSES TO MANAGE DAMAGE INFO AROUND THE METHOD
-
-        this.OnPreDamage(character, ref damageAmount);
-
-        // TODO : Sprite -> Show health loss on card
         this.BaseHealth -= damageAmount;
-
-        this.OnDamaged(character, damageAmount);
-
-        if (this.BaseHealth < 0)
-        {
-            Die();
-        }
+        // TODO : Sprite -> Show health loss on card
     }
 
     public void Spawn()
@@ -179,6 +172,14 @@ public class MinionCard : BaseCard, ICharacter
         // TODO : Position in battlefield
         CurrentAttack = BaseAttack;
         CurrentHealth = BaseHealth;
+    }
+
+    public void CheckDie()
+    {
+        if (this.BaseHealth < 0)
+        {
+            Die();
+        }
     }
 
     public void Die()

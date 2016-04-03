@@ -17,7 +17,7 @@ public class Necrosis : SpellCard
     {
         //EventManager.OnSpellPreCast();
 
-        target.Damage(null, 4 + this.Player.SpellDamage);
+        target.Damage(4 + this.Player.SpellDamage);
 
         //EventManager.OnSpellCasted();
     }

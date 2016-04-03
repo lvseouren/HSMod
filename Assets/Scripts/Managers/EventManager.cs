@@ -201,18 +201,18 @@ public class EventManager
 
     #region Spell Event Handlers
 
-    public bool OnSpellPreCast(Hero hero, SpellCard spell)
+    public SpellPreCastEvent OnSpellPreCast(Player player, SpellCard spell)
     {
         // WARNING : May have problems here with the target being null for NoTarget spells
         SpellPreCastEvent spellPreCastEvent = new SpellPreCastEvent()
         {
-            Hero = hero,
+            Player = player,
             Spell = spell
         };
 
         SpellPreCastHandler.OnNext(spellPreCastEvent);
 
-        return spellPreCastEvent.IsCancelled;
+        return spellPreCastEvent;
     }
 
     public void OnSpellCasted(Hero hero, SpellCard spell)
