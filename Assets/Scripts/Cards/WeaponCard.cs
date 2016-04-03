@@ -9,8 +9,8 @@
     public int CurrentDurability;
 
     // Effects //
-    public bool Windfury;
-    public bool Forgetful;
+    public bool Windfury = false;
+    public bool Forgetful = false;
 
     #region Events
 

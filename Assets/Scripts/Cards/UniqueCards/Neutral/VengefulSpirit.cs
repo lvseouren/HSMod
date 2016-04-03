@@ -11,7 +11,6 @@
 
         BaseCost = 2;
         BaseAttack = 2;
-        CurrentAttack = 2;
         BaseHealth = 2;
     }
 
