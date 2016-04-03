@@ -27,20 +27,20 @@ public class MinionCard : BaseCard, ICharacter
 
     public virtual void OnPlayed()
     {
-
+        
     }
 
     public virtual void OnPreAttack()
     {
-
+        
     }
 
-    public virtual void OnAttack()
+    public virtual void OnAttacked()
     {
-
+        
     }
 
-    public virtual void OnPreDamaged(ICharacter attacker, ref int damageAmount)
+    public virtual void OnPreDamage(ICharacter attacker, ref int damageAmount)
     {
         
     }
@@ -50,19 +50,24 @@ public class MinionCard : BaseCard, ICharacter
         
     }
 
-    public virtual void OnDead()
+    public virtual void OnDied()
     {
-
+        
     }
 
     public virtual void OnSelectedBySpell()
     {
-
+        
     }
 
     public virtual void OnPassiveAbilityUsed()
     {
+        
+    }
 
+    public virtual void OnTurnStart()
+    {
+        
     }
 
     public virtual void OnTurnEnd()
@@ -81,11 +86,9 @@ public class MinionCard : BaseCard, ICharacter
 
     public void Attack(ICharacter target)
     {
-        //EventManager.OnMinionPreAttack(this, target);
-
         // TODO : Check for enemy count > 0
-        if (this.Forgetful){
-
+        if (this.Forgetful)
+        {
             if (Random.Range(0, 1) == 1)
             {
                 // target = Random target
@@ -116,7 +119,7 @@ public class MinionCard : BaseCard, ICharacter
     {
         // TODO : NEEDS EVENT CLASSES TO MANAGE DAMAGE INFO AROUND THE METHOD
 
-        this.OnPreDamaged(character, ref damageAmount);
+        this.OnPreDamage(character, ref damageAmount);
 
         // TODO : Sprite -> Show health loss on card
         this.BaseHealth -= damageAmount;

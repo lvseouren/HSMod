@@ -14,7 +14,7 @@
         BaseHealth = 2;
     }
 
-    public override void OnDead()
+    public override void OnDied()
     {
         // TODO : Spawn 2/1 Spiteful Wrath
     }
