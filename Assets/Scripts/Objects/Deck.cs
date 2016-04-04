@@ -82,7 +82,7 @@ public class Deck
             Fatigue++;
 
             // Deal fatigue damage
-            this.Player.Hero.Damage(null, Fatigue);
+            this.Player.Hero.Damage(Fatigue);
 
             return null;
         }

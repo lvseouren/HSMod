@@ -17,7 +17,7 @@ public class UnholyFrenzy : SpellCard
     {
         //EventManager.OnSpellPreCast(this);
 
-        target.Damage(null, 1);
+        target.Damage(1);
         // TODO : Add +4 attack
 
         //EventManager.OnSpellCasted(this);

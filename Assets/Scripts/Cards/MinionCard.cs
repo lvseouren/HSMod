@@ -115,11 +115,13 @@ public class MinionCard : BaseCard, ICharacter
                 if (heroPreDamageEvent.IsCancelled == false)
                 {
                     // Getting the atttack values
-                    int attackerAttack = this.CurrentAttack;
+                    int minionAttack = this.CurrentAttack;
 
+                    // Attacking the target hero
                     heroTarget.Damage(this.CurrentAttack);
 
-                    EventManager.Instance.OnHeroDamaged(this, heroTarget, attackerAttack);
+                    // Firing OnHeroDamaged event
+                    EventManager.Instance.OnHeroDamaged(this, heroTarget, minionAttack);
                 }
             }
             else if (target is MinionCard)
@@ -130,12 +132,12 @@ public class MinionCard : BaseCard, ICharacter
                 // Firing OnMinionPreDamage event
                 MinionPreDamageEvent minionPreDamageEvent = EventManager.Instance.OnMinionPreDamage(this, minionTarget);
 
-                // Checking if the Attack was cancelled
+                // Checking if the attack was cancelled
                 if (minionPreDamageEvent.IsCancelled == false)
                 {
                     // Getting the atttack values
                     int attackerAttack = this.CurrentAttack;
-                    int targetAttack = target.CurrentAttack;
+                    int targetAttack = minionTarget.CurrentAttack;
 
                     // Damaging both minions
                     minionTarget.Damage(attackerAttack);
@@ -145,7 +147,7 @@ public class MinionCard : BaseCard, ICharacter
                     minionTarget.OnDamaged(this, attackerAttack);
                     EventManager.Instance.OnMinionDamaged(this, minionTarget);
 
-                    this.OnDamaged(target, targetAttack);
+                    this.OnDamaged(minionTarget, targetAttack);
                     EventManager.Instance.OnMinionDamaged(minionTarget, this);
 
                     // Checking death of both minions

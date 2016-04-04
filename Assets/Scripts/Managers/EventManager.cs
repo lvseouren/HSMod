@@ -136,7 +136,7 @@ public class EventManager
 
     #region Hero Event Handlers
 
-    public bool OnHeroPreAttack(Hero hero, ICharacter target)
+    public HeroPreAttackEvent OnHeroPreAttack(Hero hero, ICharacter target)
     {
         HeroPreAttackEvent heroPreAttackEvent = new HeroPreAttackEvent()
         {
@@ -146,16 +146,15 @@ public class EventManager
 
         HeroPreAttackHandler.OnNext(heroPreAttackEvent);
 
-        return heroPreAttackEvent.IsCancelled;
+        return heroPreAttackEvent;
     }
 
-    public void OnHeroAttacked(Hero hero, ICharacter target, int damageAmount)
+    public void OnHeroAttacked(Hero hero, ICharacter target)
     {
         HeroAttackedEvent heroAttackedEvent = new HeroAttackedEvent()
         {
             Hero = hero,
-            Target = target,
-            Damage = damageAmount
+            Target = target
         };
 
         HeroAttackedHandler.OnNext(heroAttackedEvent);
