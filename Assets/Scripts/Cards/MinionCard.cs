@@ -25,55 +25,25 @@ public class MinionCard : BaseCard, ICharacter
 
     #region Events
 
-    public virtual void OnPlayed()
-    {
-        
-    }
+    public virtual void OnPlayed() { }
 
-    public virtual void OnPreAttack()
-    {
-        
-    }
+    public virtual void OnPreAttack() { }
 
-    public virtual void OnAttacked()
-    {
-        
-    }
+    public virtual void OnAttacked() { }
 
-    public virtual void OnPreDamage(ICharacter attacker, ref int damageAmount)
-    {
-        
-    }
+    public virtual void OnPreDamage(ICharacter attacker, ref int damageAmount) { }
 
-    public virtual void OnDamaged(ICharacter attacker, int damageAmount)
-    {
-        
-    }
+    public virtual void OnDamaged(ICharacter attacker, int damageAmount) { }
 
-    public virtual void OnDied()
-    {
-        
-    }
+    public virtual void OnDied() { }
 
-    public virtual void OnSelectedBySpell()
-    {
-        
-    }
+    public virtual void OnSelectedBySpell() { }
 
-    public virtual void OnPassiveAbilityUsed()
-    {
-        
-    }
+    public virtual void OnPassiveAbilityUsed() { }
 
-    public virtual void OnTurnStart()
-    {
-        
-    }
+    public virtual void OnTurnStart() { }
 
-    public virtual void OnTurnEnd()
-    {
-        
-    }
+    public virtual void OnTurnEnd() { }
 
     #endregion
 
