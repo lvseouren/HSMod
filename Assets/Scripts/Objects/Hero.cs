@@ -10,7 +10,7 @@ public class Hero : MonoBehaviour, ICharacter
     public int CurrentAttack { get; set; }
     public int CurrentHealth { get; set; }
     public int MaxHealth { get; set; }
-    public int Armor = 0;
+    public int Armor;
 
     // Effects //
     public bool Frozen = false;
@@ -19,7 +19,9 @@ public class Hero : MonoBehaviour, ICharacter
 
     private void Start()
     {
-
+        CurrentAttack = BaseAttack;
+        CurrentHealth = BaseHealth;
+        Armor = 0;
     }
 
     public void Attack(ICharacter target)

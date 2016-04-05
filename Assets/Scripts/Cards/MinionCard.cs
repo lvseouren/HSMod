@@ -178,7 +178,7 @@ public class MinionCard : BaseCard, ICharacter
 
     public void CheckDie()
     {
-        if (this.BaseHealth < 0)
+        if (IsAlive() == false)
         {
             Die();
         }
@@ -194,12 +194,12 @@ public class MinionCard : BaseCard, ICharacter
 
     public void ReturnToHand()
     {
-        
+        // TODO
     }
 
     public void ReturnToDeck()
     {
-        
+        // TODO
     }
 
     public void Destroy()
