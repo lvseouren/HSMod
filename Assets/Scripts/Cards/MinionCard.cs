@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
 public class MinionCard : BaseCard, ICharacter
 {
@@ -22,6 +24,8 @@ public class MinionCard : BaseCard, ICharacter
     public bool Frozen = false;
     public bool Silenced = false;
     public int SpellDamage = 0;
+
+    public BuffManager BuffManager = new BuffManager();
 
     #region Events
 
@@ -49,7 +53,15 @@ public class MinionCard : BaseCard, ICharacter
 
     #region Methods
 
-    public void AddBuff(object buff)
+    public void AddBuff(BaseBuff buff)
+    {
+        // 
+        BuffManager.Add(buff);
+
+        buff.OnAdded();
+    }
+
+    public void RemoveBuff(BaseBuff buff)
     {
         // TODO : Buff list + buff class probably
     }
@@ -170,6 +182,11 @@ public class MinionCard : BaseCard, ICharacter
     public void ReturnToDeck()
     {
         // TODO
+    }
+
+    public void Silence()
+    {
+        BuffManager.RemoveAll();
     }
 
     public void Destroy()

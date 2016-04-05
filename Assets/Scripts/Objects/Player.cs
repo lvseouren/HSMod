@@ -6,10 +6,10 @@ public class Player : MonoBehaviour
     public Hero Hero = new Hero();
     public Hand Hand = new Hand();
     public Deck Deck = new Deck();
+    public List<MinionCard> Minions = new List<MinionCard>(7);
+    public List<SpellCard> Secrets;
 
     public GameObject DeckGameObject;
-
-    public List<SpellCard> Secrets;
 
     public int MaximumMana = 10;
     public int TurnMana = 0;
@@ -21,6 +21,11 @@ public class Player : MonoBehaviour
     public void Start()
     {
         
+    }
+
+    public void ReplaceHero(Hero newHero)
+    {
+        // TODO
     }
 
     public void RefillMana()
