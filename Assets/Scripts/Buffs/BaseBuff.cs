@@ -1,6 +1,7 @@
 ﻿public class BaseBuff
 {
     public MinionCard Minion;
+    public BuffType BuffType;
 
     public BaseBuff(MinionCard minion)
     {
@@ -26,4 +27,12 @@
     {
         
     }
+}
+
+public enum BuffType
+{
+    Area,
+    Buff,
+    Debuff,
+    Effect
 }

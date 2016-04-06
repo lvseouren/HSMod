@@ -25,45 +25,34 @@ public class MinionCard : BaseCard, ICharacter
     public bool Silenced = false;
     public int SpellDamage = 0;
 
-    public BuffManager BuffManager = new BuffManager();
+    public BuffManager BuffManager;
 
-    #region Events
-
-    public virtual void OnPlayed() { }
-
-    public virtual void OnPreAttack() { }
-
-    public virtual void OnAttacked() { }
-
-    public virtual void OnPreDamage(ICharacter attacker, ref int damageAmount) { }
-
-    public virtual void OnDamaged(ICharacter attacker, int damageAmount) { }
-
-    public virtual void OnDied() { }
-
-    public virtual void OnSelectedBySpell() { }
-
-    public virtual void OnPassiveAbilityUsed() { }
-
-    public virtual void OnTurnStart() { }
-
-    public virtual void OnTurnEnd() { }
-
-    #endregion
+    public void Start()
+    {
+         BuffManager = new BuffManager(this);
+    }
 
     #region Methods
 
     public void AddBuff(BaseBuff buff)
     {
-        // 
-        BuffManager.Add(buff);
+        // Adding the buff to the list
+        BuffManager.AllBuffs.Add(buff);
 
+        // Firing OnAdded for that buff
         buff.OnAdded();
     }
 
     public void RemoveBuff(BaseBuff buff)
     {
-        // TODO : Buff list + buff class probably
+        if (BuffManager.AllBuffs.Contains(buff))
+        {
+            // Removing the buff from the list
+            BuffManager.AllBuffs.Remove(buff);
+
+            // Firing OnAdded for that buff
+            buff.OnRemoved();
+        }
     }
 
     public void Attack(ICharacter target)
@@ -78,7 +67,7 @@ public class MinionCard : BaseCard, ICharacter
         }
 
         // Firing OnPreAttack events
-        this.OnPreAttack();
+        this.BuffManager.OnPreAttack.OnNext(null);
         MinionPreAttackEvent minionPreAttackEvent = EventManager.Instance.OnMinionPreAttack(this, target);
 
         // Checking if the Attack was cancelled
@@ -186,6 +175,16 @@ public class MinionCard : BaseCard, ICharacter
 
     public void Silence()
     {
+        Taunt = false;
+        Charge = false;
+        Stealth = false;
+        DivineShield = false;
+        Elusive = false;
+        Forgetful = false;
+        Frozen = false;
+        Silenced = false;
+        SpellDamage = 0;
+
         BuffManager.RemoveAll();
     }
 
@@ -201,9 +200,23 @@ public class MinionCard : BaseCard, ICharacter
         // TODO : Transform minion without triggering anything
     }
 
+    #endregion
+
+    #region Condition Checkers
+
     public bool IsAlive()
     {
         return this.CurrentHealth > 0;
+    }
+
+    public bool IsEnemyOf(MinionCard otherMinion)
+    {
+        return this.Player != otherMinion.Player;
+    }
+
+    public bool IsFriendlyOf(MinionCard otherMinion)
+    {
+        return this.Player == otherMinion.Player;
     }
 
     #endregion

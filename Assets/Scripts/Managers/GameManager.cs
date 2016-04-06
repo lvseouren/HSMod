@@ -1,12 +1,13 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameState CurrentGameState;
-    public Player CurrentPlayer;
-
-    private Player _topPlayer;
-    private Player _bottomPlayer;
+    [HideInInspector] public GameState CurrentGameState;
+    [HideInInspector] public Player TopPlayer;
+    [HideInInspector] public Player BottomPlayer;
+    [HideInInspector] public Player CurrentPlayer;
 
     private static GameManager _instance;
 
@@ -29,17 +30,17 @@ public class GameManager : MonoBehaviour
 
     public void Start()
     {
-        _bottomPlayer = new Player();
-        _topPlayer = new Player();
+        BottomPlayer = new Player();
+        TopPlayer = new Player();
 
         // Randomize the starting player
         if (Random.Range(0, 2) == 1)
         {
-            CurrentPlayer = _topPlayer;
+            CurrentPlayer = TopPlayer;
         }
         else
         {
-            CurrentPlayer = _bottomPlayer;
+            CurrentPlayer = BottomPlayer;
         }
 
         Mulligan();
@@ -49,17 +50,17 @@ public class GameManager : MonoBehaviour
     {
         CurrentGameState = GameState.Mulligan;
 
-        if (CurrentPlayer.Equals(_bottomPlayer))
+        if (CurrentPlayer.Equals(BottomPlayer))
         {
-            _bottomPlayer.Deck.Draw(3);
-            _topPlayer.Deck.Draw(4);
-            // TODO: give _topPlayer coin
+            BottomPlayer.Deck.Draw(3);
+            TopPlayer.Deck.Draw(4);
+            // TODO: give TopPlayer coin
         }
         else
         {
-            _topPlayer.Deck.Draw(3);
-            _bottomPlayer.Deck.Draw(4);
-            // TODO: give _bottomPlayer coin
+            TopPlayer.Deck.Draw(3);
+            BottomPlayer.Deck.Draw(4);
+            // TODO: give BottomPlayer coin
         }
     }
 
@@ -101,14 +102,19 @@ public class GameManager : MonoBehaviour
 
     public void SwitchCurrentPlayer()
     {
-        if (CurrentPlayer == _bottomPlayer)
+        if (CurrentPlayer == BottomPlayer)
         {
-            CurrentPlayer = _topPlayer;
+            CurrentPlayer = TopPlayer;
         }
         else
         {
-            CurrentPlayer = _bottomPlayer;
+            CurrentPlayer = BottomPlayer;
         }
+    }
+
+    public List<MinionCard> GetAllMinions()
+    {
+        return TopPlayer.Minions.Concat(BottomPlayer.Minions).ToList();
     }
 }
 

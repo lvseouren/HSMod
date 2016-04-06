@@ -1,5 +1,5 @@
 ﻿public class SpellCastedEvent
 {
-    public Hero Hero;
+    public Player Player;
     public SpellCard Spell;
 }

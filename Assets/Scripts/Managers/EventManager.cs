@@ -1,4 +1,6 @@
-﻿using System.Reactive.Subjects;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Reactive.Subjects;
 
 public class EventManager
 {
@@ -37,7 +39,9 @@ public class EventManager
     public Subject<HeroPreDamageEvent> HeroPreDamageHandler = new Subject<HeroPreDamageEvent>();
     public Subject<HeroDamagedEvent> HeroDamagedHandler = new Subject<HeroDamagedEvent>();
 
-    public Subject<HeroGainArmorEvent> HeroGainArmorHandler = new Subject<HeroGainArmorEvent>();
+    public Subject<HeroGainedArmorEvent> HeroGainedArmorHandler = new Subject<HeroGainedArmorEvent>();
+
+    public Subject<HeroPowerEvent> HeroPowerHandler = new Subject<HeroPowerEvent>();
 
     // Spell Event Subjects //
     public Subject<SpellPreCastEvent> SpellPreCastHandler = new Subject<SpellPreCastEvent>();
@@ -72,6 +76,11 @@ public class EventManager
         };
 
         MinionPlayedHandler.OnNext(minionPlayedEvent);
+
+        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        {
+            battlefieldMinion.BuffManager.OnMinionPlayed.OnNext(minion);
+        }
     }
 
     public MinionPreAttackEvent OnMinionPreAttack(MinionCard minion, ICharacter target)
@@ -120,6 +129,11 @@ public class EventManager
         };
 
         MinionDamagedHandler.OnNext(minionDamagedEvent);
+
+        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        {
+            battlefieldMinion.BuffManager.OnMinionDamaged.OnNext(minion);
+        }
     }
 
     public void OnMinionDied(MinionCard minion)
@@ -130,6 +144,11 @@ public class EventManager
         };
 
         MinionDiedHandler.OnNext(minionDiedEvent);
+
+        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        {
+            battlefieldMinion.BuffManager.OnMinionDied.OnNext(minion);
+        }
     }
 
     #endregion
@@ -183,17 +202,43 @@ public class EventManager
         };
 
         HeroDamagedHandler.OnNext(heroDamagedEvent);
+
+        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        {
+            battlefieldMinion.BuffManager.OnHeroDamaged.OnNext(null);
+        }
     }
 
-    public void OnHeroGainArmor(Hero hero, int armorAmount)
+    public void OnHeroGainedArmor(Hero hero, int armorAmount)
     {
-        HeroGainArmorEvent heroGainArmorEvent = new HeroGainArmorEvent()
+        HeroGainedArmorEvent heroGainedArmorEvent = new HeroGainedArmorEvent()
         {
             Hero = hero,
             Armor = armorAmount
         };
 
-        HeroGainArmorHandler.OnNext(heroGainArmorEvent);
+        HeroGainedArmorHandler.OnNext(heroGainedArmorEvent);
+
+        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        {
+            battlefieldMinion.BuffManager.OnHeroGainedArmor.OnNext(null);
+        }
+    }
+
+    public void OnHeroPower(Hero hero, HeroPower heroPower)
+    {
+        HeroPowerEvent heroPowerEvent = new HeroPowerEvent()
+        {
+            Hero = hero,
+            HeroPower = heroPower
+        };
+
+        HeroPowerHandler.OnNext(heroPowerEvent);
+
+        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        {
+            battlefieldMinion.BuffManager.OnInspired.OnNext(null);
+        }
     }
 
     #endregion
@@ -211,19 +256,29 @@ public class EventManager
 
         SpellPreCastHandler.OnNext(spellPreCastEvent);
 
+        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        {
+            battlefieldMinion.BuffManager.OnSpellPreCast.OnNext(spell);
+        }
+
         return spellPreCastEvent;
     }
 
-    public void OnSpellCasted(Hero hero, SpellCard spell)
+    public void OnSpellCasted(Player player, SpellCard spell)
     {
         // WARNING : May have problems here with the target being null for NoTarget spells
         SpellCastedEvent spellCastedEvent = new SpellCastedEvent()
         {
-            Hero = hero,
+            Player = player,
             Spell = spell
         };
 
         SpellCastedHandler.OnNext(spellCastedEvent);
+
+        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        {
+            battlefieldMinion.BuffManager.OnSpellCasted.OnNext(spell);
+        }
     }
 
     #endregion 
@@ -239,6 +294,12 @@ public class EventManager
         };
 
         CardPlayedHandler.OnNext(cardPlayedEvent);
+
+        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        {
+            // TODO : Trigger overloaded/battlecry card played events
+            battlefieldMinion.BuffManager.OnCardPlayed.OnNext(null);
+        }
     }
 
     public void OnCardDrawn(Player player, BaseCard card)
@@ -250,6 +311,11 @@ public class EventManager
         };
 
         CardDrawnHandler.OnNext(cardDrawnEvent);
+
+        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        {
+            battlefieldMinion.BuffManager.OnCardDrawn.OnNext(card);
+        }
     }
 
     public void OnCardDiscarded(Player player, BaseCard card)
@@ -261,12 +327,18 @@ public class EventManager
         };
 
         CardDiscardedHandler.OnNext(cardDiscardedEvent);
+
+        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        {
+            battlefieldMinion.BuffManager.OnCardDiscarded.OnNext(null);
+        }
     }
 
     #endregion
 
     #region Weapon Event Handlers
 
+    // TODO : Rename ?
     public void OnWeaponEquipped(Player player, WeaponCard weapon)
     {
         WeaponEquippedEvent weaponEquippedEvent = new WeaponEquippedEvent()
@@ -276,6 +348,11 @@ public class EventManager
         };
 
         WeaponEquippedHandler.OnNext(weaponEquippedEvent);
+
+        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        {
+            battlefieldMinion.BuffManager.OnHeroEquippedWeapon.OnNext(null);
+        }
     }
 
     #endregion

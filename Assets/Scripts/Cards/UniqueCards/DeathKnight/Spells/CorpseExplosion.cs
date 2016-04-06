@@ -18,7 +18,7 @@ public class CorpseExplosion : SpellCard
         //EventManager.OnSpellPreCast();
 
         // TODO : Target add buff
-        //target.OnSelectedBySpell(this);
+        //target.OnTargetedBySpell(this);
 
         //EventManager.OnSpellCasted();
     }

@@ -15,6 +15,7 @@ public abstract class BaseCard : MonoBehaviour
     public int CurrentCost;
 
     // Effects //
+    public int Overload = 0;
     public bool Combo = false;
 
     // TODO : Image, Voices, Effects?
