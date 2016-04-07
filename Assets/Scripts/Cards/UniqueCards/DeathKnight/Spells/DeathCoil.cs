@@ -21,8 +21,8 @@ public class DeathCoil : SpellCard
         {
             // TODO : Heal animation and sound
             target.CurrentHealth = target.MaxHealth;
-
-            target.BuffManager.OnTargetedBySpell.OnNext(this);
+            
+            target.OnSelectedBySpell();
         }
         else
         {
@@ -30,14 +30,10 @@ public class DeathCoil : SpellCard
 
             if (minionPreDamageEvent.IsCancelled == false)
             {
-                target.Damage(2 + this.Player.SpellPower);
-
-                target.BuffManager.OnTargetedBySpell.OnNext(this);
-
-                target.CheckDie();
+                target.Damage(2 + this.Player.SpellDamage);
             }
-        }        
+        }
 
-        EventManager.Instance.OnSpellCasted(this.Player, this);
+        //EventManager.OnSpellCasted();
     }
 }

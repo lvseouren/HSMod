@@ -12,7 +12,7 @@ public class BuffManager
     public Subject<object> Deathrattle = new Subject<object>();
 
     public Subject<object> OnPreAttack = new Subject<object>();
-    public Subject<int> OnAttacked = new Subject<int>();
+    public Subject<MinionAttackedEvent> OnAttacked = new Subject<MinionAttackedEvent>();
 
     public Subject<object> OnPreDamage = new Subject<object>();
     public Subject<object> OnDamaged = new Subject<object>();
@@ -65,7 +65,7 @@ public class BuffManager
             if (buff.BuffType != BuffType.Area)
             {
                 // Removing stats/effects from the buff
-                buff.OnRemoved(this.Minion);
+                buff.OnRemoved();
             }
         }
 

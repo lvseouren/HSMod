@@ -2,8 +2,6 @@
 
 public class SkeletonCommander : MinionCard
 {
-    public IDisposable MinionPlayedSubscription;
-
     public SkeletonCommander()
     {
         Name = "Skeleton Commander";
@@ -16,41 +14,18 @@ public class SkeletonCommander : MinionCard
         BaseCost = 1;
         BaseAttack = 1;
         BaseHealth = 1;
-
-        this.BuffManager.Battlecry.Subscribe(x => this.Battlecry());
     }
 
-    public void Battlecry()
+    public override void OnPlayed()
     {
-        MinionPlayedSubscription = EventManager.Instance.MinionPlayedHandler.Subscribe(x => UndeadBuff(x));
+        EventManager.Instance.MinionPlayedHandler.Subscribe(UndeadBuff);
     }
 
     public void UndeadBuff(MinionPlayedEvent minionPlayedEvent)
     {
         if (minionPlayedEvent.Player == this.Player && minionPlayedEvent.Minion.MinionType == MinionType.Undead)
         {
-            minionPlayedEvent.Minion.AddBuff(new SkeletonCommanderBuff());
-
-            MinionPlayedSubscription.Dispose();
+            // TODO : Add +1/+1 buff.
         }
-    }
-}
-
-public class SkeletonCommanderBuff : BaseBuff
-{
-    public override void OnAdded(MinionCard minion)
-    {
-        minion.CurrentAttack += 1;
-
-        minion.MaxHealth += 1;
-        minion.CurrentHealth += 1;
-    }
-
-    public override void OnRemoved(MinionCard minion)
-    {
-        minion.CurrentAttack -= 1;
-
-        minion.MaxHealth -= 1;
-        minion.CurrentHealth -= 1;
     }
 }

@@ -2,11 +2,11 @@
 
 public class EndTurnButton : MonoBehaviour
 {
-    public bool IsEnabled;
+    private bool _isEnabled;
 
     private void OnMouseDown()
     {
-        if (IsEnabled)
+        if (_isEnabled)
         {
             GameManager.Instance.TurnEnd();
         }
