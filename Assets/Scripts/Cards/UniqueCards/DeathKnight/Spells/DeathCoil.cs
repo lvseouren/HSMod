@@ -17,26 +17,29 @@ public class DeathCoil : SpellCard
     {
         SpellPreCastEvent spellPreCastEvent = EventManager.Instance.OnSpellPreCast(this.Player, this);
 
-        if (target.MinionType == MinionType.Undead && target.Player == this.Player)
+        if (spellPreCastEvent.IsCancelled == false)
         {
-            // TODO : Heal animation and sound
-            target.CurrentHealth = target.MaxHealth;
-
-            target.BuffManager.OnTargetedBySpell.OnNext(this);
-        }
-        else
-        {
-            MinionPreDamageEvent minionPreDamageEvent = EventManager.Instance.OnMinionPreDamage(this.Player.Hero, target);
-
-            if (minionPreDamageEvent.IsCancelled == false)
+            if (target.MinionType == MinionType.Undead && target.Player == this.Player)
             {
-                target.Damage(2 + this.Player.SpellPower);
+                // TODO : Heal animation and sound
+                target.CurrentHealth = target.MaxHealth;
 
                 target.BuffManager.OnTargetedBySpell.OnNext(this);
-
-                target.CheckDie();
             }
-        }        
+            else
+            {
+                MinionPreDamageEvent minionPreDamageEvent = EventManager.Instance.OnMinionPreDamage(this.Player.Hero, target);
+
+                if (minionPreDamageEvent.IsCancelled == false)
+                {
+                    target.Damage(2 + this.Player.GetSpellPower());
+
+                    target.BuffManager.OnTargetedBySpell.OnNext(this);
+
+                    target.CheckDie();
+                }
+            }
+        }     
 
         EventManager.Instance.OnSpellCasted(this.Player, this);
     }

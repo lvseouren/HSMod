@@ -1,4 +1,5 @@
-﻿using Random = UnityEngine.Random;
+﻿using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
 public class MinionCard : BaseCard, ICharacter
 {
@@ -21,7 +22,7 @@ public class MinionCard : BaseCard, ICharacter
     public bool Forgetful = false;
     public bool Frozen = false;
     public bool Silenced = false;
-    public int SpellDamage = 0;
+    public int SpellPower = 0;
 
     public BuffManager BuffManager;
 
@@ -48,19 +49,45 @@ public class MinionCard : BaseCard, ICharacter
             // Removing the buff from the list
             BuffManager.AllBuffs.Remove(buff);
 
-            // Firing OnAdded for that buff
+            // Firing OnRemoved for that buff
             buff.OnRemoved(this);
         }
     }
 
     public void Attack(ICharacter target)
     {
-        // TODO : Check for enemy count > 0
+        // Checking if minion is forgetful
         if (this.Forgetful)
         {
-            if (Random.Range(0, 1) == 1)
+            // Checking if there's more than 1 enemy (hero + minions)
+            if (this.Player.Enemy.Minions.Count > 0)
             {
-                // target = select a random target
+                // Random 50% chance
+                if (Random.Range(0, 1) == 1)
+                {
+                    // TODO : Play forgetful trigger animation
+
+                    // Creating a list of possible targets
+                    List<ICharacter> possibleTargets = new List<ICharacter>();
+
+                    // Adding the enemy hero to the list
+                    possibleTargets.Add(this.Player.Enemy.Hero);
+
+                    // Adding all enemy minions to the list
+                    foreach (MinionCard enemyMinion in this.Player.Enemy.Minions)
+                    {
+                        possibleTargets.Add(enemyMinion);
+                    }
+
+                    // Removing the current target from the possible targets list
+                    possibleTargets.Remove(target);
+
+                    // Selecting a target by random
+                    int randomTarget = Random.Range(0, possibleTargets.Count);
+
+                    // Setting the current target as the random target
+                    target = possibleTargets[randomTarget];
+                }
             }
         }
 
@@ -180,7 +207,7 @@ public class MinionCard : BaseCard, ICharacter
         Forgetful = false;
         Frozen = false;
         Silenced = false;
-        SpellDamage = 0;
+        SpellPower = 0;
 
         BuffManager.RemoveAll();
     }

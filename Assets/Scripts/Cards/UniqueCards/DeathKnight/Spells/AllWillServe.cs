@@ -27,7 +27,7 @@
 
                 if (heroPreDamageEvent.IsCancelled == false)
                 {
-                    int damage = 2 + this.Player.SpellPower;
+                    int damage = 2 + this.Player.GetSpellPower();
 
                     heroTarget.Damage(damage);
 
@@ -40,7 +40,7 @@
 
                 // TODO                
 
-                target.Damage(2 + this.Player.SpellPower);
+                target.Damage(2 + this.Player.GetSpellPower());
             }
 
             // TODO : Summon a 1/1 Ghoul with Charge.
