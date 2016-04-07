@@ -14,8 +14,8 @@ public class DeathwhisperNecrolyte : MinionCard
         BaseHealth = 4;
     }
 
-    public override void OnDied()
+    public void Aura()
     {
-        // TODO : +1 Attack Aura
+        // TODO : our other Undead have +1 Attack
     }
 }

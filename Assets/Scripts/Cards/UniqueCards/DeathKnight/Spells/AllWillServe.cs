@@ -15,11 +15,37 @@
 
     public override void Cast(ICharacter target)
     {
-        //EventManager.OnSpellPreCast();
+        SpellPreCastEvent spellPreCastEvent = EventManager.Instance.OnSpellPreCast(this.Player, this);
 
-        target.Damage(2 + this.Player.SpellDamage);
-        // TODO : Summon a 1/1 Ghoul with Charge.
+        if (spellPreCastEvent.IsCancelled == false)
+        {
+            if (target is Hero)
+            {
+                Hero heroTarget = (Hero) target;
 
-        //EventManager.OnSpellCasted();
+                HeroPreDamageEvent heroPreDamageEvent = EventManager.Instance.OnHeroPreDamage(null, heroTarget);
+
+                if (heroPreDamageEvent.IsCancelled == false)
+                {
+                    int damage = 2 + this.Player.SpellPower;
+
+                    heroTarget.Damage(damage);
+
+                    EventManager.Instance.OnHeroDamaged(null, heroTarget, damage);
+                }
+            }
+            else if (target is MinionCard)
+            {
+                MinionCard minionTarget = (MinionCard) target;
+
+                // TODO                
+
+                target.Damage(2 + this.Player.SpellPower);
+            }
+
+            // TODO : Summon a 1/1 Ghoul with Charge.
+        }
+
+        EventManager.Instance.OnSpellCasted(this.Player, this);
     }
 }

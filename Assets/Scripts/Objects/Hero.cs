@@ -83,7 +83,7 @@ public class Hero : MonoBehaviour, ICharacter
                     this.Damage(minionAttack);
 
                     // Triggering specific and global events for the minion
-                    minionTarget.OnDamaged(this, heroAttack);
+                    minionTarget.BuffManager.OnDamaged.OnNext(null);
                     EventManager.Instance.OnMinionDamaged(this, minionTarget);
 
                     // Triggering global events for the hero

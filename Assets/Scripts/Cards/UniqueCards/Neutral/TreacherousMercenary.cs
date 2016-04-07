@@ -1,4 +1,6 @@
-﻿public class TreacherousMercenary : MinionCard
+﻿using System;
+
+public class TreacherousMercenary : MinionCard
 {
     public TreacherousMercenary()
     {
@@ -14,10 +16,12 @@
         BaseHealth = 2;
 
         Charge = true;
+
+        this.BuffManager.Battlecry.Subscribe(x => this.Battlecry());
     }
 
-    public override void OnPlayed()
+    public void Battlecry()
     {
-        // TODO : Deal 3 damage to your hero.
+        this.Player.Hero.Damage(3);
     }
 }
