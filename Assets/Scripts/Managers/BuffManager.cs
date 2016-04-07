@@ -72,15 +72,44 @@ public class BuffManager
         // Removing the buffs from the list
         AllBuffs.RemoveAll(buff => buff.BuffType != BuffType.Area);
 
-        // Removing all subscribed events
+        // Disposing all subscribed events
         Battlecry.Dispose();
+        Deathrattle.Dispose();
+
         OnPreAttack.Dispose();
         OnAttacked.Dispose();
+
         OnPreDamage.Dispose();
         OnDamaged.Dispose();
-        Deathrattle.Dispose();
-        OnTargetedBySpell.Dispose();
+
         OnInspired.Dispose();
+
+        OnCardDrawn.Dispose();
+        OnCardDiscarded.Dispose();
+        OnCardPlayed.Dispose();
+        OnOverloadedCardPlayed.Dispose();
+        OnBattlecryCardPlayed.Dispose();
+
+        OnSpellPreCast.Dispose();
+        OnSpellCasted.Dispose();
+        
+        OnSecretPlayed.Dispose();
+        OnSecretRevealed.Dispose();
+        
+        OnMinionPlayed.Dispose();
+        OnMinionSummoned.Dispose();
+        OnMinionDamaged.Dispose();
+        OnMinionHealed.Dispose();
+        OnMinionDied.Dispose();
+
+        OnCharacterHealed.Dispose();
+
+        OnHeroDamaged.Dispose();
+        OnHeroGainedArmor.Dispose();
+        OnHeroEquippedWeapon.Dispose();
+        
+        OnTargetedBySpell.Dispose();
+
         OnTurnStart.Dispose();
         OnTurnEnd.Dispose();
     }
