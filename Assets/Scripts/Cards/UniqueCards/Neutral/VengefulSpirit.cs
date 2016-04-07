@@ -1,4 +1,6 @@
-﻿public class VengefulSpirit : MinionCard
+﻿using System;
+
+public class VengefulSpirit : MinionCard
 {
     public VengefulSpirit()
     {
@@ -12,9 +14,11 @@
         BaseCost = 2;
         BaseAttack = 2;
         BaseHealth = 2;
+
+        this.BuffManager.Deathrattle.Subscribe(x => this.Deathrattle());
     }
 
-    public override void OnDied()
+    public void Deathrattle()
     {
         // TODO : Spawn 2/1 Spiteful Wrath
     }

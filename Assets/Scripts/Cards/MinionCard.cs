@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Random = UnityEngine.Random;
+﻿using Random = UnityEngine.Random;
 
 public class MinionCard : BaseCard, ICharacter
 {
@@ -40,7 +38,7 @@ public class MinionCard : BaseCard, ICharacter
         BuffManager.AllBuffs.Add(buff);
 
         // Firing OnAdded for that buff
-        buff.OnAdded();
+        buff.OnAdded(this);
     }
 
     public void RemoveBuff(BaseBuff buff)
@@ -51,7 +49,7 @@ public class MinionCard : BaseCard, ICharacter
             BuffManager.AllBuffs.Remove(buff);
 
             // Firing OnAdded for that buff
-            buff.OnRemoved();
+            buff.OnRemoved(this);
         }
     }
 
@@ -73,6 +71,9 @@ public class MinionCard : BaseCard, ICharacter
         // Checking if the Attack was cancelled
         if (minionPreAttackEvent.IsCancelled == false)
         {
+            // Getting the attacker minion attack value
+            int attackerAttack = this.CurrentAttack;
+
             // Checking the target type
             if (target is Hero)
             {
@@ -85,14 +86,11 @@ public class MinionCard : BaseCard, ICharacter
                 // Checking if the Attack was cancelled
                 if (heroPreDamageEvent.IsCancelled == false)
                 {
-                    // Getting the atttack values
-                    int minionAttack = this.CurrentAttack;
-
                     // Attacking the target hero
                     heroTarget.Damage(this.CurrentAttack);
 
                     // Firing OnHeroDamaged event
-                    EventManager.Instance.OnHeroDamaged(this, heroTarget, minionAttack);
+                    EventManager.Instance.OnHeroDamaged(this, heroTarget, attackerAttack);
                 }
             }
             else if (target is MinionCard)
@@ -106,8 +104,7 @@ public class MinionCard : BaseCard, ICharacter
                 // Checking if the attack was cancelled
                 if (minionPreDamageEvent.IsCancelled == false)
                 {
-                    // Getting the atttack values
-                    int attackerAttack = this.CurrentAttack;
+                    // Getting the attack value of the enemy minion
                     int targetAttack = minionTarget.CurrentAttack;
 
                     // Damaging both minions
@@ -115,10 +112,10 @@ public class MinionCard : BaseCard, ICharacter
                     this.Damage(targetAttack);
 
                     // Triggering specific and global events for both minions
-                    minionTarget.OnDamaged(this, attackerAttack);
+                    minionTarget.BuffManager.OnDamaged.OnNext(null);
                     EventManager.Instance.OnMinionDamaged(this, minionTarget);
 
-                    this.OnDamaged(minionTarget, targetAttack);
+                    this.BuffManager.OnDamaged.OnNext(null);
                     EventManager.Instance.OnMinionDamaged(minionTarget, this);
 
                     // Checking death of both minions
@@ -128,7 +125,7 @@ public class MinionCard : BaseCard, ICharacter
             }
 
             // Firing OnAttacked events
-            this.OnAttacked();
+            this.BuffManager.OnAttacked.OnNext(attackerAttack);
             EventManager.Instance.OnMinionAttacked(this, target);
         }
     }

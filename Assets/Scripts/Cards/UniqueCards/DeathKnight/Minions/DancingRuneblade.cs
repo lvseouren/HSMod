@@ -1,3 +1,5 @@
+using System;
+
 public class DancingRuneblade : MinionCard
 {
     public DancingRuneblade()
@@ -12,9 +14,11 @@ public class DancingRuneblade : MinionCard
         BaseCost = 1;
         BaseAttack = 1;
         BaseHealth = 1;
+
+        this.BuffManager.Battlecry.Subscribe(x => this.Battlecry());
     }
 
-    public override void OnPlayed()
+    public void Battlecry()
     {
         // TODO : Gain Attack and Health equal to your weapon's Attack and Durability
     }

@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     public int OverloadedMana = 0;
     public int AvailableMana = 0;
 
-    public int SpellDamage = 0;
+    public int SpellPower = 0;
 
     public void Start()
     {

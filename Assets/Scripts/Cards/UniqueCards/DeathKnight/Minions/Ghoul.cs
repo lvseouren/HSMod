@@ -1,3 +1,5 @@
+using System;
+
 public class Ghoul : MinionCard
 {
     public Ghoul()
@@ -14,10 +16,12 @@ public class Ghoul : MinionCard
         BaseHealth = 1;
 
         Charge = true;
+
+        this.BuffManager.OnTurnEnd.Subscribe(x => this.OnTurnEnd());
     }
 
-    public override void OnTurnEnd()
+    public void OnTurnEnd()
     {
-        // TODO : Destroy this minion.
+        this.Die();
     }
 }

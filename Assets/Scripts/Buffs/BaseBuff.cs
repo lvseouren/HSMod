@@ -1,34 +1,17 @@
-﻿public class BaseBuff
+﻿public abstract class BaseBuff
 {
-    public MinionCard Minion;
     public BuffType BuffType;
 
-    public BaseBuff(MinionCard minion)
-    {
-        Minion = minion;
-    }
+    public virtual void OnAdded(MinionCard minion) { }
 
-    public virtual void OnAdded()
-    {
-        
-    }
+    public virtual void OnRemoved(MinionCard minion) { }
 
-    public virtual void OnRemoved()
-    {
+    public virtual void OnTurnStart() { }
 
-    }
-
-    public virtual void OnTurnStart()
-    {
-
-    }
-
-    public virtual void OnTurnEnd()
-    {
-        
-    }
+    public virtual void OnTurnEnd() { }
 }
 
+// TODO : Needs rework
 public enum BuffType
 {
     Area,
