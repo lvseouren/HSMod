@@ -75,10 +75,12 @@ public class Deck
             drawnBaseCard.OnDrawn();
             EventManager.Instance.OnCardDrawn(this.Player, drawnBaseCard);
 
+            // Returning the drawn card
             return drawnBaseCard;
         }
         else
         {
+            // Add 1 to fatigue
             Fatigue++;
 
             // Deal fatigue damage

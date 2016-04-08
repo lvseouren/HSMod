@@ -104,4 +104,20 @@ public class Hero : MonoBehaviour, ICharacter
         this.CurrentHealth -= damageAmount;
         // TODO : Sprite -> Show health loss on hero portrait
     }
+
+    public void Heal(int healAmount)
+    {
+        int healeableHealth = MaxHealth - CurrentHealth;
+
+        if (healAmount > healeableHealth)
+        {
+            this.CurrentHealth = MaxHealth;
+        }
+        else
+        {
+            this.CurrentHealth += healAmount;
+        }
+
+        // TODO : Show heal animation + healed amount
+    }
 }

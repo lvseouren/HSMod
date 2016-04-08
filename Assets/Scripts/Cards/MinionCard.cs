@@ -163,6 +163,11 @@ public class MinionCard : BaseCard, ICharacter
         // TODO : Sprite -> Show health loss on card
     }
 
+    public void Heal(int healAmount)
+    {
+        
+    }
+
     public void Spawn()
     {
         // TODO : Custom animations, sounds, etc ?

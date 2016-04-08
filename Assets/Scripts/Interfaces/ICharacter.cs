@@ -9,4 +9,5 @@
 
     void Attack(ICharacter target);
     void Damage(int damageAmount);
+    void Heal(int healAmount);
 }
