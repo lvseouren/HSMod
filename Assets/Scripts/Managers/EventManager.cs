@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Subjects;
+﻿using System.Reactive.Subjects;
 
 public class EventManager
 {
@@ -30,6 +28,8 @@ public class EventManager
     public Subject<MinionPreDamageEvent> MinionPreDamageHandler = new Subject<MinionPreDamageEvent>();
     public Subject<MinionDamagedEvent> MinionDamagedHandler = new Subject<MinionDamagedEvent>();
 
+    public Subject<MinionHealedEvent> MinionHealedHandler = new Subject<MinionHealedEvent>();
+
     public Subject<MinionDiedEvent> MinionDiedHandler = new Subject<MinionDiedEvent>();
 
     // Hero Event Subjects //
@@ -38,6 +38,8 @@ public class EventManager
 
     public Subject<HeroPreDamageEvent> HeroPreDamageHandler = new Subject<HeroPreDamageEvent>();
     public Subject<HeroDamagedEvent> HeroDamagedHandler = new Subject<HeroDamagedEvent>();
+
+    public Subject<HeroHealedEvent> HeroHealedHandler = new Subject<HeroHealedEvent>(); 
 
     public Subject<HeroGainedArmorEvent> HeroGainedArmorHandler = new Subject<HeroGainedArmorEvent>();
 
@@ -136,6 +138,22 @@ public class EventManager
         }
     }
 
+    public void OnMinionHealed(MinionCard minion, int healAmount)
+    {
+        MinionHealedEvent minionHealedEvent = new MinionHealedEvent()
+        {
+            Minion = minion,
+            HealAmount = healAmount
+        };
+
+        MinionHealedHandler.OnNext(minionHealedEvent);
+
+        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        {
+            battlefieldMinion.BuffManager.OnMinionHealed.OnNext(minion);
+        }
+    }
+
     public void OnMinionDied(MinionCard minion)
     {
         MinionDiedEvent minionDiedEvent = new MinionDiedEvent()
@@ -206,6 +224,22 @@ public class EventManager
         foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.BuffManager.OnHeroDamaged.OnNext(null);
+        }
+    }
+
+    public void OnHeroHealed(Hero hero, int healAmount)
+    {
+        HeroHealedEvent heroHealedEvent = new HeroHealedEvent()
+        {
+            Hero = hero,
+            HealAmount = healAmount
+        };
+
+        HeroHealedHandler.OnNext(heroHealedEvent);
+
+        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        {
+            battlefieldMinion.BuffManager.OnHeroHealed.OnNext(null);
         }
     }
 

@@ -44,6 +44,7 @@ public class MinionCard : BaseCard, ICharacter
 
     public void RemoveBuff(BaseBuff buff)
     {
+        // Checking if the minion has the buff
         if (BuffManager.AllBuffs.Contains(buff))
         {
             // Removing the buff from the list
@@ -165,7 +166,20 @@ public class MinionCard : BaseCard, ICharacter
 
     public void Heal(int healAmount)
     {
-        
+        // TODO : Trigger events
+
+        int healeableHealth = MaxHealth - CurrentHealth;
+
+        if (healAmount > healeableHealth)
+        {
+            this.CurrentHealth = MaxHealth;
+        }
+        else
+        {
+            this.CurrentHealth += healAmount;
+        }
+
+        // TODO : Show heal animation + healed amount
     }
 
     public void Spawn()

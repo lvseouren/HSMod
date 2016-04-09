@@ -8,6 +8,7 @@ public class BuffManager
 
     #region Events
 
+    // Self Events //
     public Subject<object> Battlecry = new Subject<object>();
     public Subject<object> Deathrattle = new Subject<object>();
 
@@ -19,7 +20,7 @@ public class BuffManager
 
     public Subject<object> OnInspired = new Subject<object>();
 
-    // Played events may be fusioned in the future
+    // Global Events //
     public Subject<BaseCard> OnCardDrawn = new Subject<BaseCard>();
     public Subject<object> OnCardDiscarded = new Subject<object>();
     public Subject<object> OnCardPlayed = new Subject<object>();
@@ -41,6 +42,7 @@ public class BuffManager
     public Subject<object> OnCharacterHealed = new Subject<object>();
 
     public Subject<object> OnHeroDamaged = new Subject<object>();
+    public Subject<object> OnHeroHealed = new Subject<object>(); 
     public Subject<object> OnHeroGainedArmor = new Subject<object>();
     public Subject<object> OnHeroEquippedWeapon = new Subject<object>(); // TODO in EventManager
 

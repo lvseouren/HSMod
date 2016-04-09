@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public abstract class BaseCard : MonoBehaviour
+﻿public abstract class BaseCard
 {
     // Base Stats //
     public string Name;
