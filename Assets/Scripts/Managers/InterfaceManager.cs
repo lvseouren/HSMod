@@ -36,19 +36,24 @@ public class InterfaceManager : MonoBehaviour
 
     private void Start()
     {
+        // Setting the Singleton Instance
         _instance = this;
 
+        // Creating the parent GameObject for the UI
         interfaceParent = new GameObject("InterfaceParent");
         interfaceParent.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
 
+        // Creating the GameObjects for each UI component
         arrowObject = CreateChildObject("Arrow", 0f);
         arrowCircleObject = CreateChildObject("ArrowCircle", 0f);
         arrowBodyObject = CreateChildObject("ArrowBody", 0f);
 
+        // Creating the SpriteRenderer for each UI GameObject
         arrowRenderer = CreateChildSprite(arrowObject, "Sprites/UI/Arrow");
         arrowCircleRenderer = CreateChildSprite(arrowCircleObject, "Sprites/UI/ArrowCircle");
         arrowBodyRenderer = CreateChildSprite(arrowBodyObject, "Sprites/UI/ArrowBody");
 
+        // Setting the sorting layer order
         arrowRenderer.sortingOrder = 2;
         arrowCircleRenderer.sortingOrder = 1;
         arrowBodyRenderer.sortingOrder = 0;
@@ -109,6 +114,7 @@ public class InterfaceManager : MonoBehaviour
     private SpriteRenderer CreateChildSprite(GameObject rendererObject, string sprite)
     {
         SpriteRenderer spriteRenderer = rendererObject.AddComponent<SpriteRenderer>();
+        spriteRenderer.sortingLayerName = "UI";
         spriteRenderer.sprite = Resources.Load<Sprite>(sprite);
         spriteRenderer.enabled = false;
 

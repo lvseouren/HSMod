@@ -13,6 +13,7 @@ public class MinionController : MonoBehaviour
         redGlowRenderer = CreateChildSprite("RedGlow", "Sprites/Glows/Minion_Normal_RedGlow", 0.01f);
     }
 
+    // TODO : Separate GameObject and SpriteRenderer methods
     private SpriteRenderer CreateChildSprite(string name, string sprite, float position)
     {
         // Creating the GameObject to hold the SpriteRenderer
@@ -24,6 +25,7 @@ public class MinionController : MonoBehaviour
 
         // Creating the SpriteRenderer
         SpriteRenderer glowRenderer = glow.AddComponent<SpriteRenderer>();
+        glowRenderer.sortingLayerName = "Minion";
         glowRenderer.sprite = Resources.Load<Sprite>(sprite);
         glowRenderer.enabled = false;
 
