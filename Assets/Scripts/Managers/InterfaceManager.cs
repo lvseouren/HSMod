@@ -48,12 +48,18 @@ public class InterfaceManager : MonoBehaviour
         arrowRenderer = CreateChildSprite(arrowObject, "Sprites/UI/Arrow");
         arrowCircleRenderer = CreateChildSprite(arrowCircleObject, "Sprites/UI/ArrowCircle");
         arrowBodyRenderer = CreateChildSprite(arrowBodyObject, "Sprites/UI/ArrowBody");
+
+        arrowRenderer.sortingOrder = 2;
+        arrowCircleRenderer.sortingOrder = 1;
+        arrowBodyRenderer.sortingOrder = 0;
     }
 
     private void LateUpdate()
     {
         if (IsDragging)
         {
+            // Arrow and Circle //
+
             // Getting the world position based on the mouse position
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0f, 0f, 1000f));
 
@@ -64,21 +70,28 @@ public class InterfaceManager : MonoBehaviour
             arrowRenderer.transform.position = mousePosition;
             arrowCircleRenderer.transform.position = mousePosition;
 
-            // Setting the body of the arrow halfway between the mouse and the origin
-            arrowBodyRenderer.transform.position = Camera.main.ScreenToWorldPoint(originPosition + (arrowDirection / 2) + new Vector3(0f, 0f, 1000f));
-
             // Getting the angle that forms between the minion and the mouse
             float arrowRotation = Mathf.Atan2(arrowDirection.y, arrowDirection.x) * Mathf.Rad2Deg;
 
             // Setting the arrow rotation 
-            arrowRenderer.transform.localEulerAngles = new Vector3(0f, 0f, arrowRotation - 90);
-            arrowBodyRenderer.transform.localEulerAngles = new Vector3(0f, 0f, arrowRotation - 90);
+            Vector3 rotation = new Vector3(0f, 0f, arrowRotation - 90);
+            arrowRenderer.transform.localEulerAngles = rotation;
+
+
+            // Arrow Body //
+
+            // Setting the body of the arrow halfway between the mouse and the origin
+            arrowBodyRenderer.transform.position = Camera.main.ScreenToWorldPoint(originPosition + (arrowDirection / 2) + new Vector3(0f, 0f, 1000f));
+
+            // Setting the body rotation
+            arrowBodyRenderer.transform.localEulerAngles = rotation;
 
             // Setting the arrow body scale based on the distance
-            // TODO : Fix for all resolutions
-            arrowBodyRenderer.transform.localScale = new Vector3(80f, Mathf.Log10(Mathf.Pow(arrowDirection.magnitude, 0.15f) + 0.001f) * arrowDirection.magnitude, 80f);
+            Vector3 worldArrowDirection = mousePosition - Camera.main.ScreenToWorldPoint(originPosition + new Vector3(0f, 0f, 1000f));
+            float worldArrowScale = 0.27f * worldArrowDirection.magnitude;
+            arrowBodyRenderer.transform.localScale = new Vector3(80f, worldArrowScale, 80f);
 
-            // TODO : Set the arrow body offset (animate arrow
+            // TODO : Set the arrow body offset (animate arrow)
         }
     }
 
