@@ -8,44 +8,55 @@ public class MinionController : MonoBehaviour
 
     private void Start()
     {
-        GameObject greenGlow = new GameObject("GreenGlow");
-        greenGlow.transform.parent = this.transform;
-        greenGlow.transform.localPosition = new Vector3(0f, 0f, 0.01f);
-        greenGlow.transform.localEulerAngles = Vector3.zero;
-        greenGlow.transform.localScale = Vector3.one;
+        greenGlowRenderer = CreateChildSprite("GreenGlow", "Sprites/Glows/Minion_Normal_GreenGlow", 0.01f);
+        whiteGlowRenderer = CreateChildSprite("WhiteGlow", "Sprites/Glows/Minion_Normal_WhiteGlow", 0.01f);
+        redGlowRenderer = CreateChildSprite("RedGlow", "Sprites/Glows/Minion_Normal_RedGlow", 0.01f);
+    }
 
-        greenGlowRenderer = greenGlow.AddComponent<SpriteRenderer>();
-        greenGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/MinionGreenGlow");
-        greenGlowRenderer.enabled = false;
+    private SpriteRenderer CreateChildSprite(string name, string sprite, float position)
+    {
+        // Creating the GameObject to hold the SpriteRenderer
+        GameObject glow = new GameObject(name);
+        glow.transform.parent = this.transform;
+        glow.transform.localPosition = new Vector3(0f, 0f, position);
+        glow.transform.localEulerAngles = Vector3.zero;
+        glow.transform.localScale = Vector3.one;
 
-        GameObject whiteGlow = new GameObject("WhiteGlow");
-        whiteGlow.transform.parent = this.transform;
-        whiteGlow.transform.localPosition = new Vector3(0f, 0f, 0.01f);
-        whiteGlow.transform.localEulerAngles = Vector3.zero;
-        whiteGlow.transform.localScale = Vector3.one;
+        // Creating the SpriteRenderer
+        SpriteRenderer glowRenderer = glow.AddComponent<SpriteRenderer>();
+        glowRenderer.sprite = Resources.Load<Sprite>(sprite);
+        glowRenderer.enabled = false;
 
-        whiteGlowRenderer = whiteGlow.AddComponent<SpriteRenderer>();
-        whiteGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/MinionWhiteGlow");
-        whiteGlowRenderer.enabled = false;
-
-        GameObject redGlow = new GameObject("RedGlow");
-        redGlow.transform.parent = this.transform;
-        redGlow.transform.localPosition = new Vector3(0f, 0f, 0.01f);
-        redGlow.transform.localEulerAngles = Vector3.zero;
-        redGlow.transform.localScale = Vector3.one;
-
-        redGlowRenderer = redGlow.AddComponent<SpriteRenderer>();
-        //redGlowRenderer.sprite = Resources.Load<Sprite>("Resources/Sprites/Glows/MinionRedGlow.png");
-        redGlowRenderer.enabled = false;
+        return glowRenderer;
     }
 
     private void OnMouseEnter()
     {
         whiteGlowRenderer.enabled = true;
+
+        if (InterfaceManager.Instance.IsDragging)
+        {
+            InterfaceManager.Instance.EnableArrowCircle();
+        }
+    }
+
+    private void OnMouseDown()
+    {
+        InterfaceManager.Instance.EnableArrow();
+    }
+
+    private void OnMouseUp()
+    {
+        InterfaceManager.Instance.DisableArrow();
     }
 
     private void OnMouseExit()
     {
         whiteGlowRenderer.enabled = false;
+
+        if (InterfaceManager.Instance.IsDragging)
+        {
+            InterfaceManager.Instance.DisableArrowCircle();
+        }
     }
 }
