@@ -34,23 +34,9 @@ public class MinionController : MonoBehaviour
         string glowString = GetGlowString();
 
         // Cleaning up the old sprites and textures to avoid memory leaks
-        if (whiteGlowRenderer.sprite != null)
-        {
-            Destroy(whiteGlowRenderer.sprite.texture);
-            Destroy(whiteGlowRenderer.sprite);
-        }
-
-        if (greenGlowRenderer.sprite != null)
-        {
-            Destroy(greenGlowRenderer.sprite.texture);
-            Destroy(greenGlowRenderer.sprite);
-        }
-
-        if (redGlowRenderer.sprite != null)
-        {
-            Destroy(redGlowRenderer.sprite.texture);
-            Destroy(redGlowRenderer.sprite);
-        }
+        whiteGlowRenderer.Dispose();
+        greenGlowRenderer.Dispose();
+        redGlowRenderer.Dispose();
 
         whiteGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "WhiteGlow");
         greenGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "GreenGlow");
