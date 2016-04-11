@@ -6,31 +6,97 @@ public class MinionController : MonoBehaviour
     private SpriteRenderer whiteGlowRenderer;
     private SpriteRenderer redGlowRenderer;
 
-    private void Start()
+    private bool CanTarget = false;
+    private bool IsLegendary = false;
+    private bool IsTaunt = false;
+
+    public static void AddTo(GameObject gameObject, bool legendary, bool taunt)
     {
-        greenGlowRenderer = CreateChildSprite("GreenGlow", "Sprites/Glows/Minion_Normal_GreenGlow", 0.01f);
-        whiteGlowRenderer = CreateChildSprite("WhiteGlow", "Sprites/Glows/Minion_Normal_WhiteGlow", 0.01f);
-        redGlowRenderer = CreateChildSprite("RedGlow", "Sprites/Glows/Minion_Normal_RedGlow", 0.01f);
+        MinionController minionController = gameObject.AddComponent<MinionController>();
+        minionController.IsLegendary = legendary;
+        minionController.IsTaunt = taunt;
+
+        minionController.Initialize();
     }
 
-    // TODO : Separate GameObject and SpriteRenderer methods
-    private SpriteRenderer CreateChildSprite(string name, string sprite, float position)
+    private void Initialize()
     {
-        // Creating the GameObject to hold the SpriteRenderer
-        GameObject glow = new GameObject(name);
-        glow.transform.parent = this.transform;
-        glow.transform.localPosition = new Vector3(0f, 0f, position);
-        glow.transform.localEulerAngles = Vector3.zero;
-        glow.transform.localScale = Vector3.one;
+        whiteGlowRenderer = CreateChildSprite("WhiteGlow", 2);
+        greenGlowRenderer = CreateChildSprite("GreenGlow", 1);
+        redGlowRenderer = CreateChildSprite("RedGlow", 0);
 
-        // Creating the SpriteRenderer
-        SpriteRenderer glowRenderer = glow.AddComponent<SpriteRenderer>();
+        UpdateSprites();
+    }
+
+    public void UpdateSprites()
+    {
+        // Getting the string path to the glows
+        string glowString = GetGlowString();
+
+        // Cleaning up the old sprites and textures to avoid memory leaks
+        if (whiteGlowRenderer.sprite != null)
+        {
+            Destroy(whiteGlowRenderer.sprite.texture);
+            Destroy(whiteGlowRenderer.sprite);
+        }
+
+        if (greenGlowRenderer.sprite != null)
+        {
+            Destroy(greenGlowRenderer.sprite.texture);
+            Destroy(greenGlowRenderer.sprite);
+        }
+
+        if (redGlowRenderer.sprite != null)
+        {
+            Destroy(redGlowRenderer.sprite.texture);
+            Destroy(redGlowRenderer.sprite);
+        }
+
+        whiteGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "WhiteGlow");
+        greenGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "GreenGlow");
+        redGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "RedGlow");
+    }
+
+    private string GetGlowString()
+    {
+        string glowString = "Sprites/Glows/Minion_";
+
+        if (IsLegendary)
+        {
+            glowString += "Legendary_";
+        }
+        else
+        {
+            glowString += "Normal_";
+        }
+
+        if (IsTaunt)
+        {
+            glowString += "Taunt_";
+        }
+
+        return glowString;
+    }
+    
+    private SpriteRenderer CreateChildSprite(string name, int order)
+    {
+        // Creating a GameObject to hold the SpriteRenderer
+        GameObject glowObject = new GameObject(name);
+        glowObject.transform.parent = this.transform;
+        glowObject.transform.localPosition = new Vector3(0f, 0f, 0f);
+        glowObject.transform.localEulerAngles = Vector3.zero;
+        glowObject.transform.localScale = Vector3.one;
+
+        // Creating the SpriteRenderer and adding it to the GameObject
+        SpriteRenderer glowRenderer = glowObject.AddComponent<SpriteRenderer>();
         glowRenderer.sortingLayerName = "Minion";
-        glowRenderer.sprite = Resources.Load<Sprite>(sprite);
+        glowRenderer.sortingOrder = order;
         glowRenderer.enabled = false;
 
         return glowRenderer;
     }
+
+    #region Unity Messages
 
     private void OnMouseEnter()
     {
@@ -61,4 +127,6 @@ public class MinionController : MonoBehaviour
             InterfaceManager.Instance.DisableArrowCircle();
         }
     }
+
+    #endregion
 }
