@@ -38,7 +38,7 @@ public class DeathCoil : SpellCard
 
                     minionTarget.BuffManager.OnTargetedBySpell.OnNext(this);
 
-                    minionTarget.CheckDie();
+                    minionTarget.CheckDeath();
                 }
             }
         }     

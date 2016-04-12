@@ -90,7 +90,7 @@ public class Hero : MonoBehaviour, ICharacter
                     EventManager.Instance.OnHeroDamaged(minionTarget, this, minionAttack);
 
                     // Checking death of the minion
-                    minionTarget.CheckDie();
+                    minionTarget.CheckDeath();
                 }
             }
 

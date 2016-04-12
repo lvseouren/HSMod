@@ -147,8 +147,8 @@ public class MinionCard : BaseCard, ICharacter
                     EventManager.Instance.OnMinionDamaged(minionTarget, this);
 
                     // Checking death of both minions
-                    minionTarget.CheckDie();
-                    this.CheckDie();
+                    minionTarget.CheckDeath();
+                    this.CheckDeath();
                 }
             }
 
@@ -160,14 +160,16 @@ public class MinionCard : BaseCard, ICharacter
 
     public void Damage(int damageAmount)
     {
+        // TODO : Be able to modify the damage (such as standing armor, only takes 1 dmg each time, etc...)
+        this.BuffManager.OnPreDamage.OnNext(damageAmount);
+
         this.BaseHealth -= damageAmount;
-        // TODO : Sprite -> Show health loss on card
+
+        // TODO : Sprite -> Show health loss on token
     }
 
     public void Heal(int healAmount)
     {
-        // TODO : Trigger events
-
         int healeableHealth = MaxHealth - CurrentHealth;
 
         if (healAmount > healeableHealth)
@@ -179,19 +181,25 @@ public class MinionCard : BaseCard, ICharacter
             this.CurrentHealth += healAmount;
         }
 
-        // TODO : Show heal animation + healed amount
+        // Firing OnMinionHealed events
+        // TODO : OnCharacterHealed event
+        EventManager.Instance.OnMinionHealed(this, healAmount);
+
+        // TODO : Show heal animation + sprite with healed amount
     }
 
     public void Spawn()
     {
-        // TODO : Custom animations, sounds, etc ?
-        // TODO : Position in battlefield
+        // TODO : Call custom animations, sounds, etc ?
+        // TODO : Positioning in battlefield
+
         CurrentAttack = BaseAttack;
         CurrentHealth = BaseHealth;
     }
 
-    public void CheckDie()
+    public void CheckDeath()
     {
+        // Checking if the minion is alive
         if (IsAlive() == false)
         {
             Die();
@@ -200,9 +208,12 @@ public class MinionCard : BaseCard, ICharacter
 
     public void Die()
     {
-        //EventManager.OnMinionDied(this);
+        // Firing OnMinionDied events
+        EventManager.Instance.OnMinionDied(this);
+
         // TODO : Custom animations, sounds, etc ?
-        // TODO : Add card to list of dead minions
+        // TODO : Add minion to list of dead minions
+
         Destroy();
     }
 
@@ -240,7 +251,7 @@ public class MinionCard : BaseCard, ICharacter
     public void Transform(MinionCard other)
     {
         // TODO : Play transform animation
-        // TODO : Transform minion without triggering anything
+        // TODO : Transform minion without triggering anything, destroy old minion
     }
 
     #endregion
