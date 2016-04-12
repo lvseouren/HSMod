@@ -39,13 +39,13 @@
             {
                 MinionCard minionTarget = (MinionCard) target;
 
-                minionTarget.BuffManager.OnPreDamage.OnNext(null);
-
                 MinionPreDamageEvent minionPreDamageEvent = EventManager.Instance.OnMinionPreDamage(null, minionTarget);
 
                 if (minionPreDamageEvent.IsCancelled == false)
                 {
                     int damage = 2 + this.Player.GetSpellPower();
+
+                    minionTarget.BuffManager.OnPreDamage.OnNext(damage);
 
                     minionTarget.Damage(damage);
 

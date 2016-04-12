@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 public class CorpseExplosion : SpellCard
 {
     public CorpseExplosion()
@@ -15,11 +18,31 @@ public class CorpseExplosion : SpellCard
 
     public override void Cast(ICharacter target)
     {
-        //EventManager.OnSpellPreCast();
+        target.As<MinionCard>().BuffManager.Deathrattle.Subscribe(x => ExplodeCorpse());
+    }
 
-        // TODO : Target add buff
-        //target.OnTargetedBySpell(this);
+    public void ExplodeCorpse()
+    {
+        // Getting a reference to the list of enemy minions
+        List<MinionCard> enemyMinions = this.Player.Enemy.Minions;
 
-        //EventManager.OnSpellCasted();
+        // Iterating on the list to damage the minions
+        foreach (MinionCard minion in enemyMinions)
+        {
+            // TODO : PreDamage ?
+
+            // Damaging the minion
+            minion.Damage(2);
+
+
+            EventManager.Instance.OnMinionDamaged(null, minion);
+        }
+
+        // Iterating on the list to check the minions
+        foreach (MinionCard minion in enemyMinions)
+        {
+            // Checking if the minion should die
+            minion.CheckDeath();
+        }
     }
 }

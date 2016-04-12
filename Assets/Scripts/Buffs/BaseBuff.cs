@@ -1,5 +1,8 @@
 ﻿public abstract class BaseBuff
 {
+    public string Name;
+    public string Description;
+
     public BuffType BuffType;
 
     public virtual void OnAdded(MinionCard minion) { }

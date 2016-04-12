@@ -31,13 +31,21 @@ public class SkeletonCommander : MinionCard
         {
             minionPlayedEvent.Minion.AddBuff(new SkeletonCommanderBuff());
 
-            MinionPlayedSubscription.Dispose();
+            this.MinionPlayedSubscription.Dispose();
         }
     }
 }
 
 public class SkeletonCommanderBuff : BaseBuff
 {
+    public SkeletonCommanderBuff()
+    {
+        Name = "Commanded";
+        Description = "+1/+1";
+
+        BuffType = BuffType.Buff;
+    }
+
     public override void OnAdded(MinionCard minion)
     {
         minion.CurrentAttack += 1;

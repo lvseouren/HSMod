@@ -15,10 +15,10 @@ public class VengefulSpirit : MinionCard
         BaseAttack = 2;
         BaseHealth = 2;
 
-        this.BuffManager.Deathrattle.Subscribe(x => this.Deathrattle());
+        this.BuffManager.Deathrattle.Subscribe(x => this.Deathrattle(x));
     }
 
-    public void Deathrattle()
+    public void Deathrattle(MinionCard x)
     {
         // TODO : Spawn 2/1 Spiteful Wrath
     }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reactive.Disposables;
 using System.Reactive.Subjects;
 
 public class BuffManager
@@ -10,12 +11,12 @@ public class BuffManager
 
     // Self Events //
     public Subject<object> Battlecry = new Subject<object>();
-    public Subject<object> Deathrattle = new Subject<object>();
+    public Subject<MinionCard> Deathrattle = new Subject<MinionCard>();
 
     public Subject<object> OnPreAttack = new Subject<object>();
     public Subject<int> OnAttacked = new Subject<int>();
 
-    public Subject<object> OnPreDamage = new Subject<object>();
+    public Subject<int> OnPreDamage = new Subject<int>();
     public Subject<object> OnDamaged = new Subject<object>();
 
     public Subject<object> OnInspired = new Subject<object>();
