@@ -1,21 +1,22 @@
 ﻿public class SpellCard : BaseCard
 {
     public TargetType TargetType;
-
-    public virtual void Cast()
+    
+    public void OnCast(ICharacter target)
     {
+        SpellPreCastEvent spellPreCastEvent = EventManager.Instance.OnSpellPreCast(this.Player, this);
 
-    }
-
-    public virtual void Cast(ICharacter target)
-    {
-        if (this.CanTarget(target))
+        if (spellPreCastEvent.IsCancelled == false)
         {
-            
+            Cast(target);
         }
+
+        EventManager.Instance.OnSpellCasted(this.Player, this);
     }
 
-    public bool CanTarget(ICharacter target)
+    public virtual void Cast(ICharacter target) { }
+
+    public virtual bool CanTarget(ICharacter target)
     {
         // The target is a Hero
         if (target.IsHero())
@@ -55,11 +56,11 @@
 
 public enum TargetType
 {
-    NoTarget, // No target, such as Innervate
-    AllCharacters, // Can target all (heros and minions), such as Healing Touch
-    AllMinions, // Can target all minions (friendly and enemy minions), such as Mark of Nature
-    EnemyCharacters, // Can target all enemies (hero and minions), such as Swipe
-    EnemyMinions, // Can target all enemy minions, such as Wrath
-    // Does FriendlyCharacters exist ??
-    FriendlyMinions // Can target all friendly minions, such as Shadowflame
+    NoTarget, // No target, such as Innervate (Druid)
+    AllCharacters, // Can target all (heros and minions), such as Healing Touch (Druid)
+    AllMinions, // Can target all minions (friendly and enemy), such as Inner Rage (Warrior)
+    EnemyCharacters, // Can target all enemy characters (hero and minions), such as Swipe (Druid)
+    EnemyMinions, // Can target enemy minions, such as Wrath (Druid)
+    FriendlyCharacters, //Can target friendly minions and own hero, such as Rockbiter Weapon (Shaman)
+    FriendlyMinions // Can target friendly minions, such as Shadowflame (Warlock)
 }
