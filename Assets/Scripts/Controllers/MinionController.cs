@@ -28,15 +28,27 @@ public class MinionController : MonoBehaviour
         UpdateSprites();
     }
 
+    public void Remove()
+    {
+        whiteGlowRenderer.DisposeSprite();
+        Destroy(whiteGlowRenderer);
+
+        greenGlowRenderer.DisposeSprite();
+        Destroy(greenGlowRenderer.gameObject);
+
+        redGlowRenderer.DisposeSprite();
+        Destroy(redGlowRenderer);
+    }
+
     public void UpdateSprites()
     {
         // Getting the string path to the glows
         string glowString = GetGlowString();
 
         // Cleaning up the old sprites and textures to avoid memory leaks
-        whiteGlowRenderer.Dispose();
-        greenGlowRenderer.Dispose();
-        redGlowRenderer.Dispose();
+        whiteGlowRenderer.DisposeSprite();
+        greenGlowRenderer.DisposeSprite();
+        redGlowRenderer.DisposeSprite();
 
         whiteGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "WhiteGlow");
         greenGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "GreenGlow");
@@ -96,7 +108,10 @@ public class MinionController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        InterfaceManager.Instance.EnableArrow();
+        if (this.CanTarget)
+        {
+            InterfaceManager.Instance.EnableArrow();
+        }
     }
 
     private void OnMouseUp()
