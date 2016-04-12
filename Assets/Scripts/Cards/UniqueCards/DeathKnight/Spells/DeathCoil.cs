@@ -8,35 +8,37 @@ public class DeathCoil : SpellCard
         CardClass = CardClass.DeathKnight;
         Rarity = Rarity.Common;
 
-        TargetType = TargetType.TargetAllMinions;
+        TargetType = TargetType.AllMinions;
 
         BaseCost = 1;
     }
 
-    public override void Cast(MinionCard target)
+    public override void Cast(ICharacter target)
     {
+        MinionCard minionTarget = target.As<MinionCard>();
+
         SpellPreCastEvent spellPreCastEvent = EventManager.Instance.OnSpellPreCast(this.Player, this);
 
         if (spellPreCastEvent.IsCancelled == false)
         {
-            if (target.MinionType == MinionType.Undead && target.Player == this.Player)
+            if (minionTarget.MinionType == MinionType.Undead && minionTarget.Player == this.Player)
             {
                 // TODO : Heal animation and sound
-                target.CurrentHealth = target.MaxHealth;
+                minionTarget.CurrentHealth = minionTarget.MaxHealth;
 
-                target.BuffManager.OnTargetedBySpell.OnNext(this);
+                minionTarget.BuffManager.OnTargetedBySpell.OnNext(this);
             }
             else
             {
-                MinionPreDamageEvent minionPreDamageEvent = EventManager.Instance.OnMinionPreDamage(this.Player.Hero, target);
+                MinionPreDamageEvent minionPreDamageEvent = EventManager.Instance.OnMinionPreDamage(this.Player.Hero, minionTarget);
 
                 if (minionPreDamageEvent.IsCancelled == false)
                 {
-                    target.Damage(2 + this.Player.GetSpellPower());
+                    minionTarget.Damage(2 + this.Player.GetSpellPower());
 
-                    target.BuffManager.OnTargetedBySpell.OnNext(this);
+                    minionTarget.BuffManager.OnTargetedBySpell.OnNext(this);
 
-                    target.CheckDie();
+                    minionTarget.CheckDie();
                 }
             }
         }     

@@ -8,11 +8,12 @@
         CardClass = CardClass.DeathKnight;
         Rarity = Rarity.Common;
 
-        TargetType = TargetType.TargetAll;
+        TargetType = TargetType.AllCharacters;
 
         BaseCost = 2;
     }
 
+    // TODO : Move this to base class somehow
     public override void Cast(ICharacter target)
     {
         SpellPreCastEvent spellPreCastEvent = EventManager.Instance.OnSpellPreCast(this.Player, this);
@@ -38,9 +39,20 @@
             {
                 MinionCard minionTarget = (MinionCard) target;
 
-                // TODO                
+                minionTarget.BuffManager.OnPreDamage.OnNext(null);
 
-                target.Damage(2 + this.Player.GetSpellPower());
+                MinionPreDamageEvent minionPreDamageEvent = EventManager.Instance.OnMinionPreDamage(null, minionTarget);
+
+                if (minionPreDamageEvent.IsCancelled == false)
+                {
+                    int damage = 2 + this.Player.GetSpellPower();
+
+                    minionTarget.Damage(damage);
+
+                    minionTarget.BuffManager.OnDamaged.OnNext(null);
+
+                    EventManager.Instance.OnMinionDamaged(null, minionTarget);
+                }
             }
 
             // TODO : Summon a 1/1 Ghoul with Charge.

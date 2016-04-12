@@ -8,7 +8,7 @@ public class UnholyFrenzy : SpellCard
         CardClass = CardClass.DeathKnight;
         Rarity = Rarity.Common;
 
-        TargetType = TargetType.TargetAllMinions;
+        TargetType = TargetType.AllMinions;
 
         BaseCost = 1;
     }

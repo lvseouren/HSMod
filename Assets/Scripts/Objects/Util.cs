@@ -16,4 +16,19 @@ public static class Util
             }
         }
     }
+
+    public static bool IsHero(this ICharacter character)
+    {
+        return character.GetType() == typeof (Hero);
+    }
+
+    public static bool IsMinion(this ICharacter character)
+    {
+        return character.GetType() == typeof(MinionCard);
+    }
+
+    public static T As<T>(this ICharacter character)
+    {
+        return (T) character;
+    }
 }
