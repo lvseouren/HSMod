@@ -50,19 +50,16 @@ public class Hero : MonoBehaviour, ICharacter
                 Hero heroTarget = (Hero) target;
 
                 // Firing OnHeroPreDamage event
-                HeroPreDamageEvent heroPreDamageEvent = EventManager.Instance.OnHeroPreDamage(this, heroTarget);
+                HeroPreDamageEvent heroPreDamageEvent = EventManager.Instance.OnHeroPreDamage(heroTarget, this, this.CurrentAttack);
 
                 // Checking if the Attack was cancelled
                 if (heroPreDamageEvent.IsCancelled == false)
                 {
-                    // Getting the atttack values
-                    int heroAttack = this.CurrentAttack;
-
                     // Attacking the target hero
-                    heroTarget.Damage(this.CurrentAttack);
+                    heroTarget.Damage(heroPreDamageEvent.Damage);
 
                     // Firing OnHeroDamaged event
-                    EventManager.Instance.OnHeroDamaged(this, heroTarget, heroAttack);
+                    EventManager.Instance.OnHeroDamaged(this, heroTarget, heroPreDamageEvent.Damage);
                 }
             }
             else if (target is MinionCard)
@@ -89,7 +86,7 @@ public class Hero : MonoBehaviour, ICharacter
                     EventManager.Instance.OnMinionDamaged(this, minionTarget);
 
                     // Triggering global events for the hero
-                    EventManager.Instance.OnHeroDamaged(minionTarget, this, minionAttack);
+                    EventManager.Instance.OnHeroDamaged(this, minionTarget, minionAttack);
 
                     // Checking death of the minion
                     minionTarget.CheckDeath();

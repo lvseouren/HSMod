@@ -113,12 +113,14 @@ public class MinionCard : BaseCard, ICharacter
                 if (heroPreDamageEvent.IsCancelled == false)
                 {
                     // Attacking the target hero
-                    heroTarget.Damage(this.CurrentAttack);
+                    heroTarget.Damage(heroPreDamageEvent.Damage);
 
                     // Firing OnHeroDamaged event
-                    EventManager.Instance.OnHeroDamaged(this, heroTarget, attackerAttack);
+                    EventManager.Instance.OnHeroDamaged(heroTarget, this, attackerAttack);
                 }
             }
+
+            // TODO : Fix pre events
             else if (target is MinionCard)
             {
                 // Casting ICharacter to MinionCard
