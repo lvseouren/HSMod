@@ -254,19 +254,3 @@ public class MinionCard : BaseCard, ICharacter
         // TODO : Transform minion without triggering anything, destroy old minion
     }
 }
-
-public enum MinionType
-{
-    // Classic Types //
-    General,
-    Murloc,
-    Beast,
-    Mech,
-    Dragon,
-    Pirate,
-    Demon,
-    Totem,
-
-    // Custom Types //
-    Undead
-}
