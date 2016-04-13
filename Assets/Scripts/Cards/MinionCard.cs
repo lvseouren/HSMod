@@ -158,6 +158,21 @@ public class MinionCard : BaseCard, ICharacter
         }
     }
 
+    public void TryDamage(ICharacter attacker, int damageAmount)
+    {
+        MinionPreDamageEvent minionPreDamageEvent = EventManager.Instance.OnMinionPreDamage(this, attacker, damageAmount);
+
+        if (minionPreDamageEvent.IsCancelled == false)
+        {
+            if (attacker.IsAlive())
+            {
+                this.CurrentHealth -= minionPreDamageEvent.Damage;
+            }
+
+            EventManager.Instance.OnMinionDamaged(this, attacker, damageAmount);
+        }
+    }
+
     public void Damage(int damageAmount)
     {
         // TODO : Be able to modify the damage (such as standing armor, only takes 1 dmg each time, etc...)

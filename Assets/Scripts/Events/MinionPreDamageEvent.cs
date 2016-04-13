@@ -1,7 +1,8 @@
 ﻿public class MinionPreDamageEvent
 {
-    public ICharacter Attacker;
     public MinionCard Minion;
+    public ICharacter Attacker;
+    public int Damage;
 
     public bool IsCancelled
     {

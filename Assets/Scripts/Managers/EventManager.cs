@@ -109,12 +109,13 @@ public class EventManager
         MinionAttackedHandler.OnNext(minionAttackedEvent);
     }
 
-    public MinionPreDamageEvent OnMinionPreDamage(ICharacter attacker, MinionCard minion)
+    public MinionPreDamageEvent OnMinionPreDamage(MinionCard minion, ICharacter attacker, int damageAmount)
     {
         MinionPreDamageEvent minionPreDamageEvent = new MinionPreDamageEvent()
         {
-            Attacker = attacker,
             Minion = minion,
+            Attacker = attacker,
+            Damage = damageAmount
         };
 
         MinionPreDamageHandler.OnNext(minionPreDamageEvent);
@@ -122,12 +123,13 @@ public class EventManager
         return minionPreDamageEvent;
     }
 
-    public void OnMinionDamaged(ICharacter attacker, MinionCard minion)
+    public void OnMinionDamaged(MinionCard minion, ICharacter attacker, int damageAmount)
     {
         MinionDamagedEvent minionDamagedEvent = new MinionDamagedEvent()
         {
+            Minion = minion,
             Attacker = attacker,
-            Minion = minion
+            Damage = damageAmount
         };
 
         MinionDamagedHandler.OnNext(minionDamagedEvent);
