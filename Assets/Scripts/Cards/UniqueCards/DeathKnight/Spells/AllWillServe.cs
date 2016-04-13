@@ -8,56 +8,45 @@
         CardClass = CardClass.DeathKnight;
         Rarity = Rarity.Common;
 
-        TargetType = TargetType.AllCharacters;
-
         BaseCost = 2;
     }
 
     // TODO : Move this to base class somehow
     public override void Cast(ICharacter target)
     {
-        SpellPreCastEvent spellPreCastEvent = EventManager.Instance.OnSpellPreCast(this.Player, this);
+        int damage = 2 + this.Player.GetSpellPower();
 
-        if (spellPreCastEvent.IsCancelled == false)
+        if (target is Hero)
         {
-            if (target is Hero)
+            Hero heroTarget = (Hero) target;
+
+            HeroPreDamageEvent heroPreDamageEvent = EventManager.Instance.OnHeroPreDamage(null, heroTarget);
+
+            if (heroPreDamageEvent.IsCancelled == false)
             {
-                Hero heroTarget = (Hero) target;
+                heroTarget.Damage(damage);
 
-                HeroPreDamageEvent heroPreDamageEvent = EventManager.Instance.OnHeroPreDamage(null, heroTarget);
-
-                if (heroPreDamageEvent.IsCancelled == false)
-                {
-                    int damage = 2 + this.Player.GetSpellPower();
-
-                    heroTarget.Damage(damage);
-
-                    EventManager.Instance.OnHeroDamaged(null, heroTarget, damage);
-                }
+                EventManager.Instance.OnHeroDamaged(null, heroTarget, damage);
             }
-            else if (target is MinionCard)
+        }
+        else if (target is MinionCard)
+        {
+            MinionCard minionTarget = (MinionCard) target;
+
+            MinionPreDamageEvent minionPreDamageEvent = EventManager.Instance.OnMinionPreDamage(null, minionTarget);
+
+            if (minionPreDamageEvent.IsCancelled == false)
             {
-                MinionCard minionTarget = (MinionCard) target;
+                minionTarget.BuffManager.OnPreDamage.OnNext(damage);
 
-                MinionPreDamageEvent minionPreDamageEvent = EventManager.Instance.OnMinionPreDamage(null, minionTarget);
+                minionTarget.Damage(damage);
 
-                if (minionPreDamageEvent.IsCancelled == false)
-                {
-                    int damage = 2 + this.Player.GetSpellPower();
+                minionTarget.BuffManager.OnDamaged.OnNext(null);
 
-                    minionTarget.BuffManager.OnPreDamage.OnNext(damage);
-
-                    minionTarget.Damage(damage);
-
-                    minionTarget.BuffManager.OnDamaged.OnNext(null);
-
-                    EventManager.Instance.OnMinionDamaged(null, minionTarget);
-                }
+                EventManager.Instance.OnMinionDamaged(null, minionTarget);
             }
-
-            // TODO : Summon a 1/1 Ghoul with Charge.
         }
 
-        EventManager.Instance.OnSpellCasted(this.Player, this);
+        // TODO : Summon 1/1
     }
 }
