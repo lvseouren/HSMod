@@ -260,7 +260,7 @@ public class EventManager
         }
     }
 
-    public void OnHeroPower(Hero hero, HeroPower heroPower)
+    public void OnHeroPower(Hero hero, BaseHeroPower heroPower)
     {
         HeroPowerEvent heroPowerEvent = new HeroPowerEvent()
         {
