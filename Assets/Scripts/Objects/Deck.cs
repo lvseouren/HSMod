@@ -74,8 +74,7 @@ public class Deck
             // Triggering OnDrawn events (card and global)
             drawnBaseCard.OnDrawn();
             EventManager.Instance.OnCardDrawn(this.Player, drawnBaseCard);
-
-            // Returning the drawn card
+            
             return drawnBaseCard;
         }
         else
@@ -88,5 +87,19 @@ public class Deck
 
             return null;
         }
+    }
+
+    public BaseCard MulliganDraw()
+    {
+        // Instantiating a new card
+        GameObject drawnCard = GameObject.Instantiate(_currentDeck[0]);
+        drawnCard.transform.localScale = drawnCard.transform.localScale / 2;
+        drawnCard.transform.SetParent(HandObject.transform);
+
+        // Removing the instantiated card from the deck
+        _currentDeck.RemoveAt(0);
+
+        // Getting the BaseCard component from the instantiated card
+        return drawnCard.GetComponent<BaseCard>();
     }
 }

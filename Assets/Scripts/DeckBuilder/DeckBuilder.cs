@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 
+// TODO : Rewrite whole class
 public class DeckBuilder : MonoBehaviour
 {
     public GameObject[] Collection;

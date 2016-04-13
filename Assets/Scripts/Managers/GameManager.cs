@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [HideInInspector] public GameState CurrentGameState;
-    [HideInInspector] public Player TopPlayer;
-    [HideInInspector] public Player BottomPlayer;
-    [HideInInspector] public Player CurrentPlayer;
+    public GameState CurrentGameState;
+
+    public Player TopPlayer;
+    public Player BottomPlayer;
+    public Player CurrentPlayer;
 
     private static GameManager _instance;
 
@@ -15,15 +16,6 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            if (!_instance)
-            {
-                _instance = FindObjectOfType(typeof(GameManager)) as GameManager;
-                if (!_instance)
-                {
-                    Debug.LogError("NO GameManager instance found on scene.");
-                }
-
-            }
             return _instance;
         }
     }

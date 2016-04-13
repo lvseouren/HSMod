@@ -62,7 +62,7 @@ public class MinionCard : BaseCard, ICharacter
             if (this.Player.Enemy.Minions.Count > 0)
             {
                 // Random 50% chance
-                if (Random.Range(0, 1) == 1)
+                if (Random.Range(0, 2) == 1)
                 {
                     // TODO : Play forgetful trigger animation
 
