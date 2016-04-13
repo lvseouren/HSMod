@@ -17,6 +17,14 @@ public static class Util
         }
     }
 
+    // Method to cast easily without the need of parenthesis
+    public static T As<T>(this ICharacter self)
+    {
+        return (T)self;
+    }
+
+    #region ICharacter Extension Methods
+
     public static bool IsAlive(this ICharacter self)
     {
         return (self.CurrentHealth > 0);
@@ -63,8 +71,5 @@ public static class Util
         return self.GetType() == typeof(MinionCard);
     }
 
-    public static T As<T>(this ICharacter self)
-    {
-        return (T) self;
-    }
+    #endregion
 }
