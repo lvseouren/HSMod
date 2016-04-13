@@ -4,7 +4,7 @@
 public static class Util
 {
     // Method to dispose the sprites and their textures in a SpriteRenderer
-    public static void Dispose(this SpriteRenderer renderer)
+    public static void DisposeSprite(this SpriteRenderer renderer)
     {
         if (renderer.sprite != null)
         {

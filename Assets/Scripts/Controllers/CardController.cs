@@ -9,6 +9,13 @@ public class CardController : MonoBehaviour
     private SpriteRenderer blueGlowRenderer;
     private SpriteRenderer redGlowRenderer;
 
+    public static void AddTo(GameObject gameObject)
+    {
+        CardController cardController = gameObject.AddComponent<CardController>();
+
+        cardController.Initialize();
+    }
+
     private void Initialize()
     {
         blueGlowRenderer = CreateChildSprite("BlueGlow", 2);
@@ -18,12 +25,24 @@ public class CardController : MonoBehaviour
         UpdateSprites();
     }
 
+    public void Remove()
+    {
+        greenGlowRenderer.DisposeSprite();
+        Destroy(greenGlowRenderer.gameObject);
+
+        blueGlowRenderer.DisposeSprite();
+        Destroy(blueGlowRenderer);
+
+        redGlowRenderer.DisposeSprite();
+        Destroy(redGlowRenderer);
+    }
+
     public void UpdateSprites()
     {
         // Cleaning up the old sprites and their textures to avoid memory leaks
-        greenGlowRenderer.Dispose();
-        blueGlowRenderer.Dispose();
-        redGlowRenderer.Dispose();
+        greenGlowRenderer.DisposeSprite();
+        blueGlowRenderer.DisposeSprite();
+        redGlowRenderer.DisposeSprite();
 
         // Getting the string path to the glows
         string glowString = GetGlowString();
