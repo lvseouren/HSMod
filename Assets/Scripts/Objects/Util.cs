@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-// Static class to hold extension methods
+// Static class to hold useful extension methods
 public static class Util
 {
     // Method to dispose the sprites and their textures in a SpriteRenderer
@@ -17,18 +17,54 @@ public static class Util
         }
     }
 
-    public static bool IsHero(this ICharacter character)
+    public static bool IsAlive(this ICharacter self)
     {
-        return character.GetType() == typeof (Hero);
+        return (self.CurrentHealth > 0);
     }
 
-    public static bool IsMinion(this ICharacter character)
+    public static bool IsFriendlyOf(this ICharacter self, ICharacter other)
     {
-        return character.GetType() == typeof(MinionCard);
+        if (self.IsHero())
+        {
+            if (other.IsHero())
+            {
+                return self == other;
+            }
+            else
+            {
+                return self.As<Hero>().Player.Minions.Contains(other.As<MinionCard>());
+            }
+        }
+        else
+        {
+            if (other.IsHero())
+            {
+                return other.As<Hero>().Player.Minions.Contains(self.As<MinionCard>());
+            }
+            else
+            {
+                return self.As<MinionCard>().Player.Minions.Contains(other.As<MinionCard>());
+            }
+        }
     }
 
-    public static T As<T>(this ICharacter character)
+    public static bool IsEnemyOf(this ICharacter self, ICharacter other)
     {
-        return (T) character;
+        return (self.IsFriendlyOf(other) == false);
+    }
+
+    public static bool IsHero(this ICharacter self)
+    {
+        return self.GetType() == typeof (Hero);
+    }
+
+    public static bool IsMinion(this ICharacter self)
+    {
+        return self.GetType() == typeof(MinionCard);
+    }
+
+    public static T As<T>(this ICharacter self)
+    {
+        return (T) self;
     }
 }

@@ -31,8 +31,6 @@ public class MinionCard : BaseCard, ICharacter
          BuffManager = new BuffManager(this);
     }
 
-    #region Methods
-
     public void AddBuff(BaseBuff buff)
     {
         // Adding the buff to the list
@@ -109,7 +107,7 @@ public class MinionCard : BaseCard, ICharacter
                 Hero heroTarget = (Hero) target;
 
                 // Firing OnHeroPreDamage event
-                HeroPreDamageEvent heroPreDamageEvent = EventManager.Instance.OnHeroPreDamage(this, heroTarget);
+                HeroPreDamageEvent heroPreDamageEvent = EventManager.Instance.OnHeroPreDamage(heroTarget, this, this.CurrentAttack);
 
                 // Checking if the Attack was cancelled
                 if (heroPreDamageEvent.IsCancelled == false)
@@ -200,7 +198,7 @@ public class MinionCard : BaseCard, ICharacter
     public void CheckDeath()
     {
         // Checking if the minion is alive
-        if (IsAlive() == false)
+        if (this.IsAlive() == false)
         {
             Die();
         }
@@ -253,27 +251,6 @@ public class MinionCard : BaseCard, ICharacter
         // TODO : Play transform animation
         // TODO : Transform minion without triggering anything, destroy old minion
     }
-
-    #endregion
-
-    #region Condition Checkers
-
-    public bool IsAlive()
-    {
-        return this.CurrentHealth > 0;
-    }
-
-    public bool IsEnemyOf(MinionCard otherMinion)
-    {
-        return this.Player != otherMinion.Player;
-    }
-
-    public bool IsFriendlyOf(MinionCard otherMinion)
-    {
-        return this.Player == otherMinion.Player;
-    }
-
-    #endregion
 }
 
 public enum MinionType

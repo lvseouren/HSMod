@@ -25,7 +25,7 @@
             if (this.Player.Hero == target.As<Hero>())
             {
                 // True for AllCharacters
-                return this.TargetType == TargetType.AllCharacters;
+                return (this.TargetType == TargetType.AllCharacters || this.TargetType == TargetType.FriendlyCharacters);
             }
 
             // The target is the enemy Hero
@@ -57,7 +57,7 @@
 public enum TargetType
 {
     NoTarget, // No target, such as Innervate (Druid)
-    AllCharacters, // Can target all (heros and minions), such as Healing Touch (Druid)
+    AllCharacters, // Can target all characters (heros and minions), such as Healing Touch (Druid)
     AllMinions, // Can target all minions (friendly and enemy), such as Inner Rage (Warrior)
     EnemyCharacters, // Can target all enemy characters (hero and minions), such as Swipe (Druid)
     EnemyMinions, // Can target enemy minions, such as Wrath (Druid)

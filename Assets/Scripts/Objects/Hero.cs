@@ -2,6 +2,8 @@
 
 public class Hero : MonoBehaviour, ICharacter
 {
+    public Player Player;
+
     // Base Stats //
     public int BaseAttack { get; set; }
     public int BaseHealth { get; set; }
@@ -99,6 +101,21 @@ public class Hero : MonoBehaviour, ICharacter
         }
     }
 
+    public void TryDamage(ICharacter attacker, int damageAmount)
+    {
+        HeroPreDamageEvent heroPreDamageEvent = EventManager.Instance.OnHeroPreDamage(this, attacker, damageAmount);
+
+        if (heroPreDamageEvent.IsCancelled == false)
+        {
+            if (attacker.IsAlive())
+            {
+                this.CurrentHealth -= heroPreDamageEvent.Damage;
+            }
+
+            EventManager.Instance.OnHeroDamaged(this, attacker, damageAmount);
+        }
+    }
+
     public void Damage(int damageAmount)
     {
         this.CurrentHealth -= damageAmount;
@@ -107,6 +124,8 @@ public class Hero : MonoBehaviour, ICharacter
 
     public void Heal(int healAmount)
     {
+        // TODO : OnHeroPreHeal
+
         int healeableHealth = MaxHealth - CurrentHealth;
 
         if (healAmount > healeableHealth)
@@ -117,6 +136,9 @@ public class Hero : MonoBehaviour, ICharacter
         {
             this.CurrentHealth += healAmount;
         }
+
+        // Firing OnHeroHealed events 
+        EventManager.Instance.OnHeroHealed(this, healAmount);
 
         // TODO : Show heal animation + healed amount
     }
