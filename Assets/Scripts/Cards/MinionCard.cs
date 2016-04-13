@@ -94,8 +94,8 @@ public class MinionCard : BaseCard, ICharacter
         this.BuffManager.OnPreAttack.OnNext(null);
         MinionPreAttackEvent minionPreAttackEvent = EventManager.Instance.OnMinionPreAttack(this, target);
 
-        // Checking if the Attack was cancelled
-        if (minionPreAttackEvent.IsCancelled == false)
+        // Checking if the Attack was not cancelled
+        if (minionPreAttackEvent.Status != PreStatus.Cancelled)
         {
             // Getting the attacker minion attack value
             int attackerAttack = this.CurrentAttack;
@@ -104,13 +104,12 @@ public class MinionCard : BaseCard, ICharacter
             if (target is Hero)
             {
                 // Casting ICharacter to Hero
-                Hero heroTarget = (Hero) target;
+                Hero heroTarget = target.As<Hero>();
 
                 // Firing OnHeroPreDamage event
                 HeroPreDamageEvent heroPreDamageEvent = EventManager.Instance.OnHeroPreDamage(heroTarget, this, this.CurrentAttack);
 
-                // Checking if the Attack was cancelled
-                if (heroPreDamageEvent.IsCancelled == false)
+                if (this.IsAlive())
                 {
                     // Attacking the target hero
                     heroTarget.Damage(heroPreDamageEvent.Damage);

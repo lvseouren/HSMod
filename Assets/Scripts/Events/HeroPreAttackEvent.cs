@@ -3,17 +3,19 @@
     public Hero Hero;
     public ICharacter Target;
 
-    public bool IsCancelled
+    public PreStatus Status = PreStatus.Normal;
+
+    public void SwitchTargetTo(ICharacter other)
     {
-        get { return _isCancelled; }
+        if (Status != PreStatus.Cancelled)
+        {
+            Target = other;
+            Status = PreStatus.TargetSwitched;
+        }
     }
-
-    private bool _isCancelled = false;
-
-    // TODO : Switch target method
 
     public void Cancel()
     {
-        _isCancelled = true;
+        Status = PreStatus.Cancelled;
     }
 }

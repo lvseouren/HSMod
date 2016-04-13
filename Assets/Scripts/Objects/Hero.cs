@@ -44,46 +44,30 @@ public class Hero : MonoBehaviour, ICharacter
         if (heroPreAttackEvent.IsCancelled)
         {
             // Checking the target type
-            if (target is Hero)
+            if (target.IsHero())
             {
-                // Casting ICharacter to Hero
-                Hero heroTarget = (Hero) target;
-
-                // Firing OnHeroPreDamage event
-                HeroPreDamageEvent heroPreDamageEvent = EventManager.Instance.OnHeroPreDamage(heroTarget, this, this.CurrentAttack);
-
-                // Checking if the Attack was cancelled
-                if (heroPreDamageEvent.IsCancelled == false)
-                {
-                    // Attacking the target hero
-                    heroTarget.Damage(heroPreDamageEvent.Damage);
-
-                    // Firing OnHeroDamaged event
-                    EventManager.Instance.OnHeroDamaged(this, heroTarget, heroPreDamageEvent.Damage);
-                }
+                target.As<Hero>().TryDamage(this, this.CurrentAttack);
             }
-            else if (target is MinionCard)
+            else if (target.IsMinion())
             {
                 // Casting ICharacter to MinionCard
-                MinionCard minionTarget = (MinionCard) target;
+                MinionCard minionTarget = target.As<MinionCard>();
 
                 // Firing OnMinionPreDamage event
-                MinionPreDamageEvent minionPreDamageEvent = EventManager.Instance.OnMinionPreDamage(this, minionTarget);
+                MinionPreDamageEvent minionPreDamageEvent = EventManager.Instance.OnMinionPreDamage(minionTarget, this, this.CurrentAttack);
 
                 // Checking if the attack was cancelled
                 if (minionPreDamageEvent.IsCancelled == false)
                 {
-                    // Getting the atttack values
-                    int heroAttack = this.CurrentAttack;
-                    int minionAttack = minionTarget.CurrentAttack;
+                    // TODO : Animation
 
                     // Damaging both hero and minion
-                    minionTarget.Damage(heroAttack);
-                    this.Damage(minionAttack);
+                    this.Damage(minionTarget.CurrentAttack);
+                    minionTarget.TryDamage(this, minionPreDamageEvent.Damage);
 
                     // Triggering specific and global events for the minion
                     minionTarget.BuffManager.OnDamaged.OnNext(null);
-                    EventManager.Instance.OnMinionDamaged(this, minionTarget);
+                    EventManager.Instance.OnMinionDamaged(minionTarget, this, minionPreDamageEvent.Damage);
 
                     // Triggering global events for the hero
                     EventManager.Instance.OnHeroDamaged(this, minionTarget, minionAttack);
@@ -106,7 +90,7 @@ public class Hero : MonoBehaviour, ICharacter
         {
             if (attacker.IsAlive())
             {
-                this.CurrentHealth -= heroPreDamageEvent.Damage;
+                this.Damage(damageAmount);
             }
 
             EventManager.Instance.OnHeroDamaged(this, attacker, damageAmount);
