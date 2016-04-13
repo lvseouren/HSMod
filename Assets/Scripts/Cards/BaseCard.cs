@@ -4,8 +4,8 @@
     public string Name;
     public string Description;
     public int BaseCost;
-    public CardClass CardClass;
-    public Rarity Rarity;
+    public HeroClass Class;
+    public CardRarity Rarity;
     public bool Golden = false;
 
     // In-Game Stats //
@@ -33,7 +33,7 @@
     #endregion
 }
 
-public enum CardClass
+public enum HeroClass
 {
     Neutral,
     Druid,
@@ -50,7 +50,7 @@ public enum CardClass
     DemonHunter
 }
 
-public enum Rarity
+public enum CardRarity
 {
     Basic,
     Common,

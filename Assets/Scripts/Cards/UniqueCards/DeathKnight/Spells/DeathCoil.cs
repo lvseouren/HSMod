@@ -5,8 +5,8 @@ public class DeathCoil : SpellCard
         Name = "Death Coil";
         Description = "Deal 2 damage to a minion. If it's a friendly Undead, restore it to full Health instead.";
 
-        CardClass = CardClass.DeathKnight;
-        Rarity = Rarity.Common;
+        Class = HeroClass.DeathKnight;
+        Rarity = CardRarity.Common;
 
         TargetType = TargetType.AllMinions;
 

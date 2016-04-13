@@ -5,8 +5,8 @@
         Name = "All Will Serve";
         Description = "Deal 2 damage. Summon a 1/1 Ghoul with Charge.";
 
-        CardClass = CardClass.DeathKnight;
-        Rarity = Rarity.Common;
+        Class = HeroClass.DeathKnight;
+        Rarity = CardRarity.Common;
 
         BaseCost = 2;
     }

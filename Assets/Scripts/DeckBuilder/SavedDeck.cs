@@ -5,7 +5,7 @@ using UnityEngine;
 public class SavedDeck
 {
     public string Name;
-    public CardClass Class;
+    public HeroClass Class;
 
     public SavedCard[] SavedCards;
 

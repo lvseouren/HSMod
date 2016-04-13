@@ -5,8 +5,8 @@ public class UnholyFrenzy : SpellCard
         Name = "Unholy Frenzy";
         Description = "Deal 1 damage to a minion. Give it +4 Attack";
 
-        CardClass = CardClass.DeathKnight;
-        Rarity = Rarity.Common;
+        Class = HeroClass.DeathKnight;
+        Rarity = CardRarity.Common;
 
         TargetType = TargetType.AllMinions;
 

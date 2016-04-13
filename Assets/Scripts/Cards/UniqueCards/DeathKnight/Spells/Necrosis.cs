@@ -5,8 +5,8 @@ public class Necrosis : SpellCard
         Name = "Necrosis";
         Description = "Deal 4 damage. Costs (1) less for each minion that died this turn.";
 
-        CardClass = CardClass.DeathKnight;
-        Rarity = Rarity.Rare;
+        Class = HeroClass.DeathKnight;
+        Rarity = CardRarity.Rare;
 
         TargetType = TargetType.AllCharacters;
 

@@ -9,8 +9,8 @@ public class SkeletonCommander : MinionCard
         Name = "Skeleton Commander";
         Description = "Deathrattle: The next Undead you play gets +1/+1.";
 
-        CardClass = CardClass.DeathKnight;
-        Rarity = Rarity.Common;
+        Class = HeroClass.DeathKnight;
+        Rarity = CardRarity.Common;
         MinionType = MinionType.Undead;
 
         BaseCost = 1;

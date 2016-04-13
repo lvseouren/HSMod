@@ -5,8 +5,8 @@ public class DeathwhisperNecrolyte : MinionCard
         Name = "Deathwhisper Necrolyte";
         Description = "Your other Undead have +1 Attack.";
 
-        CardClass = CardClass.DeathKnight;
-        Rarity = Rarity.Common;
+        Class = HeroClass.DeathKnight;
+        Rarity = CardRarity.Common;
         MinionType = MinionType.Undead;
 
         BaseCost = 2;

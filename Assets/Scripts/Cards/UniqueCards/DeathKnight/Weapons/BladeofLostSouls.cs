@@ -5,8 +5,8 @@ public class BladeOfLostSouls : WeaponCard
         Name = "Blade of Lost Souls";
         Description = "Deathrattle: Draw a card.";
 
-        CardClass = CardClass.DeathKnight;
-        Rarity = Rarity.Common;
+        Class = HeroClass.DeathKnight;
+        Rarity = CardRarity.Common;
 
         BaseCost = 3;
         BaseAttack = 3;
