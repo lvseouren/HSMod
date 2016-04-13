@@ -197,12 +197,13 @@ public class EventManager
         HeroAttackedHandler.OnNext(heroAttackedEvent);
     }
 
-    public HeroPreDamageEvent OnHeroPreDamage(ICharacter attacker, Hero hero)
+    public HeroPreDamageEvent OnHeroPreDamage(Hero hero, ICharacter attacker, int damageAmount)
     {
         HeroPreDamageEvent heroPreDamageEvent = new HeroPreDamageEvent()
         {
+            Hero = hero,
             Attacker = attacker,
-            Hero = hero
+            Damage = damageAmount
         };
 
         HeroPreDamageHandler.OnNext(heroPreDamageEvent);
@@ -210,12 +211,12 @@ public class EventManager
         return heroPreDamageEvent;
     }
 
-    public void OnHeroDamaged(ICharacter attacker, Hero hero, int damageAmount)
+    public void OnHeroDamaged(Hero hero, ICharacter attacker, int damageAmount)
     {
         HeroDamagedEvent heroDamagedEvent = new HeroDamagedEvent()
         {
-            Attacker = attacker,
             Hero = hero,
+            Attacker = attacker,
             Damage = damageAmount
         };
 

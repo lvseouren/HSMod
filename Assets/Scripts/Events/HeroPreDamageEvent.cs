@@ -1,7 +1,8 @@
 ﻿public class HeroPreDamageEvent
 {
-    public ICharacter Attacker;
     public Hero Hero;
+    public ICharacter Attacker;
+    public int Damage;
 
     public bool IsCancelled
     {
