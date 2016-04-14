@@ -97,62 +97,36 @@ public class MinionCard : BaseCard, ICharacter
         // Checking if the Attack was not cancelled
         if (minionPreAttackEvent.Status != PreStatus.Cancelled)
         {
-            // Getting the attacker minion attack value
-            int attackerAttack = this.CurrentAttack;
+            // Redefining target in case it changed when firing events
+            target = minionPreAttackEvent.Target;
 
-            // Checking the target type
-            if (target is Hero)
+            // Target is a Hero
+            if (target.IsHero())
             {
-                // Casting ICharacter to Hero
-                Hero heroTarget = target.As<Hero>();
-
-                // Firing OnHeroPreDamage event
-                HeroPreDamageEvent heroPreDamageEvent = EventManager.Instance.OnHeroPreDamage(heroTarget, this, this.CurrentAttack);
-
-                if (this.IsAlive())
-                {
-                    // Attacking the target hero
-                    heroTarget.Damage(heroPreDamageEvent.Damage);
-
-                    // Firing OnHeroDamaged event
-                    EventManager.Instance.OnHeroDamaged(heroTarget, this, attackerAttack);
-                }
+                target.As<Hero>().TryDamage(this, this.CurrentAttack);
             }
 
-            // TODO : Fix pre events
-            else if (target is MinionCard)
+            // Target is a Minion
+            else if (target.IsMinion())
             {
                 // Casting ICharacter to MinionCard
-                MinionCard minionTarget = target.As<MinionCard>();
+                MinionCard targetMinion = target.As<MinionCard>();
 
-                // Firing OnMinionPreDamage event
-                MinionPreDamageEvent minionPreDamageEvent = EventManager.Instance.OnMinionPreDamage(this, minionTarget);
+                // Getting both minions attack
+                int attackerAttack = this.CurrentAttack;
+                int targetAttack = target.CurrentAttack;
 
-                // Checking if the attack was cancelled
-                if (minionPreDamageEvent.IsCancelled == false)
-                {
-                    // Getting the attack value of the enemy minion
-                    int targetAttack = minionTarget.CurrentAttack;
+                // Damaging both minions
+                this.TryDamage(targetMinion, targetAttack);
+                targetMinion.TryDamage(this, attackerAttack);
 
-                    // Damaging both minions
-                    minionTarget.Damage(attackerAttack);
-                    this.Damage(targetAttack);
-
-                    // Triggering specific and global events for both minions
-                    minionTarget.BuffManager.OnDamaged.OnNext(null);
-                    EventManager.Instance.OnMinionDamaged(this, minionTarget);
-
-                    this.BuffManager.OnDamaged.OnNext(null);
-                    EventManager.Instance.OnMinionDamaged(minionTarget, this);
-
-                    // Checking death of both minions
-                    minionTarget.CheckDeath();
-                    this.CheckDeath();
-                }
+                // Checking the death of both characters
+                this.CheckDeath();
+                targetMinion.CheckDeath();
             }
 
             // Firing OnAttacked events
-            this.BuffManager.OnAttacked.OnNext(attackerAttack);
+            this.BuffManager.OnAttacked.OnNext(null);
             EventManager.Instance.OnMinionAttacked(this, target);
         }
     }

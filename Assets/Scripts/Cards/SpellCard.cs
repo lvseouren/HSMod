@@ -6,7 +6,7 @@
     {
         SpellPreCastEvent spellPreCastEvent = EventManager.Instance.OnSpellPreCast(this.Player, this);
 
-        if (spellPreCastEvent.IsCancelled == false)
+        if (spellPreCastEvent.Status != PreStatus.Cancelled)
         {
             Cast(target);
         }

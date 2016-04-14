@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class Hero : MonoBehaviour, ICharacter
 {
@@ -28,12 +29,38 @@ public class Hero : MonoBehaviour, ICharacter
 
     public void Attack(ICharacter target)
     {
-        // TODO : Check for enemy count > 0
+        // Checking if Hero is forgetful
         if (this.Forgetful)
         {
-            if (Random.Range(0, 1) == 1)
+            // Checking if there's more than 1 enemy (hero + minions)
+            if (this.Player.Enemy.Minions.Count > 0)
             {
-                // target = select a random target
+                // Random 50% chance
+                if (Random.Range(0, 2) == 1)
+                {
+                    // TODO : Play forgetful trigger animation
+
+                    // Creating a list of possible targets
+                    List<ICharacter> possibleTargets = new List<ICharacter>();
+
+                    // Adding the enemy hero to the list
+                    possibleTargets.Add(this.Player.Enemy.Hero);
+
+                    // Adding all enemy minions to the list
+                    foreach (MinionCard enemyMinion in this.Player.Enemy.Minions)
+                    {
+                        possibleTargets.Add(enemyMinion);
+                    }
+
+                    // Removing the current target from the possible targets list
+                    possibleTargets.Remove(target);
+
+                    // Selecting a target by random
+                    int randomTarget = Random.Range(0, possibleTargets.Count);
+
+                    // Setting the current target as the random target
+                    target = possibleTargets[randomTarget];
+                }
             }
         }
 
@@ -56,19 +83,18 @@ public class Hero : MonoBehaviour, ICharacter
             else if (target.IsMinion())
             {
                 // Casting ICharacter to MinionCard
-                MinionCard minionTarget = target.As<MinionCard>();
+                MinionCard targetMinion = target.As<MinionCard>();
 
                 // Getting the minion attack
-                int minionAttack = minionTarget.CurrentAttack;
+                int minionAttack = targetMinion.CurrentAttack;
+                
+                // Damaging both characters
+                this.TryDamage(targetMinion, minionAttack);
+                targetMinion.TryDamage(this, this.CurrentAttack);
 
-                // Damaging the minion
-                minionTarget.TryDamage(this, this.CurrentAttack);
-
-                // Damaging the hero
-                this.TryDamage(minionTarget, minionAttack);
-
-                minionTarget.CheckDeath();
+                // Checking the death of both characters
                 this.CheckDeath();
+                targetMinion.CheckDeath();
             }
 
             // Firing OnAttacked events
