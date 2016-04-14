@@ -63,12 +63,12 @@ public static class Util
 
     public static bool IsHero(this ICharacter self)
     {
-        return self.GetType() == typeof (Hero);
+        return (self != null && self.GetType() == typeof (Hero));
     }
 
     public static bool IsMinion(this ICharacter self)
     {
-        return self.GetType() == typeof(MinionCard);
+        return (self != null && self.GetType() == typeof(MinionCard));
     }
 
     #endregion
