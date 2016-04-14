@@ -16,6 +16,11 @@ public class CardController : MonoBehaviour
         cardController.Initialize();
     }
 
+    private void Start()
+    {
+        Initialize();
+    }
+
     private void Initialize()
     {
         blueGlowRenderer = CreateChildSprite("BlueGlow", 2);
@@ -63,9 +68,9 @@ public class CardController : MonoBehaviour
         // Creating a GameObject to hold the SpriteRenderer
         GameObject glowObject = new GameObject(name);
         glowObject.transform.parent = this.transform;
-        glowObject.transform.localPosition = new Vector3(0f, 0f, 0f);
+        glowObject.transform.localPosition = new Vector3(0.07f, 0f, 0f);
         glowObject.transform.localEulerAngles = Vector3.zero;
-        glowObject.transform.localScale = Vector3.one;
+        glowObject.transform.localScale = Vector3.one * 3f;
 
         // Creating the SpriteRenderer and adding it to the GameObject
         SpriteRenderer glowRenderer = glowObject.AddComponent<SpriteRenderer>();
@@ -80,22 +85,21 @@ public class CardController : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        // TODO : Move up (focus)
+        greenGlowRenderer.enabled = true;
     }
 
     private void OnMouseExit()
     {
-        // TODO : Move down (unfocus)
     }
 
     private void OnMouseDown()
     {
-        // TODO : Start dragging
+        InterfaceManager.Instance.EnableArrow();
     }
 
     private void OnMouseUp()
     {
-        // TODO : Check position and then play or return to hand
+        InterfaceManager.Instance.DisableArrow();
     }
 
     #endregion

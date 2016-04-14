@@ -6,7 +6,7 @@ public class MinionController : MonoBehaviour
     private SpriteRenderer whiteGlowRenderer;
     private SpriteRenderer redGlowRenderer;
 
-    private bool CanTarget = false;
+    private bool CanTarget = true;
     private bool IsLegendary = false;
     private bool IsTaunt = false;
 
@@ -17,6 +17,11 @@ public class MinionController : MonoBehaviour
         minionController.IsTaunt = taunt;
 
         minionController.Initialize();
+    }
+
+    private void Start()
+    {
+        Initialize();
     }
 
     private void Initialize()
@@ -83,7 +88,7 @@ public class MinionController : MonoBehaviour
         glowObject.transform.parent = this.transform;
         glowObject.transform.localPosition = new Vector3(0f, 0f, 0f);
         glowObject.transform.localEulerAngles = Vector3.zero;
-        glowObject.transform.localScale = Vector3.one;
+        glowObject.transform.localScale = Vector3.one * 2f;
 
         // Creating the SpriteRenderer and adding it to the GameObject
         SpriteRenderer glowRenderer = glowObject.AddComponent<SpriteRenderer>();
