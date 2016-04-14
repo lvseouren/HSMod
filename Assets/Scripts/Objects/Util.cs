@@ -71,5 +71,10 @@ public static class Util
         return (self != null && self.GetType() == typeof(MinionCard));
     }
 
+    public static int GetMissingHealth(this ICharacter self)
+    {
+        return self.MaxHealth - self.CurrentHealth;
+    }
+
     #endregion
 }

@@ -15,10 +15,6 @@ public class RaiseDead : SpellCard
 
     public override void Cast(ICharacter target)
     {
-        //EventManager.OnSpellPreCast();
-
         // TODO : Summon 3/3 Ghoul
-
-        //EventManager.OnSpellCasted();
     }
 }

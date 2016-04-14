@@ -11,19 +11,11 @@
         BaseCost = 2;
     }
 
-    // TODO : Move this to base class somehow
     public override void Cast(ICharacter target)
     {
         int damage = 2 + this.Player.GetSpellPower();
 
-        if (target.IsHero())
-        {
-            target.As<Hero>().TryDamage(null, damage);
-        }
-        else if (target.IsMinion())
-        {
-            target.As<MinionCard>().TryDamage(null, damage);
-        }
+        target.TryDamage(null, damage);
 
         // TODO : Summon 1/1
     }

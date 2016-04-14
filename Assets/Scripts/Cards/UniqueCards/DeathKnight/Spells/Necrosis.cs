@@ -13,17 +13,10 @@ public class Necrosis : SpellCard
         BaseCost = 4;
     }
 
-    // TODO : Cost reduction
-
     public override void Cast(ICharacter target)
     {
-        SpellPreCastEvent spellPreCastEvent = EventManager.Instance.OnSpellPreCast(this.Player, this);
+        int damage = 4 + this.Player.GetSpellPower();
 
-        if (spellPreCastEvent.IsCancelled == false)
-        {
-            target.Damage(4 + this.Player.GetSpellPower());
-        }
-
-        EventManager.Instance.OnSpellCasted(this.Player, this);
+        target.TryDamage(null, damage);
     }
 }
