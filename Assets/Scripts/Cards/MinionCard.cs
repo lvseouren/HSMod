@@ -163,7 +163,7 @@ public class MinionCard : BaseCard, ICharacter
 
         if (attacker.IsAlive())
         {
-            this.CurrentHealth -= minionPreDamageEvent.Damage;
+            this.Damage(minionPreDamageEvent.Damage);
 
             EventManager.Instance.OnMinionDamaged(this, attacker, damageAmount);
         }
@@ -171,7 +171,6 @@ public class MinionCard : BaseCard, ICharacter
 
     public void Damage(int damageAmount)
     {
-        // TODO : Be able to modify the damage (such as standing armor, only takes 1 dmg each time, etc...)
         this.BuffManager.OnPreDamage.OnNext(damageAmount);
 
         this.BaseHealth -= damageAmount;
@@ -181,22 +180,25 @@ public class MinionCard : BaseCard, ICharacter
 
     public void Heal(int healAmount)
     {
+        // Firing OnMinionPreHeal events
+        MinionPreHealEvent minionPreHealEvent = EventManager.Instance.OnMinionPreHeal(this, healAmount);
+
         int healeableHealth = MaxHealth - CurrentHealth;
 
-        if (healAmount > healeableHealth)
+        if (minionPreHealEvent.HealAmount > healeableHealth)
         {
             this.CurrentHealth = MaxHealth;
         }
         else
         {
-            this.CurrentHealth += healAmount;
+            this.CurrentHealth += minionPreHealEvent.HealAmount;
         }
 
         // Firing OnMinionHealed events
-        // TODO : OnCharacterHealed event
-        EventManager.Instance.OnMinionHealed(this, healAmount);
+        EventManager.Instance.OnMinionHealed(this, minionPreHealEvent.HealAmount);
 
-        // TODO : Show heal animation + sprite with healed amount
+        // TODO : Heal animation
+        // TODO : Show heal sprite + healed amount
     }
 
     public void Spawn()
@@ -210,7 +212,6 @@ public class MinionCard : BaseCard, ICharacter
 
     public void CheckDeath()
     {
-        // Checking if the minion is alive
         if (this.IsAlive() == false)
         {
             Die();

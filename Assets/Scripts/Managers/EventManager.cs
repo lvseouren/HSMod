@@ -28,6 +28,7 @@ public class EventManager
     public Subject<MinionPreDamageEvent> MinionPreDamageHandler = new Subject<MinionPreDamageEvent>();
     public Subject<MinionDamagedEvent> MinionDamagedHandler = new Subject<MinionDamagedEvent>();
 
+    public Subject<MinionPreHealEvent> MinionPreHealHandler = new Subject<MinionPreHealEvent>();
     public Subject<MinionHealedEvent> MinionHealedHandler = new Subject<MinionHealedEvent>();
 
     public Subject<MinionDiedEvent> MinionDiedHandler = new Subject<MinionDiedEvent>();
@@ -39,7 +40,8 @@ public class EventManager
     public Subject<HeroPreDamageEvent> HeroPreDamageHandler = new Subject<HeroPreDamageEvent>();
     public Subject<HeroDamagedEvent> HeroDamagedHandler = new Subject<HeroDamagedEvent>();
 
-    public Subject<HeroHealedEvent> HeroHealedHandler = new Subject<HeroHealedEvent>(); 
+    public Subject<HeroPreHealEvent> HeroPreHealHandler = new Subject<HeroPreHealEvent>();
+    public Subject<HeroHealedEvent> HeroHealedHandler = new Subject<HeroHealedEvent>();
 
     public Subject<HeroGainedArmorEvent> HeroGainedArmorHandler = new Subject<HeroGainedArmorEvent>();
 
@@ -56,7 +58,7 @@ public class EventManager
     public Subject<CardDiscardedEvent> CardDiscardedHandler = new Subject<CardDiscardedEvent>();
 
     // Weapon Event Subjects //
-    public Subject<WeaponEquippedEvent> WeaponEquippedHandler = new Subject<WeaponEquippedEvent>();
+    public Subject<HeroWeaponEquippedEvent> WeaponEquippedHandler = new Subject<HeroWeaponEquippedEvent>();
 
     // Secret Event Subjects //
     public Subject<SecretPlayedEvent> SecretPlayedHandler = new Subject<SecretPlayedEvent>();
@@ -134,10 +136,25 @@ public class EventManager
 
         MinionDamagedHandler.OnNext(minionDamagedEvent);
 
+        minion.BuffManager.OnDamaged.OnNext(minionDamagedEvent);
+
         foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
-            battlefieldMinion.BuffManager.OnMinionDamaged.OnNext(minion);
+            battlefieldMinion.BuffManager.OnMinionDamaged.OnNext(minionDamagedEvent);
         }
+    }
+
+    public MinionPreHealEvent OnMinionPreHeal(MinionCard minion, int healAmount)
+    {
+        MinionPreHealEvent minionPreHealEvent = new MinionPreHealEvent()
+        {
+            Minion = minion,
+            HealAmount = healAmount
+        };
+
+        MinionPreHealHandler.OnNext(minionPreHealEvent);
+
+        return minionPreHealEvent;
     }
 
     public void OnMinionHealed(MinionCard minion, int healAmount)
@@ -175,12 +192,13 @@ public class EventManager
 
     #region Hero Event Handlers
 
-    public HeroPreAttackEvent OnHeroPreAttack(Hero hero, ICharacter target)
+    public HeroPreAttackEvent OnHeroPreAttack(Hero hero, ICharacter target, int damageAmount)
     {
         HeroPreAttackEvent heroPreAttackEvent = new HeroPreAttackEvent()
         {
             Hero = hero,
-            Target = target
+            Target = target,
+            Damage = damageAmount
         };
 
         HeroPreAttackHandler.OnNext(heroPreAttackEvent);
@@ -230,6 +248,19 @@ public class EventManager
         }
     }
 
+    public HeroPreHealEvent OnHeroPreHeal(Hero hero, int healAmount)
+    {
+        HeroPreHealEvent heroPreHealEvent = new HeroPreHealEvent()
+        {
+            Hero = hero,
+            HealAmount = healAmount
+        };
+
+        HeroPreHealHandler.OnNext(heroPreHealEvent);
+
+        return heroPreHealEvent;
+    }
+
     public void OnHeroHealed(Hero hero, int healAmount)
     {
         HeroHealedEvent heroHealedEvent = new HeroHealedEvent()
@@ -242,7 +273,7 @@ public class EventManager
 
         foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
-            battlefieldMinion.BuffManager.OnHeroHealed.OnNext(null);
+            battlefieldMinion.BuffManager.OnHeroHealed.OnNext(heroHealedEvent);
         }
     }
 
@@ -378,13 +409,13 @@ public class EventManager
     // TODO : Rename ?
     public void OnWeaponEquipped(Player player, WeaponCard weapon)
     {
-        WeaponEquippedEvent weaponEquippedEvent = new WeaponEquippedEvent()
+        HeroWeaponEquippedEvent heroWeaponEquippedEvent = new HeroWeaponEquippedEvent()
         {
             Player = player,
             Weapon = weapon
         };
 
-        WeaponEquippedHandler.OnNext(weaponEquippedEvent);
+        WeaponEquippedHandler.OnNext(heroWeaponEquippedEvent);
 
         foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
         {

@@ -17,7 +17,7 @@ public class BuffManager
     public Subject<int> OnAttacked = new Subject<int>();
 
     public Subject<int> OnPreDamage = new Subject<int>();
-    public Subject<object> OnDamaged = new Subject<object>();
+    public Subject<MinionDamagedEvent> OnDamaged = new Subject<MinionDamagedEvent>();
 
     public Subject<object> OnInspired = new Subject<object>();
 
@@ -36,14 +36,14 @@ public class BuffManager
 
     public Subject<MinionCard> OnMinionPlayed = new Subject<MinionCard>();
     public Subject<MinionCard> OnMinionSummoned = new Subject<MinionCard>();
-    public Subject<MinionCard> OnMinionDamaged = new Subject<MinionCard>();
+    public Subject<MinionDamagedEvent> OnMinionDamaged = new Subject<MinionDamagedEvent>();
     public Subject<MinionCard> OnMinionHealed = new Subject<MinionCard>();
     public Subject<MinionCard> OnMinionDied = new Subject<MinionCard>();
 
     public Subject<object> OnCharacterHealed = new Subject<object>();
 
     public Subject<object> OnHeroDamaged = new Subject<object>();
-    public Subject<object> OnHeroHealed = new Subject<object>(); 
+    public Subject<HeroHealedEvent> OnHeroHealed = new Subject<HeroHealedEvent>(); 
     public Subject<object> OnHeroGainedArmor = new Subject<object>();
     public Subject<object> OnHeroEquippedWeapon = new Subject<object>(); // TODO in EventManager
 

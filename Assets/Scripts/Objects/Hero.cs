@@ -38,43 +38,37 @@ public class Hero : MonoBehaviour, ICharacter
         }
 
         // Firing OnPreAttack events
-        HeroPreAttackEvent heroPreAttackEvent = EventManager.Instance.OnHeroPreAttack(this, target);
+        HeroPreAttackEvent heroPreAttackEvent = EventManager.Instance.OnHeroPreAttack(this, target, this.CurrentAttack);
 
         // Checking if the Attack was cancelled
-        if (heroPreAttackEvent.IsCancelled)
+        if (heroPreAttackEvent.Status != PreStatus.Cancelled)
         {
-            // Checking the target type
+            // Redefining target in case it changed when firing events
+            target = heroPreAttackEvent.Target;
+
+            // Target is a Hero
             if (target.IsHero())
             {
                 target.As<Hero>().TryDamage(this, this.CurrentAttack);
             }
+
+            // Target is a Minion
             else if (target.IsMinion())
             {
                 // Casting ICharacter to MinionCard
                 MinionCard minionTarget = target.As<MinionCard>();
 
-                // Firing OnMinionPreDamage event
-                MinionPreDamageEvent minionPreDamageEvent = EventManager.Instance.OnMinionPreDamage(minionTarget, this, this.CurrentAttack);
+                // Getting the minion attack
+                int minionAttack = minionTarget.CurrentAttack;
 
-                // Checking if the attack was cancelled
-                if (minionPreDamageEvent.IsCancelled == false)
-                {
-                    // TODO : Animation
+                // Damaging the minion
+                minionTarget.TryDamage(this, this.CurrentAttack);
 
-                    // Damaging both hero and minion
-                    this.Damage(minionTarget.CurrentAttack);
-                    minionTarget.TryDamage(this, minionPreDamageEvent.Damage);
+                // Damaging the hero
+                this.TryDamage(minionTarget, minionAttack);
 
-                    // Triggering specific and global events for the minion
-                    minionTarget.BuffManager.OnDamaged.OnNext(null);
-                    EventManager.Instance.OnMinionDamaged(minionTarget, this, minionPreDamageEvent.Damage);
-
-                    // Triggering global events for the hero
-                    EventManager.Instance.OnHeroDamaged(this, minionTarget, minionAttack);
-
-                    // Checking death of the minion
-                    minionTarget.CheckDeath();
-                }
+                minionTarget.CheckDeath();
+                this.CheckDeath();
             }
 
             // Firing OnAttacked events
@@ -86,41 +80,50 @@ public class Hero : MonoBehaviour, ICharacter
     {
         HeroPreDamageEvent heroPreDamageEvent = EventManager.Instance.OnHeroPreDamage(this, attacker, damageAmount);
 
-        if (heroPreDamageEvent.IsCancelled == false)
+        if (attacker.IsAlive())
         {
-            if (attacker.IsAlive())
-            {
-                this.Damage(damageAmount);
-            }
+            this.Damage(heroPreDamageEvent.Damage);
 
-            EventManager.Instance.OnHeroDamaged(this, attacker, damageAmount);
+            EventManager.Instance.OnHeroDamaged(this, attacker, heroPreDamageEvent.Damage);
         }
     }
 
     public void Damage(int damageAmount)
     {
         this.CurrentHealth -= damageAmount;
+
         // TODO : Sprite -> Show health loss on hero portrait
     }
 
     public void Heal(int healAmount)
     {
-        // TODO : OnHeroPreHeal
+        // Firing OnHeroPreHeal events 
+        HeroPreHealEvent heroPreHealEvent = EventManager.Instance.OnHeroPreHeal(this, healAmount);
 
+        // Calculating the healeable health
         int healeableHealth = MaxHealth - CurrentHealth;
 
-        if (healAmount > healeableHealth)
+        if (heroPreHealEvent.HealAmount > healeableHealth)
         {
             this.CurrentHealth = MaxHealth;
         }
         else
         {
-            this.CurrentHealth += healAmount;
+            this.CurrentHealth += heroPreHealEvent.HealAmount;
         }
 
         // Firing OnHeroHealed events 
-        EventManager.Instance.OnHeroHealed(this, healAmount);
+        EventManager.Instance.OnHeroHealed(this, heroPreHealEvent.HealAmount);
 
-        // TODO : Show heal animation + healed amount
+        // TODO : Heal animation
+        // TODO : Show heal sprite + healed amount
+    }
+
+    public void CheckDeath()
+    {
+        if (this.IsAlive() == false)
+        {
+            // TODO : End game
+        }
     }
 }
