@@ -123,7 +123,7 @@ public class MinionCard : BaseCard, ICharacter
             else if (target is MinionCard)
             {
                 // Casting ICharacter to MinionCard
-                MinionCard minionTarget = (MinionCard) target;
+                MinionCard minionTarget = target.As<MinionCard>();
 
                 // Firing OnMinionPreDamage event
                 MinionPreDamageEvent minionPreDamageEvent = EventManager.Instance.OnMinionPreDamage(this, minionTarget);
@@ -161,12 +161,9 @@ public class MinionCard : BaseCard, ICharacter
     {
         MinionPreDamageEvent minionPreDamageEvent = EventManager.Instance.OnMinionPreDamage(this, attacker, damageAmount);
 
-        if (minionPreDamageEvent.IsCancelled == false)
+        if (attacker.IsAlive())
         {
-            if (attacker.IsAlive())
-            {
-                this.CurrentHealth -= minionPreDamageEvent.Damage;
-            }
+            this.CurrentHealth -= minionPreDamageEvent.Damage;
 
             EventManager.Instance.OnMinionDamaged(this, attacker, damageAmount);
         }
