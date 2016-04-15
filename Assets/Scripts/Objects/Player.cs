@@ -4,14 +4,19 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public Hero Hero = new Hero();
-    public Hand Hand = new Hand();
-    public Deck Deck = new Deck();
+
+    public List<BaseCard> Hand = new List<BaseCard>();
+    public List<BaseCard> Deck = new List<BaseCard>(); 
+
     public List<MinionCard> Minions = new List<MinionCard>(7);
     public List<SpellCard> Secrets;
 
     public GameObject DeckGameObject;
 
     public Player Enemy;
+
+    public int MaxCardsInHand = 10;
+    public int MaxCardsInDeck = 60;
 
     public int MaximumMana = 10;
     public int TurnMana = 0;
@@ -43,5 +48,10 @@ public class Player : MonoBehaviour
         }
 
         return spellPower;
+    }
+
+    public int GetManaUsedThisTurn()
+    {
+        return TurnMana - OverloadedMana - AvailableMana;
     }
 }   

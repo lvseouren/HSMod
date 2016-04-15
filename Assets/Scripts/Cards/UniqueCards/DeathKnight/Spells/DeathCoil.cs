@@ -23,7 +23,7 @@ public class DeathCoil : SpellCard
         {
             int damage = 2 + this.Player.GetSpellPower();
 
-            target.TryDamage(null, 2);
+            target.TryDamage(null, damage);
         }
     }
 }
