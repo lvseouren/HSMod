@@ -22,6 +22,7 @@ public class MinionCard : BaseCard, ICharacter
     public bool Forgetful = false;
     public bool Frozen = false;
     public bool Silenced = false;
+    public bool Windfury = false;
     public int SpellPower = 0;
 
     public BuffManager BuffManager;
