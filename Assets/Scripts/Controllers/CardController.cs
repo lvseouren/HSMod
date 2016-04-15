@@ -9,9 +9,10 @@ public class CardController : MonoBehaviour
     private SpriteRenderer blueGlowRenderer;
     private SpriteRenderer redGlowRenderer;
 
-    public static void AddTo(GameObject gameObject)
+    public static void AddTo(GameObject gameObject, CardGlow cardGlow)
     {
         CardController cardController = gameObject.AddComponent<CardController>();
+        cardController.CardGlow = cardGlow;
 
         cardController.Initialize();
     }
@@ -103,13 +104,4 @@ public class CardController : MonoBehaviour
     }
 
     #endregion
-}
-
-public enum CardGlow
-{
-    Normal,
-    Spell,
-    Minion,
-    LegendaryMinion,
-    Weapon
 }

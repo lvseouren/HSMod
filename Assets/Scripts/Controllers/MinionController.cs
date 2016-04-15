@@ -2,19 +2,20 @@
 
 public class MinionController : MonoBehaviour
 {
+    public CardGlow CardGlow;
+    public bool HasTaunt;
+    public bool CanTarget;
+
     private SpriteRenderer greenGlowRenderer;
     private SpriteRenderer whiteGlowRenderer;
     private SpriteRenderer redGlowRenderer;
 
-    private bool CanTarget = true;
-    private bool IsLegendary = false;
-    private bool IsTaunt = false;
-
-    public static void AddTo(GameObject gameObject, bool legendary, bool taunt)
+    public static void AddTo(GameObject gameObject, CardGlow cardGlow, bool hasTaunt, bool canTarget)
     {
         MinionController minionController = gameObject.AddComponent<MinionController>();
-        minionController.IsLegendary = legendary;
-        minionController.IsTaunt = taunt;
+        minionController.CardGlow = cardGlow;
+        minionController.HasTaunt = hasTaunt;
+        minionController.CanTarget = canTarget;
 
         minionController.Initialize();
     }
@@ -47,14 +48,15 @@ public class MinionController : MonoBehaviour
 
     public void UpdateSprites()
     {
-        // Getting the string path to the glows
-        string glowString = GetGlowString();
-
         // Cleaning up the old sprites and textures to avoid memory leaks
         whiteGlowRenderer.DisposeSprite();
         greenGlowRenderer.DisposeSprite();
         redGlowRenderer.DisposeSprite();
 
+        // Getting the string path to the glows
+        string glowString = GetGlowString();
+
+        // Loading the sprites
         whiteGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "WhiteGlow");
         greenGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "GreenGlow");
         redGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "RedGlow");
@@ -64,16 +66,18 @@ public class MinionController : MonoBehaviour
     {
         string glowString = "Sprites/Glows/Minion_";
 
-        if (IsLegendary)
+        switch (this.CardGlow)
         {
-            glowString += "Legendary_";
-        }
-        else
-        {
-            glowString += "Normal_";
-        }
+            case CardGlow.Minion:
+                glowString += "Legendary_";
+                break;
 
-        if (IsTaunt)
+            case CardGlow.LegendaryMinion:
+                glowString += "Normal_";
+                break;
+        }
+        
+        if (this.HasTaunt)
         {
             glowString += "Taunt_";
         }
