@@ -1,14 +1,8 @@
 ﻿using System;
 using UnityEngine;
 
-public class CardController : MonoBehaviour
+public class CardController : BaseController
 {
-    public CardGlow CardGlow;
-
-    private SpriteRenderer greenGlowRenderer;
-    private SpriteRenderer blueGlowRenderer;
-    private SpriteRenderer redGlowRenderer;
-
     public static void AddTo(GameObject gameObject, CardGlow cardGlow)
     {
         CardController cardController = gameObject.AddComponent<CardController>();
@@ -16,47 +10,42 @@ public class CardController : MonoBehaviour
 
         cardController.Initialize();
     }
-
-    private void Start()
+    
+    public override void Initialize()
     {
-        Initialize();
-    }
-
-    private void Initialize()
-    {
-        blueGlowRenderer = CreateChildSprite("BlueGlow", 2);
-        greenGlowRenderer = CreateChildSprite("GreenGlow", 1);
-        redGlowRenderer = CreateChildSprite("RedGlow", 0);
+        BlueGlowRenderer = CreateChildSprite("BlueGlow", 2);
+        GreenGlowRenderer = CreateChildSprite("GreenGlow", 1);
+        RedGlowRenderer = CreateChildSprite("RedGlow", 0);
 
         UpdateSprites();
     }
 
-    public void Remove()
+    public override void Remove()
     {
-        greenGlowRenderer.DisposeSprite();
-        Destroy(greenGlowRenderer.gameObject);
+        GreenGlowRenderer.DisposeSprite();
+        Destroy(GreenGlowRenderer.gameObject);
 
-        blueGlowRenderer.DisposeSprite();
-        Destroy(blueGlowRenderer);
+        BlueGlowRenderer.DisposeSprite();
+        Destroy(BlueGlowRenderer);
 
-        redGlowRenderer.DisposeSprite();
-        Destroy(redGlowRenderer);
+        RedGlowRenderer.DisposeSprite();
+        Destroy(RedGlowRenderer);
     }
 
-    public void UpdateSprites()
+    public override void UpdateSprites()
     {
         // Cleaning up the old sprites and their textures to avoid memory leaks
-        greenGlowRenderer.DisposeSprite();
-        blueGlowRenderer.DisposeSprite();
-        redGlowRenderer.DisposeSprite();
+        GreenGlowRenderer.DisposeSprite();
+        BlueGlowRenderer.DisposeSprite();
+        RedGlowRenderer.DisposeSprite();
 
         // Getting the string path to the glows
         string glowString = GetGlowString();
     
         // Loading the sprites into the SpriteRenderers
-        greenGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "GreenGlow");
-        redGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "RedGlow");
-        blueGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "BlueGlow");
+        GreenGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "GreenGlow");
+        RedGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "RedGlow");
+        BlueGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "BlueGlow");
     }
 
     private string GetGlowString()
@@ -86,11 +75,12 @@ public class CardController : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        greenGlowRenderer.enabled = true;
+        GreenGlowRenderer.enabled = true;
     }
 
     private void OnMouseExit()
     {
+
     }
 
     private void OnMouseDown()

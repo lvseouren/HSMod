@@ -1,14 +1,9 @@
 ﻿using UnityEngine;
 
-public class MinionController : MonoBehaviour
+public class MinionController : BaseController
 {
-    public CardGlow CardGlow;
     public bool HasTaunt;
     public bool CanTarget;
-
-    private SpriteRenderer greenGlowRenderer;
-    private SpriteRenderer whiteGlowRenderer;
-    private SpriteRenderer redGlowRenderer;
 
     public static void AddTo(GameObject gameObject, CardGlow cardGlow, bool hasTaunt, bool canTarget)
     {
@@ -20,46 +15,41 @@ public class MinionController : MonoBehaviour
         minionController.Initialize();
     }
 
-    private void Start()
+    public override void Initialize()
     {
-        Initialize();
-    }
-
-    private void Initialize()
-    {
-        whiteGlowRenderer = CreateChildSprite("WhiteGlow", 2);
-        greenGlowRenderer = CreateChildSprite("GreenGlow", 1);
-        redGlowRenderer = CreateChildSprite("RedGlow", 0);
+        WhiteGlowRenderer = CreateChildSprite("WhiteGlow", 2);
+        GreenGlowRenderer = CreateChildSprite("GreenGlow", 1);
+        RedGlowRenderer = CreateChildSprite("RedGlow", 0);
 
         UpdateSprites();
     }
 
-    public void Remove()
+    public override void Remove()
     {
-        whiteGlowRenderer.DisposeSprite();
-        Destroy(whiteGlowRenderer);
+        WhiteGlowRenderer.DisposeSprite();
+        Destroy(WhiteGlowRenderer);
 
-        greenGlowRenderer.DisposeSprite();
-        Destroy(greenGlowRenderer.gameObject);
+        GreenGlowRenderer.DisposeSprite();
+        Destroy(GreenGlowRenderer.gameObject);
 
-        redGlowRenderer.DisposeSprite();
-        Destroy(redGlowRenderer);
+        RedGlowRenderer.DisposeSprite();
+        Destroy(RedGlowRenderer);
     }
 
-    public void UpdateSprites()
+    public override void UpdateSprites()
     {
         // Cleaning up the old sprites and textures to avoid memory leaks
-        whiteGlowRenderer.DisposeSprite();
-        greenGlowRenderer.DisposeSprite();
-        redGlowRenderer.DisposeSprite();
+        WhiteGlowRenderer.DisposeSprite();
+        GreenGlowRenderer.DisposeSprite();
+        RedGlowRenderer.DisposeSprite();
 
         // Getting the string path to the glows
         string glowString = GetGlowString();
 
         // Loading the sprites
-        whiteGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "WhiteGlow");
-        greenGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "GreenGlow");
-        redGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "RedGlow");
+        WhiteGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "WhiteGlow");
+        GreenGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "GreenGlow");
+        RedGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "RedGlow");
     }
 
     private string GetGlowString()
@@ -107,7 +97,7 @@ public class MinionController : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        whiteGlowRenderer.enabled = true;
+        WhiteGlowRenderer.enabled = true;
 
         if (InterfaceManager.Instance.IsDragging)
         {
@@ -130,7 +120,7 @@ public class MinionController : MonoBehaviour
 
     private void OnMouseExit()
     {
-        whiteGlowRenderer.enabled = false;
+        WhiteGlowRenderer.enabled = false;
 
         if (InterfaceManager.Instance.IsDragging)
         {
