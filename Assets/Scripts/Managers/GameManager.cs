@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [HideInInspector] public GameState CurrentGameState;
-    [HideInInspector] public Player TopPlayer;
-    [HideInInspector] public Player BottomPlayer;
-    [HideInInspector] public Player CurrentPlayer;
+    public GameState CurrentGameState;
+
+    public Player TopPlayer;
+    public Player BottomPlayer;
+    public Player CurrentPlayer;
 
     private static GameManager _instance;
 
@@ -15,15 +16,6 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            if (!_instance)
-            {
-                _instance = FindObjectOfType(typeof(GameManager)) as GameManager;
-                if (!_instance)
-                {
-                    Debug.LogError("NO GameManager instance found on scene.");
-                }
-
-            }
             return _instance;
         }
     }
@@ -116,21 +108,4 @@ public class GameManager : MonoBehaviour
     {
         return TopPlayer.Minions.Concat(BottomPlayer.Minions).ToList();
     }
-}
-
-
-// WARNING : Probably won't need gamestates anyways, but we'll keep them for now
-
-/* Active state of the game
- * MULLIGAN happens once at the start of match
- * START is when a specific player's turn start
- * ACTIVE happens between START and END
- * END is when a specific player's turn ends
- */
-public enum GameState
-{
-    Mulligan,
-    Start,
-    End,
-    Active
 }

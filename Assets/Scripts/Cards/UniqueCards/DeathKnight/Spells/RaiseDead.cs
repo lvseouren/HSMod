@@ -5,8 +5,8 @@ public class RaiseDead : SpellCard
         Name = "Raise Dead";
         Description = "Summon a 3/3 Ghoul. Costs (1) less for each minion that died this turn.";
 
-        CardClass = CardClass.DeathKnight;
-        Rarity = Rarity.Common;
+        Class = HeroClass.DeathKnight;
+        Rarity = CardRarity.Common;
 
         TargetType = TargetType.NoTarget;
 
@@ -15,10 +15,6 @@ public class RaiseDead : SpellCard
 
     public override void Cast(ICharacter target)
     {
-        //EventManager.OnSpellPreCast();
-
         // TODO : Summon 3/3 Ghoul
-
-        //EventManager.OnSpellCasted();
     }
 }

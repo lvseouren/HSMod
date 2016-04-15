@@ -7,8 +7,8 @@ public class Ghoul : MinionCard
         Name = "Ghoul";
         Description = "Charge. At the end of your turn destroy this minion.";
 
-        CardClass = CardClass.DeathKnight;
-        Rarity = Rarity.Common;
+        Class = HeroClass.DeathKnight;
+        Rarity = CardRarity.Common;
         MinionType = MinionType.General;
 
         BaseCost = 1;

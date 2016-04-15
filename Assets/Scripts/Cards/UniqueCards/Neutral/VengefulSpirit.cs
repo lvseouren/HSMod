@@ -7,8 +7,8 @@ public class VengefulSpirit : MinionCard
         Name = "Vengeful Spirit";
         Description = "Deathrattle: Summon a 2/1 Spiteful Wraith.";
 
-        CardClass = CardClass.Neutral;
-        Rarity = Rarity.Common;
+        Class = HeroClass.Neutral;
+        Rarity = CardRarity.Common;
         MinionType = MinionType.Undead;
 
         BaseCost = 2;

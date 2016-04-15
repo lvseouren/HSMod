@@ -5,8 +5,8 @@ public class UnholyFrenzy : SpellCard
         Name = "Unholy Frenzy";
         Description = "Deal 1 damage to a minion. Give it +4 Attack";
 
-        CardClass = CardClass.DeathKnight;
-        Rarity = Rarity.Common;
+        Class = HeroClass.DeathKnight;
+        Rarity = CardRarity.Common;
 
         TargetType = TargetType.AllMinions;
 
@@ -15,11 +15,23 @@ public class UnholyFrenzy : SpellCard
 
     public override void Cast(ICharacter target)
     {
-        //EventManager.OnSpellPreCast(this);
+        int damage = 1 + this.Player.GetSpellPower();
 
-        target.Damage(1);
-        // TODO : Add +4 attack
+        target.TryDamage(null, damage);
 
-        //EventManager.OnSpellCasted(this);
+        target.As<MinionCard>().AddBuff(new UnholyFrenzyBuff());
+    }
+}
+
+public class UnholyFrenzyBuff : BaseBuff
+{
+    public override void OnAdded(MinionCard minion)
+    {
+        minion.CurrentAttack += 4;
+    }
+
+    public override void OnRemoved(MinionCard minion)
+    {
+        minion.CurrentAttack -= 4;
     }
 }

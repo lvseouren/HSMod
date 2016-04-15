@@ -1,5 +1,5 @@
 ﻿public class HeroPowerEvent
 {
     public Hero Hero;
-    public HeroPower HeroPower;
+    public BaseHeroPower HeroPower;
 }

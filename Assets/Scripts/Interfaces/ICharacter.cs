@@ -9,5 +9,6 @@
 
     void Attack(ICharacter target);
     void Damage(int damageAmount);
+    void TryDamage(ICharacter attacker, int damageAmount);
     void Heal(int healAmount);
 }

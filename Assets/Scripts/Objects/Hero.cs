@@ -1,7 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class Hero : MonoBehaviour, ICharacter
 {
+    public Player Player;
+
     // Base Stats //
     public int BaseAttack { get; set; }
     public int BaseHealth { get; set; }
@@ -26,72 +29,72 @@ public class Hero : MonoBehaviour, ICharacter
 
     public void Attack(ICharacter target)
     {
-        // TODO : Check for enemy count > 0
+        // Checking if Hero is forgetful
         if (this.Forgetful)
         {
-            if (Random.Range(0, 1) == 1)
+            // Checking if there's more than 1 enemy (hero + minions)
+            if (this.Player.Enemy.Minions.Count > 0)
             {
-                // target = select a random target
+                // Random 50% chance
+                if (Random.Range(0, 2) == 1)
+                {
+                    // TODO : Play forgetful trigger animation
+
+                    // Creating a list of possible targets
+                    List<ICharacter> possibleTargets = new List<ICharacter>();
+
+                    // Adding the enemy hero to the list
+                    possibleTargets.Add(this.Player.Enemy.Hero);
+
+                    // Adding all enemy minions to the list
+                    foreach (MinionCard enemyMinion in this.Player.Enemy.Minions)
+                    {
+                        possibleTargets.Add(enemyMinion);
+                    }
+
+                    // Removing the current target from the possible targets list
+                    possibleTargets.Remove(target);
+
+                    // Selecting a target by random
+                    int randomTarget = Random.Range(0, possibleTargets.Count);
+
+                    // Setting the current target as the random target
+                    target = possibleTargets[randomTarget];
+                }
             }
         }
 
         // Firing OnPreAttack events
-        HeroPreAttackEvent heroPreAttackEvent = EventManager.Instance.OnHeroPreAttack(this, target);
+        HeroPreAttackEvent heroPreAttackEvent = EventManager.Instance.OnHeroPreAttack(this, target, this.CurrentAttack);
 
         // Checking if the Attack was cancelled
-        if (heroPreAttackEvent.IsCancelled)
+        if (heroPreAttackEvent.Status != PreStatus.Cancelled)
         {
-            // Checking the target type
-            if (target is Hero)
+            // Redefining target in case it changed when firing events
+            target = heroPreAttackEvent.Target;
+
+            // Target is a Hero
+            if (target.IsHero())
             {
-                // Casting ICharacter to Hero
-                Hero heroTarget = (Hero) target;
-
-                // Firing OnHeroPreDamage event
-                HeroPreDamageEvent heroPreDamageEvent = EventManager.Instance.OnHeroPreDamage(this, heroTarget);
-
-                // Checking if the Attack was cancelled
-                if (heroPreDamageEvent.IsCancelled == false)
-                {
-                    // Getting the atttack values
-                    int heroAttack = this.CurrentAttack;
-
-                    // Attacking the target hero
-                    heroTarget.Damage(this.CurrentAttack);
-
-                    // Firing OnHeroDamaged event
-                    EventManager.Instance.OnHeroDamaged(this, heroTarget, heroAttack);
-                }
+                target.As<Hero>().TryDamage(this, this.CurrentAttack);
             }
-            else if (target is MinionCard)
+
+            // Target is a Minion
+            else if (target.IsMinion())
             {
                 // Casting ICharacter to MinionCard
-                MinionCard minionTarget = (MinionCard) target;
+                MinionCard targetMinion = target.As<MinionCard>();
 
-                // Firing OnMinionPreDamage event
-                MinionPreDamageEvent minionPreDamageEvent = EventManager.Instance.OnMinionPreDamage(this, minionTarget);
+                // Getting the minion attack
+                int minionAttack = targetMinion.CurrentAttack;
+                
+                // Damaging both characters
+                this.TryDamage(targetMinion, minionAttack);
+                targetMinion.TryDamage(this, this.CurrentAttack);
 
-                // Checking if the attack was cancelled
-                if (minionPreDamageEvent.IsCancelled == false)
-                {
-                    // Getting the atttack values
-                    int heroAttack = this.CurrentAttack;
-                    int minionAttack = minionTarget.CurrentAttack;
-
-                    // Damaging both hero and minion
-                    minionTarget.Damage(heroAttack);
-                    this.Damage(minionAttack);
-
-                    // Triggering specific and global events for the minion
-                    minionTarget.BuffManager.OnDamaged.OnNext(null);
-                    EventManager.Instance.OnMinionDamaged(this, minionTarget);
-
-                    // Triggering global events for the hero
-                    EventManager.Instance.OnHeroDamaged(minionTarget, this, minionAttack);
-
-                    // Checking death of the minion
-                    minionTarget.CheckDeath();
-                }
+                // Checking the death of both characters
+                this.CheckDeath();
+                targetMinion.CheckDeath();
             }
 
             // Firing OnAttacked events
@@ -99,25 +102,54 @@ public class Hero : MonoBehaviour, ICharacter
         }
     }
 
+    public void TryDamage(ICharacter attacker, int damageAmount)
+    {
+        HeroPreDamageEvent heroPreDamageEvent = EventManager.Instance.OnHeroPreDamage(this, attacker, damageAmount);
+
+        if (attacker.IsAlive())
+        {
+            this.Damage(heroPreDamageEvent.Damage);
+
+            EventManager.Instance.OnHeroDamaged(this, attacker, heroPreDamageEvent.Damage);
+        }
+    }
+
     public void Damage(int damageAmount)
     {
         this.CurrentHealth -= damageAmount;
+
         // TODO : Sprite -> Show health loss on hero portrait
     }
 
     public void Heal(int healAmount)
     {
+        // Firing OnHeroPreHeal events 
+        HeroPreHealEvent heroPreHealEvent = EventManager.Instance.OnHeroPreHeal(this, healAmount);
+
+        // Calculating the healeable health
         int healeableHealth = MaxHealth - CurrentHealth;
 
-        if (healAmount > healeableHealth)
+        if (heroPreHealEvent.HealAmount > healeableHealth)
         {
             this.CurrentHealth = MaxHealth;
         }
         else
         {
-            this.CurrentHealth += healAmount;
+            this.CurrentHealth += heroPreHealEvent.HealAmount;
         }
 
-        // TODO : Show heal animation + healed amount
+        // Firing OnHeroHealed events 
+        EventManager.Instance.OnHeroHealed(this, heroPreHealEvent.HealAmount);
+
+        // TODO : Heal animation
+        // TODO : Show heal sprite + healed amount
+    }
+
+    public void CheckDeath()
+    {
+        if (this.IsAlive() == false)
+        {
+            // TODO : End game
+        }
     }
 }

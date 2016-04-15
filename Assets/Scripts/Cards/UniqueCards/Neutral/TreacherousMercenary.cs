@@ -7,8 +7,8 @@ public class TreacherousMercenary : MinionCard
         Name = "Treacherous Mercenary";
         Description = "Charge. Battlecry: Deal 3 damage to your hero.";
 
-        CardClass = CardClass.Neutral;
-        Rarity = Rarity.Rare;
+        Class = HeroClass.Neutral;
+        Rarity = CardRarity.Rare;
         MinionType = MinionType.General;
 
         BaseCost = 3;

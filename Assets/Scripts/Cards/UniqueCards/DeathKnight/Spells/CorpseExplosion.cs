@@ -8,8 +8,8 @@ public class CorpseExplosion : SpellCard
         Name = "Corpse Explosion";
         Description = "Give a minion Deathrattle: Deal 2 damage to all enemy minions.";
 
-        CardClass = CardClass.DeathKnight;
-        Rarity = Rarity.Common;
+        Class = HeroClass.DeathKnight;
+        Rarity = CardRarity.Common;
 
         TargetType = TargetType.AllMinions;
 
@@ -29,19 +29,12 @@ public class CorpseExplosion : SpellCard
         // Iterating on the list to damage the minions
         foreach (MinionCard minion in enemyMinions)
         {
-            // TODO : PreDamage ?
-
-            // Damaging the minion
-            minion.Damage(2);
-
-
-            EventManager.Instance.OnMinionDamaged(null, minion);
+            minion.TryDamage(null, 2);
         }
 
-        // Iterating on the list to check the minions
+        // Iterating on the list to check if the minions should die
         foreach (MinionCard minion in enemyMinions)
         {
-            // Checking if the minion should die
             minion.CheckDeath();
         }
     }
