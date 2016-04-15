@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
 
     public void Start()
     {
+        _instance = this;
+
         BottomPlayer = new Player();
         TopPlayer = new Player();
 

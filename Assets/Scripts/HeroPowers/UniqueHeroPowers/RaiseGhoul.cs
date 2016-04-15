@@ -1,7 +1,5 @@
 ﻿public class RaiseGhoul : BaseHeroPower
 {
-    public Hero Hero;
-
     public RaiseGhoul(Hero hero)
     {
         Name = "Raise Ghoul";
