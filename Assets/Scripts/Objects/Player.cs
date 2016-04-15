@@ -15,6 +15,9 @@ public class Player : MonoBehaviour
 
     public Player Enemy;
 
+    public int MaxCardsInHand = 10;
+    public int MaxCardsInDeck = 60;
+
     public int MaximumMana = 10;
     public int TurnMana = 0;
     public int OverloadedMana = 0;
@@ -45,5 +48,10 @@ public class Player : MonoBehaviour
         }
 
         return spellPower;
+    }
+
+    public int GetManaUsedThisTurn()
+    {
+        return TurnMana - OverloadedMana - AvailableMana;
     }
 }   

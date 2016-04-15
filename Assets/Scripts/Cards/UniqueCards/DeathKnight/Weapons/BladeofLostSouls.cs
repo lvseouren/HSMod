@@ -15,6 +15,6 @@ public class BladeOfLostSouls : WeaponCard
 
     public override void OnDestroyed()
     {
-        this.Player.Deck.Draw();
+        this.Player.Draw();
     }
 }
