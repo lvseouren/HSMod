@@ -13,7 +13,7 @@ public class BladeOfLostSouls : WeaponCard
         BaseDurability = 2;
     }
 
-    public override void OnDestroyed()
+    public override void Deathrattle()
     {
         this.Player.Draw();
     }
