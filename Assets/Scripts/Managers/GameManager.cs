@@ -46,14 +46,14 @@ public class GameManager : MonoBehaviour
 
         if (CurrentPlayer.Equals(BottomPlayer))
         {
-            BottomPlayer.Deck.Draw(3);
-            TopPlayer.Deck.Draw(4);
+            BottomPlayer.Draw(3);
+            TopPlayer.Draw(4);
             // TODO: give TopPlayer coin
         }
         else
         {
-            TopPlayer.Deck.Draw(3);
-            BottomPlayer.Deck.Draw(4);
+            TopPlayer.Draw(3);
+            BottomPlayer.Draw(4);
             // TODO: give BottomPlayer coin
         }
     }
@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
         //EventManager.Instance.OnTurnStart(Player player);
 
         // Drawing 1 card
-        CurrentPlayer.Deck.Draw(1);
+        CurrentPlayer.Draw(1);
 
         // Suming 1 to the turn mana if it's lower than 10
         if (CurrentPlayer.TurnMana < 10)

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Hero : MonoBehaviour, ICharacter
 {
+    // Parent //
     public Player Player;
 
     // Base Stats //

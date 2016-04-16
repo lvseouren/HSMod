@@ -224,6 +224,7 @@ public class MinionCard : BaseCard, ICharacter
         Forgetful = false;
         Frozen = false;
         Silenced = false;
+        Windfury = false;
         SpellPower = 0;
 
         BuffManager.RemoveAll();
