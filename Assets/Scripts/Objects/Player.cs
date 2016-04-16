@@ -114,6 +114,27 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void Equipweapon(WeaponCard weapon)
+    {
+        DestroyWeapon();
+
+        Weapon = weapon;
+
+        Weapon.Battlecry();
+    }
+
+    public void DestroyWeapon()
+    {
+        if (Weapon != null)
+        {
+            Weapon.Deathrattle();
+
+            // TODO : Animation
+
+            Weapon = null;
+        }
+    }
+
     public bool HasWeapon()
     {
         return (Weapon != null);
