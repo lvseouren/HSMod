@@ -2,8 +2,6 @@
 
 public abstract class BaseController : MonoBehaviour
 {
-    public CardGlow CardGlow;
-
     public SpriteRenderer GreenGlowRenderer;
     public SpriteRenderer WhiteGlowRenderer;
     public SpriteRenderer BlueGlowRenderer;

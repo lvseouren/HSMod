@@ -11,12 +11,11 @@ public class MinionController : BaseController
 
     public bool CanTarget = true;
 
-    public static void Create(MinionCard minion, CardGlow cardGlow)
+    public static void Create(MinionCard minion)
     {
         GameObject minionObject = new GameObject(minion.Player.name + "_" + minion.Name);
 
         MinionController minionController = minionObject.AddComponent<MinionController>();
-        minionController.CardGlow = cardGlow;
         minionController.HasTaunt = minion.Taunt;
 
         minionController.Initialize();
@@ -27,8 +26,8 @@ public class MinionController : BaseController
         MinionRenderer = CreateRenderer("Minion", Vector3.one, Vector3.zero, 0);
         TokenRenderer = CreateRenderer("Token", Vector3.one, Vector3.zero, 1);
 
-        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, Vector3.zero, 2);
-        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, Vector3.zero, 3);
+        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, Vector3.zero, 2);
+        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, Vector3.zero, 3);
         WhiteGlowRenderer = CreateRenderer("WhiteGlow", Vector3.one * 2f, Vector3.zero, 4);
 
         UpdateSprites();
@@ -129,6 +128,16 @@ public class MinionController : BaseController
         }
     }
 
+    private void OnMouseExit()
+    {
+        WhiteGlowRenderer.enabled = false;
+
+        if (InterfaceManager.Instance.IsDragging)
+        {
+            InterfaceManager.Instance.DisableArrowCircle();
+        }
+    }
+
     private void OnMouseDown()
     {
         if (this.CanTarget)
@@ -139,17 +148,9 @@ public class MinionController : BaseController
 
     private void OnMouseUp()
     {
+        // TODO : Check target
+
         InterfaceManager.Instance.DisableArrow();
-    }
-
-    private void OnMouseExit()
-    {
-        WhiteGlowRenderer.enabled = false;
-
-        if (InterfaceManager.Instance.IsDragging)
-        {
-            InterfaceManager.Instance.DisableArrowCircle();
-        }
     }
 
     #endregion

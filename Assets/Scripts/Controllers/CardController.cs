@@ -3,26 +3,39 @@ using UnityEngine;
 
 public class CardController : BaseController
 {
-    public static void AddTo(GameObject gameObject, CardGlow cardGlow)
+    public CardGlow CardGlow;
+
+    public BaseCard Card;
+
+    public SpriteRenderer CardRenderer;
+
+    public static void Create(BaseCard card, CardGlow cardGlow)
     {
-        CardController cardController = gameObject.AddComponent<CardController>();
+        GameObject cardObject = new GameObject(card.Player.name + "_" + card.Name);
+
+        CardController cardController = cardObject.AddComponent<CardController>();
         cardController.CardGlow = cardGlow;
+        cardController.Card = card;
 
         cardController.Initialize();
     }
     
     public override void Initialize()
     {
-        // TODO : CardRenderer
-        RedGlowRenderer = CreateChildSprite("RedGlow", 0);
-        GreenGlowRenderer = CreateChildSprite("GreenGlow", 1);
-        BlueGlowRenderer = CreateChildSprite("BlueGlow", 2);
+        CardRenderer = CreateRenderer("Card", Vector3.one, Vector3.zero, 0);
+
+        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one, Vector3.zero, 1);
+        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one, Vector3.zero, 2);
+        BlueGlowRenderer = CreateRenderer("BlueGlow", Vector3.one, Vector3.zero, 3);
 
         UpdateSprites();
     }
 
     public override void Remove()
     {
+        CardRenderer.DisposeSprite();
+        Destroy(CardRenderer);
+
         GreenGlowRenderer.DisposeSprite();
         Destroy(GreenGlowRenderer.gameObject);
 
@@ -54,14 +67,14 @@ public class CardController : BaseController
         return "Sprites/Glows/Card_" + Enum.GetName(typeof (CardGlow), CardGlow) + "_";
     }
 
-    private SpriteRenderer CreateChildSprite(string name, int order)
+    private SpriteRenderer CreateRenderer(string name, Vector3 scale, Vector3 position, int order)
     {
         // Creating a GameObject to hold the SpriteRenderer
         GameObject glowObject = new GameObject(name);
         glowObject.transform.parent = this.transform;
-        glowObject.transform.localPosition = new Vector3(0.07f, 0f, 0f);
         glowObject.transform.localEulerAngles = Vector3.zero;
-        glowObject.transform.localScale = Vector3.one * 3f;
+        glowObject.transform.localPosition = position;
+        glowObject.transform.localScale = scale;
 
         // Creating the SpriteRenderer and adding it to the GameObject
         SpriteRenderer glowRenderer = glowObject.AddComponent<SpriteRenderer>();
@@ -77,11 +90,13 @@ public class CardController : BaseController
     private void OnMouseEnter()
     {
         GreenGlowRenderer.enabled = true;
+
+        // TODO : Move up
     }
 
     private void OnMouseExit()
     {
-
+        // TODO : Move down
     }
 
     private void OnMouseDown()
