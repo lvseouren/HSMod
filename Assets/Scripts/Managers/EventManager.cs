@@ -67,11 +67,6 @@ public class EventManager
     public Subject<TurnEvent> TurnStartHandler = new Subject<TurnEvent>();
     public Subject<TurnEvent> TurnEndHandler = new Subject<TurnEvent>();
 
-    public void Start()
-    {
-        // TODO : SETUP
-    }
-
     #region Minion Event Handlers
 
     public void OnMinionPlayed(Player player, MinionCard minion)

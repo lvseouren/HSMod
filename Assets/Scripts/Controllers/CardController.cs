@@ -13,9 +13,10 @@ public class CardController : BaseController
     
     public override void Initialize()
     {
-        BlueGlowRenderer = CreateChildSprite("BlueGlow", 2);
-        GreenGlowRenderer = CreateChildSprite("GreenGlow", 1);
+        // TODO : CardRenderer
         RedGlowRenderer = CreateChildSprite("RedGlow", 0);
+        GreenGlowRenderer = CreateChildSprite("GreenGlow", 1);
+        BlueGlowRenderer = CreateChildSprite("BlueGlow", 2);
 
         UpdateSprites();
     }
@@ -64,7 +65,7 @@ public class CardController : BaseController
 
         // Creating the SpriteRenderer and adding it to the GameObject
         SpriteRenderer glowRenderer = glowObject.AddComponent<SpriteRenderer>();
-        glowRenderer.sortingLayerName = "Card";
+        glowRenderer.sortingLayerName = "Game";
         glowRenderer.sortingOrder = order;
         glowRenderer.enabled = false;
 

@@ -2,30 +2,46 @@
 
 public class MinionController : BaseController
 {
-    public bool HasTaunt;
-    public bool CanTarget;
+    public MinionCard Minion;
 
-    public static void AddTo(GameObject gameObject, CardGlow cardGlow, bool hasTaunt, bool canTarget)
+    public SpriteRenderer MinionRenderer;
+    public SpriteRenderer TokenRenderer;
+
+    public bool HasTaunt;
+
+    public bool CanTarget = true;
+
+    public static void Create(MinionCard minion, CardGlow cardGlow)
     {
-        MinionController minionController = gameObject.AddComponent<MinionController>();
+        GameObject minionObject = new GameObject(minion.Player.name + "_" + minion.Name);
+
+        MinionController minionController = minionObject.AddComponent<MinionController>();
         minionController.CardGlow = cardGlow;
-        minionController.HasTaunt = hasTaunt;
-        minionController.CanTarget = canTarget;
+        minionController.HasTaunt = minion.Taunt;
 
         minionController.Initialize();
     }
 
     public override void Initialize()
     {
-        WhiteGlowRenderer = CreateChildSprite("WhiteGlow", 2);
-        GreenGlowRenderer = CreateChildSprite("GreenGlow", 1);
-        RedGlowRenderer = CreateChildSprite("RedGlow", 0);
+        MinionRenderer = CreateRenderer("Minion", Vector3.one, Vector3.zero, 0);
+        TokenRenderer = CreateRenderer("Token", Vector3.one, Vector3.zero, 1);
+
+        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, Vector3.zero, 2);
+        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, Vector3.zero, 3);
+        WhiteGlowRenderer = CreateRenderer("WhiteGlow", Vector3.one * 2f, Vector3.zero, 4);
 
         UpdateSprites();
     }
 
     public override void Remove()
     {
+        MinionRenderer.DisposeSprite();
+        Destroy(MinionRenderer);
+
+        TokenRenderer.DisposeSprite();
+        Destroy(TokenRenderer);
+
         WhiteGlowRenderer.DisposeSprite();
         Destroy(WhiteGlowRenderer);
 
@@ -39,30 +55,38 @@ public class MinionController : BaseController
     public override void UpdateSprites()
     {
         // Cleaning up the old sprites and textures to avoid memory leaks
+        TokenRenderer.DisposeSprite();
         WhiteGlowRenderer.DisposeSprite();
         GreenGlowRenderer.DisposeSprite();
         RedGlowRenderer.DisposeSprite();
 
-        // Getting the string path to the glows
+        // Getting the path strings
+        string tokenString = GetTokenString();
         string glowString = GetGlowString();
 
         // Loading the sprites
+        TokenRenderer.sprite = Resources.Load<Sprite>(tokenString + this.Minion.TypeName());
         WhiteGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "WhiteGlow");
         GreenGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "GreenGlow");
         RedGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "RedGlow");
+    }
+
+    private string GetTokenString()
+    {
+        return "Sprites/" + this.Minion.Class.Name() + "/Minions/";
     }
 
     private string GetGlowString()
     {
         string glowString = "Sprites/Glows/Minion_";
 
-        switch (this.CardGlow)
+        switch (this.Minion.Rarity)
         {
-            case CardGlow.Minion:
+            case CardRarity.Legendary:
                 glowString += "Legendary_";
                 break;
 
-            case CardGlow.LegendaryMinion:
+            default:
                 glowString += "Normal_";
                 break;
         }
@@ -75,18 +99,18 @@ public class MinionController : BaseController
         return glowString;
     }
     
-    private SpriteRenderer CreateChildSprite(string name, int order)
+    private SpriteRenderer CreateRenderer(string name, Vector3 scale, Vector3 position, int order)
     {
         // Creating a GameObject to hold the SpriteRenderer
         GameObject glowObject = new GameObject(name);
         glowObject.transform.parent = this.transform;
-        glowObject.transform.localPosition = new Vector3(0f, 0f, 0f);
         glowObject.transform.localEulerAngles = Vector3.zero;
-        glowObject.transform.localScale = Vector3.one * 2f;
+        glowObject.transform.localPosition = position;
+        glowObject.transform.localScale = scale;
 
         // Creating the SpriteRenderer and adding it to the GameObject
         SpriteRenderer glowRenderer = glowObject.AddComponent<SpriteRenderer>();
-        glowRenderer.sortingLayerName = "Minion";
+        glowRenderer.sortingLayerName = "Game";
         glowRenderer.sortingOrder = order;
         glowRenderer.enabled = false;
 

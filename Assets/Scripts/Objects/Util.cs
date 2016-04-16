@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 // Static class to hold useful extension methods
 public static class Util
@@ -21,6 +22,18 @@ public static class Util
     public static T As<T>(this ICharacter self)
     {
         return (T)self;
+    }
+
+    // Method to get the name of an enum value
+    public static string Name(this Enum enumValue)
+    {
+        return Enum.GetName(enumValue.GetType(), enumValue);
+    }
+
+    // Method to get the name of the type
+    public static string TypeName(this object typeInstance)
+    {
+        return typeInstance.Name;
     }
 
     #region ICharacter Extension Methods
