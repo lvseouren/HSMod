@@ -33,10 +33,10 @@ public class BuffManager
     public Subject<SecretPlayedEvent> OnSecretPlayed = new Subject<SecretPlayedEvent>();
     public Subject<SecretRevealedEvent> OnSecretRevealed = new Subject<SecretRevealedEvent>();
 
-    public Subject<MinionPreAttackEvent> OnMinionPreAttack = new Subject<MinionPreAttackEvent>();
-    public Subject<MinionAttackedEvent> OnMinionAttacked = new Subject<MinionAttackedEvent>();
     public Subject<MinionPlayedEvent> OnMinionPlayed = new Subject<MinionPlayedEvent>();
     public Subject<MinionCard> OnMinionSummoned = new Subject<MinionCard>();
+    public Subject<MinionPreAttackEvent> OnMinionPreAttack = new Subject<MinionPreAttackEvent>();
+    public Subject<MinionAttackedEvent> OnMinionAttacked = new Subject<MinionAttackedEvent>();
     public Subject<MinionPreDamageEvent> OnMinionPreDamage = new Subject<MinionPreDamageEvent>();
     public Subject<MinionDamagedEvent> OnMinionDamaged = new Subject<MinionDamagedEvent>();
     public Subject<MinionPreHealEvent> OnMinionPreHeal = new Subject<MinionPreHealEvent>();
@@ -109,16 +109,23 @@ public class BuffManager
         
         OnMinionPlayed.Dispose();
         OnMinionSummoned.Dispose();
+        OnMinionPreAttack.Dispose();
+        OnMinionAttacked.Dispose();
+        OnMinionPreDamage.Dispose();
         OnMinionDamaged.Dispose();
+        OnMinionPreHeal.Dispose();
         OnMinionHealed.Dispose();
         OnMinionDied.Dispose();
 
+        OnCharacterPreHeal.Dispose();
         OnCharacterHealed.Dispose();
 
         OnHeroPreAttack.Dispose();
         OnHeroAttacked.Dispose();
         OnHeroPreDamage.Dispose();
         OnHeroDamaged.Dispose();
+        OnHeroPreHeal.Dispose();
+        OnHeroHealed.Dispose();
         OnHeroGainedArmor.Dispose();
         OnHeroEquippedWeapon.Dispose();
         
