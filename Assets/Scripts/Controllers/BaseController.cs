@@ -30,4 +30,36 @@ public abstract class BaseController : MonoBehaviour
 
         return glowRenderer;
     }
+
+    public void SetGreenRenderer(bool status)
+    {
+        if (GreenGlowRenderer != null)
+        {
+            GreenGlowRenderer.enabled = status;
+        }
+    }
+
+    public void SetWhiteRenderer(bool status)
+    {
+        if (WhiteGlowRenderer != null)
+        {
+            WhiteGlowRenderer.enabled = status;
+        }
+    }
+
+    public void SetBlueRenderer(bool status)
+    {
+        if (BlueGlowRenderer != null)
+        {
+            BlueGlowRenderer.enabled = status;
+        }
+    }
+
+    public void SetRedRenderer(bool status)
+    {
+        if (RedGlowRenderer != null)
+        {
+            RedGlowRenderer.enabled = status;
+        }
+    }
 }
