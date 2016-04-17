@@ -22,11 +22,11 @@ public class CardController : BaseController
     
     public override void Initialize()
     {
-        CardRenderer = CreateRenderer("Card", Vector3.one, Vector3.zero, 0);
+        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one, Vector3.zero, -3);
+        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one, Vector3.zero, -2);
+        BlueGlowRenderer = CreateRenderer("BlueGlow", Vector3.one, Vector3.zero, -1);
 
-        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one, Vector3.zero, 1);
-        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one, Vector3.zero, 2);
-        BlueGlowRenderer = CreateRenderer("BlueGlow", Vector3.one, Vector3.zero, 3);
+        CardRenderer = CreateRenderer("Card", Vector3.one, Vector3.zero, 0);
 
         UpdateSprites();
     }
@@ -65,24 +65,6 @@ public class CardController : BaseController
     private string GetGlowString()
     {
         return "Sprites/Glows/Card_" + Enum.GetName(typeof (CardGlow), CardGlow) + "_";
-    }
-
-    private SpriteRenderer CreateRenderer(string name, Vector3 scale, Vector3 position, int order)
-    {
-        // Creating a GameObject to hold the SpriteRenderer
-        GameObject glowObject = new GameObject(name);
-        glowObject.transform.parent = this.transform;
-        glowObject.transform.localEulerAngles = Vector3.zero;
-        glowObject.transform.localPosition = position;
-        glowObject.transform.localScale = scale;
-
-        // Creating the SpriteRenderer and adding it to the GameObject
-        SpriteRenderer glowRenderer = glowObject.AddComponent<SpriteRenderer>();
-        glowRenderer.sortingLayerName = "Game";
-        glowRenderer.sortingOrder = order;
-        glowRenderer.enabled = false;
-
-        return glowRenderer;
     }
 
     #region Unity Messages

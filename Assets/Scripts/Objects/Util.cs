@@ -33,7 +33,7 @@ public static class Util
     // Method to get the name of the type
     public static string TypeName(this object typeInstance)
     {
-        return typeInstance.Name;
+        return typeInstance.GetType().Name;
     }
 
     #region ICharacter Extension Methods

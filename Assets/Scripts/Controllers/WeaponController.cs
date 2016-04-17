@@ -21,11 +21,12 @@ public class WeaponController : BaseController
 
     public override void Initialize()
     {
-        WeaponRenderer = CreateRenderer("Weapon", Vector3.one, Vector3.zero, 0);
-        TokenRenderer = CreateRenderer("Token", Vector3.one, Vector3.zero, 1);
+        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, Vector3.zero, -2);
+        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, Vector3.zero, -1);
 
-        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, Vector3.zero, 2);
-        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, Vector3.zero, 3);
+        WeaponRenderer = CreateRenderer("Weapon", Vector3.one, Vector3.zero, 0);
+
+        TokenRenderer = CreateRenderer("Token", Vector3.one, Vector3.zero, 1);
     }
 
     public override void Remove()
@@ -55,25 +56,7 @@ public class WeaponController : BaseController
         GreenGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Weapon_GreenGlow");
         RedGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Weapon_RedGlow");
     }
-
-    private SpriteRenderer CreateRenderer(string name, Vector3 scale, Vector3 position, int order)
-    {
-        // Creating a GameObject to hold the SpriteRenderer
-        GameObject glowObject = new GameObject(name);
-        glowObject.transform.parent = this.transform;
-        glowObject.transform.localEulerAngles = Vector3.zero;
-        glowObject.transform.localPosition = position;
-        glowObject.transform.localScale = scale;
-
-        // Creating the SpriteRenderer and adding it to the GameObject
-        SpriteRenderer glowRenderer = glowObject.AddComponent<SpriteRenderer>();
-        glowRenderer.sortingLayerName = "Game";
-        glowRenderer.sortingOrder = order;
-        glowRenderer.enabled = false;
-
-        return glowRenderer;
-    }
-
+    
     #region Unity Messages
     
     private void OnMouseDown()

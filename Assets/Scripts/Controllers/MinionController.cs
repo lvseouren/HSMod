@@ -23,13 +23,14 @@ public class MinionController : BaseController
 
     public override void Initialize()
     {
+        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, Vector3.zero, -3);
+        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, Vector3.zero, -2);
+        WhiteGlowRenderer = CreateRenderer("WhiteGlow", Vector3.one * 2f, Vector3.zero, -1);
+
         MinionRenderer = CreateRenderer("Minion", Vector3.one, Vector3.zero, 0);
+
         TokenRenderer = CreateRenderer("Token", Vector3.one, Vector3.zero, 1);
-
-        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, Vector3.zero, 2);
-        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, Vector3.zero, 3);
-        WhiteGlowRenderer = CreateRenderer("WhiteGlow", Vector3.one * 2f, Vector3.zero, 4);
-
+        
         UpdateSprites();
     }
 
@@ -96,24 +97,6 @@ public class MinionController : BaseController
         }
 
         return glowString;
-    }
-    
-    private SpriteRenderer CreateRenderer(string name, Vector3 scale, Vector3 position, int order)
-    {
-        // Creating a GameObject to hold the SpriteRenderer
-        GameObject glowObject = new GameObject(name);
-        glowObject.transform.parent = this.transform;
-        glowObject.transform.localEulerAngles = Vector3.zero;
-        glowObject.transform.localPosition = position;
-        glowObject.transform.localScale = scale;
-
-        // Creating the SpriteRenderer and adding it to the GameObject
-        SpriteRenderer glowRenderer = glowObject.AddComponent<SpriteRenderer>();
-        glowRenderer.sortingLayerName = "Game";
-        glowRenderer.sortingOrder = order;
-        glowRenderer.enabled = false;
-
-        return glowRenderer;
     }
 
     #region Unity Messages
