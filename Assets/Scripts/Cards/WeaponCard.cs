@@ -71,12 +71,18 @@
 
     #endregion
 
-    #region Methods
-
-    public virtual void Attack(ICharacter target)
+    public virtual void Attack()
     {
-        
+        this.CurrentDurability -= 1;
     }
 
-    #endregion
+    public virtual void Destroy()
+    {
+
+    }
+
+    public virtual bool CanAttack(ICharacter target)
+    {
+        return true;
+    }
 }

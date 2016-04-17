@@ -9,6 +9,7 @@ public class MinionCard : BaseCard, ICharacter
     public MinionType MinionType;
 
     // In-Game Stats //
+    public MinionController Controller;
     public int CurrentAttack { get; set; }
     public int CurrentHealth { get; set; }
     public int MaxHealth { get; set; }
