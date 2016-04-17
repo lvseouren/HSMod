@@ -99,11 +99,13 @@ public class HeroPowerController : BaseController
                 InterfaceManager.Instance.DisableArrow();
 
                 ICharacter target = Util.GetCharacterAtMouse();
-
-                // TODO : Hero Power target check ?
+                
                 if (target != null)
                 {
-                    this.HeroPower.Use(target);
+                    if (this.HeroPower.CanTarget(target))
+                    {
+                        this.HeroPower.Use(target);
+                    }
                 }
             }
         }

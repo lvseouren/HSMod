@@ -20,6 +20,11 @@
 
     public virtual void Upgrade() { }
 
+    public virtual bool CanTarget(ICharacter target)
+    {
+        return true;
+    }
+
     public bool IsAvailable()
     {
         if (this.CurrentUses < this.MaxUses)
