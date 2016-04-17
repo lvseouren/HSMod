@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 
 // Static class to hold useful extension methods
@@ -19,9 +20,9 @@ public static class Util
     }
 
     // Method to cast easily without the need of parenthesis
-    public static T As<T>(this ICharacter self)
+    public static T As<T>(this object self)
     {
-        return (T)self;
+        return (T) self;
     }
 
     // Method to get the name of an enum value
@@ -36,6 +37,47 @@ public static class Util
         return typeInstance.GetType().Name;
     }
 
+    // Method to get the minion at the mouse position
+    public static ICharacter GetCharacter(this BaseController controller)
+    {
+        if (controller != null)
+        {
+            switch (controller.GetType().Name)
+            {
+                case "MinionController":
+                    return controller.As<MinionController>().Minion;
+
+                case "HeroController":
+                    return controller.As<HeroController>().Hero;
+            }
+        }
+
+        return null;
+    }
+
+    // Method to get the character at the mouse positionm
+    public static ICharacter GetCharacterAtMouse()
+    {
+        Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hitInfo = Physics.RaycastAll(cameraRay).First();
+
+        if (hitInfo.collider != null)
+        {
+            BaseController controller = hitInfo.collider.gameObject.GetComponent<MinionController>();
+
+            switch (controller.GetType().Name)
+            {
+                case "MinionController":
+                    return controller.As<MinionController>().Minion;
+
+                case "HeroController":
+                    return controller.As<HeroController>().Hero;
+            }
+        }
+
+        return null;
+    }
+    
     #region ICharacter Extension Methods
 
     public static bool IsAlive(this ICharacter self)
