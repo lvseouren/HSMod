@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     public Hero Hero = new Hero();
 
+    public Player Enemy;
+
     public List<BaseCard> Hand = new List<BaseCard>();
     public List<BaseCard> Deck = new List<BaseCard>();
-    public WeaponCard Weapon = null;
-    
     public List<MinionCard> Minions = new List<MinionCard>(7);
     public List<SpellCard> Secrets = new List<SpellCard>();
+    public WeaponCard Weapon = null;
 
-    public GameObject DeckGameObject;
-
-    public Player Enemy;
+    public HeroController Controller;
 
     public int MaxCardsInHand = 10;
     public int MaxCardsInDeck = 60;
@@ -28,8 +28,10 @@ public class Player : MonoBehaviour
 
     public void Start()
     {
-
+        this.Controller = HeroController.Create(this.Hero);
     }
+
+    #region Methods
 
     public void ReplaceHero(Hero newHero)
     {
@@ -40,23 +42,6 @@ public class Player : MonoBehaviour
     {
         AvailableMana = TurnMana - OverloadedMana;
         OverloadedMana = 0;
-    }
-
-    public int GetSpellPower()
-    {
-        int spellPower = 0;
-
-        foreach (MinionCard minion in Minions)
-        {
-            spellPower += minion.SpellPower;
-        }
-
-        return spellPower;
-    }
-
-    public int GetManaUsedThisTurn()
-    {
-        return TurnMana - OverloadedMana - AvailableMana;
     }
 
     public List<BaseCard> Draw(int draws)
@@ -74,7 +59,7 @@ public class Player : MonoBehaviour
         }
 
         return drawnCards;
-    } 
+    }
 
     public BaseCard Draw()
     {
@@ -114,11 +99,11 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void Equipweapon(WeaponCard weapon)
+    public void EquipWeapon(WeaponCard weapon)
     {
         DestroyWeapon();
 
-        Weapon = weapon;
+        this.Weapon = weapon;
 
         Weapon.Battlecry();
     }
@@ -135,8 +120,54 @@ public class Player : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Getter Methods
+    
+    public int GetSpellPower()
+    {
+        int spellPower = 0;
+
+        foreach (MinionCard minion in Minions)
+        {
+            spellPower += minion.SpellPower;
+        }
+
+        return spellPower;
+    }
+
+    public int GetManaUsedThisTurn()
+    {
+        return TurnMana - OverloadedMana - AvailableMana;
+    }
+
+    #endregion
+
+    #region Condition Checkers
+
     public bool HasWeapon()
     {
         return (Weapon != null);
     }
+
+    public bool HasMinions()
+    {
+        return (this.Minions.Count > 0);
+    }
+
+    public bool HasTauntMinions()
+    {
+        foreach (MinionCard minion in this.Minions)
+        {
+            if (minion.Taunt)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    #endregion
+
 }
