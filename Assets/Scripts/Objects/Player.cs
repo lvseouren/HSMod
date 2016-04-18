@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -74,12 +73,13 @@ public class Player : MonoBehaviour
                 Hand.Add(drawnBaseCard);
                 Deck.Remove(drawnBaseCard);
 
+                // Creating the visual controller for the card
+                drawnBaseCard.Controller = CardController.Create(drawnBaseCard);
+
                 // Firing OnDrawn events
                 drawnBaseCard.OnDrawn();
                 EventManager.Instance.OnCardDrawn(this, drawnBaseCard);
-
-                // TODO : GameObject stuff
-
+                
                 return drawnBaseCard;
             }
             else
@@ -117,6 +117,74 @@ public class Player : MonoBehaviour
             // TODO : Animation
 
             Weapon = null;
+        }
+    }
+
+    public void UpdateGlows()
+    {
+        ResetGlows();
+
+        if (this.HasWeapon() || this.Hero.CurrentAttack > 0)
+        {
+            switch (this.Hero.TurnAttacks)
+            {
+                case 0:
+                    this.Controller.SetGreenRenderer(true);
+                    break;
+
+                case 1:
+                    if (this.Weapon.Windfury)
+                    {
+                        this.Controller.SetGreenRenderer(true);
+                    }
+                    break;
+            }
+        }
+
+        foreach (BaseCard card in this.Hand)
+        {
+            if (card.CurrentCost <= this.AvailableMana)
+            {
+                card.Controller.SetGreenRenderer(true);
+            }
+        }
+
+        foreach (MinionCard minion in this.Minions)
+        {
+            if (minion.Frozen == false && minion.Sleeping == false)
+            {
+                if (minion.CanAttack())
+                {
+                    switch (minion.TurnAttacks)
+                    {
+                        case 0:
+                            minion.Controller.SetGreenRenderer(true);
+                            break;
+
+                        case 1:
+                            if (minion.Windfury)
+                            {
+                                minion.Controller.SetGreenRenderer(true);
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    public void ResetGlows()
+    {
+        this.Controller.SetGreenRenderer(false);
+
+        foreach (BaseCard card in this.Hand)
+        {
+            card.Controller.SetGreenRenderer(false);
+        }
+
+        foreach (MinionCard minion in this.Minions)
+        {
+            minion.Controller.SetGreenRenderer(false);
         }
     }
 
@@ -169,5 +237,4 @@ public class Player : MonoBehaviour
     }
 
     #endregion
-
 }

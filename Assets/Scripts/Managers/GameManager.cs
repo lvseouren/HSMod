@@ -4,21 +4,29 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameState CurrentGameState;
-
-    public Player TopPlayer;
-    public Player BottomPlayer;
-    public Player CurrentPlayer;
-
+    // Singleton //
     private static GameManager _instance;
 
     public static GameManager Instance
     {
         get
         {
+            if (_instance == null)
+            {
+                _instance = new GameManager();
+            }
             return _instance;
         }
     }
+
+    private GameManager() { }
+
+
+    public GameState CurrentGameState;
+
+    public Player TopPlayer;
+    public Player BottomPlayer;
+    public Player CurrentPlayer;
 
     public void Start()
     {
@@ -43,6 +51,8 @@ public class GameManager : MonoBehaviour
     public void Mulligan()
     {
         CurrentGameState = GameState.Mulligan;
+
+        // TODO : Rework mulligan
 
         if (CurrentPlayer.Equals(BottomPlayer))
         {
@@ -78,6 +88,9 @@ public class GameManager : MonoBehaviour
         // Refilling mana crystalls
         CurrentPlayer.RefillMana();
 
+        // Updating card, hero and minion glows for the current player
+        CurrentPlayer.UpdateGlows();
+
         // Switching to Active Turn state
         CurrentGameState = GameState.Active;
 
@@ -91,6 +104,9 @@ public class GameManager : MonoBehaviour
 
         // Firing OnTurnEnd events
         EventManager.Instance.OnTurnEnd(this.CurrentPlayer);
+
+        // Resetting hero, card and minion glows for the current player
+        CurrentPlayer.ResetGlows();
 
         // Switching the player
         SwitchCurrentPlayer();
