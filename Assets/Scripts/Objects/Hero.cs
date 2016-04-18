@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Hero : MonoBehaviour, ICharacter
 {
+    // Parent //
     public Player Player;
 
     // Base Stats //
@@ -13,14 +14,15 @@ public class Hero : MonoBehaviour, ICharacter
     public int CurrentAttack { get; set; }
     public int CurrentHealth { get; set; }
     public int MaxHealth { get; set; }
-    public int Armor;
+    public int Armor = 0;
+    public int TurnAttacks = 0;
 
     // Effects //
     public bool Frozen = false;
     public bool Immune = false;
     public bool Forgetful = false;
 
-    private void Start()
+    private void Initialize()
     {
         CurrentAttack = BaseAttack;
         CurrentHealth = BaseHealth;
@@ -70,13 +72,16 @@ public class Hero : MonoBehaviour, ICharacter
         // Checking if the Attack was cancelled
         if (heroPreAttackEvent.Status != PreStatus.Cancelled)
         {
+            // Adding 1 to the turn attacks counter
+            TurnAttacks++;
+
             // Redefining target in case it changed when firing events
             target = heroPreAttackEvent.Target;
 
             // Target is a Hero
             if (target.IsHero())
             {
-                target.As<Hero>().TryDamage(this, this.CurrentAttack);
+                target.As<Hero>().TryDamage(this, this.GetHeroAttack());
             }
 
             // Target is a Minion
@@ -90,7 +95,7 @@ public class Hero : MonoBehaviour, ICharacter
                 
                 // Damaging both characters
                 this.TryDamage(targetMinion, minionAttack);
-                targetMinion.TryDamage(this, this.CurrentAttack);
+                targetMinion.TryDamage(this, this.GetHeroAttack());
 
                 // Checking the death of both characters
                 this.CheckDeath();
@@ -151,5 +156,53 @@ public class Hero : MonoBehaviour, ICharacter
         {
             // TODO : End game
         }
+    }
+
+    public bool CanAttack()
+    {
+        switch (TurnAttacks)
+        {
+            case 0:
+                return (this.CurrentAttack > 0 || this.Player.HasWeapon());
+
+            case 1:
+                return (this.Player.HasWeapon() && this.Player.Weapon.Windfury);
+
+            default:
+                return false;
+        }
+    }
+
+    public bool CanTarget(ICharacter target)
+    {
+        if (target.IsHero())
+        {
+            return (target.As<Hero>().Player.HasTauntMinions() == false);
+        }
+        else
+        {
+            MinionCard minionTarget = target.As<MinionCard>();
+
+            if (minionTarget.Taunt == false)
+            {
+                return (minionTarget.Player.HasTauntMinions() == false);
+            }
+            else
+            {
+                return true;
+            }
+        }
+    }
+
+    public int GetHeroAttack()
+    {
+        int attack = this.CurrentAttack;
+
+        if (this.Player.HasWeapon())
+        {
+            attack += this.Player.Weapon.CurrentAttack;
+        }
+
+        return attack;
     }
 }

@@ -14,9 +14,19 @@
 
     #region Events
 
-    public virtual void OnPlayed()
+    public virtual void Battlecry()
     {
 
+    }
+
+    public virtual void Deathrattle()
+    {
+
+    }
+
+    public virtual void Inspire()
+    {
+        
     }
 
     public virtual void OnPreAttack()
@@ -29,34 +39,50 @@
 
     }
 
-    public virtual void OnDestroyed()
+    public virtual void OnMinionPlayed()
+    {
+
+    }
+
+    public virtual void OnMinionSummoned()
+    {
+
+    }
+
+    public virtual void OnSecretPlayed()
+    {
+
+    }
+
+    public virtual void OnSecretRevealed()
+    {
+        
+    }
+
+    public virtual void OnHeroPreDamage()
+    {
+
+    }
+
+    public virtual void OnHeroDamaged()
     {
 
     }
 
     #endregion
 
-    #region Methods
-
-    public void Attack(MinionCard targetMinion)
+    public virtual void Attack()
     {
-        
+        this.CurrentDurability -= 1;
     }
 
-    public void Attack(Hero targetHero)
+    public virtual void Destroy()
     {
-        
+
     }
 
-    public void Equip()
+    public virtual bool CanAttack(ICharacter target)
     {
-        
+        return true;
     }
-
-    public void Destroy()
-    {
-        
-    }
-
-    #endregion
 }
