@@ -8,13 +8,14 @@ public class HeroController : BaseController
 
     public static HeroController Create(Hero hero, Vector3 heroPosition)
     {
-        GameObject heroObject = new GameObject("Hero");
+        GameObject heroObject = new GameObject("Hero_" + hero.Class);
         heroObject.transform.position = heroPosition;
-        heroObject.transform.localScale = new Vector3(60f, 60f, 60f);
+        heroObject.transform.localScale = new Vector3(50f, 50f, 50f);
         heroObject.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
 
         BoxCollider heroCollider = heroObject.AddComponent<BoxCollider>();
-        heroCollider.size = new Vector3(2.5f, 3.5f, 0.1f);
+        heroCollider.center = new Vector3(0f, 0.75f, 0f);
+        heroCollider.size = new Vector3(4f, 4f, 0.1f);
 
         HeroController heroController = heroObject.AddComponent<HeroController>();
         heroController.Hero = hero;
@@ -26,8 +27,9 @@ public class HeroController : BaseController
 
     public override void Initialize()
     {
-        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, Vector3.zero, -2);
-        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, Vector3.zero, -1);
+        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), -3);
+        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), -2);
+        WhiteGlowRenderer = CreateRenderer("WhiteGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), -1);
 
         HeroRenderer = CreateRenderer("Hero", Vector3.one, Vector3.zero, 0);
 
@@ -46,6 +48,9 @@ public class HeroController : BaseController
 
         RedGlowRenderer.DisposeSprite();
         Destroy(RedGlowRenderer);
+
+        WhiteGlowRenderer.DisposeSprite();
+        Destroy(WhiteGlowRenderer);
     }
 
     public override void UpdateSprites()
@@ -58,11 +63,22 @@ public class HeroController : BaseController
         // Loading the sprites
         // TODO : Load hero sprite depending on hero class
         HeroRenderer.sprite = Resources.Load<Sprite>("Sprites/DeathKnight/Hero/DeathKnight_Portrait_Ingame");
-        GreenGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Weapon_GreenGlow");
-        RedGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Weapon_RedGlow");
+        RedGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Hero_Portrait_RedGlow");
+        GreenGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Hero_Portrait_GreenGlow");
+        WhiteGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Hero_Portrait_WhiteGlow");
     }
 
     #region Unity Messages
+
+    private void OnMouseEnter()
+    {
+        this.SetWhiteRenderer(true);
+    }
+
+    private void OnMouseExit()
+    {
+        this.SetWhiteRenderer(false);
+    }
 
     private void OnMouseDown()
     {

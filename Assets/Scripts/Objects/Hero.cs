@@ -9,6 +9,7 @@ public class Hero : MonoBehaviour, ICharacter
     // Base Stats //
     public int BaseAttack { get; set; }
     public int BaseHealth { get; set; }
+    public HeroClass Class;
 
     // In-Game Stats //
     public int CurrentAttack { get; set; }
@@ -26,11 +27,12 @@ public class Hero : MonoBehaviour, ICharacter
 
     private Hero() { }
 
-    public static Hero Create(Player player)
+    public static Hero Create(Player player, HeroClass heroClass)
     {
         Hero hero = new Hero()
         {
-            Player = player
+            Player = player,
+            Class = heroClass
         };
 
         hero.Initialize();

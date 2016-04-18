@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -36,7 +35,7 @@ public class Player : MonoBehaviour
 
     private Player() { }
 
-    public static Player Create(Vector3 heroPosition, Vector3 cardsPosition)
+    public static Player Create(HeroClass heroClass, Vector3 heroPosition, Vector3 cardsPosition)
     {
         Player player = new Player()
         {
@@ -44,7 +43,7 @@ public class Player : MonoBehaviour
             CardsPosition = cardsPosition
         };
 
-        player.Hero = Hero.Create(player);
+        player.Hero = Hero.Create(player, heroClass);
 
         player.Initialize();
 
