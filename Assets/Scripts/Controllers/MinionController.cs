@@ -11,7 +11,7 @@ public class MinionController : BaseController
 
     public bool CanTarget = true;
 
-    public static void Create(MinionCard minion)
+    public static MinionController Create(MinionCard minion)
     {
         GameObject minionObject = new GameObject(minion.Player.name + "_" + minion.Name);
 
@@ -19,6 +19,8 @@ public class MinionController : BaseController
         minionController.HasTaunt = minion.Taunt;
 
         minionController.Initialize();
+
+        return minionController;
     }
 
     public override void Initialize()

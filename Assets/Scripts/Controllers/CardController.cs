@@ -1,23 +1,21 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CardController : BaseController
 {
-    public CardGlow CardGlow;
-
     public BaseCard Card;
 
     public SpriteRenderer CardRenderer;
 
-    public static void Create(BaseCard card, CardGlow cardGlow)
+    public static CardController Create(BaseCard card)
     {
         GameObject cardObject = new GameObject(card.Player.name + "_" + card.Name);
 
         CardController cardController = cardObject.AddComponent<CardController>();
-        cardController.CardGlow = cardGlow;
         cardController.Card = card;
 
         cardController.Initialize();
+
+        return cardController;
     }
     
     public override void Initialize()
@@ -64,7 +62,26 @@ public class CardController : BaseController
 
     private string GetGlowString()
     {
-        return "Sprites/Glows/Card_" + Enum.GetName(typeof (CardGlow), CardGlow) + "_";
+        string glowString = "Sprites/Glows/Card_";
+
+        switch (Card.TypeName())
+        {
+            case "MinionCard":
+                if (Card.As<MinionCard>().Rarity == CardRarity.Legendary)
+                {
+                    return glowString + "LegendaryMinion_";
+                }
+                return glowString + "Minion_";
+
+            case "SpellCard":
+                return glowString + "Spell_";
+
+            case "WeaponCard":
+                return glowString + "Weapon_";
+
+            default:
+                return glowString + "Normal_";
+        }
     }
 
     #region Unity Messages
