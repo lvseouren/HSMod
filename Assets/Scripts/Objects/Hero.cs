@@ -22,12 +22,31 @@ public class Hero : MonoBehaviour, ICharacter
     public bool Immune = false;
     public bool Forgetful = false;
 
+    #region Constructor
+
+    private Hero() { }
+
+    public static Hero Create(Player player)
+    {
+        Hero hero = new Hero()
+        {
+            Player = player
+        };
+
+        hero.Initialize();
+
+        return hero;
+    }
+
     private void Initialize()
     {
         CurrentAttack = BaseAttack;
         CurrentHealth = BaseHealth;
         Armor = 0;
     }
+
+    #endregion
+
 
     public void Attack(ICharacter target)
     {

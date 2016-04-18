@@ -4,13 +4,17 @@ public class HeroController : BaseController
 {
     public Hero Hero;
 
-    public SpriteRenderer WeaponRenderer;
-    public SpriteRenderer TokenRenderer;
+    public SpriteRenderer HeroRenderer;
 
-    public static HeroController Create(Hero hero)
+    public static HeroController Create(Hero hero, Vector3 heroPosition)
     {
-        GameObject heroObject = new GameObject(hero.Player.name + "_" + hero);
-        heroObject.AddComponent<BoxCollider>();
+        GameObject heroObject = new GameObject("Hero");
+        heroObject.transform.position = heroPosition;
+        heroObject.transform.localScale = new Vector3(60f, 60f, 60f);
+        heroObject.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
+
+        BoxCollider heroCollider = heroObject.AddComponent<BoxCollider>();
+        heroCollider.size = new Vector3(2.5f, 3.5f, 0.1f);
 
         HeroController heroController = heroObject.AddComponent<HeroController>();
         heroController.Hero = hero;
@@ -25,18 +29,17 @@ public class HeroController : BaseController
         RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, Vector3.zero, -2);
         GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, Vector3.zero, -1);
 
-        WeaponRenderer = CreateRenderer("Weapon", Vector3.one, Vector3.zero, 0);
+        HeroRenderer = CreateRenderer("Hero", Vector3.one, Vector3.zero, 0);
 
-        TokenRenderer = CreateRenderer("Token", Vector3.one, Vector3.zero, 1);
+        UpdateSprites();
+
+        HeroRenderer.enabled = true;
     }
 
     public override void Remove()
     {
-        WeaponRenderer.DisposeSprite();
-        Destroy(WeaponRenderer);
-
-        TokenRenderer.DisposeSprite();
-        Destroy(TokenRenderer);
+        HeroRenderer.DisposeSprite();
+        Destroy(HeroRenderer);
 
         GreenGlowRenderer.DisposeSprite();
         Destroy(GreenGlowRenderer.gameObject);
@@ -48,12 +51,13 @@ public class HeroController : BaseController
     public override void UpdateSprites()
     {
         // Cleaning up the old sprites and textures to avoid memory leaks
-        TokenRenderer.DisposeSprite();
+        HeroRenderer.DisposeSprite();
         GreenGlowRenderer.DisposeSprite();
         RedGlowRenderer.DisposeSprite();
 
         // Loading the sprites
-        TokenRenderer.sprite = Resources.Load<Sprite>("Sprites/General/WeaponToken");
+        // TODO : Load hero sprite depending on hero class
+        HeroRenderer.sprite = Resources.Load<Sprite>("Sprites/DeathKnight/Hero/DeathKnight_Portrait_Ingame");
         GreenGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Weapon_GreenGlow");
         RedGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Weapon_RedGlow");
     }

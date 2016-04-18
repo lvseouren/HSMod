@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class HeroPowerController : BaseController
 {
@@ -72,6 +71,16 @@ public class HeroPowerController : BaseController
     }
 
     #region Unity Messages
+
+    private void OnMouseEnter()
+    {
+        this.SetWhiteRenderer(true);
+    }
+
+    private void OnMouseExit()
+    {
+        this.SetWhiteRenderer(false);
+    }
 
     private void OnMouseDown()
     {

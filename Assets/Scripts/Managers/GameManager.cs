@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Singleton //
+    #region Singleton
+
     private static GameManager _instance;
 
     public static GameManager Instance
@@ -21,19 +22,20 @@ public class GameManager : MonoBehaviour
 
     private GameManager() { }
 
+    #endregion
 
     public GameState CurrentGameState;
 
     public Player TopPlayer;
     public Player BottomPlayer;
     public Player CurrentPlayer;
-
+    
     public void Start()
     {
         _instance = this;
 
-        BottomPlayer = new Player();
-        TopPlayer = new Player();
+        BottomPlayer = Player.Create(new Vector3(800f, 60f, 225f), new Vector3(800f, 40f, 50f));
+        TopPlayer = Player.Create(new Vector3(800f, 60f, 925f), new Vector3(800f, 40f, 1175f));
 
         // Randomize the starting player
         if (Random.Range(0, 2) == 1)

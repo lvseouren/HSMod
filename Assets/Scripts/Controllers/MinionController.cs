@@ -105,7 +105,7 @@ public class MinionController : BaseController
 
     private void OnMouseEnter()
     {
-        WhiteGlowRenderer.enabled = true;
+       this.SetWhiteRenderer(true);
 
         if (InterfaceManager.Instance.IsDragging)
         {
@@ -115,7 +115,7 @@ public class MinionController : BaseController
 
     private void OnMouseExit()
     {
-        WhiteGlowRenderer.enabled = false;
+        this.SetWhiteRenderer(false);
 
         if (InterfaceManager.Instance.IsDragging)
         {

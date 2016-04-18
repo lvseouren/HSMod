@@ -88,7 +88,7 @@ public class CardController : BaseController
 
     private void OnMouseEnter()
     {
-        GreenGlowRenderer.enabled = true;
+        GreenGlowRenderer.enabled = true; // Test
 
         // TODO : Move up
     }
