@@ -11,6 +11,7 @@
     // In-Game Stats //
     public Player Player;
     public int CurrentCost;
+    public BaseController Controller;
 
     // Effects //
     public int Overload = 0;

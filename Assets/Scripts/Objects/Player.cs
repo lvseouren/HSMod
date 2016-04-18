@@ -5,16 +5,15 @@ public class Player : MonoBehaviour
 {
     public Hero Hero = new Hero();
 
+    public Player Enemy;
+
     public List<BaseCard> Hand = new List<BaseCard>();
     public List<BaseCard> Deck = new List<BaseCard>();
-    public WeaponCard Weapon = null;
-    
     public List<MinionCard> Minions = new List<MinionCard>(7);
     public List<SpellCard> Secrets = new List<SpellCard>();
+    public WeaponCard Weapon = null;
 
-    public GameObject DeckGameObject;
-
-    public Player Enemy;
+    public HeroController Controller;
 
     public int MaxCardsInHand = 10;
     public int MaxCardsInDeck = 60;
@@ -28,8 +27,10 @@ public class Player : MonoBehaviour
 
     public void Start()
     {
-
+        this.Controller = HeroController.Create(this.Hero);
     }
+
+    #region Methods
 
     public void ReplaceHero(Hero newHero)
     {
@@ -40,23 +41,6 @@ public class Player : MonoBehaviour
     {
         AvailableMana = TurnMana - OverloadedMana;
         OverloadedMana = 0;
-    }
-
-    public int GetSpellPower()
-    {
-        int spellPower = 0;
-
-        foreach (MinionCard minion in Minions)
-        {
-            spellPower += minion.SpellPower;
-        }
-
-        return spellPower;
-    }
-
-    public int GetManaUsedThisTurn()
-    {
-        return TurnMana - OverloadedMana - AvailableMana;
     }
 
     public List<BaseCard> Draw(int draws)
@@ -74,7 +58,7 @@ public class Player : MonoBehaviour
         }
 
         return drawnCards;
-    } 
+    }
 
     public BaseCard Draw()
     {
@@ -89,12 +73,13 @@ public class Player : MonoBehaviour
                 Hand.Add(drawnBaseCard);
                 Deck.Remove(drawnBaseCard);
 
+                // Creating the visual controller for the card
+                drawnBaseCard.Controller = CardController.Create(drawnBaseCard);
+
                 // Firing OnDrawn events
                 drawnBaseCard.OnDrawn();
                 EventManager.Instance.OnCardDrawn(this, drawnBaseCard);
-
-                // TODO : GameObject stuff
-
+                
                 return drawnBaseCard;
             }
             else
@@ -114,8 +99,142 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void EquipWeapon(WeaponCard weapon)
+    {
+        DestroyWeapon();
+
+        this.Weapon = weapon;
+
+        Weapon.Battlecry();
+    }
+
+    public void DestroyWeapon()
+    {
+        if (Weapon != null)
+        {
+            Weapon.Deathrattle();
+
+            // TODO : Animation
+
+            Weapon = null;
+        }
+    }
+
+    public void UpdateGlows()
+    {
+        ResetGlows();
+
+        if (this.HasWeapon() || this.Hero.CurrentAttack > 0)
+        {
+            switch (this.Hero.TurnAttacks)
+            {
+                case 0:
+                    this.Controller.SetGreenRenderer(true);
+                    break;
+
+                case 1:
+                    if (this.Weapon.Windfury)
+                    {
+                        this.Controller.SetGreenRenderer(true);
+                    }
+                    break;
+            }
+        }
+
+        foreach (BaseCard card in this.Hand)
+        {
+            if (card.CurrentCost <= this.AvailableMana)
+            {
+                card.Controller.SetGreenRenderer(true);
+            }
+        }
+
+        foreach (MinionCard minion in this.Minions)
+        {
+            if (minion.Frozen == false && minion.Sleeping == false)
+            {
+                if (minion.CanAttack())
+                {
+                    switch (minion.TurnAttacks)
+                    {
+                        case 0:
+                            minion.Controller.SetGreenRenderer(true);
+                            break;
+
+                        case 1:
+                            if (minion.Windfury)
+                            {
+                                minion.Controller.SetGreenRenderer(true);
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    public void ResetGlows()
+    {
+        this.Controller.SetGreenRenderer(false);
+
+        foreach (BaseCard card in this.Hand)
+        {
+            card.Controller.SetGreenRenderer(false);
+        }
+
+        foreach (MinionCard minion in this.Minions)
+        {
+            minion.Controller.SetGreenRenderer(false);
+        }
+    }
+
+    #endregion
+
+    #region Getter Methods
+    
+    public int GetSpellPower()
+    {
+        int spellPower = 0;
+
+        foreach (MinionCard minion in Minions)
+        {
+            spellPower += minion.SpellPower;
+        }
+
+        return spellPower;
+    }
+
+    public int GetManaUsedThisTurn()
+    {
+        return TurnMana - OverloadedMana - AvailableMana;
+    }
+
+    #endregion
+
+    #region Condition Checkers
+
     public bool HasWeapon()
     {
         return (Weapon != null);
     }
+
+    public bool HasMinions()
+    {
+        return (this.Minions.Count > 0);
+    }
+
+    public bool HasTauntMinions()
+    {
+        foreach (MinionCard minion in this.Minions)
+        {
+            if (minion.Taunt)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    #endregion
 }

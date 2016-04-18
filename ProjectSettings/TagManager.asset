@@ -55,7 +55,7 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Minion
+  - name: Game
     uniqueID: 1358144743
     locked: 0
   - name: UI

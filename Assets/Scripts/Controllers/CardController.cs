@@ -1,27 +1,39 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CardController : BaseController
 {
-    public static void AddTo(GameObject gameObject, CardGlow cardGlow)
+    public BaseCard Card;
+
+    public SpriteRenderer CardRenderer;
+
+    public static CardController Create(BaseCard card)
     {
-        CardController cardController = gameObject.AddComponent<CardController>();
-        cardController.CardGlow = cardGlow;
+        GameObject cardObject = new GameObject(card.Player.name + "_" + card.Name);
+
+        CardController cardController = cardObject.AddComponent<CardController>();
+        cardController.Card = card;
 
         cardController.Initialize();
+
+        return cardController;
     }
     
     public override void Initialize()
     {
-        BlueGlowRenderer = CreateChildSprite("BlueGlow", 2);
-        GreenGlowRenderer = CreateChildSprite("GreenGlow", 1);
-        RedGlowRenderer = CreateChildSprite("RedGlow", 0);
+        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one, Vector3.zero, -3);
+        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one, Vector3.zero, -2);
+        BlueGlowRenderer = CreateRenderer("BlueGlow", Vector3.one, Vector3.zero, -1);
+
+        CardRenderer = CreateRenderer("Card", Vector3.one, Vector3.zero, 0);
 
         UpdateSprites();
     }
 
     public override void Remove()
     {
+        CardRenderer.DisposeSprite();
+        Destroy(CardRenderer);
+
         GreenGlowRenderer.DisposeSprite();
         Destroy(GreenGlowRenderer.gameObject);
 
@@ -50,25 +62,26 @@ public class CardController : BaseController
 
     private string GetGlowString()
     {
-        return "Sprites/Glows/Card_" + Enum.GetName(typeof (CardGlow), CardGlow) + "_";
-    }
+        string glowString = "Sprites/Glows/Card_";
 
-    private SpriteRenderer CreateChildSprite(string name, int order)
-    {
-        // Creating a GameObject to hold the SpriteRenderer
-        GameObject glowObject = new GameObject(name);
-        glowObject.transform.parent = this.transform;
-        glowObject.transform.localPosition = new Vector3(0.07f, 0f, 0f);
-        glowObject.transform.localEulerAngles = Vector3.zero;
-        glowObject.transform.localScale = Vector3.one * 3f;
+        switch (Card.TypeName())
+        {
+            case "MinionCard":
+                if (Card.As<MinionCard>().Rarity == CardRarity.Legendary)
+                {
+                    return glowString + "LegendaryMinion_";
+                }
+                return glowString + "Minion_";
 
-        // Creating the SpriteRenderer and adding it to the GameObject
-        SpriteRenderer glowRenderer = glowObject.AddComponent<SpriteRenderer>();
-        glowRenderer.sortingLayerName = "Card";
-        glowRenderer.sortingOrder = order;
-        glowRenderer.enabled = false;
+            case "SpellCard":
+                return glowString + "Spell_";
 
-        return glowRenderer;
+            case "WeaponCard":
+                return glowString + "Weapon_";
+
+            default:
+                return glowString + "Normal_";
+        }
     }
 
     #region Unity Messages
@@ -76,11 +89,13 @@ public class CardController : BaseController
     private void OnMouseEnter()
     {
         GreenGlowRenderer.enabled = true;
+
+        // TODO : Move up
     }
 
     private void OnMouseExit()
     {
-
+        // TODO : Move down
     }
 
     private void OnMouseDown()

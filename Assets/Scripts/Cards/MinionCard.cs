@@ -12,6 +12,8 @@ public class MinionCard : BaseCard, ICharacter
     public int CurrentAttack { get; set; }
     public int CurrentHealth { get; set; }
     public int MaxHealth { get; set; }
+    public int TurnAttacks = 0;
+    public bool Sleeping = true;
 
     // Effects //
     public bool Taunt = false;
@@ -240,5 +242,15 @@ public class MinionCard : BaseCard, ICharacter
     {
         // TODO : Play transform animation
         // TODO : Transform minion without triggering anything, destroy old minion
+    }
+
+    public virtual bool CanAttack()
+    {
+        return true;
+    }
+
+    public virtual bool CanTarget(ICharacter target)
+    {
+        return true;
     }
 }

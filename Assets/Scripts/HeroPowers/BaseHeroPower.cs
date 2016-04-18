@@ -16,5 +16,25 @@
 
     public virtual void Use() { }
 
+    public virtual void Use(ICharacter target) { }
+
     public virtual void Upgrade() { }
+
+    public virtual bool CanTarget(ICharacter target)
+    {
+        return true;
+    }
+
+    public bool IsAvailable()
+    {
+        if (this.CurrentUses < this.MaxUses)
+        {
+            if (this.CurrentCost < this.Hero.Player.AvailableMana)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

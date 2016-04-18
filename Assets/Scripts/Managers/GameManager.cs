@@ -4,21 +4,29 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameState CurrentGameState;
-
-    public Player TopPlayer;
-    public Player BottomPlayer;
-    public Player CurrentPlayer;
-
+    // Singleton //
     private static GameManager _instance;
 
     public static GameManager Instance
     {
         get
         {
+            if (_instance == null)
+            {
+                _instance = new GameManager();
+            }
             return _instance;
         }
     }
+
+    private GameManager() { }
+
+
+    public GameState CurrentGameState;
+
+    public Player TopPlayer;
+    public Player BottomPlayer;
+    public Player CurrentPlayer;
 
     public void Start()
     {
@@ -44,17 +52,19 @@ public class GameManager : MonoBehaviour
     {
         CurrentGameState = GameState.Mulligan;
 
+        // TODO : Rework mulligan
+
         if (CurrentPlayer.Equals(BottomPlayer))
         {
             BottomPlayer.Draw(3);
             TopPlayer.Draw(4);
-            // TODO: give TopPlayer coin
+            // TODO: Give TopPlayer coin
         }
         else
         {
             TopPlayer.Draw(3);
             BottomPlayer.Draw(4);
-            // TODO: give BottomPlayer coin
+            // TODO: Give BottomPlayer coin
         }
     }
 
@@ -62,10 +72,12 @@ public class GameManager : MonoBehaviour
     {
         // Switching to Start Turn state
         CurrentGameState = GameState.Start;
-        //EventManager.Instance.OnTurnStart(Player player);
+
+        // Firing OnTurnStart events
+        EventManager.Instance.OnTurnStart(this.CurrentPlayer);
 
         // Drawing 1 card
-        CurrentPlayer.Draw(1);
+        CurrentPlayer.Draw();
 
         // Suming 1 to the turn mana if it's lower than 10
         if (CurrentPlayer.TurnMana < 10)
@@ -75,6 +87,9 @@ public class GameManager : MonoBehaviour
 
         // Refilling mana crystalls
         CurrentPlayer.RefillMana();
+
+        // Updating card, hero and minion glows for the current player
+        CurrentPlayer.UpdateGlows();
 
         // Switching to Active Turn state
         CurrentGameState = GameState.Active;
@@ -86,8 +101,14 @@ public class GameManager : MonoBehaviour
     {
         // Switching to End Turn state
         CurrentGameState = GameState.End;
-        //EventManager.Instance.OnTurnEnd(Player player);
 
+        // Firing OnTurnEnd events
+        EventManager.Instance.OnTurnEnd(this.CurrentPlayer);
+
+        // Resetting hero, card and minion glows for the current player
+        CurrentPlayer.ResetGlows();
+
+        // Switching the player
         SwitchCurrentPlayer();
 
         // Starting the next turn
