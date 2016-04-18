@@ -20,14 +20,14 @@ public class HeroPowerController : BaseController
     
     public override void Initialize()
     {
-        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, Vector3.zero, -3);
-        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, Vector3.zero, -2);
-        WhiteGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, Vector3.zero, -1);
+        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, Vector3.zero, 15);
+        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, Vector3.zero, 16);
+        WhiteGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, Vector3.zero, 17);
 
-        HeroPowerRenderer = CreateRenderer("Weapon", Vector3.one, Vector3.zero, 0);
+        HeroPowerRenderer = CreateRenderer("Weapon", Vector3.one, Vector3.zero, 18);
 
-        FrontTokenRenderer = CreateRenderer("Token", Vector3.one, Vector3.zero, 1);
-        BackTokenRenderer = CreateRenderer("Token", Vector3.one, Vector3.zero, 2);
+        FrontTokenRenderer = CreateRenderer("Token", Vector3.one, Vector3.zero, 19);
+        BackTokenRenderer = CreateRenderer("Token", Vector3.one, Vector3.zero, 19);
 
         UpdateSprites();
     }
@@ -93,7 +93,7 @@ public class HeroPowerController : BaseController
                     break;
 
                 default:
-                    InterfaceManager.Instance.EnableArrow();
+                    InterfaceManager.Instance.EnableArrow(this.transform.position);
                     break;
             }
         }

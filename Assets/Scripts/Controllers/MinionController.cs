@@ -25,13 +25,13 @@ public class MinionController : BaseController
 
     public override void Initialize()
     {
-        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, Vector3.zero, -3);
-        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, Vector3.zero, -2);
-        WhiteGlowRenderer = CreateRenderer("WhiteGlow", Vector3.one * 2f, Vector3.zero, -1);
+        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, Vector3.zero, 10);
+        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, Vector3.zero, 11);
+        WhiteGlowRenderer = CreateRenderer("WhiteGlow", Vector3.one * 2f, Vector3.zero, 12);
 
-        MinionRenderer = CreateRenderer("Minion", Vector3.one, Vector3.zero, 0);
+        MinionRenderer = CreateRenderer("Minion", Vector3.one, Vector3.zero, 13);
 
-        TokenRenderer = CreateRenderer("Token", Vector3.one, Vector3.zero, 1);
+        TokenRenderer = CreateRenderer("Token", Vector3.one, Vector3.zero, 14);
         
         UpdateSprites();
     }
@@ -127,7 +127,7 @@ public class MinionController : BaseController
     {
         if (this.CanTarget)
         {
-            InterfaceManager.Instance.EnableArrow();
+            InterfaceManager.Instance.EnableArrow(this.transform.position);
         }
     }
 

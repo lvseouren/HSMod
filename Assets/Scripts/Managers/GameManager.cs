@@ -34,8 +34,11 @@ public class GameManager : MonoBehaviour
     {
         _instance = this;
 
-        BottomPlayer = Player.Create(HeroClass.DeathKnight, new Vector3(797f, 50f, 230f), new Vector3(800f, 60f, 50f));
-        TopPlayer = Player.Create(HeroClass.DeathKnight, new Vector3(800f, 50f, 935f), new Vector3(800f, 60f, 1175f));
+        BottomPlayer = Player.Create(HeroClass.DeathKnight, new Vector3(797f, 60f, 230f), new Vector3(800f, 60f, 50f));
+        TopPlayer = Player.Create(HeroClass.DeathKnight, new Vector3(800f, 60f, 935f), new Vector3(800f, 60f, 1175f));
+
+        BottomPlayer.Enemy = TopPlayer;
+        TopPlayer.Enemy = BottomPlayer;
 
         // Randomize the starting player
         if (Random.Range(0, 2) == 1)

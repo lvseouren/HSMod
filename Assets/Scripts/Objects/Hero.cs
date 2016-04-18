@@ -181,6 +181,7 @@ public class Hero : MonoBehaviour, ICharacter
 
     public bool CanAttack()
     {
+        return true; // TODO : This is a test
         switch (TurnAttacks)
         {
             case 0:

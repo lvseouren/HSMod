@@ -21,7 +21,7 @@ public class InterfaceManager : MonoBehaviour
     
     // Control Fields //
     [HideInInspector] public bool IsDragging;
-    private Vector3 originPosition = Vector3.zero;
+    private Vector3 screenOriginPosition = Vector3.zero;
 
     // Sprite GameObjects //
     private GameObject interfaceParent;
@@ -41,7 +41,6 @@ public class InterfaceManager : MonoBehaviour
 
         // Creating the parent GameObject for the UI
         interfaceParent = new GameObject("InterfaceParent");
-        interfaceParent.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
 
         // Creating the GameObjects for each UI component
         arrowObject = CreateChildObject("Arrow", 0f);
@@ -49,14 +48,9 @@ public class InterfaceManager : MonoBehaviour
         arrowBodyObject = CreateChildObject("ArrowBody", 0f);
 
         // Creating the SpriteRenderer for each UI GameObject
-        arrowRenderer = CreateChildSprite(arrowObject, "Sprites/UI/Arrow");
-        arrowCircleRenderer = CreateChildSprite(arrowCircleObject, "Sprites/UI/ArrowCircle");
-        arrowBodyRenderer = CreateChildSprite(arrowBodyObject, "Sprites/UI/ArrowBody");
-
-        // Setting the sorting layer order
-        arrowRenderer.sortingOrder = 2;
-        arrowCircleRenderer.sortingOrder = 1;
-        arrowBodyRenderer.sortingOrder = 0;
+        arrowCircleRenderer = CreateChildSprite(arrowCircleObject, "Sprites/UI/ArrowCircle", 50);
+        arrowBodyRenderer = CreateChildSprite(arrowBodyObject, "Sprites/UI/ArrowBody", 51);
+        arrowRenderer = CreateChildSprite(arrowObject, "Sprites/UI/Arrow", 52);
     }
 
     private void LateUpdate()
@@ -66,33 +60,33 @@ public class InterfaceManager : MonoBehaviour
             // Arrow and Circle //
 
             // Getting the world position based on the mouse position
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0f, 0f, 1000f));
+            Vector3 gameMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0f, 0f, 1000f));
 
             // Getting the vector direction from the minion to the mouse
-            Vector3 arrowDirection = Input.mousePosition - originPosition;
+            Vector3 screenMouseDirection = Input.mousePosition - screenOriginPosition;
 
             // Setting the arrow and the circle at the mouse position in the world space
-            arrowRenderer.transform.position = mousePosition;
-            arrowCircleRenderer.transform.position = mousePosition;
+            arrowRenderer.transform.position = gameMousePosition;
+            arrowCircleRenderer.transform.position = gameMousePosition;
 
             // Getting the angle that forms between the minion and the mouse
-            float arrowRotation = Mathf.Atan2(arrowDirection.y, arrowDirection.x) * Mathf.Rad2Deg;
+            float arrowRotationAngle = Mathf.Atan2(screenMouseDirection.y, screenMouseDirection.x) * Mathf.Rad2Deg - 90;
 
             // Setting the arrow rotation 
-            Vector3 rotation = new Vector3(0f, 0f, arrowRotation - 90);
-            arrowRenderer.transform.localEulerAngles = rotation;
-
+            Vector3 arrowRotation = new Vector3(90f, 0f, arrowRotationAngle);
+            arrowRenderer.transform.localEulerAngles = arrowRotation;
 
             // Arrow Body //
 
             // Setting the body of the arrow halfway between the mouse and the origin
-            arrowBodyRenderer.transform.position = Camera.main.ScreenToWorldPoint(originPosition + (arrowDirection / 2) + new Vector3(0f, 0f, 1000f));
+            Vector3 bodyPosition = Camera.main.ScreenToWorldPoint(screenOriginPosition + (screenMouseDirection / 2f) + new Vector3(0f, 0f, 1000f));
+            arrowBodyRenderer.transform.localPosition = new Vector3(bodyPosition.x, 100f, bodyPosition.z);
 
             // Setting the body rotation
-            arrowBodyRenderer.transform.localEulerAngles = rotation;
+            arrowBodyRenderer.transform.localEulerAngles = arrowRotation;
 
             // Setting the arrow body scale based on the distance
-            Vector3 worldArrowDirection = mousePosition - Camera.main.ScreenToWorldPoint(originPosition + new Vector3(0f, 0f, 1000f));
+            Vector3 worldArrowDirection = gameMousePosition - Camera.main.ScreenToWorldPoint(screenOriginPosition + new Vector3(0f, 0f, 1000f));
             float worldArrowScale = 0.27f * worldArrowDirection.magnitude;
             arrowBodyRenderer.transform.localScale = new Vector3(80f, worldArrowScale, 80f);
 
@@ -111,19 +105,22 @@ public class InterfaceManager : MonoBehaviour
         return glowObject;
     }
 
-    private SpriteRenderer CreateChildSprite(GameObject rendererObject, string sprite)
+    private SpriteRenderer CreateChildSprite(GameObject rendererObject, string sprite, int order)
     {
         SpriteRenderer spriteRenderer = rendererObject.AddComponent<SpriteRenderer>();
-        spriteRenderer.sortingLayerName = "UI";
+        spriteRenderer.sortingLayerName = "Game";
+        spriteRenderer.sortingOrder = order;
         spriteRenderer.sprite = Resources.Load<Sprite>(sprite);
         spriteRenderer.enabled = false;
 
         return spriteRenderer;
     }
 
-    public void EnableArrow()
+    public void EnableArrow(Vector3 origin)
     {
-        originPosition = Input.mousePosition;
+        Vector3 screenPosition = Camera.main.WorldToScreenPoint(origin);
+
+        screenOriginPosition = new Vector3(screenPosition.x, screenPosition.y, 0f);
 
         IsDragging = true;
 

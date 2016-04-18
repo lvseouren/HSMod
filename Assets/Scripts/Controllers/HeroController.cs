@@ -27,11 +27,11 @@ public class HeroController : BaseController
 
     public override void Initialize()
     {
-        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), -3);
-        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), -2);
-        WhiteGlowRenderer = CreateRenderer("WhiteGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), -1);
+        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 20);
+        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 21);
+        WhiteGlowRenderer = CreateRenderer("WhiteGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 22);
 
-        HeroRenderer = CreateRenderer("Hero", Vector3.one, Vector3.zero, 0);
+        HeroRenderer = CreateRenderer("Hero", Vector3.one, Vector3.zero, 23);
 
         UpdateSprites();
 
@@ -110,7 +110,7 @@ public class HeroController : BaseController
                 }
             }
 
-            InterfaceManager.Instance.EnableArrow();
+            InterfaceManager.Instance.EnableArrow(this.transform.position);
         }
     }
 

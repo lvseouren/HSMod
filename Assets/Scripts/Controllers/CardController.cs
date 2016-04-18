@@ -88,8 +88,6 @@ public class CardController : BaseController
 
     private void OnMouseEnter()
     {
-        GreenGlowRenderer.enabled = true; // Test
-
         // TODO : Move up
     }
 
@@ -100,7 +98,7 @@ public class CardController : BaseController
 
     private void OnMouseDown()
     {
-        InterfaceManager.Instance.EnableArrow();
+        InterfaceManager.Instance.EnableArrow(this.transform.position);
     }
 
     private void OnMouseUp()

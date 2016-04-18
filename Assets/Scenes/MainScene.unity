@@ -231,8 +231,8 @@ Transform:
   m_Children:
   - {fileID: 1470110826}
   - {fileID: 2033795093}
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_Father: {fileID: 548486248}
+  m_RootOrder: 2
 --- !u!1 &170480343
 GameObject:
   m_ObjectHideFlags: 0
@@ -1238,6 +1238,38 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &548486247
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 548486248}
+  m_Layer: 0
+  m_Name: Test
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &548486248
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 548486247}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1043264524}
+  - {fileID: 842262675}
+  - {fileID: 158935297}
+  - {fileID: 905488655}
+  - {fileID: 606672104}
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
 --- !u!1001 &584932984
 Prefab:
   m_ObjectHideFlags: 0
@@ -1386,8 +1418,8 @@ Transform:
   m_LocalScale: {x: 60, y: 60, z: 60}
   m_Children:
   - {fileID: 954375894}
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_Father: {fileID: 548486248}
+  m_RootOrder: 4
 --- !u!65 &606672105
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1920,8 +1952,8 @@ Transform:
   m_Children:
   - {fileID: 1103617870}
   - {fileID: 1917651185}
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_Father: {fileID: 548486248}
+  m_RootOrder: 1
 --- !u!1 &854065982
 GameObject:
   m_ObjectHideFlags: 0
@@ -2125,8 +2157,8 @@ Transform:
   m_Children:
   - {fileID: 1425416198}
   - {fileID: 1041372351}
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_Father: {fileID: 548486248}
+  m_RootOrder: 3
 --- !u!1 &912770809
 GameObject:
   m_ObjectHideFlags: 0
@@ -2287,7 +2319,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1358144743
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a3eb84cf506ad4268924645978ffa497, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dd5a30c23bdb9ae4c891873c663ca63a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2568,8 +2600,8 @@ Transform:
   m_Children:
   - {fileID: 708189366}
   - {fileID: 1804166512}
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_Father: {fileID: 548486248}
+  m_RootOrder: 0
 --- !u!65 &1043264525
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4701,90 +4733,6 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 424460, guid: 3cdfed9bb1f8547799b27bf57efb49e0, type: 2}
       propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 196298, guid: 3cdfed9bb1f8547799b27bf57efb49e0, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 128898, guid: 3cdfed9bb1f8547799b27bf57efb49e0, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 177186, guid: 3cdfed9bb1f8547799b27bf57efb49e0, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 162456, guid: 3cdfed9bb1f8547799b27bf57efb49e0, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 185252, guid: 3cdfed9bb1f8547799b27bf57efb49e0, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 162756, guid: 3cdfed9bb1f8547799b27bf57efb49e0, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 136768, guid: 3cdfed9bb1f8547799b27bf57efb49e0, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 192566, guid: 3cdfed9bb1f8547799b27bf57efb49e0, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 100764, guid: 3cdfed9bb1f8547799b27bf57efb49e0, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 184588, guid: 3cdfed9bb1f8547799b27bf57efb49e0, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 159766, guid: 3cdfed9bb1f8547799b27bf57efb49e0, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 105404, guid: 3cdfed9bb1f8547799b27bf57efb49e0, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 163104, guid: 3cdfed9bb1f8547799b27bf57efb49e0, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 119614, guid: 3cdfed9bb1f8547799b27bf57efb49e0, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 132912, guid: 3cdfed9bb1f8547799b27bf57efb49e0, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 149198, guid: 3cdfed9bb1f8547799b27bf57efb49e0, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 183144, guid: 3cdfed9bb1f8547799b27bf57efb49e0, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 146982, guid: 3cdfed9bb1f8547799b27bf57efb49e0, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 197680, guid: 3cdfed9bb1f8547799b27bf57efb49e0, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 131170, guid: 3cdfed9bb1f8547799b27bf57efb49e0, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 173680, guid: 3cdfed9bb1f8547799b27bf57efb49e0, type: 2}
-      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -55,23 +55,26 @@ public static class Util
         return null;
     }
 
-    // Method to get the character at the mouse positionm
+    // Method to get the character at the mouse position
     public static ICharacter GetCharacterAtMouse()
     {
         Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hitInfo = Physics.RaycastAll(cameraRay).First();
+        RaycastHit[] hitInfo = Physics.RaycastAll(cameraRay);
 
-        if (hitInfo.collider != null)
+        if (hitInfo.Length > 0)
         {
-            BaseController controller = hitInfo.collider.gameObject.GetComponent<MinionController>();
+            BaseController controller = hitInfo[0].collider.gameObject.GetComponent<MinionController>();
 
-            switch (controller.GetType().Name)
+            if (controller != null)
             {
-                case "MinionController":
-                    return controller.As<MinionController>().Minion;
+                switch (controller.GetType().Name)
+                {
+                    case "MinionController":
+                        return controller.As<MinionController>().Minion;
 
-                case "HeroController":
-                    return controller.As<HeroController>().Hero;
+                    case "HeroController":
+                        return controller.As<HeroController>().Hero;
+                }
             }
         }
 
