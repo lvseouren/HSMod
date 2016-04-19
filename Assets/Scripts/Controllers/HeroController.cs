@@ -4,13 +4,18 @@ public class HeroController : BaseController
 {
     public Hero Hero;
 
-    public SpriteRenderer WeaponRenderer;
-    public SpriteRenderer TokenRenderer;
+    public SpriteRenderer HeroRenderer;
 
-    public static HeroController Create(Hero hero)
+    public static HeroController Create(Hero hero, Vector3 heroPosition)
     {
-        GameObject heroObject = new GameObject(hero.Player.name + "_" + hero);
-        heroObject.AddComponent<BoxCollider>();
+        GameObject heroObject = new GameObject("Hero_" + hero.Class);
+        heroObject.transform.position = heroPosition;
+        heroObject.transform.localScale = new Vector3(50f, 50f, 50f);
+        heroObject.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
+
+        BoxCollider heroCollider = heroObject.AddComponent<BoxCollider>();
+        heroCollider.center = new Vector3(0f, 0.75f, 0f);
+        heroCollider.size = new Vector3(4f, 4f, 0.1f);
 
         HeroController heroController = heroObject.AddComponent<HeroController>();
         heroController.Hero = hero;
@@ -22,43 +27,58 @@ public class HeroController : BaseController
 
     public override void Initialize()
     {
-        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, Vector3.zero, -2);
-        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, Vector3.zero, -1);
+        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 20);
+        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 21);
+        WhiteGlowRenderer = CreateRenderer("WhiteGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 22);
 
-        WeaponRenderer = CreateRenderer("Weapon", Vector3.one, Vector3.zero, 0);
+        HeroRenderer = CreateRenderer("Hero", Vector3.one, Vector3.zero, 23);
 
-        TokenRenderer = CreateRenderer("Token", Vector3.one, Vector3.zero, 1);
+        UpdateSprites();
+
+        HeroRenderer.enabled = true;
     }
 
     public override void Remove()
     {
-        WeaponRenderer.DisposeSprite();
-        Destroy(WeaponRenderer);
-
-        TokenRenderer.DisposeSprite();
-        Destroy(TokenRenderer);
+        HeroRenderer.DisposeSprite();
+        Destroy(HeroRenderer);
 
         GreenGlowRenderer.DisposeSprite();
         Destroy(GreenGlowRenderer.gameObject);
 
         RedGlowRenderer.DisposeSprite();
         Destroy(RedGlowRenderer);
+
+        WhiteGlowRenderer.DisposeSprite();
+        Destroy(WhiteGlowRenderer);
     }
 
     public override void UpdateSprites()
     {
         // Cleaning up the old sprites and textures to avoid memory leaks
-        TokenRenderer.DisposeSprite();
+        HeroRenderer.DisposeSprite();
         GreenGlowRenderer.DisposeSprite();
         RedGlowRenderer.DisposeSprite();
 
         // Loading the sprites
-        TokenRenderer.sprite = Resources.Load<Sprite>("Sprites/General/WeaponToken");
-        GreenGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Weapon_GreenGlow");
-        RedGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Weapon_RedGlow");
+        // TODO : Load hero sprite depending on hero class
+        HeroRenderer.sprite = Resources.Load<Sprite>("Sprites/DeathKnight/Hero/DeathKnight_Portrait_Ingame");
+        RedGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Hero_Portrait_RedGlow");
+        GreenGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Hero_Portrait_GreenGlow");
+        WhiteGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Hero_Portrait_WhiteGlow");
     }
 
     #region Unity Messages
+
+    private void OnMouseEnter()
+    {
+        this.SetWhiteRenderer(true);
+    }
+
+    private void OnMouseExit()
+    {
+        this.SetWhiteRenderer(false);
+    }
 
     private void OnMouseDown()
     {
@@ -90,7 +110,7 @@ public class HeroController : BaseController
                 }
             }
 
-            InterfaceManager.Instance.EnableArrow();
+            InterfaceManager.Instance.EnableArrow(this.transform.position);
         }
     }
 

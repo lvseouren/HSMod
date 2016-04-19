@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public Hero Hero = new Hero();
+    public Hero Hero;
 
     public Player Enemy;
 
@@ -14,7 +14,13 @@ public class Player : MonoBehaviour
     public WeaponCard Weapon = null;
 
     public HeroController Controller;
+    
+    public List<SpellCard> UsedSpells = new List<SpellCard>();
+    public List<MinionCard> DeadMinions = new List<MinionCard>();
 
+    public Vector3 HeroPosition;
+    public Vector3 CardsPosition;
+    
     public int MaxCardsInHand = 10;
     public int MaxCardsInDeck = 60;
 
@@ -25,10 +31,31 @@ public class Player : MonoBehaviour
 
     public int Fatigue = 0;
 
-    public void Start()
+    #region Constructor
+
+    private Player() { }
+
+    public static Player Create(HeroClass heroClass, Vector3 heroPosition, Vector3 cardsPosition)
     {
-        this.Controller = HeroController.Create(this.Hero);
+        Player player = new Player()
+        {
+            HeroPosition = heroPosition,
+            CardsPosition = cardsPosition
+        };
+
+        player.Hero = Hero.Create(player, heroClass);
+
+        player.Initialize();
+
+        return player;
     }
+
+    private void Initialize()
+    {
+        this.Controller = HeroController.Create(this.Hero, HeroPosition);
+    }
+
+    #endregion
 
     #region Methods
 
@@ -91,6 +118,7 @@ public class Player : MonoBehaviour
         }
         else
         {
+            return null;
             Fatigue++;
 
             this.Hero.TryDamage(null, Fatigue);

@@ -198,7 +198,10 @@ public class MinionCard : BaseCard, ICharacter
     public void Die()
     {
         // Firing OnMinionDied events
+        this.BuffManager.Deathrattle.OnNext(this);
         EventManager.Instance.OnMinionDied(this);
+
+        this.BuffManager.RemoveAll();
 
         // TODO : Custom animations, sounds, etc ?
         // TODO : Add minion to list of dead minions

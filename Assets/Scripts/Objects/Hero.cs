@@ -9,6 +9,7 @@ public class Hero : MonoBehaviour, ICharacter
     // Base Stats //
     public int BaseAttack { get; set; }
     public int BaseHealth { get; set; }
+    public HeroClass Class;
 
     // In-Game Stats //
     public int CurrentAttack { get; set; }
@@ -22,12 +23,32 @@ public class Hero : MonoBehaviour, ICharacter
     public bool Immune = false;
     public bool Forgetful = false;
 
+    #region Constructor
+
+    private Hero() { }
+
+    public static Hero Create(Player player, HeroClass heroClass)
+    {
+        Hero hero = new Hero()
+        {
+            Player = player,
+            Class = heroClass
+        };
+
+        hero.Initialize();
+
+        return hero;
+    }
+
     private void Initialize()
     {
         CurrentAttack = BaseAttack;
         CurrentHealth = BaseHealth;
         Armor = 0;
     }
+
+    #endregion
+
 
     public void Attack(ICharacter target)
     {
@@ -160,6 +181,7 @@ public class Hero : MonoBehaviour, ICharacter
 
     public bool CanAttack()
     {
+        return true; // TODO : This is a test
         switch (TurnAttacks)
         {
             case 0:

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class BoardManager : MonoBehaviour
+public class MapManager : MonoBehaviour
 {
     public List<GameObject> Maps = new List<GameObject>();
     public GameObject CurrentMap;
