@@ -12,7 +12,7 @@ public class SavedCard
         Golden = golden;
     }
 
-    public BaseCard ToCard()
+    public BaseCard ToGameCard()
     {
         // Getting the Type of the card based on the name
         Type cardType = Type.GetType(Name);
@@ -21,6 +21,7 @@ public class SavedCard
         {
             return (BaseCard) Activator.CreateInstance(cardType);
         }
+
         return null;
     }
 }
