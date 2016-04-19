@@ -47,14 +47,17 @@ public class CardController : BaseController
     public override void UpdateSprites()
     {
         // Cleaning up the old sprites and their textures to avoid memory leaks
+        CardRenderer.DisposeSprite();
         GreenGlowRenderer.DisposeSprite();
         BlueGlowRenderer.DisposeSprite();
         RedGlowRenderer.DisposeSprite();
 
         // Getting the string path to the glows
         string glowString = GetGlowString();
+        string className = Card.Class.Name();
     
         // Loading the sprites into the SpriteRenderers
+        CardRenderer.sprite = Resources.Load<Sprite>("Sprites/" + className + "/Cards/" + Card.Name);
         GreenGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "GreenGlow");
         RedGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "RedGlow");
         BlueGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "BlueGlow");
