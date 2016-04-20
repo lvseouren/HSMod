@@ -3,13 +3,30 @@ using UnityEngine;
 
 public class HandController : MonoBehaviour
 {
+    public Player Player;
     public Vector3 Center;
 
     public List<CardController> Controllers = new List<CardController>();
 
+    public static HandController Create(Player player, Vector3 handPosition)
+    {
+        GameObject heroObject = new GameObject("Player_" + player + "_Hand");
+        heroObject.transform.position = handPosition;
+        heroObject.transform.localScale = new Vector3(50f, 50f, 50f);
+        heroObject.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
+
+        HandController handController = heroObject.AddComponent<HandController>();
+        handController.Player = player;
+        handController.Center = handPosition;
+
+        return handController;
+    }
+
     public void Add(CardController cardController)
     {
         Controllers.Add(cardController);
+
+        MoveCards();
     }
 
     public void Remove(CardController cardController)
@@ -20,6 +37,8 @@ public class HandController : MonoBehaviour
 
             MoveCards();
         }
+
+        MoveCards();
     }
 
     private void MoveCards()

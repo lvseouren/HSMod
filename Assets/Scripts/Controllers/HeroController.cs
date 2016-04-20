@@ -99,7 +99,7 @@ public class HeroController : BaseController
             }
             else
             {
-                enemyPlayer.Controller.SetRedRenderer(true);
+                enemyPlayer.HeroController.SetRedRenderer(true);
 
                 foreach (MinionCard minion in enemyPlayer.Minions)
                 {
@@ -122,7 +122,7 @@ public class HeroController : BaseController
 
             Player enemyPlayer = this.Hero.Player.Enemy;
 
-            enemyPlayer.Controller.SetRedRenderer(false);
+            enemyPlayer.HeroController.SetRedRenderer(false);
 
             foreach (MinionCard minion in enemyPlayer.Minions)
             {

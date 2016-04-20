@@ -13,13 +13,14 @@ public class Player : MonoBehaviour
     public List<SpellCard> Secrets = new List<SpellCard>();
     public WeaponCard Weapon = null;
 
-    public HeroController Controller;
+    public HeroController HeroController;
+    public HandController HandController;
     
     public List<SpellCard> UsedSpells = new List<SpellCard>();
     public List<MinionCard> DeadMinions = new List<MinionCard>();
 
     public Vector3 HeroPosition;
-    public Vector3 CardsPosition;
+    public Vector3 HandPosition;
     
     public int MaxCardsInHand = 10;
     public int MaxCardsInDeck = 60;
@@ -40,7 +41,7 @@ public class Player : MonoBehaviour
         Player player = new Player()
         {
             HeroPosition = heroPosition,
-            CardsPosition = cardsPosition
+            HandPosition = cardsPosition
         };
 
         player.Hero = Hero.Create(player, heroClass);
@@ -52,7 +53,8 @@ public class Player : MonoBehaviour
 
     private void Initialize()
     {
-        this.Controller = HeroController.Create(this.Hero, HeroPosition);
+        this.HeroController = HeroController.Create(this.Hero, HeroPosition);
+        this.HandController = HandController.Create(this, HandPosition);
     }
 
     #endregion
@@ -157,13 +159,13 @@ public class Player : MonoBehaviour
             switch (this.Hero.TurnAttacks)
             {
                 case 0:
-                    this.Controller.SetGreenRenderer(true);
+                    this.HeroController.SetGreenRenderer(true);
                     break;
 
                 case 1:
                     if (this.Weapon.Windfury)
                     {
-                        this.Controller.SetGreenRenderer(true);
+                        this.HeroController.SetGreenRenderer(true);
                     }
                     break;
             }
@@ -203,7 +205,7 @@ public class Player : MonoBehaviour
 
     public void ResetGlows()
     {
-        this.Controller.SetGreenRenderer(false);
+        this.HeroController.SetGreenRenderer(false);
 
         foreach (BaseCard card in this.Hand)
         {
