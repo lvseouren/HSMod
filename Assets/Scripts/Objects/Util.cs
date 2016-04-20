@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using UnityEngine;
 
 // Static class to hold useful extension methods
@@ -79,6 +78,16 @@ public static class Util
         }
 
         return null;
+    }
+
+    public static bool IsPair(this int number)
+    {
+        return (number % 2 == 0);
+    }
+
+    public static int Middle(this int number)
+    {
+        return (int) Math.Round((number / 2) + 0.5);
     }
     
     #region ICharacter Extension Methods
