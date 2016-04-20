@@ -22,11 +22,6 @@ public class HandController : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        MoveCards();
-    }
-
     private void MoveCards()
     {
         Vector3 separation = new Vector3(100f, 0f, 0f);
