@@ -27,11 +27,11 @@ public class MinionCard : BaseCard, ICharacter
     public bool Windfury = false;
     public int SpellPower = 0;
 
-    public BuffManager BuffManager;
+    public BuffManager BuffManager = new BuffManager();
 
-    public void Start()
+    private void Start()
     {
-         BuffManager = new BuffManager(this);
+        this.BuffManager.Minion = this;
     }
 
     public void AddBuff(BaseBuff buff)
