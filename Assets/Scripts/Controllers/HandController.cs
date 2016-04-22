@@ -27,62 +27,60 @@ public class HandController : MonoBehaviour
 
     public void Add(CardController cardController)
     {
-        Controllers.Add(cardController);
+        this.Controllers.Add(cardController);
 
         cardController.transform.parent = this.transform;
 
-        MoveCards();
+        this.MoveCards();
     }
 
     public void Remove(CardController cardController)
     {
-        if (Controllers.Contains(cardController))
+        if (this.Controllers.Contains(cardController))
         {
-            Controllers.Remove(cardController);
+            this.Controllers.Remove(cardController);
 
-            MoveCards();
+            this.MoveCards();
         }
-
-        MoveCards();
     }
 
     private void MoveCards()
     {
-        if (Controllers.Count > 0)
+        if (this.Controllers.Count > 0)
         {
-            switch (Controllers.Count.IsPair())
+            switch (this.Controllers.Count.IsPair())
             {
                 case true:
-                    int countHalf = (Controllers.Count / 2);
+                    int countHalf = (this.Controllers.Count / 2);
 
-                    for (int i = 0; i < Controllers.Count; i++)
+                    for (int i = 0; i < this.Controllers.Count; i++)
                     {
-                        Transform controllerTransform = Controllers[i].transform;
+                        Transform controllerTransform = this.Controllers[i].transform;
 
                         if (i < countHalf)
                         {
                             int cardPosition = (countHalf - i);
-                            controllerTransform.localPosition = -1 * Interval * cardPosition + HalfInterval;
+                            controllerTransform.localPosition = -1 * this.Interval * cardPosition + this.HalfInterval;
                         }
                         else
                         {
                             int cardPosition = (i + 1 - countHalf);
-                            controllerTransform.localPosition = Interval * cardPosition - HalfInterval;
+                            controllerTransform.localPosition = this.Interval * cardPosition - this.HalfInterval;
                         }
                     }
                     break;
 
                 case false:
-                    int countMiddle = Controllers.Count.Middle() - 1;
+                    int countMiddle = this.Controllers.Count.Middle() - 1;
 
-                    for (int i = 0; i < Controllers.Count; i++)
+                    for (int i = 0; i < this.Controllers.Count; i++)
                     {
-                        Transform controllerTransform = Controllers[i].transform;
+                        Transform controllerTransform = this.Controllers[i].transform;
 
                         if (i < countMiddle)
                         {
                             int cardPosition = (countMiddle - i);
-                            controllerTransform.localPosition = -1 * Interval * cardPosition;
+                            controllerTransform.localPosition = -1 * this.Interval * cardPosition;
                         }
                         else if (i == countMiddle)
                         {
@@ -91,7 +89,7 @@ public class HandController : MonoBehaviour
                         else
                         {
                             int cardPosition = (i - countMiddle);
-                            controllerTransform.localPosition = Interval * cardPosition;
+                            controllerTransform.localPosition = this.Interval * cardPosition;
                         }
                     }
                     break;
