@@ -16,7 +16,10 @@ public class Ghoul : MinionCard
         BaseHealth = 1;
 
         Charge = true;
+    }
 
+    public void Initialize()
+    {
         this.BuffManager.OnTurnEnd.Subscribe(x => this.OnTurnEnd());
     }
 
