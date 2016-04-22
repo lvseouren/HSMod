@@ -61,12 +61,7 @@ public class BuffManager
     public Subject<object> OnTurnEnd = new Subject<object>();
 
     #endregion
-
-    public BuffManager(MinionCard minion)
-    {
-        Minion = minion;
-    }
-
+    
     public void RemoveAll()
     {
         // Looping on all buffs

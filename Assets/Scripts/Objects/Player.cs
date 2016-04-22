@@ -103,7 +103,10 @@ public class Player : MonoBehaviour
                 Deck.Remove(drawnBaseCard);
 
                 // Creating the visual controller for the card
-                drawnBaseCard.Controller = CardController.Create(drawnBaseCard);
+                CardController drawnCardController = CardController.Create(drawnBaseCard);
+                drawnBaseCard.Controller = drawnCardController;
+
+                this.HandController.Add(drawnCardController);
 
                 // Firing OnDrawn events
                 drawnBaseCard.OnDrawn();

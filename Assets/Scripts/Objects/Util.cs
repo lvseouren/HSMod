@@ -89,6 +89,26 @@ public static class Util
     {
         return (int) Math.Round((number / 2) + 0.5);
     }
+
+    public static CardType GetCardType(this BaseCard card)
+    {
+        Type cardBaseType = card.GetType().BaseType;
+
+        switch (cardBaseType.Name)
+        {
+            case "MinionCard":
+                return CardType.Minion;
+
+            case "SpellCard":
+                return CardType.Spell;
+
+            case "WeaponCard":
+                return CardType.Weapon;
+
+            default:
+                return CardType.None;
+        }
+    }
     
     #region ICharacter Extension Methods
 

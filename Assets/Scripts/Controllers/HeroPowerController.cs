@@ -93,7 +93,7 @@ public class HeroPowerController : BaseController
                     break;
 
                 default:
-                    InterfaceManager.Instance.EnableArrow(this.transform.position);
+                    InterfaceManager.Instance.EnableArrow(this);
                     break;
             }
         }

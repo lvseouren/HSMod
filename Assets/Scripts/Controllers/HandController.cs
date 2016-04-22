@@ -4,7 +4,10 @@ using UnityEngine;
 public class HandController : MonoBehaviour
 {
     public Player Player;
+
     public Vector3 Center;
+    public Vector3 Interval = new Vector3(5f, 0f, 0f);
+    public Vector3 HalfInterval = new Vector3(2.5f, 0f, 0f);
 
     public List<CardController> Controllers = new List<CardController>();
 
@@ -26,6 +29,8 @@ public class HandController : MonoBehaviour
     {
         Controllers.Add(cardController);
 
+        cardController.transform.parent = this.transform;
+
         MoveCards();
     }
 
@@ -43,8 +48,6 @@ public class HandController : MonoBehaviour
 
     private void MoveCards()
     {
-        Vector3 separation = new Vector3(100f, 0f, 0f);
-
         if (Controllers.Count > 0)
         {
             switch (Controllers.Count.IsPair())
@@ -58,11 +61,13 @@ public class HandController : MonoBehaviour
 
                         if (i < countHalf)
                         {
-                            controllerTransform.position = this.Center - separation * (countHalf - i);
+                            int cardPosition = (countHalf - i);
+                            controllerTransform.localPosition = -1 * Interval * cardPosition + HalfInterval;
                         }
                         else
                         {
-                            controllerTransform.position = this.Center + separation * (i + 1 - countHalf);
+                            int cardPosition = (i + 1 - countHalf);
+                            controllerTransform.localPosition = Interval * cardPosition - HalfInterval;
                         }
                     }
                     break;
@@ -76,15 +81,17 @@ public class HandController : MonoBehaviour
 
                         if (i < countMiddle)
                         {
-                            controllerTransform.position = this.Center - (separation * (countMiddle - i));
+                            int cardPosition = (countMiddle - i);
+                            controllerTransform.localPosition = -1 * Interval * cardPosition;
                         }
                         else if (i == countMiddle)
                         {
-                            controllerTransform.position = this.Center;
+                            controllerTransform.localPosition = Vector3.zero;
                         }
                         else
                         {
-                            controllerTransform.position = this.Center + (separation * (i - countMiddle));
+                            int cardPosition = (i - countMiddle);
+                            controllerTransform.localPosition = Interval * cardPosition;
                         }
                     }
                     break;

@@ -73,11 +73,15 @@ public class HeroController : BaseController
     private void OnMouseEnter()
     {
         this.SetWhiteRenderer(true);
+
+        InterfaceManager.Instance.OnHoverStart(this);
     }
 
     private void OnMouseExit()
     {
         this.SetWhiteRenderer(false);
+
+        InterfaceManager.Instance.OnHoverStop();
     }
 
     private void OnMouseDown()
@@ -110,7 +114,7 @@ public class HeroController : BaseController
                 }
             }
 
-            InterfaceManager.Instance.EnableArrow(this.transform.position);
+            InterfaceManager.Instance.EnableArrow(this);
         }
     }
 
