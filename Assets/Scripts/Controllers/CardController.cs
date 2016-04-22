@@ -3,8 +3,11 @@
 public class CardController : BaseController
 {
     public BaseCard Card;
-
     public SpriteRenderer CardRenderer;
+    public Vector3 TargetPosition = Vector3.zero;
+
+    private float speed = 19f;
+    private bool IsDragging = false;
 
     public static CardController Create(BaseCard card)
     {
@@ -98,19 +101,29 @@ public class CardController : BaseController
 
     #region Unity Messages
 
+    private void Update()
+    {
+        this.transform.localPosition = Vector3.MoveTowards(this.transform.localPosition, this.TargetPosition, this.speed * Time.deltaTime);
+    }
+
     private void OnMouseEnter()
     {
-        // TODO : Move up
+        this.TargetPosition = this.TargetPosition + new Vector3(0f, 2f, 0f);
     }
 
     private void OnMouseExit()
     {
-        // TODO : Move down
+        if (this.IsDragging == false)
+        {
+            this.TargetPosition = this.TargetPosition - new Vector3(0f, 2f, 0f);
+        }
     }
 
     private void OnMouseDown()
     {
-        switch (Card.GetCardType())
+        this.IsDragging = true;
+
+        switch (this.Card.GetCardType())
         {
             case CardType.Minion:
             case CardType.Weapon:
@@ -125,6 +138,8 @@ public class CardController : BaseController
 
     private void OnMouseUp()
     {
+        this.IsDragging = false;
+
         switch (Card.GetCardType())
         {
             case CardType.Minion:
@@ -136,6 +151,8 @@ public class CardController : BaseController
                 InterfaceManager.Instance.DisableArrow();
                 break;
         }
+
+        this.OnMouseExit();
     }
 
     #endregion

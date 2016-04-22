@@ -55,17 +55,17 @@ public class HandController : MonoBehaviour
 
                     for (int i = 0; i < this.Controllers.Count; i++)
                     {
-                        Transform controllerTransform = this.Controllers[i].transform;
+                        CardController controller = this.Controllers[i];
 
                         if (i < countHalf)
                         {
                             int cardPosition = (countHalf - i);
-                            controllerTransform.localPosition = -1 * this.Interval * cardPosition + this.HalfInterval;
+                            controller.TargetPosition = -1 * this.Interval * cardPosition + this.HalfInterval;
                         }
                         else
                         {
                             int cardPosition = (i + 1 - countHalf);
-                            controllerTransform.localPosition = this.Interval * cardPosition - this.HalfInterval;
+                            controller.TargetPosition = this.Interval * cardPosition - this.HalfInterval;
                         }
                     }
                     break;
@@ -75,21 +75,21 @@ public class HandController : MonoBehaviour
 
                     for (int i = 0; i < this.Controllers.Count; i++)
                     {
-                        Transform controllerTransform = this.Controllers[i].transform;
+                        CardController controller = this.Controllers[i];
 
                         if (i < countMiddle)
                         {
                             int cardPosition = (countMiddle - i);
-                            controllerTransform.localPosition = -1 * this.Interval * cardPosition;
+                            controller.TargetPosition = -1 * this.Interval * cardPosition;
                         }
                         else if (i == countMiddle)
                         {
-                            controllerTransform.localPosition = Vector3.zero;
+                            controller.TargetPosition = Vector3.zero;
                         }
                         else
                         {
                             int cardPosition = (i - countMiddle);
-                            controllerTransform.localPosition = this.Interval * cardPosition;
+                            controller.TargetPosition = this.Interval * cardPosition;
                         }
                     }
                     break;
