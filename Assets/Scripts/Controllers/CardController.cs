@@ -134,7 +134,6 @@ public class CardController : BaseController
     {
         if (this.IsDragging == false && this.IsTargeting == false)
         {
-            print("back to 0" + this.IsDragging + " " + this.IsTargeting);
             this.TargetY = 0f;
             this.transform.localScale = Vector3.one;
         }
@@ -160,7 +159,6 @@ public class CardController : BaseController
 
     private void OnMouseUp()
     {
-        print("up");
         this.IsDragging = false;
         this.IsTargeting = false;
 

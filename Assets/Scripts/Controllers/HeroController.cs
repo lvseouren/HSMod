@@ -4,6 +4,8 @@ public class HeroController : BaseController
 {
     public Hero Hero;
 
+    public SpriteRenderer AttackRenderer;
+    public SpriteRenderer HealthRenderer;
     public SpriteRenderer HeroRenderer;
 
     public static HeroController Create(Hero hero, Vector3 heroPosition)
@@ -27,15 +29,19 @@ public class HeroController : BaseController
 
     public override void Initialize()
     {
-        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 20);
-        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 21);
-        WhiteGlowRenderer = CreateRenderer("WhiteGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 22);
+        AttackRenderer = CreateRenderer("Attack", Vector3.one * 0.55f, new Vector3(-1.5f, -0.75f, 0f), 24);
+        HealthRenderer = CreateRenderer("Health", Vector3.one * 0.55f, new Vector3(1.5f, -0.75f, 0f), 24);
 
         HeroRenderer = CreateRenderer("Hero", Vector3.one, Vector3.zero, 23);
+
+        WhiteGlowRenderer = CreateRenderer("WhiteGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 22);
+        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 21);
+        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 20);
 
         UpdateSprites();
 
         HeroRenderer.enabled = true;
+        HealthRenderer.enabled = true;
     }
 
     public override void Remove()
@@ -56,16 +62,19 @@ public class HeroController : BaseController
     public override void UpdateSprites()
     {
         // Cleaning up the old sprites and textures to avoid memory leaks
+        AttackRenderer.DisposeSprite();
+        HealthRenderer.DisposeSprite();
         HeroRenderer.DisposeSprite();
         GreenGlowRenderer.DisposeSprite();
         RedGlowRenderer.DisposeSprite();
 
-        // Loading the sprites
-        // TODO : Load hero sprite depending on hero class
-        HeroRenderer.sprite = Resources.Load<Sprite>("Sprites/DeathKnight/Hero/DeathKnight_Portrait_Ingame");
-        RedGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Hero_Portrait_RedGlow");
-        GreenGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Hero_Portrait_GreenGlow");
+        // Loading the sprites from the Resources folder
+        AttackRenderer.sprite = Resources.Load<Sprite>("Sprites/General/Attack");
+        HealthRenderer.sprite = Resources.Load<Sprite>("Sprites/General/Health");
+        HeroRenderer.sprite = Resources.Load<Sprite>("Sprites/" + Hero.Class.Name() + "/Hero/" + Hero.Class.Name() + "_Portrait_Ingame");
         WhiteGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Hero_Portrait_WhiteGlow");
+        GreenGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Hero_Portrait_GreenGlow");
+        RedGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Hero_Portrait_RedGlow");
     }
 
     #region Unity Messages

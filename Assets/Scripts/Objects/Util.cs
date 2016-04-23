@@ -43,7 +43,7 @@ public static class Util
 
     public static int Middle(this int number)
     {
-        return (int)Math.Round((number / 2) + 0.5);
+        return (int) Math.Round((number / 2) + 0.5);
     }
 
     // Method to get the CardType enum value of a card
