@@ -3,12 +3,20 @@
 public class CardController : BaseController
 {
     public BaseCard Card;
-
     public SpriteRenderer CardRenderer;
+    public Vector3 TargetPosition = Vector3.zero;
+
+    private float speed = 19f;
+    private bool IsDragging = false;
 
     public static CardController Create(BaseCard card)
     {
-        GameObject cardObject = new GameObject(card.Player.name + "_" + card.Name);
+        GameObject cardObject = new GameObject(card.Name);
+        cardObject.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
+        cardObject.transform.localScale = Vector3.one * 60f;
+
+        BoxCollider cardCollider = cardObject.AddComponent<BoxCollider>();
+        cardCollider.size = new Vector3(3.5f, 5.5f, 0f);
 
         CardController cardController = cardObject.AddComponent<CardController>();
         cardController.Card = card;
@@ -20,11 +28,15 @@ public class CardController : BaseController
     
     public override void Initialize()
     {
-        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one, Vector3.zero, -3);
-        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one, Vector3.zero, -2);
-        BlueGlowRenderer = CreateRenderer("BlueGlow", Vector3.one, Vector3.zero, -1);
+        Vector3 glowSize = Vector3.one * 3f;
+        Vector3 glowOffset = new Vector3(0.065f, -0.05f, 0f);
 
-        CardRenderer = CreateRenderer("Card", Vector3.one, Vector3.zero, 0);
+        RedGlowRenderer = CreateRenderer("RedGlow", glowSize, glowOffset, 30);
+        GreenGlowRenderer = CreateRenderer("GreenGlow", glowSize, glowOffset, 31);
+        BlueGlowRenderer = CreateRenderer("BlueGlow", glowSize, glowOffset, 32);
+
+        CardRenderer = CreateRenderer("Card", Vector3.one, Vector3.zero, 33);
+        CardRenderer.enabled = true;
 
         UpdateSprites();
     }
@@ -57,7 +69,7 @@ public class CardController : BaseController
         string className = Card.Class.Name();
     
         // Loading the sprites into the SpriteRenderers
-        CardRenderer.sprite = Resources.Load<Sprite>("Sprites/" + className + "/Cards/" + Card.Name);
+        CardRenderer.sprite = Resources.Load<Sprite>("Sprites/" + className + "/Cards/" + Card.TypeName());
         GreenGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "GreenGlow");
         RedGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "RedGlow");
         BlueGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "BlueGlow");
@@ -89,24 +101,58 @@ public class CardController : BaseController
 
     #region Unity Messages
 
+    private void Update()
+    {
+        this.transform.localPosition = Vector3.MoveTowards(this.transform.localPosition, this.TargetPosition, this.speed * Time.deltaTime);
+    }
+
     private void OnMouseEnter()
     {
-        // TODO : Move up
+        this.TargetPosition = this.TargetPosition + new Vector3(0f, 2f, 0f);
     }
 
     private void OnMouseExit()
     {
-        // TODO : Move down
+        if (this.IsDragging == false)
+        {
+            this.TargetPosition = this.TargetPosition - new Vector3(0f, 2f, 0f);
+        }
     }
 
     private void OnMouseDown()
     {
-        InterfaceManager.Instance.EnableArrow(this.transform.position);
+        this.IsDragging = true;
+
+        switch (this.Card.GetCardType())
+        {
+            case CardType.Minion:
+            case CardType.Weapon:
+                // TODO : Drag card
+                break;
+
+            case CardType.Spell:
+                InterfaceManager.Instance.EnableArrow(this);
+                break;
+        }
     }
 
     private void OnMouseUp()
     {
-        InterfaceManager.Instance.DisableArrow();
+        this.IsDragging = false;
+
+        switch (Card.GetCardType())
+        {
+            case CardType.Minion:
+            case CardType.Weapon:
+                // TODO : Check position and play or not
+                break;
+
+            case CardType.Spell:
+                InterfaceManager.Instance.DisableArrow();
+                break;
+        }
+
+        this.OnMouseExit();
     }
 
     #endregion

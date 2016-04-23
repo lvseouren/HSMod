@@ -107,27 +107,21 @@ public class MinionController : BaseController
     {
        this.SetWhiteRenderer(true);
 
-        if (InterfaceManager.Instance.IsDragging)
-        {
-            InterfaceManager.Instance.EnableArrowCircle();
-        }
+        InterfaceManager.Instance.OnHoverStart(this);
     }
 
     private void OnMouseExit()
     {
         this.SetWhiteRenderer(false);
 
-        if (InterfaceManager.Instance.IsDragging)
-        {
-            InterfaceManager.Instance.DisableArrowCircle();
-        }
+        InterfaceManager.Instance.OnHoverStop();
     }
 
     private void OnMouseDown()
     {
         if (this.CanTarget)
         {
-            InterfaceManager.Instance.EnableArrow(this.transform.position);
+            InterfaceManager.Instance.EnableArrow(this);
         }
     }
 

@@ -73,11 +73,15 @@ public class HeroController : BaseController
     private void OnMouseEnter()
     {
         this.SetWhiteRenderer(true);
+
+        InterfaceManager.Instance.OnHoverStart(this);
     }
 
     private void OnMouseExit()
     {
         this.SetWhiteRenderer(false);
+
+        InterfaceManager.Instance.OnHoverStop();
     }
 
     private void OnMouseDown()
@@ -99,7 +103,7 @@ public class HeroController : BaseController
             }
             else
             {
-                enemyPlayer.Controller.SetRedRenderer(true);
+                enemyPlayer.HeroController.SetRedRenderer(true);
 
                 foreach (MinionCard minion in enemyPlayer.Minions)
                 {
@@ -110,7 +114,7 @@ public class HeroController : BaseController
                 }
             }
 
-            InterfaceManager.Instance.EnableArrow(this.transform.position);
+            InterfaceManager.Instance.EnableArrow(this);
         }
     }
 
@@ -122,7 +126,7 @@ public class HeroController : BaseController
 
             Player enemyPlayer = this.Hero.Player.Enemy;
 
-            enemyPlayer.Controller.SetRedRenderer(false);
+            enemyPlayer.HeroController.SetRedRenderer(false);
 
             foreach (MinionCard minion in enemyPlayer.Minions)
             {

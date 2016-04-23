@@ -42,6 +42,36 @@ public class GameManager : MonoBehaviour
         BottomPlayer.Enemy = TopPlayer;
         TopPlayer.Enemy = BottomPlayer;
 
+        // Test Zone //
+
+        BottomPlayer.Deck = new List<BaseCard>()
+        {
+            new CorpseExplosion(),
+            new AllWillServe(),
+            new DancingRuneblade(),
+            new SkeletonCommander(),
+            new DeathwhisperNecrolyte(),
+            new CorpseExplosion(),
+            new AllWillServe(),
+            new DancingRuneblade(),
+            new SkeletonCommander(),
+            new DeathwhisperNecrolyte()
+        };
+
+        TopPlayer.Deck = new List<BaseCard>()
+        {
+            new CorpseExplosion(),
+            new AllWillServe(),
+            new DancingRuneblade(),
+            new SkeletonCommander(),
+            new DeathwhisperNecrolyte(),
+            new CorpseExplosion(),
+            new AllWillServe(),
+            new DancingRuneblade(),
+            new SkeletonCommander(),
+            new DeathwhisperNecrolyte()
+        };
+
         // Randomize the starting player
         if (Random.Range(0, 2) == 1)
         {
