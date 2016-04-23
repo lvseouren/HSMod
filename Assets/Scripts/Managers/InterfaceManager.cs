@@ -59,7 +59,7 @@ public class InterfaceManager : MonoBehaviour
         if (IsDragging)
         {
             // Getting the world position of the mouse
-            Vector3 worldMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0f, 0f, 1000f));
+            Vector3 worldMousePosition = Util.GetWorldMousePosition();
 
             // Getting the direction vector from the minion to the mouse
             Vector3 directionVector = Input.mousePosition - this.screenOriginPosition;
@@ -113,6 +113,7 @@ public class InterfaceManager : MonoBehaviour
     private SpriteRenderer CreateChildSprite(GameObject rendererObject, string sprite, int order)
     {
         SpriteRenderer spriteRenderer = rendererObject.AddComponent<SpriteRenderer>();
+        spriteRenderer.material = Resources.Load<Material>("Materials/SpriteOverrideMaterial");
         spriteRenderer.sortingLayerName = "Game";
         spriteRenderer.sortingOrder = order;
         spriteRenderer.sprite = Resources.Load<Sprite>(sprite);

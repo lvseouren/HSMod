@@ -3,27 +3,30 @@
 public class CardController : BaseController
 {
     public BaseCard Card;
-    public SpriteRenderer CardRenderer;
-    public Vector3 TargetPosition = Vector3.zero;
+    public float TargetY = 0f;
+    public float TargetX = 0f;
 
-    private float speed = 19f;
+    private SpriteRenderer CardRenderer;
+    private BoxCollider CardCollider;
+
     private bool IsDragging = false;
+    private bool IsTargeting = false;
 
     public static CardController Create(BaseCard card)
     {
         GameObject cardObject = new GameObject(card.Name);
         cardObject.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
-        cardObject.transform.localScale = Vector3.one * 60f;
+        cardObject.transform.localScale = Vector3.one * 50f;
 
-        BoxCollider cardCollider = cardObject.AddComponent<BoxCollider>();
-        cardCollider.size = new Vector3(3.5f, 5.5f, 0f);
+        CardController controller = cardObject.AddComponent<CardController>();
+        controller.Card = card;
 
-        CardController cardController = cardObject.AddComponent<CardController>();
-        cardController.Card = card;
+        controller.CardCollider = cardObject.AddComponent<BoxCollider>();
+        controller.CardCollider.size = new Vector3(3.5f, 5.5f, 0f);
 
-        cardController.Initialize();
+        controller.Initialize();
 
-        return cardController;
+        return controller;
     }
     
     public override void Initialize()
@@ -103,34 +106,53 @@ public class CardController : BaseController
 
     private void Update()
     {
-        this.transform.localPosition = Vector3.MoveTowards(this.transform.localPosition, this.TargetPosition, this.speed * Time.deltaTime);
+        if (this.IsDragging)
+        {
+            this.transform.position = Util.GetWorldMousePosition();
+        }
+        else if (this.IsTargeting)
+        {
+            this.transform.localPosition = Vector3.MoveTowards(this.transform.localPosition, new Vector3(TargetX, TargetY / 2f), 50f * Time.deltaTime);
+        }
+        else
+        {
+            this.transform.localPosition = Vector3.MoveTowards(this.transform.localPosition, new Vector3(TargetX, TargetY, 0f), 50f * Time.deltaTime);
+        }
     }
 
     private void OnMouseEnter()
     {
-        this.TargetPosition = this.TargetPosition + new Vector3(0f, 2f, 0f);
+        this.TargetY = 5f;
+
+        if (this.IsDragging == false && this.IsTargeting == false)
+        {
+            this.transform.localScale = Vector3.one * 2f;
+        }
     }
 
     private void OnMouseExit()
     {
-        if (this.IsDragging == false)
+        if (this.IsDragging == false && this.IsTargeting == false)
         {
-            this.TargetPosition = this.TargetPosition - new Vector3(0f, 2f, 0f);
+            print("back to 0" + this.IsDragging + " " + this.IsTargeting);
+            this.TargetY = 0f;
+            this.transform.localScale = Vector3.one;
         }
     }
 
     private void OnMouseDown()
     {
-        this.IsDragging = true;
+        this.transform.localScale = Vector3.one;
 
         switch (this.Card.GetCardType())
         {
             case CardType.Minion:
             case CardType.Weapon:
-                // TODO : Drag card
+                this.IsDragging = true;
                 break;
 
             case CardType.Spell:
+                this.IsTargeting = true;
                 InterfaceManager.Instance.EnableArrow(this);
                 break;
         }
@@ -138,7 +160,9 @@ public class CardController : BaseController
 
     private void OnMouseUp()
     {
+        print("up");
         this.IsDragging = false;
+        this.IsTargeting = false;
 
         switch (Card.GetCardType())
         {
@@ -152,7 +176,7 @@ public class CardController : BaseController
                 break;
         }
 
-        this.OnMouseExit();
+        this.TargetY = 0f;
     }
 
     #endregion

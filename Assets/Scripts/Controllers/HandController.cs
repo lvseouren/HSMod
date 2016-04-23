@@ -6,8 +6,8 @@ public class HandController : MonoBehaviour
     public Player Player;
 
     public Vector3 Center;
-    public Vector3 Interval = new Vector3(5f, 0f, 0f);
-    public Vector3 HalfInterval = new Vector3(2.5f, 0f, 0f);
+    public float Interval = 5f;
+    public float HalfInterval = 2.5f;
 
     public List<CardController> Controllers = new List<CardController>();
 
@@ -60,12 +60,12 @@ public class HandController : MonoBehaviour
                         if (i < countHalf)
                         {
                             int cardPosition = (countHalf - i);
-                            controller.TargetPosition = -1 * this.Interval * cardPosition + this.HalfInterval;
+                            controller.TargetX = -1 * this.Interval * cardPosition + this.HalfInterval;
                         }
                         else
                         {
                             int cardPosition = (i + 1 - countHalf);
-                            controller.TargetPosition = this.Interval * cardPosition - this.HalfInterval;
+                            controller.TargetX = this.Interval * cardPosition - this.HalfInterval;
                         }
                     }
                     break;
@@ -80,16 +80,16 @@ public class HandController : MonoBehaviour
                         if (i < countMiddle)
                         {
                             int cardPosition = (countMiddle - i);
-                            controller.TargetPosition = -1 * this.Interval * cardPosition;
+                            controller.TargetX = -1 * this.Interval * cardPosition;
                         }
                         else if (i == countMiddle)
                         {
-                            controller.TargetPosition = Vector3.zero;
+                            controller.TargetX = 0f;
                         }
                         else
                         {
                             int cardPosition = (i - countMiddle);
-                            controller.TargetPosition = this.Interval * cardPosition;
+                            controller.TargetX = this.Interval * cardPosition;
                         }
                     }
                     break;
