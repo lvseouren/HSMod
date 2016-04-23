@@ -36,22 +36,35 @@ public static class Util
         return typeInstance.GetType().Name;
     }
 
-    // Method to get the minion at the mouse position
-    public static ICharacter GetCharacter(this BaseController controller)
+    public static bool IsPair(this int number)
     {
-        if (controller != null)
+        return (number % 2 == 0);
+    }
+
+    public static int Middle(this int number)
+    {
+        return (int)Math.Round((number / 2) + 0.5);
+    }
+
+    // Method to get the CardType enum value of a card
+    public static CardType GetCardType(this BaseCard card)
+    {
+        Type cardBaseType = card.GetType().BaseType;
+
+        switch (cardBaseType.Name)
         {
-            switch (controller.GetType().Name)
-            {
-                case "MinionController":
-                    return controller.As<MinionController>().Minion;
+            case "MinionCard":
+                return CardType.Minion;
 
-                case "HeroController":
-                    return controller.As<HeroController>().Hero;
-            }
+            case "SpellCard":
+                return CardType.Spell;
+
+            case "WeaponCard":
+                return CardType.Weapon;
+
+            default:
+                return CardType.None;
         }
-
-        return null;
     }
 
     // Method to get the character at the mouse position
@@ -80,34 +93,10 @@ public static class Util
         return null;
     }
 
-    public static bool IsPair(this int number)
+    // Method to get the position of the mouse in the world space
+    public static Vector3 GetWorldMousePosition()
     {
-        return (number % 2 == 0);
-    }
-
-    public static int Middle(this int number)
-    {
-        return (int) Math.Round((number / 2) + 0.5);
-    }
-
-    public static CardType GetCardType(this BaseCard card)
-    {
-        Type cardBaseType = card.GetType().BaseType;
-
-        switch (cardBaseType.Name)
-        {
-            case "MinionCard":
-                return CardType.Minion;
-
-            case "SpellCard":
-                return CardType.Spell;
-
-            case "WeaponCard":
-                return CardType.Weapon;
-
-            default:
-                return CardType.None;
-        }
+        return Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0f, 0f, 1000f));
     }
     
     #region ICharacter Extension Methods
