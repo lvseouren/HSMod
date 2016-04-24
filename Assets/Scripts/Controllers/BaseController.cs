@@ -34,7 +34,7 @@ public abstract class BaseController : MonoBehaviour
         return spriteRenderer;
     }
 
-    protected TextMesh CreateText(string name, Vector3 position, int order)
+    protected TextMesh CreateText(string name, Vector3 position)
     {
         // Creating a GameObject to hold the TextMesh
         GameObject meshObject = new GameObject(name);
@@ -51,33 +51,33 @@ public abstract class BaseController : MonoBehaviour
 
     public void SetGreenRenderer(bool status)
     {
-        if (GreenGlowRenderer != null)
+        if (this.GreenGlowRenderer != null)
         {
-            GreenGlowRenderer.enabled = status;
+            this.GreenGlowRenderer.enabled = status;
         }
     }
 
     public void SetWhiteRenderer(bool status)
     {
-        if (WhiteGlowRenderer != null)
+        if (this.WhiteGlowRenderer != null)
         {
-            WhiteGlowRenderer.enabled = status;
+            this.WhiteGlowRenderer.enabled = status;
         }
     }
 
     public void SetBlueRenderer(bool status)
     {
-        if (BlueGlowRenderer != null)
+        if (this.BlueGlowRenderer != null)
         {
-            BlueGlowRenderer.enabled = status;
+            this.BlueGlowRenderer.enabled = status;
         }
     }
 
     public void SetRedRenderer(bool status)
     {
-        if (RedGlowRenderer != null)
+        if (this.RedGlowRenderer != null)
         {
-            RedGlowRenderer.enabled = status;
+            this.RedGlowRenderer.enabled = status;
         }
     }
 }
