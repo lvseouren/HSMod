@@ -16,19 +16,20 @@ public abstract class BaseController : MonoBehaviour
     protected SpriteRenderer CreateRenderer(string name, Vector3 scale, Vector3 position, int order)
     {
         // Creating a GameObject to hold the SpriteRenderer
-        GameObject glowObject = new GameObject(name);
-        glowObject.transform.parent = this.transform;
-        glowObject.transform.localEulerAngles = Vector3.zero;
-        glowObject.transform.localPosition = position;
-        glowObject.transform.localScale = scale;
+        GameObject rendererObject = new GameObject(name);
+        rendererObject.transform.parent = this.transform;
+        rendererObject.transform.localEulerAngles = Vector3.zero;
+        rendererObject.transform.localPosition = position;
+        rendererObject.transform.localScale = scale;
 
         // Creating the SpriteRenderer and adding it to the GameObject
-        SpriteRenderer glowRenderer = glowObject.AddComponent<SpriteRenderer>();
-        glowRenderer.sortingLayerName = "Game";
-        glowRenderer.sortingOrder = order;
-        glowRenderer.enabled = false;
+        SpriteRenderer renderer = rendererObject.AddComponent<SpriteRenderer>();
+        renderer.material = Resources.Load<Material>("Materials/SpriteOverrideMaterial");
+        renderer.sortingLayerName = "Game";
+        renderer.sortingOrder = order;
+        renderer.enabled = false;
 
-        return glowRenderer;
+        return renderer;
     }
 
     public void SetGreenRenderer(bool status)
