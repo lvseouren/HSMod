@@ -13,6 +13,8 @@ public abstract class BaseController : MonoBehaviour
 
     public virtual void UpdateSprites() { }
 
+    public virtual void UpdateText() { }
+
     protected SpriteRenderer CreateRenderer(string name, Vector3 scale, Vector3 position, int order)
     {
         // Creating a GameObject to hold the SpriteRenderer
@@ -23,13 +25,28 @@ public abstract class BaseController : MonoBehaviour
         rendererObject.transform.localScale = scale;
 
         // Creating the SpriteRenderer and adding it to the GameObject
-        SpriteRenderer renderer = rendererObject.AddComponent<SpriteRenderer>();
-        renderer.material = Resources.Load<Material>("Materials/SpriteOverrideMaterial");
-        renderer.sortingLayerName = "Game";
-        renderer.sortingOrder = order;
-        renderer.enabled = false;
+        SpriteRenderer spriteRenderer = rendererObject.AddComponent<SpriteRenderer>();
+        spriteRenderer.material = Resources.Load<Material>("Materials/SpriteOverrideMaterial");
+        spriteRenderer.sortingLayerName = "Game";
+        spriteRenderer.sortingOrder = order;
+        spriteRenderer.enabled = false;
 
-        return renderer;
+        return spriteRenderer;
+    }
+
+    protected TextMesh CreateText(string name, Vector3 position, int order)
+    {
+        // Creating a GameObject to hold the TextMesh
+        GameObject meshObject = new GameObject(name);
+        meshObject.transform.parent = this.transform;
+        meshObject.transform.localEulerAngles = Vector3.zero;
+        meshObject.transform.localPosition = position;
+
+        TextMesh textMesh = meshObject.AddComponent<TextMesh>();
+        textMesh.font = Resources.Load<Font>("Fonts/Belwe-Bold");
+        textMesh.fontSize = 16;
+
+        return textMesh;
     }
 
     public void SetGreenRenderer(bool status)
