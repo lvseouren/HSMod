@@ -34,18 +34,53 @@ public abstract class BaseController : MonoBehaviour
         return spriteRenderer;
     }
 
-    protected TextMesh CreateText(string name, Vector3 position)
+    protected TextMesh CreateText(string name, Vector3 position, int order)
     {
         // Creating a GameObject to hold the TextMesh
         GameObject meshObject = new GameObject(name);
         meshObject.transform.parent = this.transform;
         meshObject.transform.localEulerAngles = Vector3.zero;
         meshObject.transform.localPosition = position;
+        meshObject.transform.localScale = Vector3.one * 0.5f;
 
         TextMesh textMesh = meshObject.AddComponent<TextMesh>();
         textMesh.font = Resources.Load<Font>("Fonts/Belwe-Bold");
-        textMesh.fontSize = 16;
+        textMesh.fontSize = 20;
 
+        MeshRenderer meshRenderer = meshObject.GetComponentInChildren<MeshRenderer>();
+        meshRenderer.material = textMesh.font.material;
+        meshRenderer.sortingLayerName = "Game";
+        meshRenderer.sortingOrder = order;
+
+        GameObject cloneMeshObject = Instantiate(meshObject);
+        cloneMeshObject.transform.parent = meshObject.transform;
+        cloneMeshObject.transform.localPosition = Vector3.zero;
+        cloneMeshObject.transform.localEulerAngles = Vector3.zero;
+        cloneMeshObject.transform.localScale = Vector3.one;
+        cloneMeshObject.GetComponent<TextMesh>().color = Color.black;
+        cloneMeshObject.GetComponent<TextMesh>().text = "0";
+        cloneMeshObject.GetComponentInChildren<MeshRenderer>().sortingOrder = order - 1;
+
+        return textMesh;
+
+        // Creating a clone for the outline
+        GameObject childMeshObject = new GameObject(name + "_Child");
+        childMeshObject.transform.parent = meshObject.transform;
+        childMeshObject.transform.localScale = Vector3.one;
+        childMeshObject.transform.localEulerAngles = Vector3.zero;
+        childMeshObject.transform.localPosition = Vector3.zero;
+
+        TextMesh childTextMesh = childMeshObject.AddComponent<TextMesh>();
+        childTextMesh.font = Resources.Load<Font>("Fonts/Belwe-Bold");
+        childTextMesh.fontSize = 20;
+        childTextMesh.color = Color.black;
+        childTextMesh.text = "0";
+
+        MeshRenderer childMeshRenderer = childTextMesh.GetComponentInChildren<MeshRenderer>();
+        childMeshRenderer.material = childTextMesh.font.material;
+        childMeshRenderer.sortingLayerName = "Game";
+        childMeshRenderer.sortingOrder = order - 1;
+        
         return textMesh;
     }
 
