@@ -34,8 +34,8 @@ public class HeroController : BaseController
 
     public override void Initialize()
     {
-        this.AttackText = CreateText("AttackText", new Vector3(-1.65f, -0.5f, 0f), 26);
-        this.HealthText = CreateText("HealthText", new Vector3(1.25f, -0.5f, 0f), 26);
+        this.AttackText = CreateText("AttackText", new Vector3(-1.5f, -0.755f, 0f), 26);
+        this.HealthText = CreateText("HealthText", new Vector3(1.5f, -0.75f, 0f), 26);
 
         this.AttackRenderer = CreateRenderer("Attack", Vector3.one * 0.55f, new Vector3(-1.5f, -0.75f, 0f), 24);
         this.HealthRenderer = CreateRenderer("Health", Vector3.one * 0.55f, new Vector3(1.5f, -0.75f, 0f), 24);
@@ -47,6 +47,7 @@ public class HeroController : BaseController
 
         this.HeroRenderer.enabled = true;
         this.HealthRenderer.enabled = true;
+        this.HealthText.text = "30";
 
         UpdateSprites();
         UpdateText();

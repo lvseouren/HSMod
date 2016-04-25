@@ -46,6 +46,8 @@ public abstract class BaseController : MonoBehaviour
         TextMesh textMesh = meshObject.AddComponent<TextMesh>();
         textMesh.font = Resources.Load<Font>("Fonts/Belwe-Bold");
         textMesh.fontSize = 20;
+        textMesh.alignment = TextAlignment.Center;
+        textMesh.anchor = TextAnchor.MiddleCenter;
 
         MeshRenderer meshRenderer = meshObject.GetComponentInChildren<MeshRenderer>();
         meshRenderer.material = textMesh.font.material;
