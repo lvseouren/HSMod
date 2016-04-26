@@ -42,7 +42,7 @@ public class HeroController : BaseController
 
         this.AttackRenderer = CreateRenderer("Attack", Vector3.one * 0.55f, new Vector3(-1.5f, -0.75f, 0f), 24);
         this.HealthRenderer = CreateRenderer("Health", Vector3.one * 0.55f, new Vector3(1.5f, -0.75f, 0f), 24);
-        this.ArmorRenderer = CreateRenderer("Armor", Vector3.one * 0.55f, new Vector3(1.5f, -0.25f, 0f), 24);
+        this.ArmorRenderer = CreateRenderer("Armor", Vector3.one * 0.55f, new Vector3(1.5f, 0.75f, 0f), 24);
         this.HeroRenderer = CreateRenderer("Hero", Vector3.one, Vector3.zero, 23);
 
         this.WhiteGlowRenderer = CreateRenderer("WhiteGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 22);
@@ -107,6 +107,26 @@ public class HeroController : BaseController
         {
             this.AttackRenderer.enabled = false;
             this.AttackText.text = string.Empty;
+        }
+
+        if (this.Hero.CurrentArmor > 0)
+        {
+            this.ArmorRenderer.enabled = true;
+            this.ArmorText.text = this.Hero.CurrentArmor.ToString();
+        }
+        else
+        {
+            this.ArmorRenderer.enabled = false;
+            this.ArmorText.text = string.Empty;
+        }
+
+        if (this.Hero.CurrentHealth == this.Hero.MaxHealth)
+        {
+            this.HealthText.color = Color.white;
+        }
+        else
+        {
+            this.HealthText.color = Color.red;
         }
 
         this.HealthText.text = this.Hero.CurrentHealth.ToString();
