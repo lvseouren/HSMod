@@ -64,26 +64,6 @@ public abstract class BaseController : MonoBehaviour
         cloneMeshObject.GetComponentInChildren<MeshRenderer>().sortingOrder = order - 1;
 
         return textMesh;
-
-        // Creating a clone for the outline
-        GameObject childMeshObject = new GameObject(name + "_Child");
-        childMeshObject.transform.parent = meshObject.transform;
-        childMeshObject.transform.localScale = Vector3.one;
-        childMeshObject.transform.localEulerAngles = Vector3.zero;
-        childMeshObject.transform.localPosition = Vector3.zero;
-
-        TextMesh childTextMesh = childMeshObject.AddComponent<TextMesh>();
-        childTextMesh.font = Resources.Load<Font>("Fonts/Belwe-Bold");
-        childTextMesh.fontSize = 20;
-        childTextMesh.color = Color.black;
-        childTextMesh.text = "0";
-
-        MeshRenderer childMeshRenderer = childTextMesh.GetComponentInChildren<MeshRenderer>();
-        childMeshRenderer.material = childTextMesh.font.material;
-        childMeshRenderer.sortingLayerName = "Game";
-        childMeshRenderer.sortingOrder = order - 1;
-        
-        return textMesh;
     }
 
     public void SetGreenRenderer(bool status)
