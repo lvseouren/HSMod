@@ -15,7 +15,7 @@ public class HandController : MonoBehaviour
     {
         GameObject heroObject = new GameObject("Player_" + player + "_Hand");
         heroObject.transform.position = handPosition;
-        heroObject.transform.localScale = new Vector3(50f, 50f, 50f);
+        heroObject.transform.localScale = Vector3.one * 50f;
         heroObject.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
 
         HandController handController = heroObject.AddComponent<HandController>();

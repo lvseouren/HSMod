@@ -13,6 +13,8 @@ public abstract class BaseController : MonoBehaviour
 
     public virtual void UpdateSprites() { }
 
+    public virtual void UpdateText() { }
+
     protected SpriteRenderer CreateRenderer(string name, Vector3 scale, Vector3 position, int order)
     {
         // Creating a GameObject to hold the SpriteRenderer
@@ -23,44 +25,76 @@ public abstract class BaseController : MonoBehaviour
         rendererObject.transform.localScale = scale;
 
         // Creating the SpriteRenderer and adding it to the GameObject
-        SpriteRenderer renderer = rendererObject.AddComponent<SpriteRenderer>();
-        renderer.material = Resources.Load<Material>("Materials/SpriteOverrideMaterial");
-        renderer.sortingLayerName = "Game";
-        renderer.sortingOrder = order;
-        renderer.enabled = false;
+        SpriteRenderer spriteRenderer = rendererObject.AddComponent<SpriteRenderer>();
+        spriteRenderer.material = Resources.Load<Material>("Materials/SpriteOverrideMaterial");
+        spriteRenderer.sortingLayerName = "Game";
+        spriteRenderer.sortingOrder = order;
+        spriteRenderer.enabled = false;
 
-        return renderer;
+        return spriteRenderer;
+    }
+
+    protected TextMesh CreateText(string name, Vector3 position, int order)
+    {
+        // Creating a GameObject to hold the TextMesh
+        GameObject meshObject = new GameObject(name);
+        meshObject.transform.parent = this.transform;
+        meshObject.transform.localEulerAngles = Vector3.zero;
+        meshObject.transform.localPosition = position;
+        meshObject.transform.localScale = Vector3.one * 0.5f;
+
+        TextMesh textMesh = meshObject.AddComponent<TextMesh>();
+        textMesh.font = Resources.Load<Font>("Fonts/Belwe-Bold");
+        textMesh.fontSize = 20;
+        textMesh.alignment = TextAlignment.Center;
+        textMesh.anchor = TextAnchor.MiddleCenter;
+
+        MeshRenderer meshRenderer = meshObject.GetComponentInChildren<MeshRenderer>();
+        meshRenderer.material = textMesh.font.material;
+        meshRenderer.sortingLayerName = "Game";
+        meshRenderer.sortingOrder = order;
+
+        GameObject cloneMeshObject = Instantiate(meshObject);
+        cloneMeshObject.transform.parent = meshObject.transform;
+        cloneMeshObject.transform.localPosition = Vector3.zero;
+        cloneMeshObject.transform.localEulerAngles = Vector3.zero;
+        cloneMeshObject.transform.localScale = Vector3.one;
+        cloneMeshObject.GetComponent<TextMesh>().color = Color.black;
+        cloneMeshObject.GetComponent<TextMesh>().text = "0";
+        cloneMeshObject.GetComponentInChildren<MeshRenderer>().sortingOrder = order - 1;
+
+        return textMesh;
     }
 
     public void SetGreenRenderer(bool status)
     {
-        if (GreenGlowRenderer != null)
+        if (this.GreenGlowRenderer != null)
         {
-            GreenGlowRenderer.enabled = status;
+            this.GreenGlowRenderer.enabled = status;
         }
     }
 
     public void SetWhiteRenderer(bool status)
     {
-        if (WhiteGlowRenderer != null)
+        if (this.WhiteGlowRenderer != null)
         {
-            WhiteGlowRenderer.enabled = status;
+            this.WhiteGlowRenderer.enabled = status;
         }
     }
 
     public void SetBlueRenderer(bool status)
     {
-        if (BlueGlowRenderer != null)
+        if (this.BlueGlowRenderer != null)
         {
-            BlueGlowRenderer.enabled = status;
+            this.BlueGlowRenderer.enabled = status;
         }
     }
 
     public void SetRedRenderer(bool status)
     {
-        if (RedGlowRenderer != null)
+        if (this.RedGlowRenderer != null)
         {
-            RedGlowRenderer.enabled = status;
+            this.RedGlowRenderer.enabled = status;
         }
     }
 }

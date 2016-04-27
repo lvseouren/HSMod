@@ -15,7 +15,7 @@ public class Hero : MonoBehaviour, ICharacter
     public int CurrentAttack { get; set; }
     public int CurrentHealth { get; set; }
     public int MaxHealth { get; set; }
-    public int Armor = 0;
+    public int CurrentArmor = 0;
     public int TurnAttacks = 0;
 
     // Effects //
@@ -32,7 +32,10 @@ public class Hero : MonoBehaviour, ICharacter
         Hero hero = new Hero()
         {
             Player = player,
-            Class = heroClass
+            Class = heroClass,
+            BaseAttack = 0,
+            BaseHealth = 30,
+            MaxHealth = 30,
         };
 
         hero.Initialize();
@@ -44,7 +47,7 @@ public class Hero : MonoBehaviour, ICharacter
     {
         CurrentAttack = BaseAttack;
         CurrentHealth = BaseHealth;
-        Armor = 0;
+        CurrentArmor = 0;
     }
 
     #endregion
