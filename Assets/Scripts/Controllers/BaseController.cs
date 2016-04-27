@@ -50,8 +50,11 @@ public abstract class BaseController : MonoBehaviour
 
         MeshRenderer meshRenderer = meshObject.GetComponentInChildren<MeshRenderer>();
         meshRenderer.material = Resources.Load<Material>("Materials/TextOutline");
-        meshRenderer.sortingLayerName = "Game";
+        meshRenderer.material.SetTexture("_FontTexture", textMesh.font.material.mainTexture);
+        meshRenderer.sortingLayerName = "Default";
         meshRenderer.sortingOrder = order;
+
+        return textMesh;
 
         GameObject cloneMeshObject = Instantiate(meshObject);
         cloneMeshObject.transform.parent = meshObject.transform;
