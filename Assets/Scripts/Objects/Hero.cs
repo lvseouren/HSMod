@@ -148,6 +148,8 @@ public class Hero : MonoBehaviour, ICharacter
         this.CurrentHealth -= damageAmount;
 
         // TODO : Sprite -> Show health loss on hero portrait
+
+        this.Player.HeroController.UpdateText();
     }
 
     public void Heal(int healAmount)
@@ -172,6 +174,8 @@ public class Hero : MonoBehaviour, ICharacter
 
         // TODO : Heal animation
         // TODO : Show heal sprite + healed amount
+
+        this.Player.HeroController.UpdateText();
     }
 
     public void CheckDeath()

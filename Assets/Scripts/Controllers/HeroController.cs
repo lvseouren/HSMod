@@ -5,6 +5,7 @@ public class HeroController : BaseController
     public Hero Hero;
 
     public SpriteRenderer HeroRenderer;
+
     public SpriteRenderer AttackRenderer;
     public SpriteRenderer HealthRenderer;
     public SpriteRenderer ArmorRenderer;
@@ -12,8 +13,6 @@ public class HeroController : BaseController
     public TextMesh AttackText;
     public TextMesh HealthText;
     public TextMesh ArmorText;
-
-    // TODO : Armor text and sprite
 
     public static HeroController Create(Hero hero, Vector3 heroPosition)
     {
@@ -36,22 +35,22 @@ public class HeroController : BaseController
 
     public override void Initialize()
     {
-        this.AttackText = CreateText("AttackText", new Vector3(-1.5f, -0.755f, 0f), 26);
-        this.HealthText = CreateText("HealthText", new Vector3(1.5f, -0.75f, 0f), 26);
-        this.ArmorText = CreateText("ArmorText", new Vector3(1.5f, -0.25f, 0f), 26);
+        this.AttackText = CreateText("AttackText", new Vector3(-1.5f, -0.755f, 0f), 36);
+        this.HealthText = CreateText("HealthText", new Vector3(1.5f, -0.75f, 0f), 36);
+        this.ArmorText = CreateText("ArmorText", new Vector3(1.5f, -0.25f, 0f), 36);
 
-        this.AttackRenderer = CreateRenderer("Attack", Vector3.one * 0.55f, new Vector3(-1.5f, -0.75f, 0f), 24);
-        this.HealthRenderer = CreateRenderer("Health", Vector3.one * 0.55f, new Vector3(1.5f, -0.75f, 0f), 24);
-        this.ArmorRenderer = CreateRenderer("Armor", Vector3.one * 0.55f, new Vector3(1.5f, 0.75f, 0f), 24);
-        this.HeroRenderer = CreateRenderer("Hero", Vector3.one, Vector3.zero, 23);
+        this.AttackRenderer = CreateRenderer("Attack", Vector3.one * 0.55f, new Vector3(-1.5f, -0.75f, 0f), 34);
+        this.HealthRenderer = CreateRenderer("Health", Vector3.one * 0.55f, new Vector3(1.5f, -0.75f, 0f), 34);
+        this.ArmorRenderer = CreateRenderer("Armor", Vector3.one * 0.55f, new Vector3(1.5f, 0.75f, 0f), 34);
 
-        this.WhiteGlowRenderer = CreateRenderer("WhiteGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 22);
-        this.GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 21);
-        this.RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 20);
+        this.HeroRenderer = CreateRenderer("Hero", Vector3.one, Vector3.zero, 33);
+
+        this.WhiteGlowRenderer = CreateRenderer("WhiteGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 32);
+        this.GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 31);
+        this.RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 30);
 
         this.HeroRenderer.enabled = true;
         this.HealthRenderer.enabled = true;
-        this.HealthText.text = "30";
 
         UpdateSprites();
         UpdateText();

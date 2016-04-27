@@ -4,7 +4,6 @@ public abstract class BaseController : MonoBehaviour
 {
     public SpriteRenderer GreenGlowRenderer;
     public SpriteRenderer WhiteGlowRenderer;
-    public SpriteRenderer BlueGlowRenderer;
     public SpriteRenderer RedGlowRenderer;
 
     public virtual void Initialize() { }
@@ -50,7 +49,7 @@ public abstract class BaseController : MonoBehaviour
         textMesh.anchor = TextAnchor.MiddleCenter;
 
         MeshRenderer meshRenderer = meshObject.GetComponentInChildren<MeshRenderer>();
-        meshRenderer.material = textMesh.font.material;
+        meshRenderer.material = Resources.Load<Material>("Materials/TextOutline");
         meshRenderer.sortingLayerName = "Game";
         meshRenderer.sortingOrder = order;
 
@@ -79,14 +78,6 @@ public abstract class BaseController : MonoBehaviour
         if (this.WhiteGlowRenderer != null)
         {
             this.WhiteGlowRenderer.enabled = status;
-        }
-    }
-
-    public void SetBlueRenderer(bool status)
-    {
-        if (this.BlueGlowRenderer != null)
-        {
-            this.BlueGlowRenderer.enabled = status;
         }
     }
 

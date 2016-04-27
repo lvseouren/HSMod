@@ -7,6 +7,13 @@ public class CardController : BaseController
     public float TargetX = 0f;
 
     private SpriteRenderer CardRenderer;
+    private SpriteRenderer ComboGlowRenderer;
+
+    private TextMesh CostText;
+
+    private TextMesh AttackText;
+    private TextMesh AttributeText;
+
     private BoxCollider CardCollider;
 
     private bool IsDragging = false;
@@ -34,14 +41,15 @@ public class CardController : BaseController
         Vector3 glowSize = Vector3.one * 3f;
         Vector3 glowOffset = new Vector3(0.065f, -0.05f, 0f);
 
-        RedGlowRenderer = CreateRenderer("RedGlow", glowSize, glowOffset, 30);
-        GreenGlowRenderer = CreateRenderer("GreenGlow", glowSize, glowOffset, 31);
-        BlueGlowRenderer = CreateRenderer("BlueGlow", glowSize, glowOffset, 32);
+        CardRenderer = CreateRenderer("Card", Vector3.one, Vector3.zero, 42);
+        
+        ComboGlowRenderer = CreateRenderer("ComboGlow", glowSize, glowOffset, 41);
+        GreenGlowRenderer = CreateRenderer("GreenGlow", glowSize, glowOffset, 40);
 
-        CardRenderer = CreateRenderer("Card", Vector3.one, Vector3.zero, 33);
         CardRenderer.enabled = true;
 
         UpdateSprites();
+        UpdateText();
     }
 
     public override void Remove()
@@ -52,11 +60,8 @@ public class CardController : BaseController
         GreenGlowRenderer.DisposeSprite();
         Destroy(GreenGlowRenderer.gameObject);
 
-        BlueGlowRenderer.DisposeSprite();
-        Destroy(BlueGlowRenderer);
-
-        RedGlowRenderer.DisposeSprite();
-        Destroy(RedGlowRenderer);
+        ComboGlowRenderer.DisposeSprite();
+        Destroy(ComboGlowRenderer);
     }
 
     public override void UpdateSprites()
@@ -64,8 +69,7 @@ public class CardController : BaseController
         // Cleaning up the old sprites and their textures to avoid memory leaks
         CardRenderer.DisposeSprite();
         GreenGlowRenderer.DisposeSprite();
-        BlueGlowRenderer.DisposeSprite();
-        RedGlowRenderer.DisposeSprite();
+        ComboGlowRenderer.DisposeSprite();
 
         // Getting the string path to the glows
         string glowString = GetGlowString();
@@ -74,8 +78,7 @@ public class CardController : BaseController
         // Loading the sprites into the SpriteRenderers
         CardRenderer.sprite = Resources.Load<Sprite>("Sprites/" + className + "/Cards/" + Card.TypeName());
         GreenGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "GreenGlow");
-        RedGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "RedGlow");
-        BlueGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "BlueGlow");
+        ComboGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "ComboGlow");
     }
 
     private string GetGlowString()
