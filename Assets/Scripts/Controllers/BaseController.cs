@@ -42,12 +42,14 @@ public abstract class BaseController : MonoBehaviour
         meshObject.transform.localPosition = position;
         meshObject.transform.localScale = Vector3.one * 0.5f;
 
+        // Creating a TextMesh in the new object
         TextMesh textMesh = meshObject.AddComponent<TextMesh>();
         textMesh.font = Resources.Load<Font>("Fonts/Belwe-Bold");
         textMesh.fontSize = 20;
         textMesh.alignment = TextAlignment.Center;
         textMesh.anchor = TextAnchor.MiddleCenter;
 
+        // Modifying the renderer of the TextMesh to match the materials
         MeshRenderer meshRenderer = meshObject.GetComponentInChildren<MeshRenderer>();
         meshRenderer.material = Resources.Load<Material>("Materials/TextOutline");
         meshRenderer.material.SetTexture("_FontTexture", textMesh.font.material.mainTexture);
@@ -56,6 +58,7 @@ public abstract class BaseController : MonoBehaviour
 
         return textMesh;
 
+        // Test outline
         GameObject cloneMeshObject = Instantiate(meshObject);
         cloneMeshObject.transform.parent = meshObject.transform;
         cloneMeshObject.transform.localPosition = Vector3.zero;
