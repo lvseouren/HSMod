@@ -213,7 +213,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GreenGlowRenderer: {fileID: 0}
   WhiteGlowRenderer: {fileID: 0}
-  BlueGlowRenderer: {fileID: 0}
   RedGlowRenderer: {fileID: 0}
   MinionRenderer: {fileID: 0}
   TokenRenderer: {fileID: 0}
@@ -465,7 +464,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c58db19ca2a3f87449058c49aa966090, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsDragging: 0
 --- !u!114 &277837382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1404,9 +1402,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GreenGlowRenderer: {fileID: 0}
   WhiteGlowRenderer: {fileID: 0}
-  BlueGlowRenderer: {fileID: 0}
   RedGlowRenderer: {fileID: 0}
+  TargetY: 0
+  TargetX: 0
   CardRenderer: {fileID: 0}
+  ComboGlowRenderer: {fileID: 0}
+  CostText: {fileID: 0}
+  AttackText: {fileID: 0}
+  AttributeText: {fileID: 0}
+  CardCollider: {fileID: 0}
+  IsDragging: 0
+  IsTargeting: 0
 --- !u!4 &606672104
 Transform:
   m_ObjectHideFlags: 0
@@ -1934,7 +1940,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GreenGlowRenderer: {fileID: 0}
   WhiteGlowRenderer: {fileID: 0}
-  BlueGlowRenderer: {fileID: 0}
   RedGlowRenderer: {fileID: 0}
   MinionRenderer: {fileID: 0}
   TokenRenderer: {fileID: 0}
@@ -2139,7 +2144,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GreenGlowRenderer: {fileID: 0}
   WhiteGlowRenderer: {fileID: 0}
-  BlueGlowRenderer: {fileID: 0}
   RedGlowRenderer: {fileID: 0}
   MinionRenderer: {fileID: 0}
   TokenRenderer: {fileID: 0}
@@ -2582,7 +2586,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GreenGlowRenderer: {fileID: 0}
   WhiteGlowRenderer: {fileID: 0}
-  BlueGlowRenderer: {fileID: 0}
   RedGlowRenderer: {fileID: 0}
   MinionRenderer: {fileID: 0}
   TokenRenderer: {fileID: 0}
