@@ -1,0 +1,253 @@
+fileFormatVersion: 2
+guid: f6be37d8c9a3be74da2bb63e93780942
+timeCreated: 1462030925
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Numbers_0
+    21300002: Numbers_1
+    21300004: Numbers_2
+    21300006: Numbers_3
+    21300008: Numbers_4
+    21300010: Numbers_5
+    21300012: Numbers_6
+    21300014: Numbers_7
+    21300016: Numbers_8
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 2
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Numbers_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 130
+        height: 157
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 75.5}
+        - {x: -60, y: 56.5}
+        - {x: -60, y: -58.5}
+        - {x: -49, y: -78.5}
+        - {x: 30, y: -78.5}
+        - {x: 37, y: -73.5}
+        - {x: 59, y: -55.5}
+        - {x: 59, y: 68.5}
+        - {x: 49, y: 75.5}
+    - name: Numbers_1
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 0
+        width: 130
+        height: 157
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 30, y: 72.5}
+        - {x: 9, y: 72.5}
+        - {x: -35, y: 46.5}
+        - {x: -35, y: -75.5}
+        - {x: 39, y: -75.5}
+        - {x: 40, y: -73.5}
+        - {x: 40, y: -36.5}
+    - name: Numbers_2
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 0
+        width: 130
+        height: 157
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -41, y: 75.5}
+        - {x: -57, y: 54.5}
+        - {x: -57, y: -6.5}
+        - {x: -56, y: -10.5}
+        - {x: -21, y: -25.5}
+        - {x: -1, y: 12.5}
+        - {x: 1, y: 20.5}
+        - {x: 7, y: 30.5}
+        - {x: -12, y: -21.5}
+        - {x: -49, y: -52.5}
+        - {x: -48, y: -59.5}
+        - {x: -46, y: -71.5}
+        - {x: -44, y: -76.5}
+        - {x: -29, y: -78.5}
+        - {x: 59, y: -78.5}
+        - {x: 59, y: 72.5}
+        - {x: 49, y: 75.5}
+    - name: Numbers_3
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 0
+        width: 130
+        height: 157
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -40, y: 78.5}
+        - {x: -59, y: 54.5}
+        - {x: -59, y: -78.5}
+        - {x: 55, y: -78.5}
+        - {x: 55, y: 78.5}
+    - name: Numbers_4
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 0
+        width: 130
+        height: 157
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 12, y: 72.5}
+        - {x: -56, y: 10.5}
+        - {x: -56, y: -53.5}
+        - {x: -42, y: -75.5}
+        - {x: 60, y: -75.5}
+        - {x: 60, y: 58.5}
+        - {x: 56, y: 72.5}
+    - name: Numbers_5
+      rect:
+        serializedVersion: 2
+        x: 650
+        y: 0
+        width: 130
+        height: 157
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -9, y: 77.5}
+        - {x: -30, y: 75.5}
+        - {x: -53, y: -17.5}
+        - {x: 5, y: -17.5}
+        - {x: -25, y: -20.5}
+        - {x: -54, y: -47.5}
+        - {x: -54, y: -78.5}
+        - {x: 45, y: -78.5}
+        - {x: 53, y: -76.5}
+        - {x: 53, y: 58.5}
+        - {x: 49, y: 77.5}
+    - name: Numbers_6
+      rect:
+        serializedVersion: 2
+        x: 780
+        y: 0
+        width: 130
+        height: 157
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 48, y: 19.5}
+        - {x: 24, y: 27.5}
+        - {x: 5, y: 26.5}
+        - {x: 23, y: 28.5}
+        - {x: 25, y: 27.5}
+        - {x: 59, y: 63.5}
+        - {x: 40, y: 75.5}
+        - {x: 1, y: 75.5}
+        - {x: -30, y: 67.5}
+        - {x: -55, y: 24.5}
+        - {x: -55, y: -66.5}
+        - {x: -32, y: -78.5}
+        - {x: 54, y: -78.5}
+        - {x: 57, y: -74.5}
+        - {x: 63, y: -50.5}
+        - {x: 63, y: 5.5}
+    - name: Numbers_7
+      rect:
+        serializedVersion: 2
+        x: 910
+        y: 0
+        width: 130
+        height: 157
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 1, y: 78.5}
+        - {x: -41, y: 78.5}
+        - {x: -48, y: 60.5}
+        - {x: -48, y: -67.5}
+        - {x: -46, y: -75.5}
+        - {x: 21, y: -75.5}
+        - {x: 59, y: 39.5}
+        - {x: 59, y: 51.5}
+        - {x: 50, y: 72.5}
+    - name: Numbers_8
+      rect:
+        serializedVersion: 2
+        x: 1040
+        y: 0
+        width: 130
+        height: 157
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -28, y: 75.5}
+        - {x: -48, y: 60.5}
+        - {x: -48, y: -78.5}
+        - {x: 59, y: -78.5}
+        - {x: 61, y: -71.5}
+        - {x: 61, y: 65.5}
+        - {x: 29, y: 75.5}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
