@@ -56,10 +56,10 @@ public class Hero : MonoBehaviour, ICharacter
     public void Attack(ICharacter target)
     {
         // Checking if Hero is forgetful
-        if (this.Forgetful)
+        if (Forgetful)
         {
             // Checking if there's more than 1 enemy (hero + minions)
-            if (this.Player.Enemy.Minions.Count > 0)
+            if (Player.Enemy.Minions.Count > 0)
             {
                 // Random 50% chance
                 if (Random.Range(0, 2) == 1)
@@ -69,29 +69,24 @@ public class Hero : MonoBehaviour, ICharacter
                     // Creating a list of possible targets
                     List<ICharacter> possibleTargets = new List<ICharacter>();
 
-                    // Adding the enemy hero to the list
-                    possibleTargets.Add(this.Player.Enemy.Hero);
-
-                    // Adding all enemy minions to the list
-                    foreach (MinionCard enemyMinion in this.Player.Enemy.Minions)
+                    // Adding all the enemies to the list
+                    foreach (MinionCard enemyMinion in Player.Enemy.Minions)
                     {
                         possibleTargets.Add(enemyMinion);
                     }
+                    possibleTargets.Add(Player.Enemy.Hero);
 
                     // Removing the current target from the possible targets list
                     possibleTargets.Remove(target);
 
-                    // Selecting a target by random
-                    int randomTarget = Random.Range(0, possibleTargets.Count);
-
                     // Setting the current target as the random target
-                    target = possibleTargets[randomTarget];
+                    target = possibleTargets[Random.Range(0, possibleTargets.Count)];
                 }
             }
         }
 
         // Firing OnPreAttack events
-        HeroPreAttackEvent heroPreAttackEvent = EventManager.Instance.OnHeroPreAttack(this, target, this.CurrentAttack);
+        HeroPreAttackEvent heroPreAttackEvent = EventManager.Instance.OnHeroPreAttack(this, target, CurrentAttack);
 
         // Checking if the Attack was cancelled
         if (heroPreAttackEvent.Status != PreStatus.Cancelled)
@@ -105,7 +100,7 @@ public class Hero : MonoBehaviour, ICharacter
             // Target is a Hero
             if (target.IsHero())
             {
-                target.As<Hero>().TryDamage(this, this.GetHeroAttack());
+                target.As<Hero>().TryDamage(this, GetHeroAttack());
             }
 
             // Target is a Minion
@@ -119,7 +114,7 @@ public class Hero : MonoBehaviour, ICharacter
                 
                 // Damaging both characters
                 this.TryDamage(targetMinion, minionAttack);
-                targetMinion.TryDamage(this, this.GetHeroAttack());
+                targetMinion.TryDamage(this, GetHeroAttack());
 
                 // Checking the death of both characters
                 this.CheckDeath();
@@ -137,7 +132,7 @@ public class Hero : MonoBehaviour, ICharacter
 
         if (attacker.IsAlive())
         {
-            this.Damage(heroPreDamageEvent.Damage);
+            Damage(heroPreDamageEvent.Damage);
 
             EventManager.Instance.OnHeroDamaged(this, attacker, heroPreDamageEvent.Damage);
         }
@@ -145,11 +140,11 @@ public class Hero : MonoBehaviour, ICharacter
 
     public void Damage(int damageAmount)
     {
-        this.CurrentHealth -= damageAmount;
+        CurrentHealth -= damageAmount;
 
         // TODO : Sprite -> Show health loss on hero portrait
 
-        this.Player.HeroController.UpdateText();
+        Player.HeroController.UpdateText();
     }
 
     public void Heal(int healAmount)
@@ -162,11 +157,11 @@ public class Hero : MonoBehaviour, ICharacter
 
         if (heroPreHealEvent.HealAmount > healeableHealth)
         {
-            this.CurrentHealth = MaxHealth;
+            CurrentHealth = MaxHealth;
         }
         else
         {
-            this.CurrentHealth += heroPreHealEvent.HealAmount;
+            CurrentHealth += heroPreHealEvent.HealAmount;
         }
 
         // Firing OnHeroHealed events 
@@ -175,7 +170,7 @@ public class Hero : MonoBehaviour, ICharacter
         // TODO : Heal animation
         // TODO : Show heal sprite + healed amount
 
-        this.Player.HeroController.UpdateText();
+        Player.HeroController.UpdateText();
     }
 
     public void CheckDeath()
@@ -225,11 +220,11 @@ public class Hero : MonoBehaviour, ICharacter
 
     public int GetHeroAttack()
     {
-        int attack = this.CurrentAttack;
+        int attack = CurrentAttack;
 
-        if (this.Player.HasWeapon())
+        if (Player.HasWeapon())
         {
-            attack += this.Player.Weapon.CurrentAttack;
+            attack += Player.Weapon.CurrentAttack;
         }
 
         return attack;
