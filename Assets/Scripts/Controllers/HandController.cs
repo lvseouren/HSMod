@@ -4,12 +4,10 @@ using UnityEngine;
 public class HandController : MonoBehaviour
 {
     public Player Player;
-
-    public Vector3 Center;
-    public float Interval = 5f;
-    public float HalfInterval = 2.5f;
-
     public List<CardController> Controllers = new List<CardController>();
+
+    private const float INTERVAL = 4f;
+    private const float HALF_INTERVAL = 2f;
 
     public static HandController Create(Player player, Vector3 handPosition)
     {
@@ -20,67 +18,66 @@ public class HandController : MonoBehaviour
 
         HandController handController = heroObject.AddComponent<HandController>();
         handController.Player = player;
-        handController.Center = handPosition;
 
         return handController;
     }
 
     public void Add(CardController cardController)
     {
-        this.Controllers.Add(cardController);
+        Controllers.Add(cardController);
 
         cardController.transform.parent = this.transform;
 
-        this.MoveCards();
+        MoveCards();
     }
 
     public void Remove(CardController cardController)
     {
-        if (this.Controllers.Contains(cardController))
+        if (Controllers.Contains(cardController))
         {
-            this.Controllers.Remove(cardController);
-
-            this.MoveCards();
+            Controllers.Remove(cardController);
         }
+
+        MoveCards();
     }
 
     private void MoveCards()
     {
-        if (this.Controllers.Count > 0)
+        if (Controllers.Count > 0)
         {
-            switch (this.Controllers.Count.IsPair())
+            switch (Controllers.Count.IsPair())
             {
                 case true:
-                    int countHalf = (this.Controllers.Count / 2);
+                    int countHalf = (Controllers.Count / 2);
 
-                    for (int i = 0; i < this.Controllers.Count; i++)
+                    for (int i = 0; i < Controllers.Count; i++)
                     {
-                        CardController controller = this.Controllers[i];
+                        CardController controller = Controllers[i];
 
                         if (i < countHalf)
                         {
                             int cardPosition = (countHalf - i);
-                            controller.TargetX = -1 * this.Interval * cardPosition + this.HalfInterval;
+                            controller.TargetX = -1 * INTERVAL * cardPosition + HALF_INTERVAL;
                         }
                         else
                         {
                             int cardPosition = (i + 1 - countHalf);
-                            controller.TargetX = this.Interval * cardPosition - this.HalfInterval;
+                            controller.TargetX = INTERVAL * cardPosition - HALF_INTERVAL;
                         }
                     }
                     break;
 
                 case false:
-                    int countMiddle = this.Controllers.Count.Middle() - 1;
+                    int countMiddle = Controllers.Count.Middle() - 1;
 
-                    for (int i = 0; i < this.Controllers.Count; i++)
+                    for (int i = 0; i < Controllers.Count; i++)
                     {
-                        CardController controller = this.Controllers[i];
+                        CardController controller = Controllers[i];
 
                         if (i < countMiddle)
                         {
                             int cardPosition = (countMiddle - i);
-                            controller.TargetX = -1 * this.Interval * cardPosition;
+                            controller.TargetX = -1 * INTERVAL * cardPosition;
                         }
                         else if (i == countMiddle)
                         {
@@ -89,7 +86,7 @@ public class HandController : MonoBehaviour
                         else
                         {
                             int cardPosition = (i - countMiddle);
-                            controller.TargetX = this.Interval * cardPosition;
+                            controller.TargetX = INTERVAL * cardPosition;
                         }
                     }
                     break;
