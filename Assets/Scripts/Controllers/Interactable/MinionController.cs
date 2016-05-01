@@ -7,9 +7,8 @@ public class MinionController : BaseController
     public SpriteRenderer MinionRenderer;
     public SpriteRenderer TokenRenderer;
 
-    public bool HasTaunt;
-
-    public bool CanTarget = true;
+    public bool HasTaunt = false;
+    public bool CanTarget = false;
 
     public static MinionController Create(MinionCard minion)
     {
@@ -71,6 +70,11 @@ public class MinionController : BaseController
         WhiteGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "WhiteGlow");
         GreenGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "GreenGlow");
         RedGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "RedGlow");
+    }
+
+    public override void UpdateNumbers()
+    {
+        // TODO
     }
 
     private string GetTokenString()

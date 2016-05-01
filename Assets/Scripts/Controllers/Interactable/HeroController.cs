@@ -37,7 +37,7 @@ public class HeroController : BaseController
     {
         AttackController = NumberController.Create("AttackController", this.gameObject, new Vector3(-1.4f, -0.85f, 0f), 36);
         HealthController = NumberController.Create("HealthController", this.gameObject, new Vector3(1.5f, -0.85f, 0f), 36);
-        ArmorController = NumberController.Create("ArmorController", this.gameObject, new Vector3(1.5f, -0.25f, 0f), 36);
+        ArmorController = NumberController.Create("ArmorController", this.gameObject, new Vector3(1.5f, 0f, 0f), 36);
 
         AttackRenderer = CreateRenderer("Attack", Vector3.one * 0.55f, new Vector3(-1.5f, -0.75f, 0f), 34);
         HealthRenderer = CreateRenderer("Health", Vector3.one * 0.55f, new Vector3(1.5f, -0.75f, 0f), 34);
@@ -96,7 +96,7 @@ public class HeroController : BaseController
         RedGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Hero_Portrait_RedGlow");
     }
 
-    public void UpdateNumbers()
+    public override void UpdateNumbers()
     {
         // Updating Hero Attack
         if (Hero.CurrentAttack > 0)
@@ -113,7 +113,7 @@ public class HeroController : BaseController
         }
 
         // Updating Hero Armor
-        if (Hero.CurrentArmor >= 0)
+        if (Hero.CurrentArmor > 0)
         {
             ArmorController.UpdateNumber(Hero.CurrentArmor, "White");
 

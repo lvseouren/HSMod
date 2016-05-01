@@ -49,7 +49,7 @@ public class CardController : BaseController
         CardRenderer.enabled = true;
 
         UpdateSprites();
-        UpdateText();
+        UpdateNumbers();
     }
 
     public override void Remove()
@@ -81,6 +81,11 @@ public class CardController : BaseController
         ComboGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "ComboGlow");
     }
 
+    public override void UpdateNumbers()
+    {
+        // TODO
+    }
+
     private string GetGlowString()
     {
         string glowString = "Sprites/Glows/Card_";
@@ -109,7 +114,7 @@ public class CardController : BaseController
 
     private void Update()
     {
-        if (this.IsDragging)
+        if (IsDragging)
         {
             this.transform.position = Util.GetWorldMousePosition();
         }
@@ -125,9 +130,9 @@ public class CardController : BaseController
 
     private void OnMouseEnter()
     {
-        this.TargetY = 5f;
+        TargetY = 4f;
 
-        if (this.IsDragging == false && this.IsTargeting == false)
+        if (IsDragging == false && IsTargeting == false)
         {
             this.transform.localScale = Vector3.one * 2f;
         }
@@ -135,9 +140,9 @@ public class CardController : BaseController
 
     private void OnMouseExit()
     {
-        if (this.IsDragging == false && this.IsTargeting == false)
+        if (IsDragging == false && IsTargeting == false)
         {
-            this.TargetY = 0f;
+            TargetY = 0f;
             this.transform.localScale = Vector3.one;
         }
     }
@@ -146,15 +151,15 @@ public class CardController : BaseController
     {
         this.transform.localScale = Vector3.one;
 
-        switch (this.Card.GetCardType())
+        switch (Card.GetCardType())
         {
             case CardType.Minion:
             case CardType.Weapon:
-                this.IsDragging = true;
+                IsDragging = true;
                 break;
 
             case CardType.Spell:
-                this.IsTargeting = true;
+                IsTargeting = true;
                 InterfaceManager.Instance.EnableArrow(this);
                 break;
         }
@@ -162,8 +167,8 @@ public class CardController : BaseController
 
     private void OnMouseUp()
     {
-        this.IsDragging = false;
-        this.IsTargeting = false;
+        IsDragging = false;
+        IsTargeting = false;
 
         switch (Card.GetCardType())
         {
@@ -177,7 +182,7 @@ public class CardController : BaseController
                 break;
         }
 
-        this.TargetY = 0f;
+        TargetY = 0f;
     }
 
     #endregion

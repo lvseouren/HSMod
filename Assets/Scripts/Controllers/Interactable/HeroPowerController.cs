@@ -70,6 +70,11 @@ public class HeroPowerController : BaseController
         RedGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Hero_Power_RedGlow");
     }
 
+    public override void UpdateNumbers()
+    {
+        // TODO
+    }
+
     #region Unity Messages
 
     private void OnMouseEnter()

@@ -12,7 +12,7 @@ public abstract class BaseController : MonoBehaviour
 
     public virtual void UpdateSprites() { }
 
-    public virtual void UpdateText() { }
+    public virtual void UpdateNumbers() { }
 
     protected SpriteRenderer CreateRenderer(string name, Vector3 scale, Vector3 position, int order)
     {

@@ -18,6 +18,7 @@ public class WeaponController : BaseController
         heroObject.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
 
         SphereCollider weaponCollider = heroObject.AddComponent<SphereCollider>();
+        weaponCollider.radius = 2f;
 
         WeaponController weaponController = heroObject.AddComponent<WeaponController>();
         weaponController.Weapon = weapon;
@@ -26,4 +27,6 @@ public class WeaponController : BaseController
 
         return weaponController;
     }
+
+    // TODO
 }

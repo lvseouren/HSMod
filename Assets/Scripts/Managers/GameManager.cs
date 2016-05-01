@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
         CurrentGameState = GameState.Start;
 
         // Firing OnTurnStart events
-        EventManager.Instance.OnTurnStart(this.CurrentPlayer);
+        EventManager.Instance.OnTurnStart(CurrentPlayer);
 
         // Drawing 1 card
         CurrentPlayer.Draw();
@@ -140,7 +140,7 @@ public class GameManager : MonoBehaviour
         CurrentGameState = GameState.End;
 
         // Firing OnTurnEnd events
-        EventManager.Instance.OnTurnEnd(this.CurrentPlayer);
+        EventManager.Instance.OnTurnEnd(CurrentPlayer);
 
         // Resetting hero, card and minion glows for the current player
         CurrentPlayer.ResetGlows();
@@ -167,5 +167,17 @@ public class GameManager : MonoBehaviour
     public List<MinionCard> GetAllMinions()
     {
         return TopPlayer.Minions.Concat(BottomPlayer.Minions).ToList();
+    }
+
+    public void UpdateAll()
+    {
+        foreach (MinionCard minion in GetAllMinions())
+        {
+            minion.Controller.UpdateNumbers();
+            minion.Controller.UpdateSprites();
+        }
+
+        TopPlayer.UpdateAll();
+        BottomPlayer.UpdateAll();
     }
 }

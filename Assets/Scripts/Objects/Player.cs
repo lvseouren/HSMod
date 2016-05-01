@@ -221,6 +221,18 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void UpdateAll()
+    {
+        HeroController.UpdateSprites();
+        HeroController.UpdateNumbers();
+
+        if (HasWeapon())
+        {
+            Weapon.Controller.UpdateSprites();
+            Weapon.Controller.UpdateNumbers();
+        }
+    }
+
     #endregion
 
     #region Getter Methods
