@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     {
         _instance = this;
 
+        // TODO : Move quality stuff to new class
         QualitySettings.vSyncCount = 1;
 
         BottomPlayer = Player.Create(HeroClass.DeathKnight, new Vector3(797f, 60f, 230f), new Vector3(800f, 60f, 50f));
