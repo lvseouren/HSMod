@@ -2,7 +2,7 @@
 
 public class EventManager
 {
-    // Singleton //
+    #region Singleton
     private static EventManager _instance;
 
     public static EventManager Instance
@@ -18,6 +18,9 @@ public class EventManager
     }
 
     private EventManager() { }
+    #endregion
+
+    #region Subjects
 
     // Minion Event Subjects //
     public Subject<MinionPlayedEvent> MinionPlayedHandler = new Subject<MinionPlayedEvent>();
@@ -67,7 +70,9 @@ public class EventManager
     public Subject<TurnEvent> TurnStartHandler = new Subject<TurnEvent>();
     public Subject<TurnEvent> TurnEndHandler = new Subject<TurnEvent>();
 
-    #region Minion Event Handlers
+    #endregion
+
+    #region Handlers
 
     public void OnMinionPlayed(Player player, MinionCard minion)
     {
@@ -203,10 +208,6 @@ public class EventManager
             battlefieldMinion.BuffManager.OnMinionDied.OnNext(minionDiedEvent);
         }
     }
-
-    #endregion
-
-    #region Hero Event Handlers
 
     public HeroPreAttackEvent OnHeroPreAttack(Hero hero, ICharacter target, int damageAmount)
     {
@@ -361,10 +362,6 @@ public class EventManager
         }
     }
 
-    #endregion
-
-    #region Spell Event Handlers
-
     public SpellPreCastEvent OnSpellPreCast(Player player, SpellCard spell)
     {
         // WARNING : May have problems here with the target being null for NoTarget spells
@@ -400,10 +397,6 @@ public class EventManager
             battlefieldMinion.BuffManager.OnSpellCasted.OnNext(spell);
         }
     }
-
-    #endregion 
-
-    #region Card Event Handlers
 
     public void OnCardPlayed(Player player, BaseCard card)
     {
@@ -454,10 +447,6 @@ public class EventManager
         }
     }
 
-    #endregion
-    
-    #region Secret Event Handlers
-
     public void OnSecretPlayed(Player player, SpellCard secret)
     {
         SecretPlayedEvent secretPlayedEvent = new SecretPlayedEvent()
@@ -489,10 +478,6 @@ public class EventManager
             battlefieldMinion.BuffManager.OnSecretRevealed.OnNext(secretRevealedEvent);
         }
     }
-
-    #endregion
-
-    #region Turn Event Handlers
 
     public void OnTurnStart(Player player)
     {
