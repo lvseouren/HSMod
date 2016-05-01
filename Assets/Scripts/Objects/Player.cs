@@ -53,8 +53,8 @@ public class Player : MonoBehaviour
 
     private void Initialize()
     {
-        this.HeroController = HeroController.Create(this.Hero, HeroPosition);
-        this.HandController = HandController.Create(this, HandPosition);
+        HeroController = HeroController.Create(Hero, HeroPosition);
+        HandController = HandController.Create(this, HandPosition);
     }
 
     #endregion

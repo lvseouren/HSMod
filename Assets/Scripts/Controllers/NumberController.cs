@@ -69,12 +69,9 @@ public class NumberController : MonoBehaviour
         baseObject.transform.localEulerAngles = Vector3.zero;
         baseObject.transform.localScale = Vector3.one * 0.5f;
 
-        // TODO : Optimize this part, can't let game load all sprites whenever a change is needed
-        Sprite[] numberSprites = Resources.LoadAll<Sprite>("Sprites/General/Numbers" + color);
-
         SpriteRenderer spriteRenderer = baseObject.AddComponent<SpriteRenderer>();
         spriteRenderer.material = Resources.Load<Material>("Materials/SpriteOverrideMaterial");
-        spriteRenderer.sprite = numberSprites[number];
+        spriteRenderer.sprite = SpriteManager.Instance.Numbers[color][number];
         spriteRenderer.sortingLayerName = "Game";
         spriteRenderer.sortingOrder = Order;
         spriteRenderer.enabled = false;
