@@ -3,20 +3,28 @@ using UnityEngine;
 
 public class NumberController : MonoBehaviour
 {
+    private Vector3 MainPosition;
+    private int Order;
     private List<SpriteRenderer> Renderers = new List<SpriteRenderer>();
 
-    public static NumberController Create(string name, GameObject parent, Vector3 position)
+    public static NumberController Create(string name, GameObject parent, Vector3 position, int order)
     {
         GameObject controllerObject = new GameObject(name);
         controllerObject.transform.parent = parent.transform;
         controllerObject.transform.localPosition = position;
+        controllerObject.transform.localEulerAngles = Vector3.zero;
+        controllerObject.transform.localScale = Vector3.one;
 
-        return controllerObject.AddComponent<NumberController>();
+        NumberController numberController = controllerObject.AddComponent<NumberController>();
+        numberController.MainPosition = position;
+        numberController.Order = order;
+
+        return numberController;
     }
 
     public void UpdateNumber(int wholeNumber, string color)
     {
-        Destroy();
+        DestroyRenderers();
 
         string numberText = wholeNumber.ToString();
         char[] numberCharacters = numberText.ToCharArray();
@@ -25,11 +33,16 @@ public class NumberController : MonoBehaviour
         {
             int number = int.Parse(numberCharacters[i].ToString());
 
-            CreateNumberRenderer(number, color);
+            SpriteRenderer numberRenderer = CreateNumberRenderer(number, color);
+            Renderers.Add(numberRenderer);
+
+            numberRenderer.transform.localPosition = new Vector3(i * 0.6f, 0f, 0f);
         }
+
+        this.transform.localPosition = MainPosition - new Vector3((numberCharacters.Length - 1) * 0.3f, 0f, 0f);
     }
 
-    public void Destroy()
+    public void DestroyRenderers()
     {
         foreach (SpriteRenderer renderer in Renderers)
         {
@@ -40,16 +53,32 @@ public class NumberController : MonoBehaviour
         Renderers.Clear();
     }
 
-    public SpriteRenderer CreateNumberRenderer(int number, string color)
+    public void SetEnabled(bool status)
+    {
+        foreach (SpriteRenderer renderer in Renderers)
+        {
+            renderer.enabled = status;
+        }
+    }
+
+    private SpriteRenderer CreateNumberRenderer(int number, string color)
     {
         GameObject baseObject = new GameObject("NumberRenderer_" + number);
         baseObject.transform.parent = this.transform;
         baseObject.transform.localPosition = Vector3.zero;
+        baseObject.transform.localEulerAngles = Vector3.zero;
+        baseObject.transform.localScale = Vector3.one * 0.5f;
 
-        SpriteRenderer renderer = baseObject.AddComponent<SpriteRenderer>();
-
+        // TODO : Optimize this part, can't let game load all sprites whenever a change is needed
         Sprite[] numberSprites = Resources.LoadAll<Sprite>("Sprites/General/Numbers" + color);
 
-        renderer.sprite = numberSprites[number];
+        SpriteRenderer spriteRenderer = baseObject.AddComponent<SpriteRenderer>();
+        spriteRenderer.material = Resources.Load<Material>("Materials/SpriteOverrideMaterial");
+        spriteRenderer.sprite = numberSprites[number];
+        spriteRenderer.sortingLayerName = "Game";
+        spriteRenderer.sortingOrder = Order;
+        spriteRenderer.enabled = false;
+
+        return spriteRenderer;
     }
 }

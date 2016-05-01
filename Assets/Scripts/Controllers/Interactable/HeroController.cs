@@ -10,9 +10,9 @@ public class HeroController : BaseController
     public SpriteRenderer HealthRenderer;
     public SpriteRenderer ArmorRenderer;
 
-    public TextMesh AttackText;
-    public TextMesh HealthText;
-    public TextMesh ArmorText;
+    public NumberController AttackController;
+    public NumberController HealthController;
+    public NumberController ArmorController;
 
     public static HeroController Create(Hero hero, Vector3 heroPosition)
     {
@@ -35,123 +35,129 @@ public class HeroController : BaseController
 
     public override void Initialize()
     {
-        this.AttackText = CreateText("AttackText", new Vector3(-1.5f, -0.755f, 0f), 36);
-        this.HealthText = CreateText("HealthText", new Vector3(1.5f, -0.75f, 0f), 36);
-        this.ArmorText = CreateText("ArmorText", new Vector3(1.5f, -0.25f, 0f), 36);
+        AttackController = NumberController.Create("AttackController", this.gameObject, new Vector3(-1.4f, -0.85f, 0f), 36);
+        HealthController = NumberController.Create("HealthController", this.gameObject, new Vector3(1.5f, -0.85f, 0f), 36);
+        ArmorController = NumberController.Create("ArmorController", this.gameObject, new Vector3(1.5f, -0.25f, 0f), 36);
 
-        this.AttackRenderer = CreateRenderer("Attack", Vector3.one * 0.55f, new Vector3(-1.5f, -0.75f, 0f), 34);
-        this.HealthRenderer = CreateRenderer("Health", Vector3.one * 0.55f, new Vector3(1.5f, -0.75f, 0f), 34);
-        this.ArmorRenderer = CreateRenderer("Armor", Vector3.one * 0.55f, new Vector3(1.5f, 0.75f, 0f), 34);
+        AttackRenderer = CreateRenderer("Attack", Vector3.one * 0.55f, new Vector3(-1.5f, -0.75f, 0f), 34);
+        HealthRenderer = CreateRenderer("Health", Vector3.one * 0.55f, new Vector3(1.5f, -0.75f, 0f), 34);
+        ArmorRenderer = CreateRenderer("Armor", Vector3.one * 0.55f, new Vector3(1.5f, 0.75f, 0f), 34);
 
-        this.HeroRenderer = CreateRenderer("Hero", Vector3.one, Vector3.zero, 33);
+        HeroRenderer = CreateRenderer("Hero", Vector3.one, Vector3.zero, 33);
 
-        this.WhiteGlowRenderer = CreateRenderer("WhiteGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 32);
-        this.GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 31);
-        this.RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 30);
+        WhiteGlowRenderer = CreateRenderer("WhiteGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 32);
+        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 31);
+        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 30);
 
-        this.HeroRenderer.enabled = true;
-        this.HealthRenderer.enabled = true;
+        HeroRenderer.enabled = true;
+        HealthRenderer.enabled = true;
 
         UpdateSprites();
-        UpdateText();
+        UpdateNumbers();
+        HealthController.SetEnabled(true);
     }
 
     public override void Remove()
     {
-        this.HeroRenderer.DisposeSprite();
-        Destroy(this.HeroRenderer);
+        HeroRenderer.DisposeSprite();
+        Destroy(HeroRenderer);
 
-        this.AttackRenderer.DisposeSprite();
-        Destroy(this.AttackRenderer);
+        AttackRenderer.DisposeSprite();
+        Destroy(AttackRenderer);
 
-        this.HealthRenderer.DisposeSprite();
-        Destroy(this.HealthRenderer);
+        HealthRenderer.DisposeSprite();
+        Destroy(HealthRenderer);
 
-        this.GreenGlowRenderer.DisposeSprite();
-        Destroy(this.GreenGlowRenderer.gameObject);
+        GreenGlowRenderer.DisposeSprite();
+        Destroy(GreenGlowRenderer.gameObject);
 
-        this.RedGlowRenderer.DisposeSprite();
-        Destroy(this.RedGlowRenderer);
+        RedGlowRenderer.DisposeSprite();
+        Destroy(RedGlowRenderer);
 
-        this.WhiteGlowRenderer.DisposeSprite();
-        Destroy(this.WhiteGlowRenderer);
+        WhiteGlowRenderer.DisposeSprite();
+        Destroy(WhiteGlowRenderer);
     }
 
     public override void UpdateSprites()
     {
         // Cleaning up the old sprites and textures to avoid memory leaks
-        this.HeroRenderer.DisposeSprite();
-        this.AttackRenderer.DisposeSprite();
-        this.HealthRenderer.DisposeSprite();
-        this.GreenGlowRenderer.DisposeSprite();
-        this.RedGlowRenderer.DisposeSprite();
+        HeroRenderer.DisposeSprite();
+        AttackRenderer.DisposeSprite();
+        HealthRenderer.DisposeSprite();
+        GreenGlowRenderer.DisposeSprite();
+        RedGlowRenderer.DisposeSprite();
 
         // Loading the sprites from the Resources folder
-        this.HeroRenderer.sprite = Resources.Load<Sprite>("Sprites/" + this.Hero.Class.Name() + "/Hero/" + this.Hero.Class.Name() + "_Portrait_Ingame");
-        this.AttackRenderer.sprite = Resources.Load<Sprite>("Sprites/General/Attack");
-        this.HealthRenderer.sprite = Resources.Load<Sprite>("Sprites/General/Health");
-        this.WhiteGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Hero_Portrait_WhiteGlow");
-        this.GreenGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Hero_Portrait_GreenGlow");
-        this.RedGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Hero_Portrait_RedGlow");
+        HeroRenderer.sprite = Resources.Load<Sprite>("Sprites/" + Hero.Class.Name() + "/Hero/" + Hero.Class.Name() + "_Portrait_Ingame");
+        AttackRenderer.sprite = Resources.Load<Sprite>("Sprites/General/Attack");
+        HealthRenderer.sprite = Resources.Load<Sprite>("Sprites/General/Health");
+        WhiteGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Hero_Portrait_WhiteGlow");
+        GreenGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Hero_Portrait_GreenGlow");
+        RedGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Hero_Portrait_RedGlow");
     }
 
-    public void UpdateText()
+    public void UpdateNumbers()
     {
-        if (this.Hero.CurrentAttack > 0)
+        // Updating Hero Attack
+        if (Hero.CurrentAttack > 0)
         {
-            this.AttackRenderer.enabled = true;
-            this.AttackText.text = this.Hero.CurrentAttack.ToString();
+            AttackController.UpdateNumber(Hero.CurrentAttack, "White");
+
+            AttackRenderer.enabled = true;
+            AttackController.SetEnabled(true);
         }
         else
         {
-            this.AttackRenderer.enabled = false;
-            this.AttackText.text = string.Empty;
+            AttackRenderer.enabled = false;
+            AttackController.SetEnabled(false);
         }
 
-        if (this.Hero.CurrentArmor > 0)
+        // Updating Hero Armor
+        if (Hero.CurrentArmor >= 0)
         {
-            this.ArmorRenderer.enabled = true;
-            this.ArmorText.text = this.Hero.CurrentArmor.ToString();
+            ArmorController.UpdateNumber(Hero.CurrentArmor, "White");
+
+            ArmorRenderer.enabled = true;
+            ArmorController.SetEnabled(true);
         }
         else
         {
-            this.ArmorRenderer.enabled = false;
-            this.ArmorText.text = string.Empty;
+            ArmorRenderer.enabled = false;
+            ArmorController.SetEnabled(false);
         }
 
-        if (this.Hero.CurrentHealth == this.Hero.MaxHealth)
+        // Updating Hero Health
+        if (Hero.CurrentHealth == Hero.MaxHealth)
         {
-            this.HealthText.color = Color.white;
+            HealthController.UpdateNumber(Hero.CurrentHealth, "White");
         }
         else
         {
-            this.HealthText.color = Color.red;
+            HealthController.UpdateNumber(Hero.CurrentHealth, "Red");
         }
-
-        this.HealthText.text = this.Hero.CurrentHealth.ToString();
     }
 
     #region Unity Messages
 
     private void OnMouseEnter()
     {
-        this.SetWhiteRenderer(true);
+        SetWhiteRenderer(true);
 
         InterfaceManager.Instance.OnHoverStart(this);
     }
 
     private void OnMouseExit()
     {
-        this.SetWhiteRenderer(false);
+        SetWhiteRenderer(false);
 
         InterfaceManager.Instance.OnHoverStop();
     }
 
     private void OnMouseDown()
     {
-        if (this.Hero.CanAttack())
+        if (Hero.CanAttack())
         {
-            Player enemyPlayer = this.Hero.Player.Enemy;
+            Player enemyPlayer = Hero.Player.Enemy;
 
             // Adding red glows to available targets
             if (enemyPlayer.HasTauntMinions())
@@ -183,11 +189,11 @@ public class HeroController : BaseController
 
     private void OnMouseUp()
     {
-        if (this.Hero.CanAttack())
+        if (Hero.CanAttack())
         {
             InterfaceManager.Instance.DisableArrow();
 
-            Player enemyPlayer = this.Hero.Player.Enemy;
+            Player enemyPlayer = Hero.Player.Enemy;
 
             enemyPlayer.HeroController.SetRedRenderer(false);
 
@@ -198,9 +204,9 @@ public class HeroController : BaseController
 
             ICharacter target = Util.GetCharacterAtMouse();
 
-            if (target != null && this.Hero.CanTarget(target))
+            if (target != null && Hero.CanTarget(target))
             {
-                this.Hero.Attack(target);
+                Hero.Attack(target);
             }
         }
     }
