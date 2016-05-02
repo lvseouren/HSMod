@@ -57,18 +57,6 @@ public abstract class BaseController : MonoBehaviour
         meshRenderer.sortingOrder = order;
 
         return textMesh;
-
-        // Test outline
-        GameObject cloneMeshObject = Instantiate(meshObject);
-        cloneMeshObject.transform.parent = meshObject.transform;
-        cloneMeshObject.transform.localPosition = Vector3.zero;
-        cloneMeshObject.transform.localEulerAngles = Vector3.zero;
-        cloneMeshObject.transform.localScale = Vector3.one;
-        cloneMeshObject.GetComponent<TextMesh>().color = Color.black;
-        cloneMeshObject.GetComponent<TextMesh>().text = "0";
-        cloneMeshObject.GetComponentInChildren<MeshRenderer>().sortingOrder = order - 1;
-
-        return textMesh;
     }
 
     public void SetGreenRenderer(bool status)
