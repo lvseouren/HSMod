@@ -25,6 +25,7 @@ public class MinionCard : BaseCard, ICharacter
     public bool Frozen = false;
     public bool Silenced = false;
     public bool Windfury = false;
+    public bool Poison = false;
     public int SpellPower = 0;
 
     public BuffManager BuffManager = new BuffManager();
@@ -134,23 +135,41 @@ public class MinionCard : BaseCard, ICharacter
         }
     }
 
+    public bool HasPoison()
+    {
+        return this.Poison;
+    }
+
     public void TryDamage(ICharacter attacker, int damageAmount)
     {
         MinionPreDamageEvent minionPreDamageEvent = EventManager.Instance.OnMinionPreDamage(this, attacker, damageAmount);
 
         if (attacker.IsAlive())
         {
-            this.Damage(minionPreDamageEvent.Damage);
+            this.Damage(minionPreDamageEvent.Damage, attacker);
 
             EventManager.Instance.OnMinionDamaged(this, attacker, damageAmount);
         }
     }
 
-    public void Damage(int damageAmount)
+    public void Damage(int damageAmount, ICharacter attacker = null)
     {
         this.BuffManager.OnPreDamage.OnNext(damageAmount);
 
         this.BaseHealth -= damageAmount;
+
+        if (attacker != null)
+        {
+            if (attacker.HasPoison())
+            {
+                if (damageAmount > 0)
+                {
+                    EventManager.Instance.OnMinionPoisoned(this, attacker);
+
+                    this.Destroy();
+                }
+            }
+        }
 
         // TODO : Sprite -> Show health loss on token
     }
@@ -239,6 +258,7 @@ public class MinionCard : BaseCard, ICharacter
     {
         // TODO : Play destroy animation (dust and stuff)
         // TODO : Remove card from battlefield
+        // TODO : Place on graveyard? (interaction with cards like ressurect etc)
     }
 
     public void Transform(MinionCard other)

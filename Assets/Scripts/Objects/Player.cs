@@ -123,7 +123,6 @@ public class Player : MonoBehaviour
         }
         else
         {
-            return null;
             Fatigue++;
 
             this.Hero.TryDamage(null, Fatigue);

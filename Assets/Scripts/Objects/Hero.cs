@@ -22,6 +22,7 @@ public class Hero : MonoBehaviour, ICharacter
     public bool Frozen = false;
     public bool Immune = false;
     public bool Forgetful = false;
+    public bool Poison = false;
 
     #region Constructor
 
@@ -138,7 +139,7 @@ public class Hero : MonoBehaviour, ICharacter
         }
     }
 
-    public void Damage(int damageAmount)
+    public void Damage(int damageAmount, ICharacter attacker = null)
     {
         CurrentHealth -= damageAmount;
 
@@ -195,6 +196,11 @@ public class Hero : MonoBehaviour, ICharacter
             default:
                 return false;
         }
+    }
+
+    public bool HasPoison()
+    {
+        return this.Poison;
     }
 
     public bool CanTarget(ICharacter target)
