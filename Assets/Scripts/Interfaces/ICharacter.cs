@@ -8,8 +8,7 @@
     int CurrentAttack { get; set; }
 
     void Attack(ICharacter target);
-    void Damage(int damageAmount, ICharacter attacker = null);
+    void Damage(int damageAmount);
     void TryDamage(ICharacter attacker, int damageAmount);
     void Heal(int healAmount);
-    bool HasPoison();
 }

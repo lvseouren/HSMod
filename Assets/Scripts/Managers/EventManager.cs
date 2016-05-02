@@ -36,8 +36,6 @@ public class EventManager
 
     public Subject<MinionDiedEvent> MinionDiedHandler = new Subject<MinionDiedEvent>();
 
-    public Subject<MinionPoisonedEvent> MinionPoisonedHandler = new Subject<MinionPoisonedEvent>();
-
     // Hero Event Subjects //
     public Subject<HeroPreAttackEvent> HeroPreAttackHandler = new Subject<HeroPreAttackEvent>();
     public Subject<HeroAttackedEvent> HeroAttackedHandler = new Subject<HeroAttackedEvent>();
@@ -75,23 +73,6 @@ public class EventManager
     #endregion
 
     #region Handlers
-
-    public void OnMinionPoisoned(MinionCard minion, ICharacter attacker)
-    {
-        MinionPoisonedEvent minionPoisonedEvent = new MinionPoisonedEvent()
-        {
-            PoisonedTarget = minion,
-            Attacker = attacker
-        };
-
-        MinionPoisonedHandler.OnNext(minionPoisonedEvent);
-
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
-        {
-            battlefieldMinion.BuffManager.OnMinionPoisoned.OnNext(minionPoisonedEvent);
-        }
-
-    }
 
     public void OnMinionPlayed(Player player, MinionCard minion)
     {
