@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+// TODO : Check this script and adapt it (old script)
 public class CardsDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
 	public Transform yourHand = null;

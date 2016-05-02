@@ -32,7 +32,7 @@ public class MinionCard : BaseCard, ICharacter
 
     private void Start()
     {
-        this.BuffManager.Minion = this;
+        BuffManager.Minion = this;
     }
 
     public void AddBuff(BaseBuff buff)
@@ -60,10 +60,10 @@ public class MinionCard : BaseCard, ICharacter
     public void Attack(ICharacter target)
     {
         // Checking if minion is forgetful
-        if (this.Forgetful)
+        if (Forgetful)
         {
             // Checking if there's more than 1 enemy (hero + minions)
-            if (this.Player.Enemy.Minions.Count > 0)
+            if (Player.Enemy.Minions.Count > 0)
             {
                 // Random 50% chance
                 if (Random.Range(0, 2) == 1)
@@ -74,10 +74,10 @@ public class MinionCard : BaseCard, ICharacter
                     List<ICharacter> possibleTargets = new List<ICharacter>();
 
                     // Adding the enemy hero to the list
-                    possibleTargets.Add(this.Player.Enemy.Hero);
+                    possibleTargets.Add(Player.Enemy.Hero);
 
                     // Adding all enemy minions to the list
-                    foreach (MinionCard enemyMinion in this.Player.Enemy.Minions)
+                    foreach (MinionCard enemyMinion in Player.Enemy.Minions)
                     {
                         possibleTargets.Add(enemyMinion);
                     }
@@ -95,7 +95,7 @@ public class MinionCard : BaseCard, ICharacter
         }
 
         // Firing OnPreAttack events
-        this.BuffManager.OnPreAttack.OnNext(null);
+        BuffManager.OnPreAttack.OnNext(null);
         MinionPreAttackEvent minionPreAttackEvent = EventManager.Instance.OnMinionPreAttack(this, target);
 
         // Checking if the Attack was not cancelled
@@ -104,10 +104,13 @@ public class MinionCard : BaseCard, ICharacter
             // Redefining target in case it changed when firing events
             target = minionPreAttackEvent.Target;
 
+            // Getting both minions attack
+            int ownAttack = this.CurrentAttack;
+
             // Target is a Hero
             if (target.IsHero())
             {
-                target.As<Hero>().TryDamage(this, this.CurrentAttack);
+                target.As<Hero>().TryDamage(this, ownAttack);
             }
 
             // Target is a Minion
@@ -115,14 +118,11 @@ public class MinionCard : BaseCard, ICharacter
             {
                 // Casting ICharacter to MinionCard
                 MinionCard targetMinion = target.As<MinionCard>();
-
-                // Getting both minions attack
-                int attackerAttack = this.CurrentAttack;
                 int targetAttack = target.CurrentAttack;
 
                 // Damaging both minions
                 this.TryDamage(targetMinion, targetAttack);
-                targetMinion.TryDamage(this, attackerAttack);
+                targetMinion.TryDamage(this, ownAttack);
 
                 // Checking the death of both characters
                 this.CheckDeath();
@@ -130,7 +130,7 @@ public class MinionCard : BaseCard, ICharacter
             }
 
             // Firing OnAttacked events
-            this.BuffManager.OnAttacked.OnNext(null);
+            BuffManager.OnAttacked.OnNext(null);
             EventManager.Instance.OnMinionAttacked(this, target);
         }
     }
@@ -146,7 +146,7 @@ public class MinionCard : BaseCard, ICharacter
 
         if (attacker.IsAlive())
         {
-            this.Damage(minionPreDamageEvent.Damage, attacker);
+            Damage(minionPreDamageEvent.Damage, attacker);
 
             EventManager.Instance.OnMinionDamaged(this, attacker, damageAmount);
         }
@@ -154,9 +154,9 @@ public class MinionCard : BaseCard, ICharacter
 
     public void Damage(int damageAmount, ICharacter attacker = null)
     {
-        this.BuffManager.OnPreDamage.OnNext(damageAmount);
+        BuffManager.OnPreDamage.OnNext(damageAmount);
 
-        this.BaseHealth -= damageAmount;
+        BaseHealth -= damageAmount;
 
         if (attacker != null)
         {
@@ -166,7 +166,7 @@ public class MinionCard : BaseCard, ICharacter
                 {
                     EventManager.Instance.OnMinionPoisoned(this, attacker);
 
-                    this.Destroy();
+                    Destroy();
                 }
             }
         }
@@ -183,11 +183,11 @@ public class MinionCard : BaseCard, ICharacter
 
         if (minionPreHealEvent.HealAmount > healeableHealth)
         {
-            this.CurrentHealth = MaxHealth;
+            CurrentHealth = MaxHealth;
         }
         else
         {
-            this.CurrentHealth += minionPreHealEvent.HealAmount;
+            CurrentHealth += minionPreHealEvent.HealAmount;
         }
 
         // Firing OnMinionHealed events
@@ -217,10 +217,10 @@ public class MinionCard : BaseCard, ICharacter
     public void Die()
     {
         // Firing OnMinionDied events
-        this.BuffManager.Deathrattle.OnNext(this);
+        BuffManager.Deathrattle.OnNext(this);
         EventManager.Instance.OnMinionDied(this);
 
-        this.BuffManager.RemoveAll();
+        BuffManager.RemoveAll();
 
         // TODO : Custom animations, sounds, etc ?
         // TODO : Add minion to list of dead minions
@@ -240,6 +240,8 @@ public class MinionCard : BaseCard, ICharacter
 
     public void Silence()
     {
+        BuffManager.RemoveAll();
+
         Taunt = false;
         Charge = false;
         Stealth = false;
@@ -250,8 +252,6 @@ public class MinionCard : BaseCard, ICharacter
         Silenced = false;
         Windfury = false;
         SpellPower = 0;
-
-        BuffManager.RemoveAll();
     }
 
     public void Destroy()
