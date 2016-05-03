@@ -135,43 +135,38 @@ public class MinionCard : BaseCard, ICharacter
         }
     }
 
-    public bool HasPoison()
-    {
-        return this.Poison;
-    }
-
     public void TryDamage(ICharacter attacker, int damageAmount)
     {
         MinionPreDamageEvent minionPreDamageEvent = EventManager.Instance.OnMinionPreDamage(this, attacker, damageAmount);
 
         if (attacker.IsAlive())
         {
-            Damage(minionPreDamageEvent.Damage, attacker);
+            // TODO : Gotta make the BuffManager methods to be able to modify the damage amounts
+            BuffManager.OnPreDamage.OnNext(minionPreDamageEvent.Damage);
 
-            EventManager.Instance.OnMinionDamaged(this, attacker, damageAmount);
-        }
-    }
+            Damage(minionPreDamageEvent.Damage);
 
-    public void Damage(int damageAmount, ICharacter attacker = null)
-    {
-        BuffManager.OnPreDamage.OnNext(damageAmount);
-
-        BaseHealth -= damageAmount;
-
-        if (attacker != null)
-        {
-            if (attacker.HasPoison())
+            if (attacker.Poison)
             {
-                if (damageAmount > 0)
+                if (minionPreDamageEvent.Damage > 0)
                 {
                     EventManager.Instance.OnMinionPoisoned(this, attacker);
 
                     Destroy();
                 }
             }
-        }
 
-        // TODO : Sprite -> Show health loss on token
+            EventManager.Instance.OnMinionDamaged(this, attacker, damageAmount);
+        }
+    }
+
+    private void Damage(int damageAmount)
+    {
+        BaseHealth -= damageAmount;
+
+        // TODO : Show health loss sprite + amount on token
+
+        Controller.UpdateNumbers();
     }
 
     public void Heal(int healAmount)
