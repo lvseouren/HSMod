@@ -139,11 +139,11 @@ public class Hero : MonoBehaviour, ICharacter
         }
     }
 
-    public void Damage(int damageAmount, ICharacter attacker = null)
+    private void Damage(int damageAmount)
     {
         CurrentHealth -= damageAmount;
 
-        // TODO : Sprite -> Show health loss on hero portrait
+        // TODO : Show health loss sprite + amount on hero portrait
 
         Player.HeroController.UpdateNumbers();
     }
@@ -153,23 +153,16 @@ public class Hero : MonoBehaviour, ICharacter
         // Firing OnHeroPreHeal events 
         HeroPreHealEvent heroPreHealEvent = EventManager.Instance.OnHeroPreHeal(this, healAmount);
 
-        // Calculating the healeable health
-        int healeableHealth = MaxHealth - CurrentHealth;
+        // TODO : Check if heal is transformed to damage
 
-        if (heroPreHealEvent.HealAmount > healeableHealth)
-        {
-            CurrentHealth = MaxHealth;
-        }
-        else
-        {
-            CurrentHealth += heroPreHealEvent.HealAmount;
-        }
+        // Updating the current health (clamped to MaxHealth)
+        CurrentHealth = Mathf.Min(CurrentHealth + heroPreHealEvent.HealAmount, MaxHealth);
 
         // Firing OnHeroHealed events 
         EventManager.Instance.OnHeroHealed(this, heroPreHealEvent.HealAmount);
 
-        // TODO : Heal animation
-        // TODO : Show heal sprite + healed amount
+        // TODO : Heal animation + sound
+        // TODO : Show heal sprite + healed amount on hero portrait
 
         Player.HeroController.UpdateNumbers();
     }
