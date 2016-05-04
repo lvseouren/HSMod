@@ -13,7 +13,7 @@ public class DeathCoil : SpellCard
         BaseCost = 1;
     }
 
-    public override void Cast(ICharacter target)
+    public override void Cast(Character target)
     {
         if (target.IsFriendlyOf(this.Player.Hero))
         {

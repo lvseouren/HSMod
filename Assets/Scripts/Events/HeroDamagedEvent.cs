@@ -1,6 +1,6 @@
 ﻿public class HeroDamagedEvent
 {
     public Hero Hero;
-    public ICharacter Attacker;
+    public Character Attacker;
     public int Damage;
 }

@@ -17,7 +17,7 @@ public class SkeletonCommander : MinionCard
         BaseAttack = 1;
         BaseHealth = 1;
 
-        this.BuffManager.Battlecry.Subscribe(x => this.Battlecry());
+        this.Buffs.Battlecry.Subscribe(x => this.Battlecry());
     }
 
     public void Battlecry()
@@ -46,7 +46,7 @@ public class SkeletonCommanderBuff : BaseBuff
         BuffType = BuffType.Buff;
     }
 
-    public override void OnAdded(MinionCard minion)
+    public override void OnAdded(Minion minion)
     {
         minion.CurrentAttack += 1;
 
@@ -54,7 +54,7 @@ public class SkeletonCommanderBuff : BaseBuff
         minion.CurrentHealth += 1;
     }
 
-    public override void OnRemoved(MinionCard minion)
+    public override void OnRemoved(Minion minion)
     {
         minion.CurrentAttack -= 1;
 

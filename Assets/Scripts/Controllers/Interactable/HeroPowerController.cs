@@ -112,7 +112,7 @@ public class HeroPowerController : BaseController
             {
                 InterfaceManager.Instance.DisableArrow();
 
-                ICharacter target = Util.GetCharacterAtMouse();
+                Character target = Util.GetCharacterAtMouse();
                 
                 if (target != null)
                 {

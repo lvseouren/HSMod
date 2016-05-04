@@ -1,6 +1,6 @@
 ﻿public class HeroPreDamageEvent
 {
-    public ICharacter Attacker;
+    public Character Attacker;
     public Hero Hero;
-    public int Damage;
+    public int DamageAmount;
 }

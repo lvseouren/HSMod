@@ -2,20 +2,19 @@
 
 public class MinionController : BaseController
 {
-    public MinionCard Minion;
+    public Minion Minion;
 
     public SpriteRenderer MinionRenderer;
     public SpriteRenderer TokenRenderer;
 
     public bool HasTaunt = false;
-    public bool CanTarget = false;
 
     public static MinionController Create(MinionCard minion)
     {
         GameObject minionObject = new GameObject(minion.Player.name + "_" + minion.Name);
 
         MinionController minionController = minionObject.AddComponent<MinionController>();
-        minionController.HasTaunt = minion.Taunt;
+        minionController.HasTaunt = minion.HasTaunt;
 
         minionController.Initialize();
 
@@ -79,14 +78,14 @@ public class MinionController : BaseController
 
     private string GetTokenString()
     {
-        return "Sprites/" + this.Minion.Class.Name() + "/Minions/";
+        return "Sprites/" + Minion.Card.Class.Name() + "/Minions/";
     }
 
     private string GetGlowString()
     {
         string glowString = "Sprites/Glows/Minion_";
 
-        switch (this.Minion.Rarity)
+        switch (Minion.Card.Rarity)
         {
             case CardRarity.Legendary:
                 glowString += "Legendary_";
@@ -97,7 +96,7 @@ public class MinionController : BaseController
                 break;
         }
         
-        if (this.HasTaunt)
+        if (HasTaunt)
         {
             glowString += "Taunt_";
         }
@@ -109,21 +108,21 @@ public class MinionController : BaseController
 
     private void OnMouseEnter()
     {
-       this.SetWhiteRenderer(true);
+        SetWhiteRenderer(true);
 
         InterfaceManager.Instance.OnHoverStart(this);
     }
 
     private void OnMouseExit()
     {
-        this.SetWhiteRenderer(false);
+        SetWhiteRenderer(false);
 
         InterfaceManager.Instance.OnHoverStop();
     }
 
     private void OnMouseDown()
     {
-        if (this.CanTarget)
+        if (Minion.CanAttack())
         {
             InterfaceManager.Instance.EnableArrow(this);
         }
@@ -131,7 +130,16 @@ public class MinionController : BaseController
 
     private void OnMouseUp()
     {
-        // TODO : Check target
+        Character target = Util.GetCharacterAtMouse();
+
+        if (target != null)
+        {
+            if (Minion.CanAttackTo(target))
+            {
+                // TODO : Animations, etc...
+                Minion.Attack(target);
+            }
+        }
 
         InterfaceManager.Instance.DisableArrow();
     }

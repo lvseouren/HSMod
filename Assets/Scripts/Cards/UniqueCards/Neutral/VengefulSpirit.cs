@@ -15,7 +15,7 @@ public class VengefulSpirit : MinionCard
         BaseAttack = 2;
         BaseHealth = 2;
 
-        this.BuffManager.Deathrattle.Subscribe(x => this.Deathrattle(x));
+        this.Buffs.Deathrattle.Subscribe(x => this.Deathrattle(x));
     }
 
     public void Deathrattle(MinionCard x)

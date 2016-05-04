@@ -1,7 +1,7 @@
 ﻿public class MinionPoisonedEvent 
 {
     public MinionCard PoisonedTarget;
-    public ICharacter Attacker;
+    public Character Attacker;
 }
 
  

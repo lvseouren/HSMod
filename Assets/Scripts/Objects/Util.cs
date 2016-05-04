@@ -36,11 +36,13 @@ public static class Util
         return typeInstance.GetType().Name;
     }
 
+    // Method to know if an integer is odd or even
     public static bool IsPair(this int number)
     {
         return (number % 2 == 0);
     }
 
+    // Method to get the middle of an odd number
     public static int Middle(this int number)
     {
         return (int) Math.Round((number / 2) + 0.5);
@@ -68,7 +70,7 @@ public static class Util
     }
 
     // Method to get the character at the mouse position
-    public static ICharacter GetCharacterAtMouse()
+    public static Character GetCharacterAtMouse()
     {
         Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit[] hitInfo = Physics.RaycastAll(cameraRay);
@@ -98,59 +100,4 @@ public static class Util
     {
         return Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0f, 0f, 1000f));
     }
-    
-    #region ICharacter Extension Methods
-
-    public static bool IsAlive(this ICharacter self)
-    {
-        return (self.CurrentHealth > 0);
-    }
-
-    public static bool IsFriendlyOf(this ICharacter self, ICharacter other)
-    {
-        if (self.IsHero())
-        {
-            if (other.IsHero())
-            {
-                return self == other;
-            }
-            else
-            {
-                return self.As<Hero>().Player.Minions.Contains(other.As<MinionCard>());
-            }
-        }
-        else
-        {
-            if (other.IsHero())
-            {
-                return other.As<Hero>().Player.Minions.Contains(self.As<MinionCard>());
-            }
-            else
-            {
-                return self.As<MinionCard>().Player.Minions.Contains(other.As<MinionCard>());
-            }
-        }
-    }
-
-    public static bool IsEnemyOf(this ICharacter self, ICharacter other)
-    {
-        return (self.IsFriendlyOf(other) == false);
-    }
-
-    public static bool IsHero(this ICharacter self)
-    {
-        return (self != null && self.GetType() == typeof (Hero));
-    }
-
-    public static bool IsMinion(this ICharacter self)
-    {
-        return (self != null && self.GetType() == typeof(MinionCard));
-    }
-
-    public static int GetMissingHealth(this ICharacter self)
-    {
-        return self.MaxHealth - self.CurrentHealth;
-    }
-
-    #endregion
 }

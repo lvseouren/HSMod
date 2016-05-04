@@ -13,7 +13,7 @@ public class Necrosis : SpellCard
         BaseCost = 4;
     }
 
-    public override void Cast(ICharacter target)
+    public override void Cast(Character target)
     {
         int damage = 4 + this.Player.GetSpellPower();
 

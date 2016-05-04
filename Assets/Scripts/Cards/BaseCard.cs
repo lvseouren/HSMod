@@ -1,6 +1,7 @@
 ﻿public abstract class BaseCard
 {
-    // Base Stats //
+    #region Base Stats
+
     public string Name;
     public string Description;
     public int BaseCost;
@@ -8,14 +9,23 @@
     public CardRarity Rarity;
     public bool Golden = false;
 
-    // In-Game Stats //
-    public Player Player;
-    public int CurrentCost;
-    public BaseController Controller;
+    #endregion
 
-    // Effects //
-    public int Overload = 0;
+    #region In-Game Stats
+
+    public Player Player;
+    public CardController Controller;
+
+    public int CurrentCost;
+
+    #endregion
+
+    #region In-Game Effects
+
     public bool Combo = false;
+    public int Overload = 0;
+
+    #endregion
 
     // TODO : Image, Voices, Effects?
 

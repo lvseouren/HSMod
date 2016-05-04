@@ -16,11 +16,11 @@
 
     public virtual void Use() { }
 
-    public virtual void Use(ICharacter target) { }
+    public virtual void Use(Character target) { }
 
     public virtual void Upgrade() { }
 
-    public virtual bool CanTarget(ICharacter target)
+    public virtual bool CanTarget(Character target)
     {
         return true;
     }

@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
 
     public List<BaseCard> Hand = new List<BaseCard>();
     public List<BaseCard> Deck = new List<BaseCard>();
-    public List<MinionCard> Minions = new List<MinionCard>(7);
+    public List<Minion> Minions = new List<Minion>(7);
     public List<SpellCard> Secrets = new List<SpellCard>();
     public WeaponCard Weapon = null;
 
@@ -38,13 +38,18 @@ public class Player : MonoBehaviour
 
     public static Player Create(HeroClass heroClass, Vector3 heroPosition, Vector3 cardsPosition)
     {
+        // TODO : Rewrite this method
         Player player = new Player()
         {
             HeroPosition = heroPosition,
             HandPosition = cardsPosition
         };
 
-        player.Hero = Hero.Create(player, heroClass);
+        player.Hero = new Hero()
+        {
+            Player = player,
+            Class = heroClass
+        };
 
         player.Initialize();
 

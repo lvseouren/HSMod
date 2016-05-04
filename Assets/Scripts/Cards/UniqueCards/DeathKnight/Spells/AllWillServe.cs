@@ -11,7 +11,7 @@
         BaseCost = 2;
     }
 
-    public override void Cast(ICharacter target)
+    public override void Cast(Character target)
     {
         int damage = 2 + this.Player.GetSpellPower();
 

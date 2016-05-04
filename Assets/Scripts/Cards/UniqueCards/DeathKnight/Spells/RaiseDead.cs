@@ -13,7 +13,7 @@ public class RaiseDead : SpellCard
         BaseCost = 3;
     }
 
-    public override void Cast(ICharacter target)
+    public override void Cast(Character target)
     {
         // TODO : Summon 3/3 Ghoul
     }

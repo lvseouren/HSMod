@@ -162,9 +162,9 @@ public class HeroController : BaseController
             // Adding red glows to available targets
             if (enemyPlayer.HasTauntMinions())
             {
-                foreach (MinionCard minion in enemyPlayer.Minions)
+                foreach (Minion minion in enemyPlayer.Minions)
                 {
-                    if (minion.Taunt && minion.Stealth == false)
+                    if (minion.HasTaunt && minion.IsStealth == false)
                     {
                         minion.Controller.SetRedRenderer(true);
                     }
@@ -174,9 +174,9 @@ public class HeroController : BaseController
             {
                 enemyPlayer.HeroController.SetRedRenderer(true);
 
-                foreach (MinionCard minion in enemyPlayer.Minions)
+                foreach (Minion minion in enemyPlayer.Minions)
                 {
-                    if (minion.Stealth == false)
+                    if (minion.IsStealth == false)
                     {
                         minion.Controller.SetRedRenderer(true);
                     }
@@ -197,14 +197,14 @@ public class HeroController : BaseController
 
             enemyPlayer.HeroController.SetRedRenderer(false);
 
-            foreach (MinionCard minion in enemyPlayer.Minions)
+            foreach (Minion minion in enemyPlayer.Minions)
             {
                 minion.Controller.SetRedRenderer(false);
             }
 
-            ICharacter target = Util.GetCharacterAtMouse();
+            Character target = Util.GetCharacterAtMouse();
 
-            if (target != null && Hero.CanTarget(target))
+            if (target != null && Hero.CanAttackTo(target))
             {
                 Hero.Attack(target);
             }

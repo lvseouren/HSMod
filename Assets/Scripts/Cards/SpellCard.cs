@@ -2,7 +2,7 @@
 {
     public TargetType TargetType;
     
-    public void OnCast(ICharacter target)
+    public void OnCast(Character target)
     {
         SpellPreCastEvent spellPreCastEvent = EventManager.Instance.OnSpellPreCast(this.Player, this);
 
@@ -14,9 +14,9 @@
         EventManager.Instance.OnSpellCasted(this.Player, this);
     }
 
-    public virtual void Cast(ICharacter target) { }
+    public virtual void Cast(Character target) { }
 
-    public virtual bool CanTarget(ICharacter target)
+    public virtual bool CanTarget(Character target)
     {
         // The target is a Hero
         if (target.IsHero())

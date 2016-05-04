@@ -13,7 +13,7 @@ public class UnholyFrenzy : SpellCard
         BaseCost = 1;
     }
 
-    public override void Cast(ICharacter target)
+    public override void Cast(Character target)
     {
         int damage = 1 + this.Player.GetSpellPower();
 
@@ -25,12 +25,12 @@ public class UnholyFrenzy : SpellCard
 
 public class UnholyFrenzyBuff : BaseBuff
 {
-    public override void OnAdded(MinionCard minion)
+    public override void OnAdded(Minion minion)
     {
         minion.CurrentAttack += 4;
     }
 
-    public override void OnRemoved(MinionCard minion)
+    public override void OnRemoved(Minion minion)
     {
         minion.CurrentAttack -= 4;
     }

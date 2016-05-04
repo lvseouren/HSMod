@@ -81,7 +81,7 @@
 
     }
 
-    public virtual bool CanAttack(ICharacter target)
+    public virtual bool CanAttack(Character target)
     {
         return true;
     }
