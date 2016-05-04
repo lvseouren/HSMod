@@ -76,11 +76,11 @@ public class EventManager
 
     #region Handlers
 
-    public void OnMinionPoisoned(MinionCard minion, Character attacker)
+    public void OnMinionPoisoned(Minion minion, Character attacker)
     {
         MinionPoisonedEvent minionPoisonedEvent = new MinionPoisonedEvent()
         {
-            PoisonedTarget = minion,
+            Minion = minion,
             Attacker = attacker
         };
 
@@ -93,7 +93,7 @@ public class EventManager
 
     }
 
-    public void OnMinionPlayed(Player player, MinionCard minion)
+    public void OnMinionPlayed(Player player, Minion minion)
     {
         MinionPlayedEvent minionPlayedEvent = new MinionPlayedEvent()
         {
@@ -109,7 +109,7 @@ public class EventManager
         }
     }
 
-    public MinionPreAttackEvent OnMinionPreAttack(MinionCard minion, Character target)
+    public MinionPreAttackEvent OnMinionPreAttack(Minion minion, Character target)
     {
         MinionPreAttackEvent minionPreAttackEvent = new MinionPreAttackEvent()
         {
@@ -127,7 +127,7 @@ public class EventManager
         return minionPreAttackEvent;
     }
 
-    public void OnMinionAttacked(MinionCard minion, Character target)
+    public void OnMinionAttacked(Minion minion, Character target)
     {
         MinionAttackedEvent minionAttackedEvent = new MinionAttackedEvent()
         {
@@ -143,13 +143,13 @@ public class EventManager
         }
     }
 
-    public MinionPreDamageEvent OnMinionPreDamage(MinionCard minion, Character attacker, int damageAmount)
+    public MinionPreDamageEvent OnMinionPreDamage(Minion minion, Character attacker, int damageAmount)
     {
         MinionPreDamageEvent minionPreDamageEvent = new MinionPreDamageEvent()
         {
             Minion = minion,
             Attacker = attacker,
-            Damage = damageAmount
+            DamageAmount = damageAmount
         };
 
         MinionPreDamageHandler.OnNext(minionPreDamageEvent);
@@ -162,13 +162,13 @@ public class EventManager
         return minionPreDamageEvent;
     }
 
-    public void OnMinionDamaged(MinionCard minion, Character attacker, int damageAmount)
+    public void OnMinionDamaged(Minion minion, Character attacker, int damageAmount)
     {
         MinionDamagedEvent minionDamagedEvent = new MinionDamagedEvent()
         {
             Minion = minion,
             Attacker = attacker,
-            Damage = damageAmount
+            DamageAmount = damageAmount
         };
 
         MinionDamagedHandler.OnNext(minionDamagedEvent);
@@ -179,7 +179,7 @@ public class EventManager
         }
     }
 
-    public MinionPreHealEvent OnMinionPreHeal(MinionCard minion, int healAmount)
+    public MinionPreHealEvent OnMinionPreHeal(Minion minion, int healAmount)
     {
         MinionPreHealEvent minionPreHealEvent = new MinionPreHealEvent()
         {
@@ -197,7 +197,7 @@ public class EventManager
         return minionPreHealEvent;
     }
 
-    public void OnMinionHealed(MinionCard minion, int healAmount)
+    public void OnMinionHealed(Minion minion, int healAmount)
     {
         MinionHealedEvent minionHealedEvent = new MinionHealedEvent()
         {
@@ -213,7 +213,7 @@ public class EventManager
         }
     }
 
-    public void OnMinionDied(MinionCard minion)
+    public void OnMinionDied(Minion minion)
     {
         MinionDiedEvent minionDiedEvent = new MinionDiedEvent()
         {
@@ -228,13 +228,12 @@ public class EventManager
         }
     }
 
-    public HeroPreAttackEvent OnHeroPreAttack(Hero hero, Character target, int damageAmount)
+    public HeroPreAttackEvent OnHeroPreAttack(Hero hero, Character target)
     {
         HeroPreAttackEvent heroPreAttackEvent = new HeroPreAttackEvent()
         {
             Hero = hero,
-            Target = target,
-            Damage = damageAmount
+            Target = target
         };
 
         HeroPreAttackHandler.OnNext(heroPreAttackEvent);
@@ -269,7 +268,7 @@ public class EventManager
         {
             Hero = hero,
             Attacker = attacker,
-            Damage = damageAmount
+            DamageAmount = damageAmount
         };
 
         HeroPreDamageHandler.OnNext(heroPreDamageEvent);
@@ -288,7 +287,7 @@ public class EventManager
         {
             Hero = hero,
             Attacker = attacker,
-            Damage = damageAmount
+            DamageAmount = damageAmount
         };
 
         HeroDamagedHandler.OnNext(heroDamagedEvent);
@@ -338,7 +337,7 @@ public class EventManager
         HeroGainedArmorEvent heroGainedArmorEvent = new HeroGainedArmorEvent()
         {
             Hero = hero,
-            Armor = armorAmount
+            ArmorAmount = armorAmount
         };
 
         HeroGainedArmorHandler.OnNext(heroGainedArmorEvent);

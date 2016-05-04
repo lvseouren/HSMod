@@ -3,7 +3,7 @@ using System.Reactive.Subjects;
 
 public class BuffManager
 {
-    public MinionCard Minion;
+    public Minion Minion;
     public List<BaseBuff> AllBuffs = new List<BaseBuff>();
 
     #region Events
@@ -34,7 +34,7 @@ public class BuffManager
     public Subject<SecretRevealedEvent> OnSecretRevealed = new Subject<SecretRevealedEvent>();
 
     public Subject<MinionPlayedEvent> OnMinionPlayed = new Subject<MinionPlayedEvent>();
-    public Subject<MinionCard> OnMinionSummoned = new Subject<MinionCard>();
+    public Subject<Minion> OnMinionSummoned = new Subject<Minion>();
     public Subject<MinionPreAttackEvent> OnMinionPreAttack = new Subject<MinionPreAttackEvent>();
     public Subject<MinionAttackedEvent> OnMinionAttacked = new Subject<MinionAttackedEvent>();
     public Subject<MinionPreDamageEvent> OnMinionPreDamage = new Subject<MinionPreDamageEvent>();
@@ -72,7 +72,7 @@ public class BuffManager
             if (buff.BuffType != BuffType.Area)
             {
                 // Removing stats/effects from the buff
-                buff.OnRemoved(this.Minion);
+                buff.OnRemoved(Minion);
             }
         }
 

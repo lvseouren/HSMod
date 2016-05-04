@@ -1,5 +1,5 @@
 ﻿public class MinionAttackedEvent
 {
-    public MinionCard Minion;
+    public Minion Minion;
     public Character Target;
 }

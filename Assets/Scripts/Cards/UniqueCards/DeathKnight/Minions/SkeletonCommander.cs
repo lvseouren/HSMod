@@ -27,7 +27,7 @@ public class SkeletonCommander : MinionCard
 
     public void UndeadBuff(MinionPlayedEvent minionPlayedEvent)
     {
-        if (minionPlayedEvent.Player == this.Player && minionPlayedEvent.Minion.MinionType == MinionType.Undead)
+        if (minionPlayedEvent.Player == this.Player && minionPlayedEvent.Minion.Card.MinionType == MinionType.Undead)
         {
             minionPlayedEvent.Minion.AddBuff(new SkeletonCommanderBuff());
 

@@ -1,6 +1,6 @@
 ﻿public class MinionPreAttackEvent
 {
-    public MinionCard Minion;
+    public Minion Minion;
     public Character Target;
     
     public PreStatus Status = PreStatus.Normal;

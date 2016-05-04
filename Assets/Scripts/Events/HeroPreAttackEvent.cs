@@ -2,7 +2,6 @@
 {
     public Hero Hero;
     public Character Target;
-    public int Damage;
 
     public PreStatus Status = PreStatus.Normal;
 

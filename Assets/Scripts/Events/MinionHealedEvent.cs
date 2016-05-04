@@ -1,5 +1,5 @@
 ﻿public class MinionHealedEvent
 {
-    public MinionCard Minion;
+    public Minion Minion;
     public int HealAmount;
 }

@@ -1,6 +1,6 @@
 ﻿public class MinionDamagedEvent
 {
-    public MinionCard Minion;
+    public Minion Minion;
     public Character Attacker;
-    public int Damage;
+    public int DamageAmount;
 }

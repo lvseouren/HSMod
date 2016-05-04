@@ -88,13 +88,13 @@ public class Minion : Character
         if (attacker.IsAlive())
         {
             // TODO : Gotta make the BuffManager methods to be able to modify the damage amounts
-            Buffs.OnPreDamage.OnNext(minionPreDamageEvent.Damage);
+            Buffs.OnPreDamage.OnNext(minionPreDamageEvent.DamageAmount);
 
-            Damage(minionPreDamageEvent.Damage);
+            Damage(minionPreDamageEvent.DamageAmount);
 
             if (attacker.HasPoison)
             {
-                if (minionPreDamageEvent.Damage > 0)
+                if (minionPreDamageEvent.DamageAmount > 0)
                 {
                     EventManager.Instance.OnMinionPoisoned(this, attacker);
 
@@ -137,7 +137,29 @@ public class Minion : Character
 
         Controller.UpdateNumbers();
     }
-    
+
+    public void AddBuff(BaseBuff buff)
+    {
+        // Adding the buff to the list
+        Buffs.AllBuffs.Add(buff);
+
+        // Firing OnAdded for that buff
+        buff.OnAdded(this);
+    }
+
+    public void RemoveBuff(BaseBuff buff)
+    {
+        // Checking if the minion has the buff
+        if (Buffs.AllBuffs.Contains(buff))
+        {
+            // Removing the buff from the list
+            Buffs.AllBuffs.Remove(buff);
+
+            // Firing OnRemoved for that buff
+            buff.OnRemoved(this);
+        }
+    }
+
     public void ReturnToHand()
     {
         // TODO
