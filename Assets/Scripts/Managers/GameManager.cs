@@ -37,13 +37,10 @@ public class GameManager : MonoBehaviour
         // TODO : Move quality stuff to new class
         QualitySettings.vSyncCount = 1;
 
+        #region Test Zone
+
         BottomPlayer = Player.Create(HeroClass.DeathKnight, new Vector3(797f, 60f, 230f), new Vector3(800f, 60f, 50f));
         TopPlayer = Player.Create(HeroClass.DeathKnight, new Vector3(800f, 60f, 935f), new Vector3(800f, 60f, 1175f));
-
-        BottomPlayer.Enemy = TopPlayer;
-        TopPlayer.Enemy = BottomPlayer;
-
-        // Test Zone //
 
         BottomPlayer.Deck = new List<BaseCard>()
         {
@@ -72,6 +69,11 @@ public class GameManager : MonoBehaviour
             new SkeletonCommander(),
             new DeathwhisperNecrolyte()
         };
+
+        #endregion
+
+        BottomPlayer.Enemy = TopPlayer;
+        TopPlayer.Enemy = BottomPlayer;
 
         // Randomize the starting player
         if (Random.Range(0, 2) == 1)
