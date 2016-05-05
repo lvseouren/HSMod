@@ -29,6 +29,17 @@
 
     // TODO : Image, Voices, Effects?
 
+    #region Methods
+    
+    public virtual void Play() { }
+
+    public virtual void Discard()
+    {
+        // TODO
+    }
+
+    #endregion
+
     #region Hand/Deck Events
 
     public virtual void OnDrawn()

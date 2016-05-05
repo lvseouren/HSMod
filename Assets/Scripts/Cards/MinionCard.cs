@@ -58,20 +58,4 @@
             buff.OnRemoved(this.Minion);
         }
     }
-
-    public void Spawn()
-    {
-        // TODO : Extend the method and arguments
-    }
-
-    public void Destroy()
-    {
-        // TODO
-    }
-
-    public void Transform(BaseCard other)
-    {
-        // TODO : Play transform animation
-        // TODO : Transform the card into a new card
-    }
 }
