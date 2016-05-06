@@ -18,7 +18,7 @@ public class VengefulSpirit : MinionCard
         this.Buffs.Deathrattle.Subscribe(x => this.Deathrattle(x));
     }
 
-    public void Deathrattle(Minion x)
+    public void Deathrattle(MinionCard x)
     {
         // TODO : Spawn 2/1 Spiteful Wrath
     }

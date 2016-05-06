@@ -111,7 +111,7 @@ public class Player : MonoBehaviour
                 CardController drawnCardController = CardController.Create(drawnBaseCard);
                 drawnBaseCard.Controller = drawnCardController;
 
-                HandController.Add(drawnCardController);
+                this.HandController.Add(drawnCardController);
 
                 // Firing OnDrawn events
                 drawnBaseCard.OnDrawn();
@@ -130,7 +130,7 @@ public class Player : MonoBehaviour
         {
             Fatigue++;
 
-            Hero.TryDamage(null, Fatigue);
+            this.Hero.TryDamage(null, Fatigue);
 
             return null;
         }
@@ -140,7 +140,7 @@ public class Player : MonoBehaviour
     {
         DestroyWeapon();
 
-        Weapon = weapon;
+        this.Weapon = weapon;
 
         Weapon.Battlecry();
     }
@@ -161,45 +161,45 @@ public class Player : MonoBehaviour
     {
         ResetGlows();
 
-        if (HasWeapon() || Hero.CurrentAttack > 0)
+        if (this.HasWeapon() || this.Hero.CurrentAttack > 0)
         {
-            switch (Hero.CurrentTurnAttacks)
+            switch (this.Hero.TurnAttacks)
             {
                 case 0:
-                    HeroController.SetGreenRenderer(true);
+                    this.HeroController.SetGreenRenderer(true);
                     break;
 
                 case 1:
-                    if (Weapon.Windfury)
+                    if (this.Weapon.Windfury)
                     {
-                        HeroController.SetGreenRenderer(true);
+                        this.HeroController.SetGreenRenderer(true);
                     }
                     break;
             }
         }
 
-        foreach (BaseCard card in Hand)
+        foreach (BaseCard card in this.Hand)
         {
-            if (card.CurrentCost <= AvailableMana)
+            if (card.CurrentCost <= this.AvailableMana)
             {
                 card.Controller.SetGreenRenderer(true);
             }
         }
 
-        foreach (Minion minion in Minions)
+        foreach (MinionCard minion in this.Minions)
         {
-            if (minion.IsFrozen == false && minion.IsSleeping == false)
+            if (minion.Frozen == false && minion.Sleeping == false)
             {
                 if (minion.CanAttack())
                 {
-                    switch (minion.CurrentTurnAttacks)
+                    switch (minion.TurnAttacks)
                     {
                         case 0:
                             minion.Controller.SetGreenRenderer(true);
                             break;
 
                         case 1:
-                            if (minion.HasWindfury)
+                            if (minion.Windfury)
                             {
                                 minion.Controller.SetGreenRenderer(true);
                             }
@@ -212,14 +212,14 @@ public class Player : MonoBehaviour
 
     public void ResetGlows()
     {
-        HeroController.SetGreenRenderer(false);
+        this.HeroController.SetGreenRenderer(false);
 
-        foreach (BaseCard card in Hand)
+        foreach (BaseCard card in this.Hand)
         {
             card.Controller.SetGreenRenderer(false);
         }
 
-        foreach (Minion minion in Minions)
+        foreach (MinionCard minion in this.Minions)
         {
             minion.Controller.SetGreenRenderer(false);
         }
@@ -245,7 +245,7 @@ public class Player : MonoBehaviour
     {
         int spellPower = 0;
 
-        foreach (Minion minion in Minions)
+        foreach (MinionCard minion in Minions)
         {
             spellPower += minion.SpellPower;
         }
@@ -269,14 +269,14 @@ public class Player : MonoBehaviour
 
     public bool HasMinions()
     {
-        return (Minions.Count > 0);
+        return (this.Minions.Count > 0);
     }
 
     public bool HasTauntMinions()
     {
-        foreach (Minion minion in Minions)
+        foreach (MinionCard minion in this.Minions)
         {
-            if (minion.HasTaunt)
+            if (minion.Taunt)
             {
                 return true;
             }

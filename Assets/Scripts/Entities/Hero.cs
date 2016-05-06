@@ -40,7 +40,7 @@ public class Hero : Character
         }
 
         // Firing OnPreAttack events
-        HeroPreAttackEvent heroPreAttackEvent = EventManager.Instance.OnHeroPreAttack(this, target);
+        HeroPreAttackEvent heroPreAttackEvent = EventManager.Instance.OnHeroPreAttack(this, target, CurrentAttack);
 
         // Checking if the Attack was cancelled
         if (heroPreAttackEvent.Status != PreStatus.Cancelled)
@@ -144,7 +144,7 @@ public class Hero : Character
 
     #region Condition Checkers
 
-    public override bool CanAttack()
+    public bool CanAttack()
     {
         return true; // TODO : Delete this (true for testing purposes)
 
