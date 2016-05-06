@@ -10,7 +10,7 @@ public class BuffManager
 
     // Self Events //
     public Subject<object> Battlecry = new Subject<object>();
-    public Subject<MinionCard> Deathrattle = new Subject<MinionCard>();
+    public Subject<Minion> Deathrattle = new Subject<Minion>();
 
     public Subject<object> OnPreAttack = new Subject<object>();
     public Subject<object> OnAttacked = new Subject<object>();
