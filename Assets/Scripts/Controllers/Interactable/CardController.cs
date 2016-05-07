@@ -9,10 +9,9 @@ public class CardController : BaseController
     private SpriteRenderer CardRenderer;
     private SpriteRenderer ComboGlowRenderer;
 
-    private TextMesh CostText;
-
-    private TextMesh AttackText;
-    private TextMesh AttributeText;
+    public NumberController CostController;
+    public NumberController AttackController;
+    public NumberController AttributeController;
 
     private BoxCollider CardCollider;
 
@@ -38,13 +37,14 @@ public class CardController : BaseController
     
     public override void Initialize()
     {
-        Vector3 glowSize = Vector3.one * 3f;
-        Vector3 glowOffset = new Vector3(0.065f, -0.05f, 0f);
+        CostController = NumberController.Create("CostController", this.gameObject, new Vector3(1.5f, -0.85f, 0f), 43);
+        AttackController = NumberController.Create("AttackController", this.gameObject, new Vector3(-1.4f, -0.85f, 0f), 43);
+        AttributeController = NumberController.Create("AttributeController", this.gameObject, new Vector3(1.5f, 0f, 0f), 43);
 
         CardRenderer = CreateRenderer("Card", Vector3.one, Vector3.zero, 42);
         
-        ComboGlowRenderer = CreateRenderer("ComboGlow", glowSize, glowOffset, 41);
-        GreenGlowRenderer = CreateRenderer("GreenGlow", glowSize, glowOffset, 40);
+        ComboGlowRenderer = CreateRenderer("ComboGlow", Vector3.one * 3f, new Vector3(0.065f, -0.05f, 0f), 41);
+        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 3f, new Vector3(0.065f, -0.05f, 0f), 40);
 
         CardRenderer.enabled = true;
 
@@ -66,47 +66,50 @@ public class CardController : BaseController
 
     public override void UpdateSprites()
     {
-        // Cleaning up the old sprites and their textures to avoid memory leaks
-        CardRenderer.DisposeSprite();
-        GreenGlowRenderer.DisposeSprite();
-        ComboGlowRenderer.DisposeSprite();
-
         // Getting the string path to the glows
-        string glowString = GetGlowString();
-        string className = Card.Class.Name();
+        string glowType = GetGlowType();
     
         // Loading the sprites into the SpriteRenderers
-        CardRenderer.sprite = Resources.Load<Sprite>("Sprites/" + className + "/Cards/" + Card.TypeName());
-        GreenGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "GreenGlow");
-        ComboGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "ComboGlow");
+        CardRenderer.sprite = Resources.Load<Sprite>("Sprites/" + Card.Class.Name() + "/Cards/" + Card.TypeName());
+        GreenGlowRenderer.sprite = SpriteManager.Instance.Glows["Card_" + glowType + "_GreenGlow"];
+        ComboGlowRenderer.sprite = SpriteManager.Instance.Glows["Card_" + glowType + "_ComboGlow"];
     }
 
     public override void UpdateNumbers()
     {
-        // TODO
+        if (Card.CurrentCost < Card.BaseCost)
+        {
+            CostController.UpdateNumber(Card.CurrentCost, "Green");
+        }
+        else if (Card.CurrentCost == Card.BaseCost)
+        {
+            CostController.UpdateNumber(Card.CurrentCost, "White");
+        }
+        else
+        {
+            CostController.UpdateNumber(Card.CurrentCost, "Red");
+        }
     }
 
-    private string GetGlowString()
+    private string GetGlowType()
     {
-        string glowString = "Sprites/Glows/Card_";
-
         switch (Card.TypeName())
         {
             case "MinionCard":
                 if (Card.As<MinionCard>().Rarity == CardRarity.Legendary)
                 {
-                    return glowString + "LegendaryMinion_";
+                    return "LegendaryMinion";
                 }
-                return glowString + "Minion_";
+                return "Minion";
 
             case "SpellCard":
-                return glowString + "Spell_";
+                return "Spell";
 
             case "WeaponCard":
-                return glowString + "Weapon_";
+                return "Weapon";
 
             default:
-                return glowString + "Normal_";
+                return "Normal";
         }
     }
 
@@ -116,15 +119,15 @@ public class CardController : BaseController
     {
         if (IsDragging)
         {
-            this.transform.position = Util.GetWorldMousePosition();
+            transform.position = Util.GetWorldMousePosition();
         }
-        else if (this.IsTargeting)
+        else if (IsTargeting)
         {
-            this.transform.localPosition = Vector3.MoveTowards(this.transform.localPosition, new Vector3(TargetX, TargetY / 2f), 50f * Time.deltaTime);
+            transform.localPosition = Vector3.MoveTowards(transform.localPosition, new Vector3(TargetX, TargetY / 2f), 50f * Time.deltaTime);
         }
         else
         {
-            this.transform.localPosition = Vector3.MoveTowards(this.transform.localPosition, new Vector3(TargetX, TargetY, 0f), 50f * Time.deltaTime);
+            transform.localPosition = Vector3.MoveTowards(transform.localPosition, new Vector3(TargetX, TargetY, 0f), 50f * Time.deltaTime);
         }
     }
 
@@ -134,7 +137,7 @@ public class CardController : BaseController
 
         if (IsDragging == false && IsTargeting == false)
         {
-            this.transform.localScale = Vector3.one * 2f;
+            transform.localScale = Vector3.one * 2f;
         }
     }
 
@@ -143,13 +146,13 @@ public class CardController : BaseController
         if (IsDragging == false && IsTargeting == false)
         {
             TargetY = 0f;
-            this.transform.localScale = Vector3.one;
+            transform.localScale = Vector3.one;
         }
     }
 
     private void OnMouseDown()
     {
-        this.transform.localScale = Vector3.one;
+        transform.localScale = Vector3.one;
 
         switch (Card.GetCardType())
         {
