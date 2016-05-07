@@ -14,6 +14,8 @@ public class HeroController : BaseController
     public NumberController HealthController;
     public NumberController ArmorController;
 
+    private BoxCollider HeroCollider;
+
     public static HeroController Create(Hero hero, Vector3 heroPosition)
     {
         GameObject heroObject = new GameObject("Hero_" + hero.Class);
@@ -21,12 +23,12 @@ public class HeroController : BaseController
         heroObject.transform.localScale = new Vector3(50f, 50f, 50f);
         heroObject.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
 
-        BoxCollider heroCollider = heroObject.AddComponent<BoxCollider>();
-        heroCollider.center = new Vector3(0f, 0.75f, 0f);
-        heroCollider.size = new Vector3(4f, 4f, 0.1f);
-
         HeroController heroController = heroObject.AddComponent<HeroController>();
         heroController.Hero = hero;
+
+        heroController.HeroCollider = heroObject.AddComponent<BoxCollider>();
+        heroController.HeroCollider.center = new Vector3(0f, 0.75f, 0f);
+        heroController.HeroCollider.size = new Vector3(4f, 4f, 0.1f);
 
         heroController.Initialize();
 
