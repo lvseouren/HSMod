@@ -86,7 +86,7 @@ public class EventManager
 
         MinionPoisonedHandler.OnNext(minionPoisonedEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnMinionPoisoned.OnNext(minionPoisonedEvent);
         }
@@ -103,7 +103,7 @@ public class EventManager
 
         MinionPlayedHandler.OnNext(minionPlayedEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnMinionPlayed.OnNext(minionPlayedEvent);
         }
@@ -119,7 +119,7 @@ public class EventManager
 
         MinionPreAttackHandler.OnNext(minionPreAttackEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnMinionPreAttack.OnNext(minionPreAttackEvent);
         }
@@ -137,7 +137,7 @@ public class EventManager
 
         MinionAttackedHandler.OnNext(minionAttackedEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnMinionAttacked.OnNext(minionAttackedEvent);
         }
@@ -154,7 +154,7 @@ public class EventManager
 
         MinionPreDamageHandler.OnNext(minionPreDamageEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnMinionPreDamage.OnNext(minionPreDamageEvent);
         }
@@ -173,7 +173,7 @@ public class EventManager
 
         MinionDamagedHandler.OnNext(minionDamagedEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnMinionDamaged.OnNext(minionDamagedEvent);
         }
@@ -189,7 +189,7 @@ public class EventManager
 
         MinionPreHealHandler.OnNext(minionPreHealEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnMinionPreHeal.OnNext(minionPreHealEvent);
         }
@@ -207,7 +207,7 @@ public class EventManager
 
         MinionHealedHandler.OnNext(minionHealedEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnMinionHealed.OnNext(minionHealedEvent);
         }
@@ -222,7 +222,7 @@ public class EventManager
 
         MinionDiedHandler.OnNext(minionDiedEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnMinionDied.OnNext(minionDiedEvent);
         }
@@ -238,7 +238,7 @@ public class EventManager
 
         HeroPreAttackHandler.OnNext(heroPreAttackEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnHeroPreAttack.OnNext(heroPreAttackEvent);
         }
@@ -256,7 +256,7 @@ public class EventManager
 
         HeroAttackedHandler.OnNext(heroAttackedEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnHeroAttacked.OnNext(heroAttackedEvent);
         }
@@ -273,7 +273,7 @@ public class EventManager
 
         HeroPreDamageHandler.OnNext(heroPreDamageEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnHeroPreDamage.OnNext(heroPreDamageEvent);
         }
@@ -292,7 +292,7 @@ public class EventManager
 
         HeroDamagedHandler.OnNext(heroDamagedEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnHeroDamaged.OnNext(heroDamagedEvent);
         }
@@ -308,7 +308,7 @@ public class EventManager
 
         HeroPreHealHandler.OnNext(heroPreHealEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnHeroPreHeal.OnNext(heroPreHealEvent);
         }
@@ -326,7 +326,7 @@ public class EventManager
 
         HeroHealedHandler.OnNext(heroHealedEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnHeroHealed.OnNext(heroHealedEvent);
         }
@@ -342,7 +342,7 @@ public class EventManager
 
         HeroGainedArmorHandler.OnNext(heroGainedArmorEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnHeroGainedArmor.OnNext(heroGainedArmorEvent);
         }
@@ -358,7 +358,7 @@ public class EventManager
 
         HeroEquippedWeaponHandler.OnNext(heroEquippedWeaponEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnHeroEquippedWeapon.OnNext(heroEquippedWeaponEvent);
         }
@@ -374,7 +374,7 @@ public class EventManager
 
         HeroPowerHandler.OnNext(heroPowerEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnInspired.OnNext(heroPowerEvent);
         }
@@ -391,7 +391,7 @@ public class EventManager
 
         SpellPreCastHandler.OnNext(spellPreCastEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnSpellPreCast.OnNext(spell);
         }
@@ -410,7 +410,7 @@ public class EventManager
 
         SpellCastedHandler.OnNext(spellCastedEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnSpellCasted.OnNext(spell);
         }
@@ -426,7 +426,7 @@ public class EventManager
 
         CardPlayedHandler.OnNext(cardPlayedEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             // TODO : Trigger overloaded/battlecry card played events
             battlefieldMinion.Buffs.OnCardPlayed.OnNext(cardPlayedEvent);
@@ -443,7 +443,7 @@ public class EventManager
 
         CardDrawnHandler.OnNext(cardDrawnEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnCardDrawn.OnNext(cardDrawnEvent);
         }
@@ -459,7 +459,7 @@ public class EventManager
 
         CardDiscardedHandler.OnNext(cardDiscardedEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnCardDiscarded.OnNext(cardDiscardedEvent);
         }
@@ -475,7 +475,7 @@ public class EventManager
 
         SecretPlayedHandler.OnNext(secretPlayedEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnSecretPlayed.OnNext(secretPlayedEvent);
         }
@@ -491,7 +491,7 @@ public class EventManager
 
         SecretRevealedHandler.OnNext(secretRevealedEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnSecretRevealed.OnNext(secretRevealedEvent);
         }
@@ -506,7 +506,7 @@ public class EventManager
 
         TurnStartHandler.OnNext(turnStartEvent);
 
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnTurnStart.OnNext(turnStartEvent);
         }
@@ -521,7 +521,7 @@ public class EventManager
 
         TurnStartHandler.OnNext(turnEndEvent);
         
-        foreach (MinionCard battlefieldMinion in GameManager.Instance.GetAllMinions())
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnTurnEnd.OnNext(turnEndEvent);
         }
