@@ -167,14 +167,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public List<MinionCard> GetAllMinions()
+    public List<Minion> GetAllMinions()
     {
         return TopPlayer.Minions.Concat(BottomPlayer.Minions).ToList();
     }
 
     public void UpdateAll()
     {
-        foreach (MinionCard minion in GetAllMinions())
+        foreach (Minion minion in GetAllMinions())
         {
             minion.Controller.UpdateNumbers();
             minion.Controller.UpdateSprites();
