@@ -57,10 +57,7 @@ public class CardController : BaseController
         CardRenderer.DisposeSprite();
         Destroy(CardRenderer);
 
-        GreenGlowRenderer.DisposeSprite();
-        Destroy(GreenGlowRenderer.gameObject);
-
-        ComboGlowRenderer.DisposeSprite();
+        Destroy(GreenGlowRenderer);
         Destroy(ComboGlowRenderer);
     }
 
