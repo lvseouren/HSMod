@@ -57,9 +57,12 @@ public class SpriteManager : MonoBehaviour
 
         Tokens = new Dictionary<string, Sprite>()
         {
-            {"NormalToken", Resources.Load<Sprite>("Sprites/General/NormalToken")},
-            {"LegendaryToken", Resources.Load<Sprite>("Sprites/General/LegendaryToken")},
-            {"TauntToken", Resources.Load<Sprite>("Sprites/General/TauntToken")}
+            {"Minion_Normal", Resources.Load<Sprite>("Sprites/General/Minion_NormalToken")},
+            {"Minion_Legendary", Resources.Load<Sprite>("Sprites/General/Minion_LegendaryToken")},
+            {"Minion_Taunt", Resources.Load<Sprite>("Sprites/General/Minion_TauntToken")},
+
+            {"HeroPower_Front", Resources.Load<Sprite>("Sprites/General/HeroPower_FrontToken")},
+            {"HeroPower_Back", Resources.Load<Sprite>("Sprites/General/HeroPower_BackToken")}
         };
 
         Glows = new Dictionary<string, Sprite>()
