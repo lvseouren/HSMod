@@ -9,11 +9,13 @@ public class CardController : BaseController
     private SpriteRenderer CardRenderer;
     private SpriteRenderer ComboGlowRenderer;
 
-    public NumberController CostController;
-    public NumberController AttackController;
-    public NumberController AttributeController;
+    private NumberController CostController;
+    private NumberController AttackController;
+    private NumberController AttributeController;
 
     private BoxCollider CardCollider;
+
+    private string GlowType;
 
     private bool IsDragging = false;
     private bool IsTargeting = false;
@@ -24,11 +26,13 @@ public class CardController : BaseController
         cardObject.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
         cardObject.transform.localScale = Vector3.one * 50f;
 
+        BoxCollider cardCollider = cardObject.AddComponent<BoxCollider>();
+        cardCollider.size = new Vector3(3.5f, 5.5f, 0f);
+
         CardController controller = cardObject.AddComponent<CardController>();
         controller.Card = card;
-
-        controller.CardCollider = cardObject.AddComponent<BoxCollider>();
-        controller.CardCollider.size = new Vector3(3.5f, 5.5f, 0f);
+        controller.CardCollider = cardCollider;
+        controller.GlowType = controller.GetGlowType();
 
         controller.Initialize();
 
@@ -63,13 +67,10 @@ public class CardController : BaseController
 
     public override void UpdateSprites()
     {
-        // Getting the string path to the glows
-        string glowType = GetGlowType();
-    
         // Loading the sprites into the SpriteRenderers
         CardRenderer.sprite = Resources.Load<Sprite>("Sprites/" + Card.Class.Name() + "/Cards/" + Card.TypeName());
-        GreenGlowRenderer.sprite = SpriteManager.Instance.Glows["Card_" + glowType + "_GreenGlow"];
-        ComboGlowRenderer.sprite = SpriteManager.Instance.Glows["Card_" + glowType + "_ComboGlow"];
+        GreenGlowRenderer.sprite = SpriteManager.Instance.Glows["Card_" + GlowType + "_GreenGlow"];
+        //ComboGlowRenderer.sprite = SpriteManager.Instance.Glows["Card_" + GlowType + "_ComboGlow"];
     }
 
     public override void UpdateNumbers()

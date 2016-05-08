@@ -4,31 +4,33 @@ public class HeroController : BaseController
 {
     public Hero Hero;
 
-    public SpriteRenderer HeroRenderer;
+    private SpriteRenderer HeroRenderer;
 
-    public SpriteRenderer AttackRenderer;
-    public SpriteRenderer HealthRenderer;
-    public SpriteRenderer ArmorRenderer;
+    private SpriteRenderer AttackRenderer;
+    private SpriteRenderer HealthRenderer;
+    private SpriteRenderer ArmorRenderer;
 
-    public NumberController AttackController;
-    public NumberController HealthController;
-    public NumberController ArmorController;
+    private NumberController AttackController;
+    private NumberController HealthController;
+    private NumberController ArmorController;
 
     private BoxCollider HeroCollider;
 
     public static HeroController Create(Hero hero, Vector3 heroPosition)
     {
-        GameObject heroObject = new GameObject("Hero_" + hero.Class);
+        GameObject heroObject = new GameObject("HeroController");
         heroObject.transform.position = heroPosition;
         heroObject.transform.localScale = new Vector3(50f, 50f, 50f);
         heroObject.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
+        heroObject.transform.parent = hero.Player.transform;
+
+        BoxCollider heroCollider = heroObject.AddComponent<BoxCollider>();
+        heroCollider.center = new Vector3(0f, 0.75f, 0f);
+        heroCollider.size = new Vector3(4f, 4f, 0.1f);
 
         HeroController heroController = heroObject.AddComponent<HeroController>();
         heroController.Hero = hero;
-
-        heroController.HeroCollider = heroObject.AddComponent<BoxCollider>();
-        heroController.HeroCollider.center = new Vector3(0f, 0.75f, 0f);
-        heroController.HeroCollider.size = new Vector3(4f, 4f, 0.1f);
+        heroController.HeroCollider = heroCollider;
 
         heroController.Initialize();
 
@@ -37,19 +39,19 @@ public class HeroController : BaseController
 
     public override void Initialize()
     {
-        AttackController = NumberController.Create("AttackController", this.gameObject, new Vector3(-1.4f, -0.85f, 0f), 36);
-        HealthController = NumberController.Create("HealthController", this.gameObject, new Vector3(1.5f, -0.85f, 0f), 36);
-        ArmorController = NumberController.Create("ArmorController", this.gameObject, new Vector3(1.5f, 0f, 0f), 36);
+        AttackController = NumberController.Create("Attack_Controller", this.gameObject, new Vector3(-1.4f, -0.85f, 0f), 36);
+        HealthController = NumberController.Create("Health_Controller", this.gameObject, new Vector3(1.5f, -0.85f, 0f), 36);
+        ArmorController = NumberController.Create("Armor_Controller", this.gameObject, new Vector3(1.5f, 0f, 0f), 36);
 
-        AttackRenderer = CreateRenderer("Attack", Vector3.one * 0.55f, new Vector3(-1.5f, -0.75f, 0f), 34);
-        HealthRenderer = CreateRenderer("Health", Vector3.one * 0.55f, new Vector3(1.5f, -0.75f, 0f), 34);
-        ArmorRenderer = CreateRenderer("Armor", Vector3.one * 0.55f, new Vector3(1.5f, 0.75f, 0f), 34);
+        AttackRenderer = CreateRenderer("Attack_Sprite", Vector3.one * 0.55f, new Vector3(-1.5f, -0.75f, 0f), 34);
+        HealthRenderer = CreateRenderer("Health_Sprite", Vector3.one * 0.55f, new Vector3(1.5f, -0.75f, 0f), 34);
+        ArmorRenderer = CreateRenderer("Armor_Sprite", Vector3.one * 0.55f, new Vector3(1.5f, 0.75f, 0f), 34);
 
-        HeroRenderer = CreateRenderer("Hero", Vector3.one, Vector3.zero, 33);
+        HeroRenderer = CreateRenderer("Hero_Sprite", Vector3.one, Vector3.zero, 33);
 
-        WhiteGlowRenderer = CreateRenderer("WhiteGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 32);
-        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 31);
-        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 30);
+        WhiteGlowRenderer = CreateRenderer("WhiteGlow_Sprite", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 32);
+        GreenGlowRenderer = CreateRenderer("GreenGlow_Sprite", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 31);
+        RedGlowRenderer = CreateRenderer("RedGlow_Sprite", Vector3.one * 2f, new Vector3(0.04f, 0.75f, 0f), 30);
 
         HeroRenderer.enabled = true;
         HealthRenderer.enabled = true;
@@ -63,20 +65,11 @@ public class HeroController : BaseController
     {
         HeroRenderer.DisposeSprite();
         Destroy(HeroRenderer);
-
-        AttackRenderer.DisposeSprite();
+        
         Destroy(AttackRenderer);
-
-        HealthRenderer.DisposeSprite();
         Destroy(HealthRenderer);
-
-        GreenGlowRenderer.DisposeSprite();
-        Destroy(GreenGlowRenderer.gameObject);
-
-        RedGlowRenderer.DisposeSprite();
+        Destroy(GreenGlowRenderer);
         Destroy(RedGlowRenderer);
-
-        WhiteGlowRenderer.DisposeSprite();
         Destroy(WhiteGlowRenderer);
     }
 

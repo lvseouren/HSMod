@@ -11,10 +11,11 @@ public class HandController : MonoBehaviour
 
     public static HandController Create(Player player, Vector3 handPosition)
     {
-        GameObject heroObject = new GameObject("Player_" + player + "_Hand");
+        GameObject heroObject = new GameObject("HandController");
         heroObject.transform.position = handPosition;
         heroObject.transform.localScale = Vector3.one * 50f;
         heroObject.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
+        heroObject.transform.parent = player.transform;
 
         HandController handController = heroObject.AddComponent<HandController>();
         handController.Player = player;
