@@ -36,30 +36,26 @@ public class Player : MonoBehaviour
 
     private Player() { }
 
-    public static Player Create(HeroClass heroClass, Vector3 heroPosition, Vector3 cardsPosition)
+    public static Player Create(HeroClass heroClass, Vector3 heroPosition, Vector3 handPosition)
     {
-        // TODO : Rewrite this method
-        Player player = new Player()
-        {
-            HeroPosition = heroPosition,
-            HandPosition = cardsPosition
-        };
+        GameObject playerObject = new GameObject("Player_" + heroClass.Name());
+        
+        Player player = playerObject.AddComponent<Player>();
 
         player.Hero = new Hero()
         {
             Player = player,
-            Class = heroClass
+            Class = heroClass,
+            HeroPower = new RaiseGhoul(player.Hero)
         };
 
-        player.Initialize();
+        player.HeroPosition = heroPosition;
+        player.HeroController = HeroController.Create(player.Hero, heroPosition);
+
+        player.HandPosition = handPosition;
+        player.HandController = HandController.Create(player, handPosition);
 
         return player;
-    }
-
-    private void Initialize()
-    {
-        HeroController = HeroController.Create(Hero, HeroPosition);
-        HandController = HandController.Create(this, HandPosition);
     }
 
     #endregion

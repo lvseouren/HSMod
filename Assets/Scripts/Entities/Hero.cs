@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Hero : Character
 {
+    public BaseHeroPower HeroPower;
+
     public HeroClass Class;
 
     #region Methods

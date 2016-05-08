@@ -40,7 +40,6 @@ public class GameManager : MonoBehaviour
         #region Test Zone
 
         BottomPlayer = Player.Create(HeroClass.DeathKnight, new Vector3(797f, 60f, 230f), new Vector3(800f, 60f, 50f));
-        TopPlayer = Player.Create(HeroClass.DeathKnight, new Vector3(800f, 60f, 935f), new Vector3(800f, 60f, 1175f));
 
         BottomPlayer.Deck = new List<BaseCard>()
         {
@@ -55,6 +54,8 @@ public class GameManager : MonoBehaviour
             new SkeletonCommander(),
             new DeathwhisperNecrolyte()
         };
+
+        TopPlayer = Player.Create(HeroClass.DeathKnight, new Vector3(800f, 60f, 935f), new Vector3(800f, 60f, 1175f));
 
         TopPlayer.Deck = new List<BaseCard>()
         {
