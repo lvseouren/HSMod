@@ -23,9 +23,7 @@ public class CardController : BaseController
     public static CardController Create(BaseCard card)
     {
         GameObject cardObject = new GameObject(card.Name);
-        cardObject.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
-        cardObject.transform.localScale = Vector3.one * 50f;
-
+        
         BoxCollider cardCollider = cardObject.AddComponent<BoxCollider>();
         cardCollider.size = new Vector3(3.5f, 5.5f, 0f);
 

@@ -18,9 +18,6 @@ public class Player : MonoBehaviour
     
     public List<SpellCard> UsedSpells = new List<SpellCard>();
     public List<MinionCard> DeadMinions = new List<MinionCard>();
-
-    public Vector3 HeroPosition;
-    public Vector3 HandPosition;
     
     public int MaxCardsInHand = 10;
     public int MaxCardsInDeck = 60;
@@ -39,20 +36,19 @@ public class Player : MonoBehaviour
     public static Player Create(HeroClass heroClass, Vector3 heroPosition, Vector3 handPosition)
     {
         GameObject playerObject = new GameObject("Player_" + heroClass.Name());
+        playerObject.transform.localScale = Vector3.one * 50f;
+        playerObject.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
+        playerObject.transform.position = heroPosition;
         
         Player player = playerObject.AddComponent<Player>();
 
         player.Hero = new Hero()
         {
             Player = player,
-            Class = heroClass,
-            HeroPower = new RaiseGhoul(player.Hero)
+            Class = heroClass
         };
-
-        player.HeroPosition = heroPosition;
-        player.HeroController = HeroController.Create(player.Hero, heroPosition);
-
-        player.HandPosition = handPosition;
+        
+        player.HeroController = HeroController.Create(player.Hero);
         player.HandController = HandController.Create(player, handPosition);
 
         return player;

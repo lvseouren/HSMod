@@ -12,9 +12,10 @@ public class HeroPowerController : BaseController
 
     private BoxCollider HeroPowerCollider;
 
-    public static void Create(BaseHeroPower heroPower)
+    public static HeroPowerController Create(BaseHeroPower heroPower)
     {
-        GameObject heroPowerObject = new GameObject(heroPower.Hero.Player.name + "_" + heroPower.Name);
+        GameObject heroPowerObject = new GameObject("HeroPowerController");
+        heroPowerObject.transform.ChangeParentAt(heroPower.Hero.Player.transform, new Vector3(4f, 0.5f, 0f));
 
         BoxCollider heroPowerCollider = heroPowerObject.AddComponent<BoxCollider>();
         heroPowerCollider.size = new Vector3(4f, 4f, 0.1f);
@@ -24,20 +25,25 @@ public class HeroPowerController : BaseController
         heroPowerController.HeroPowerCollider = heroPowerCollider;
 
         heroPowerController.Initialize();
+
+        return heroPowerController;
     }
     
     public override void Initialize()
     {
-        CostController = NumberController.Create("Cost", this.gameObject, Vector3.zero, 20);
+        CostController = NumberController.Create("Cost_Controller", this.gameObject, Vector3.zero, 20);
 
-        FrontTokenRenderer = CreateRenderer("Token", Vector3.one, Vector3.zero, 19);
-        BackTokenRenderer = CreateRenderer("Token", Vector3.one, Vector3.zero, 19);
+        FrontTokenRenderer = CreateRenderer("FrontToken_Sprite", Vector3.one, Vector3.zero, 19);
+        BackTokenRenderer = CreateRenderer("BackToken_Sprite", Vector3.one, Vector3.zero, 19);
 
-        HeroPowerRenderer = CreateRenderer("Weapon", Vector3.one, Vector3.zero, 18);
+        HeroPowerRenderer = CreateRenderer("HeroPower_Sprite", Vector3.one, Vector3.zero, 18);
 
-        WhiteGlowRenderer = CreateRenderer("WhiteGlow", Vector3.one * 2f, Vector3.zero, 17);
-        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, Vector3.zero, 16);
-        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, Vector3.zero, 15);
+        WhiteGlowRenderer = CreateRenderer("WhiteGlow_Sprite", Vector3.one * 2f, Vector3.zero, 17);
+        GreenGlowRenderer = CreateRenderer("GreenGlow_Sprite", Vector3.one * 2f, Vector3.zero, 16);
+        RedGlowRenderer = CreateRenderer("RedGlow_Sprite", Vector3.one * 2f, Vector3.zero, 15);
+
+        FrontTokenRenderer.enabled = true;
+        HeroPowerRenderer.enabled = true;
 
         UpdateSprites();
         UpdateNumbers();
@@ -60,8 +66,8 @@ public class HeroPowerController : BaseController
         // Loading the sprites
         FrontTokenRenderer.sprite = SpriteManager.Instance.Tokens["HeroPower_Front"];
         BackTokenRenderer.sprite = SpriteManager.Instance.Tokens["HeroPower_Back"];
-
-        HeroPowerRenderer.sprite = Resources.Load<Sprite>("Sprites/" + HeroPower.Class.Name() + "HeroPower/Token");
+        
+        HeroPowerRenderer.sprite = Resources.Load<Sprite>("Sprites/" + HeroPower.Class.Name() + "/HeroPower/Token");
 
         WhiteGlowRenderer.sprite = SpriteManager.Instance.Glows["Hero_Power_WhiteGlow"];
         GreenGlowRenderer.sprite = SpriteManager.Instance.Glows["Hero_Power_GreenGlow"];

@@ -5,14 +5,26 @@
     public string Description;
     public HeroClass Class;
     public TargetType TargetType;
-    public int BaseCost = 2;
+    public int BaseCost;
     public bool Golden = false;
 
     // In-Game Stats //
     public Hero Hero;
-    public int CurrentCost = 2;
-    public int MaxUses = 1;
-    public int CurrentUses = 0;
+    public HeroPowerController Controller;
+    public int CurrentCost;
+    public int MaxUses;
+    public int CurrentUses;
+
+    #region Constructor
+
+    public void Initialize()
+    {
+        Controller = HeroPowerController.Create(this);
+    }
+
+    #endregion
+
+    #region Methods
 
     public virtual void Use() { }
 
@@ -20,16 +32,20 @@
 
     public virtual void Upgrade() { }
 
+    #endregion
+
+    #region Condition Checkers
+
     public virtual bool CanTarget(Character target)
     {
         return true;
     }
 
-    public bool IsAvailable()
+    public virtual bool IsAvailable()
     {
-        if (this.CurrentUses < this.MaxUses)
+        if (CurrentUses < MaxUses)
         {
-            if (this.CurrentCost < this.Hero.Player.AvailableMana)
+            if (CurrentCost < Hero.Player.AvailableMana)
             {
                 return true;
             }
@@ -37,4 +53,6 @@
 
         return false;
     }
+
+    #endregion
 }
