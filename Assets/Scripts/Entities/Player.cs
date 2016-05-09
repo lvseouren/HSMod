@@ -25,6 +25,11 @@ public class Player : MonoBehaviour
 
     public int Fatigue = 0;
 
+    public int MaximumMana = 10;
+    public int TurnMana = 0;
+    public int OverloadedMana = 0;
+    public int AvailableMana;
+
     #region Constructor
 
     private Player() { }
@@ -242,7 +247,7 @@ public class Player : MonoBehaviour
         return spellPower;
     }
 
-    public int GetManaUsedThisTurn()
+    public int GetUsedMana()
     {
         return TurnMana - OverloadedMana - AvailableMana;
     }

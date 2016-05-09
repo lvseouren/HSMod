@@ -8,11 +8,6 @@ public class ManaController : MonoBehaviour
     private NumberController Controller;
     private List<SpriteRenderer> Crystals;
     
-    public int MaximumMana = 10;
-    public int TurnMana = 0;
-    public int OverloadedMana = 0;
-    public int AvailableMana;
-    
     public static ManaController Create(Player player)
     {
         GameObject manaObject = new GameObject("ManaController");
@@ -24,11 +19,35 @@ public class ManaController : MonoBehaviour
         return manaController;
     }
 
+    public void DestroyRenderers()
+    {
+        foreach (SpriteRenderer renderer in Crystals)
+        {
+            Destroy(renderer);
+        }
+
+        Crystals.Clear();
+    }
+
     public void UpdateSprites()
     {
-        for (int i = 0; i < TurnMana; i++)
+        int count = 0;
+
+        DestroyRenderers();
+
+        for (int i = 0; i < Player.AvailableMana; i++)
         {
-            
+            count++;
+        }
+
+        for (int i = 0; i < Player.GetUsedMana() - Player.OverloadedMana; i++)
+        {
+            count++;
+        }
+
+        for (int i = 0; i < Player.OverloadedMana; i++)
+        {
+            count++;
         }
     }
 
