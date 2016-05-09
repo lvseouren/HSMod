@@ -11,14 +11,18 @@
     // In-Game Stats //
     public Hero Hero;
     public HeroPowerController Controller;
+
     public int CurrentCost;
-    public int MaxUses;
+    public int MaxUses = 1;
     public int CurrentUses;
 
     #region Constructor
 
     public void Initialize()
     {
+        CurrentCost = BaseCost;
+        CurrentUses = 0;
+        
         Controller = HeroPowerController.Create(this);
     }
 
@@ -43,15 +47,7 @@
 
     public virtual bool IsAvailable()
     {
-        if (CurrentUses < MaxUses)
-        {
-            if (CurrentCost < Hero.Player.AvailableMana)
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return CurrentUses < MaxUses;
     }
 
     #endregion

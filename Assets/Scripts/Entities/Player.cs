@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public List<SpellCard> Secrets = new List<SpellCard>();
     public WeaponCard Weapon = null;
 
+    public ManaController ManaController;
     public HeroController HeroController;
     public HandController HandController;
     
@@ -21,11 +22,6 @@ public class Player : MonoBehaviour
     
     public int MaxCardsInHand = 10;
     public int MaxCardsInDeck = 60;
-
-    public int MaximumMana = 10;
-    public int TurnMana = 0;
-    public int OverloadedMana = 0;
-    public int AvailableMana = 0;
 
     public int Fatigue = 0;
 
@@ -48,6 +44,7 @@ public class Player : MonoBehaviour
             Class = heroClass
         };
         
+        player.ManaController = ManaController.Create(player);
         player.HeroController = HeroController.Create(player.Hero);
         player.HandController = HandController.Create(player, handPosition);
 
