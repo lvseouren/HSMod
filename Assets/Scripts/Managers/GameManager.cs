@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
 
         #region Test Zone
 
-        BottomPlayer = Player.Create(HeroClass.DeathKnight, new Vector3(797f, 60f, 230f), new Vector3(0f, -3.5f, 0f));
+        BottomPlayer = Player.Create(HeroClass.DeathKnight, new Vector3(798f, 60f, 230f), new Vector3(0f, -3.5f, 0f));
 
         BottomPlayer.Hero.HeroPower = new RaiseGhoul(BottomPlayer.Hero);
 

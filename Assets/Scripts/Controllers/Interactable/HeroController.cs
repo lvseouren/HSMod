@@ -55,6 +55,7 @@ public class HeroController : BaseController
 
         UpdateSprites();
         UpdateNumbers();
+
         HealthController.SetEnabled(true);
     }
 

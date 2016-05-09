@@ -31,7 +31,7 @@ public class HeroPowerController : BaseController
     
     public override void Initialize()
     {
-        CostController = NumberController.Create("Cost_Controller", this.gameObject, Vector3.zero, 20);
+        CostController = NumberController.Create("Cost_Controller", this.gameObject, new Vector3(-0.05f, 1.1f, 0f), 20);
 
         FrontTokenRenderer = CreateRenderer("FrontToken_Sprite", Vector3.one, Vector3.zero, 19);
         BackTokenRenderer = CreateRenderer("BackToken_Sprite", Vector3.one, Vector3.zero, 19);
@@ -47,6 +47,8 @@ public class HeroPowerController : BaseController
 
         UpdateSprites();
         UpdateNumbers();
+        
+        CostController.SetEnabled(HeroPower.IsAvailable());
     }
 
     public override void Remove()
@@ -76,7 +78,18 @@ public class HeroPowerController : BaseController
 
     public override void UpdateNumbers()
     {
-        // TODO
+        if (HeroPower.CurrentCost < HeroPower.BaseCost)
+        {
+            CostController.UpdateNumber(HeroPower.CurrentCost, "Green");
+        }
+        else if (HeroPower.CurrentCost == HeroPower.BaseCost)
+        {
+            CostController.UpdateNumber(HeroPower.CurrentCost, "White");
+        }
+        else
+        {
+            CostController.UpdateNumber(HeroPower.CurrentCost, "Red");
+        }
     }
 
     #region Unity Messages

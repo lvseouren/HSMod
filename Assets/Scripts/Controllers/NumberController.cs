@@ -46,7 +46,6 @@ public class NumberController : MonoBehaviour
     {
         foreach (SpriteRenderer renderer in Renderers)
         {
-            renderer.DisposeSprite();
             Destroy(renderer);
         }
 
