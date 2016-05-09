@@ -18,7 +18,7 @@ public class HeroPowerController : BaseController
         heroPowerObject.transform.ChangeParentAt(heroPower.Hero.Player.transform, new Vector3(4f, 0.5f, 0f));
 
         BoxCollider heroPowerCollider = heroPowerObject.AddComponent<BoxCollider>();
-        heroPowerCollider.size = new Vector3(4f, 4f, 0.1f);
+        heroPowerCollider.size = new Vector3(3f, 3f, 0.1f);
 
         HeroPowerController heroPowerController = heroPowerObject.AddComponent<HeroPowerController>();
         heroPowerController.HeroPower = heroPower;
