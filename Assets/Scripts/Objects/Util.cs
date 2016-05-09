@@ -100,4 +100,27 @@ public static class Util
     {
         return Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0f, 0f, 1000f));
     }
+
+    // Method to reset a transform
+    public static void Reset(this Transform self)
+    {
+        self.localPosition = Vector3.zero;
+        self.localEulerAngles = Vector3.zero;
+        self.localScale = Vector3.one;
+    }
+    
+    // Method to reset a transform and set it at the parent origin
+    public static void ChangeParent(this Transform self, Transform parent)
+    {
+        self.parent = parent;
+        self.Reset();
+    }
+
+    // Method to reset a transform and position it respect another transform
+    public static void ChangeParentAt(this Transform self, Transform parent, Vector3 position)
+    {
+        self.parent = parent;
+        self.Reset();
+        self.localPosition = position;
+    }
 }
