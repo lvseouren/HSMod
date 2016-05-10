@@ -2,7 +2,8 @@
 
 public class InterfaceManager : MonoBehaviour
 {
-    // Singleton //
+    #region Singleton
+
     private static InterfaceManager _instance;
 
     public static InterfaceManager Instance
@@ -18,7 +19,9 @@ public class InterfaceManager : MonoBehaviour
     }
 
     private InterfaceManager() { }
-    
+
+    #endregion
+
     // Control Fields //
     private bool IsDragging;
     private BaseController originController;
@@ -62,7 +65,7 @@ public class InterfaceManager : MonoBehaviour
             Vector3 worldMousePosition = Util.GetWorldMousePosition();
 
             // Getting the direction vector from the minion to the mouse
-            Vector3 directionVector = Input.mousePosition - this.screenOriginPosition;
+            Vector3 directionVector = Input.mousePosition - screenOriginPosition;
 
             // Getting the angle that forms between the minion and the mouse
             float directionAngle = Mathf.Atan2(directionVector.y, directionVector.x) * Mathf.Rad2Deg - 90;
@@ -73,13 +76,13 @@ public class InterfaceManager : MonoBehaviour
 
             // Arrow //
             
-            this.arrowRenderer.transform.position = worldMousePosition;
-            this.arrowRenderer.transform.localEulerAngles = directionRotation;
+            arrowRenderer.transform.position = worldMousePosition;
+            arrowRenderer.transform.localEulerAngles = directionRotation;
 
             
             // Circle //
 
-            this.circleRenderer.transform.position = worldMousePosition;
+            circleRenderer.transform.position = worldMousePosition;
 
 
             // Arrow Body //
@@ -102,7 +105,7 @@ public class InterfaceManager : MonoBehaviour
     private GameObject CreateChildObject(string name, float position)
     {
         GameObject glowObject = new GameObject(name);
-        glowObject.transform.parent = this.interfaceParent.transform;
+        glowObject.transform.parent = interfaceParent.transform;
         glowObject.transform.localPosition = new Vector3(0f, 0f, position);
         glowObject.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
         glowObject.transform.localScale = new Vector3(80f, 80f, 80f);
@@ -126,13 +129,13 @@ public class InterfaceManager : MonoBehaviour
     {
         Vector3 screenPosition = Camera.main.WorldToScreenPoint(controller.transform.position);
 
-        this.screenOriginPosition = new Vector3(screenPosition.x, screenPosition.y, 0f);
-        this.originController = controller;
+        screenOriginPosition = new Vector3(screenPosition.x, screenPosition.y, 0f);
+        originController = controller;
 
-        this.IsDragging = true;
+        IsDragging = true;
 
-        this.arrowRenderer.enabled = true;
-        this.bodyRenderer.enabled = true;
+        arrowRenderer.enabled = true;
+        bodyRenderer.enabled = true;
     }
 
     public void DisableArrow()
@@ -147,24 +150,24 @@ public class InterfaceManager : MonoBehaviour
 
     public void OnHoverStart(BaseController controller)
     {
-        if (this.IsDragging && controller != this.originController)
+        if (IsDragging && controller != originController)
         {
-            this.circleRenderer.enabled = true;
+            circleRenderer.enabled = true;
         }
     }
 
     public void OnHoverStop()
     {
-        this.circleRenderer.enabled = false;
+        circleRenderer.enabled = false;
     }
 
     public void EnableArrowCircle()
     {
-        this.circleRenderer.enabled = true;
+        circleRenderer.enabled = true;
     }
 
     public void DisableArrowCircle()
     {
-        this.circleRenderer.enabled = false;
+        circleRenderer.enabled = false;
     }
 }
