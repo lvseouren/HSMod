@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     public List<BaseCard> Deck = new List<BaseCard>();
     public List<Minion> Minions = new List<Minion>(7);
     public List<SpellCard> Secrets = new List<SpellCard>();
-    public WeaponCard Weapon = null;
+    public WeaponCard Weapon;
 
     public ManaController ManaController;
     public HeroController HeroController;

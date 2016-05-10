@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class EndTurnButton : MonoBehaviour
+public class TurnButtonController : MonoBehaviour
 {
     public bool IsEnabled = false;
 
@@ -9,6 +9,21 @@ public class EndTurnButton : MonoBehaviour
     private Vector2 yellowPosition = new Vector2(0f, 0f);
     private Vector2 greenPosition = new Vector2(0f, 0.5f);
     private Vector2 greyPosition = new Vector2(0.5f, 0f);
+
+    public static TurnButtonController Create()
+    {
+        GameObject buttonPrefab = Resources.Load<GameObject>("Prefabs/Button_EndTurn");
+        GameObject turnButton = Instantiate(buttonPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
+
+        TurnButtonController controller = turnButton.AddComponent<TurnButtonController>();
+
+        return controller;
+    }
+
+    private void Start()
+    {
+        ButtonMaterial = this.GetComponent<MeshRenderer>().material;
+    }
 
     public void UpdateStatus(TurnButtonStatus status)
     {
@@ -31,16 +46,13 @@ public class EndTurnButton : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        ButtonMaterial = this.GetComponent<MeshRenderer>().material;
-    }
-
     private void OnMouseDown()
     {
         if (IsEnabled)
         {
             GameManager.Instance.TurnEnd();
+
+            UpdateStatus(TurnButtonStatus.Inactive);
         }
     }
 }
