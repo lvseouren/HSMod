@@ -13,6 +13,7 @@ public class HandController : MonoBehaviour
     {
         GameObject heroObject = new GameObject("HandController");
         heroObject.transform.ChangeParentAt(player.transform, handPosition);
+        heroObject.transform.localScale = Vector3.one * 0.75f;
 
         HandController handController = heroObject.AddComponent<HandController>();
         handController.Player = player;
@@ -40,6 +41,7 @@ public class HandController : MonoBehaviour
         MoveCards();
     }
 
+    // TODO : Rewrite
     private void MoveCards()
     {
         if (Controllers.Count > 0)
@@ -89,6 +91,14 @@ public class HandController : MonoBehaviour
                         }
                     }
                     break;
+            }
+
+            // Setting the rotation of each card
+            for (int i = 0; i < Controllers.Count; i++)
+            {
+                float angle = Mathf.Atan(Controllers[i].TargetX / -50f) * Mathf.Rad2Deg;
+
+                Controllers[i].TargetRotation = new Vector3(0f, 0f, angle);
             }
         }
     }

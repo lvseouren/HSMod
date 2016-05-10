@@ -3,8 +3,9 @@
 public class CardController : BaseController
 {
     public BaseCard Card;
-    public float TargetY = 0f;
+    
     public float TargetX = 0f;
+    public Vector3 TargetRotation = Vector3.zero;
 
     private SpriteRenderer CardRenderer;
     private SpriteRenderer ComboGlowRenderer;
@@ -16,9 +17,6 @@ public class CardController : BaseController
     private BoxCollider CardCollider;
 
     private string GlowType;
-
-    private bool IsDragging = false;
-    private bool IsTargeting = false;
 
     public static CardController Create(BaseCard card)
     {
@@ -111,54 +109,68 @@ public class CardController : BaseController
 
     #region Unity Messages
 
+    private ControllerStatus Status = ControllerStatus.Inactive;
+    private bool IsHovering = false;
+
     private void Update()
     {
-        if (IsDragging)
+        float moveSpeed = 100f * Time.deltaTime;
+
+        Vector3 basePosition = new Vector3(TargetX, 0f, 0f);
+        Vector3 baseZoomPosition = new Vector3(TargetX, 3f, 0f);
+
+        switch (Status)
         {
-            transform.position = Util.GetWorldMousePosition();
-        }
-        else if (IsTargeting)
-        {
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, new Vector3(TargetX, TargetY / 2f), 50f * Time.deltaTime);
-        }
-        else
-        {
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, new Vector3(TargetX, TargetY, 0f), 50f * Time.deltaTime);
+            case ControllerStatus.Inactive:
+                if (IsHovering && transform.localPosition.x == TargetX)
+                {
+                    transform.localScale = Vector3.one * 2f;
+                    transform.localEulerAngles = Vector3.zero;
+                    transform.localPosition = Vector3.MoveTowards(transform.localPosition, baseZoomPosition, moveSpeed);
+                }
+                else
+                {
+                    transform.localScale = Vector3.one;
+                    transform.localEulerAngles = TargetRotation;
+                    transform.localPosition = Vector3.MoveTowards(transform.localPosition, basePosition, moveSpeed);
+                }
+                break;
+
+            case ControllerStatus.Dragging:
+                transform.localScale = Vector3.one;
+                transform.localEulerAngles = Vector3.zero;
+                transform.position = Util.GetWorldMousePosition();
+                break;
+
+            case ControllerStatus.Targeting:    
+                transform.localScale = Vector3.one;
+                transform.localEulerAngles = Vector3.zero;
+                transform.localPosition = Vector3.MoveTowards(transform.localPosition, baseZoomPosition, moveSpeed);
+                break;
         }
     }
 
     private void OnMouseEnter()
     {
-        TargetY = 4f;
-
-        if (IsDragging == false && IsTargeting == false)
-        {
-            transform.localScale = Vector3.one * 2f;
-        }
+        IsHovering = true;
     }
 
     private void OnMouseExit()
     {
-        if (IsDragging == false && IsTargeting == false)
-        {
-            TargetY = 0f;
-            transform.localScale = Vector3.one;
-        }
+        IsHovering = false;
     }
 
     private void OnMouseDown()
     {
-        transform.localScale = Vector3.one;
-
         switch (Card.GetCardType())
         {
             case CardType.Minion:
             case CardType.Weapon:
-                IsDragging = true;
+                Status = ControllerStatus.Dragging;
                 break;
 
             case CardType.Spell:
-                IsTargeting = true;
+                Status = ControllerStatus.Targeting;
                 InterfaceManager.Instance.EnableArrow(this);
                 break;
         }
@@ -166,8 +178,7 @@ public class CardController : BaseController
 
     private void OnMouseUp()
     {
-        IsDragging = false;
-        IsTargeting = false;
+        Status = ControllerStatus.Inactive;
 
         switch (Card.GetCardType())
         {
@@ -180,8 +191,6 @@ public class CardController : BaseController
                 InterfaceManager.Instance.DisableArrow();
                 break;
         }
-
-        TargetY = 0f;
     }
 
     #endregion
