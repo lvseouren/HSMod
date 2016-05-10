@@ -4,6 +4,7 @@ public class TurnButtonController : MonoBehaviour
 {
     public bool IsEnabled = false;
 
+    private Animator Animator;
     private Material ButtonMaterial;
 
     private Vector2 yellowPosition = new Vector2(0f, 0f);
@@ -22,7 +23,7 @@ public class TurnButtonController : MonoBehaviour
 
     private void Start()
     {
-        ButtonMaterial = this.GetComponent<MeshRenderer>().material;
+        ButtonMaterial = GetComponent<MeshRenderer>().material;
     }
 
     public void UpdateStatus(TurnButtonStatus status)

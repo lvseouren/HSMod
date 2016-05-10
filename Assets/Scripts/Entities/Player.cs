@@ -154,7 +154,7 @@ public class Player : MonoBehaviour
 
     public void UpdateGlows()
     {
-        ResetGlows();
+        ResetGreenGlows();
 
         if (HasWeapon() || Hero.CurrentAttack > 0)
         {
@@ -205,7 +205,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void ResetGlows()
+    public void ResetGreenGlows()
     {
         HeroController.SetGreenRenderer(false);
 

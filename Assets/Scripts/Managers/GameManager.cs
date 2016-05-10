@@ -159,7 +159,7 @@ public class GameManager : MonoBehaviour
         EventManager.Instance.OnTurnEnd(CurrentPlayer);
 
         // Resetting hero, card and minion glows for the current player
-        CurrentPlayer.ResetGlows();
+        CurrentPlayer.ResetGreenGlows();
 
         // Switching the player
         SwitchCurrentPlayer();
