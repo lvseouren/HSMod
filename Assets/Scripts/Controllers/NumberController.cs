@@ -63,9 +63,7 @@ public class NumberController : MonoBehaviour
     private SpriteRenderer CreateNumberRenderer(int number, string color)
     {
         GameObject baseObject = new GameObject("NumberRenderer_" + number);
-        baseObject.transform.parent = this.transform;
-        baseObject.transform.localPosition = Vector3.zero;
-        baseObject.transform.localEulerAngles = Vector3.zero;
+        baseObject.transform.ChangeParent(this.transform);
         baseObject.transform.localScale = Vector3.one * 0.5f;
 
         SpriteRenderer spriteRenderer = baseObject.AddComponent<SpriteRenderer>();

@@ -23,23 +23,24 @@ public class Player : MonoBehaviour
     public int MaxCardsInHand = 10;
     public int MaxCardsInDeck = 60;
 
-    public int Fatigue = 0;
+    public int Fatigue;
 
     public int MaximumMana = 10;
-    public int TurnMana = 0;
-    public int OverloadedMana = 0;
+    public int TurnMana = 1; // Testing purposes - switch back to 0 when finished
+    public int OverloadedMana;
     public int AvailableMana;
+    public int UsedMana;
 
     #region Constructor
 
     private Player() { }
 
-    public static Player Create(HeroClass heroClass, Vector3 heroPosition, Vector3 handPosition)
+    public static Player Create(HeroClass heroClass, Vector3 center, Vector3 hand, Vector3 mana, bool displayCrystals)
     {
         GameObject playerObject = new GameObject("Player_" + heroClass.Name());
         playerObject.transform.localScale = Vector3.one * 50f;
         playerObject.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
-        playerObject.transform.position = heroPosition;
+        playerObject.transform.position = center;
         
         Player player = playerObject.AddComponent<Player>();
 
@@ -49,9 +50,9 @@ public class Player : MonoBehaviour
             Class = heroClass
         };
         
-        player.ManaController = ManaController.Create(player);
+        player.ManaController = ManaController.Create(player, mana, displayCrystals);
         player.HeroController = HeroController.Create(player.Hero);
-        player.HandController = HandController.Create(player, handPosition);
+        player.HandController = HandController.Create(player, hand);
 
         return player;
     }
