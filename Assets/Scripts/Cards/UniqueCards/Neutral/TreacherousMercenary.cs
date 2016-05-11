@@ -18,6 +18,8 @@ public class TreacherousMercenary : MinionCard
         HasCharge = true;
 
         Buffs.Battlecry.Subscribe(x => Battlecry());
+
+        InitializeMinion();
     }
 
     public void Battlecry()

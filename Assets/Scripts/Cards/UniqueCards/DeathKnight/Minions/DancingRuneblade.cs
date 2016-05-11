@@ -16,6 +16,8 @@ public class DancingRuneblade : MinionCard
         BaseHealth = 1;
 
         Buffs.Battlecry.Subscribe(x => Battlecry());
+
+        InitializeMinion();
     }
 
     public void Battlecry()

@@ -29,7 +29,7 @@
 
     // TODO : Image, Voices, Effects?
 
-    public BaseCard()
+    public void InitializeCard()
     {
         CurrentCost = BaseCost;
     }

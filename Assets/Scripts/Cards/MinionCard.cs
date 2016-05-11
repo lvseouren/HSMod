@@ -41,8 +41,10 @@
 
     // TODO : Rewrite buffs for cards
     
-    public MinionCard()
+    public void InitializeMinion()
     {
+        InitializeCard();
+
         CurrentAttack = BaseAttack;
 
         CurrentHealth = BaseHealth;

@@ -9,6 +9,8 @@
         Rarity = CardRarity.Common;
 
         BaseCost = 2;
+
+        InitializeSpell();
     }
 
     public override void Cast(Character target)

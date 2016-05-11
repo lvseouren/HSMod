@@ -16,6 +16,8 @@ public class Ghoul : MinionCard
         BaseHealth = 1;
 
         HasCharge = true;
+
+        InitializeMinion();
     }
 
     public void Initialize()

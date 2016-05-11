@@ -11,11 +11,13 @@ public class UnholyFrenzy : SpellCard
         TargetType = TargetType.AllMinions;
 
         BaseCost = 1;
+
+        InitializeSpell();
     }
 
     public override void Cast(Character target)
     {
-        int damage = 1 + this.Player.GetSpellPower();
+        int damage = 1 + Player.GetSpellPower();
 
         target.TryDamage(null, damage);
 

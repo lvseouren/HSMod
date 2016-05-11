@@ -1,6 +1,11 @@
 ﻿public class SpellCard : BaseCard
 {
     public TargetType TargetType;
+
+    public void InitializeSpell()
+    {
+        InitializeCard();
+    }
     
     public void OnCast(Character target)
     {

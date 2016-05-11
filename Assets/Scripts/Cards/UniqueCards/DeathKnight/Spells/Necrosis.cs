@@ -11,6 +11,8 @@ public class Necrosis : SpellCard
         TargetType = TargetType.AllCharacters;
 
         BaseCost = 4;
+
+        InitializeSpell();
     }
 
     public override void Cast(Character target)
