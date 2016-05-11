@@ -37,7 +37,7 @@ public class CardController : BaseController
     
     public override void Initialize()
     {
-        CostController = NumberController.Create("CostController", this.gameObject, new Vector3(1.5f, -0.85f, 0f), 43);
+        CostController = NumberController.Create("CostController", this.gameObject, new Vector3(-1.375f, 2.15f, 0f), 43);
         AttackController = NumberController.Create("AttackController", this.gameObject, new Vector3(-1.4f, -0.85f, 0f), 43);
         AttributeController = NumberController.Create("AttributeController", this.gameObject, new Vector3(1.5f, 0f, 0f), 43);
 
@@ -50,6 +50,8 @@ public class CardController : BaseController
 
         UpdateSprites();
         UpdateNumbers();
+
+        CostController.SetEnabled(true);
     }
 
     public override void Remove()
