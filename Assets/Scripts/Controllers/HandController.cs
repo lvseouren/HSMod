@@ -39,8 +39,7 @@ public class HandController : MonoBehaviour
 
         MoveCards();
     }
-
-    // TODO : Rewrite
+    
     private void MoveCards()
     {
         if (Controllers.Count > 0)
@@ -64,67 +63,6 @@ public class HandController : MonoBehaviour
 
                 print(controller.name + " -> " + controller.TargetPosition);
             }
-
-            // transform.localEulerAngles = new Vector3(0f, 0f, halfTotalAngle / 2f);
-
-            /*
-
-            switch (Controllers.Count.IsPair())
-            {
-                case true:
-                    int countHalf = (Controllers.Count / 2);
-
-                    for (int i = 0; i < Controllers.Count; i++)
-                    {
-                        CardController controller = Controllers[i];
-
-                        if (i < countHalf)
-                        {
-                            int cardPosition = (countHalf - i);
-                            controller.TargetX = -1 * DISTANCE * cardPosition + HALF_INTERVAL;
-                        }
-                        else
-                        {
-                            int cardPosition = (i + 1 - countHalf);
-                            controller.TargetX = DISTANCE * cardPosition - HALF_INTERVAL;
-                        }
-                    }
-                    break;
-
-                case false:
-                    int countMiddle = Controllers.Count.Middle() - 1;
-
-                    for (int i = 0; i < Controllers.Count; i++)
-                    {
-                        CardController controller = Controllers[i];
-
-                        if (i < countMiddle)
-                        {
-                            int cardPosition = (countMiddle - i);
-                            controller.TargetX = -1 * DISTANCE * cardPosition;
-                        }
-                        else if (i == countMiddle)
-                        {
-                            controller.TargetX = 0f;
-                        }
-                        else
-                        {
-                            int cardPosition = (i - countMiddle);
-                            controller.TargetX = DISTANCE * cardPosition;
-                        }
-                    }
-                    break;
-            }
-
-            // Setting the rotation of each card
-            for (int i = 0; i < Controllers.Count; i++)
-            {
-                float angle = Mathf.Atan(Controllers[i].TargetX / -50f) * Mathf.Rad2Deg;
-
-                Controllers[i].TargetRotation = new Vector3(0f, 0f, angle);
-            }
-            
-            */
         }
     }
 }
