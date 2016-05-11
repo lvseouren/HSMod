@@ -12,6 +12,10 @@
 
     public Minion Minion;
 
+    public int MaxHealth;
+    public int CurrentHealth;
+    public int CurrentAttack;
+
     #endregion
 
     #region In-Game Effects
@@ -36,6 +40,14 @@
     public BuffManager Buffs = new BuffManager();
 
     // TODO : Rewrite buffs for cards
+    
+    public MinionCard()
+    {
+        CurrentAttack = BaseAttack;
+
+        CurrentHealth = BaseHealth;
+        MaxHealth = BaseHealth;
+    }
 
     public void AddBuff(BaseBuff buff)
     {

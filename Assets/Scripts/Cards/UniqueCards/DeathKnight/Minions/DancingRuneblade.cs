@@ -15,7 +15,7 @@ public class DancingRuneblade : MinionCard
         BaseAttack = 1;
         BaseHealth = 1;
 
-        this.Buffs.Battlecry.Subscribe(x => this.Battlecry());
+        Buffs.Battlecry.Subscribe(x => Battlecry());
     }
 
     public void Battlecry()

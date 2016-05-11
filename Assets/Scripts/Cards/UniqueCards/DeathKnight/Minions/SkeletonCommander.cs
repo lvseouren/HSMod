@@ -17,7 +17,7 @@ public class SkeletonCommander : MinionCard
         BaseAttack = 1;
         BaseHealth = 1;
 
-        this.Buffs.Battlecry.Subscribe(x => this.Battlecry());
+        Buffs.Battlecry.Subscribe(x => Battlecry());
     }
 
     public void Battlecry()
@@ -27,11 +27,11 @@ public class SkeletonCommander : MinionCard
 
     public void UndeadBuff(MinionPlayedEvent minionPlayedEvent)
     {
-        if (minionPlayedEvent.Player == this.Player && minionPlayedEvent.Minion.Card.MinionType == MinionType.Undead)
+        if (minionPlayedEvent.Player == Player && minionPlayedEvent.Minion.Card.MinionType == MinionType.Undead)
         {
             minionPlayedEvent.Minion.AddBuff(new SkeletonCommanderBuff());
 
-            this.MinionPlayedSubscription.Dispose();
+            MinionPlayedSubscription.Dispose();
         }
     }
 }

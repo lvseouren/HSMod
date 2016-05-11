@@ -29,6 +29,11 @@
 
     // TODO : Image, Voices, Effects?
 
+    public BaseCard()
+    {
+        CurrentCost = BaseCost;
+    }
+
     #region Methods
     
     public virtual void Play() { }
