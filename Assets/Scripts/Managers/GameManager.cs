@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
         #region Test Zone
 
         Vector3 bottomCenter = new Vector3(798f, 60f, 230f);
-        Vector3 bottomHand = new Vector3(0f, -3.5f, 0f);
+        Vector3 bottomHand = new Vector3(0f, -10.5f, 0f);
         Vector3 bottomMana = new Vector3(8.05f, -3.25f, 0f);
 
         BottomPlayer = Player.Create(HeroClass.DeathKnight, bottomCenter, bottomHand, bottomMana, true);
@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
         };
 
         Vector3 topCenter = new Vector3(800f, 60f, 935f);
-        Vector3 topHand = new Vector3(0f, 3.5f, 0f);
+        Vector3 topHand = new Vector3(0f, 10.5f, 0f);
         Vector3 topMana = new Vector3(8.05f, 3.25f, 0f);
 
         TopPlayer = Player.Create(HeroClass.DeathKnight, topCenter, topHand, topMana, false);

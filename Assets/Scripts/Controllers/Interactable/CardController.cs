@@ -4,7 +4,7 @@ public class CardController : BaseController
 {
     public BaseCard Card;
     
-    public float TargetX = 0f;
+    public Vector3 TargetPosition = Vector3.zero;
     public Vector3 TargetRotation = Vector3.zero;
 
     private SpriteRenderer CardRenderer;
@@ -118,23 +118,22 @@ public class CardController : BaseController
     {
         float moveSpeed = 100f * Time.deltaTime;
 
-        Vector3 basePosition = new Vector3(TargetX, 0f, 0f);
-        Vector3 baseZoomPosition = new Vector3(TargetX, 3f, 0f);
+        Vector3 targetZoomPosition = new Vector3(TargetPosition.x, 13f, 0f);
 
         switch (Status)
         {
             case ControllerStatus.Inactive:
-                if (IsHovering && transform.localPosition.x == TargetX)
+                if (IsHovering && transform.localPosition.x == TargetPosition.x)
                 {
                     transform.localScale = Vector3.one * 2f;
                     transform.localEulerAngles = Vector3.zero;
-                    transform.localPosition = Vector3.MoveTowards(transform.localPosition, baseZoomPosition, moveSpeed);
+                    transform.localPosition = Vector3.MoveTowards(transform.localPosition, targetZoomPosition, moveSpeed);
                 }
                 else
                 {
                     transform.localScale = Vector3.one;
                     transform.localEulerAngles = TargetRotation;
-                    transform.localPosition = Vector3.MoveTowards(transform.localPosition, basePosition, moveSpeed);
+                    transform.localPosition = Vector3.MoveTowards(transform.localPosition, TargetPosition, moveSpeed);
                 }
                 break;
 
@@ -147,7 +146,7 @@ public class CardController : BaseController
             case ControllerStatus.Targeting:    
                 transform.localScale = Vector3.one;
                 transform.localEulerAngles = Vector3.zero;
-                transform.localPosition = Vector3.MoveTowards(transform.localPosition, baseZoomPosition, moveSpeed);
+                transform.localPosition = Vector3.MoveTowards(transform.localPosition, targetZoomPosition, moveSpeed);
                 break;
         }
     }

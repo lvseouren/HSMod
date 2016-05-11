@@ -6,8 +6,7 @@ public class HandController : MonoBehaviour
     public Player Player;
     public List<CardController> Controllers = new List<CardController>();
 
-    private const float INTERVAL = 4f;
-    private const float HALF_INTERVAL = 2f;
+    private const float DISTANCE = 9.5f;
 
     public static HandController Create(Player player, Vector3 handPosition)
     {
@@ -46,6 +45,30 @@ public class HandController : MonoBehaviour
     {
         if (Controllers.Count > 0)
         {
+            float separationAngle = (27 - Controllers.Count * 2);
+
+            float halfTotalAngle = separationAngle * (Controllers.Count - 1) / 2f;
+
+            for (int i = 0; i < Controllers.Count; i++)
+            {
+                CardController controller = Controllers[i];
+
+                float cardAngle = separationAngle * i - halfTotalAngle;
+                float cardRotation = cardAngle * Mathf.Deg2Rad;
+
+                float cardX = Mathf.Sin(cardRotation) * DISTANCE;
+                float cardY = Mathf.Cos(cardRotation) * DISTANCE;
+
+                controller.TargetPosition = new Vector3(cardX, cardY, 0f);
+                controller.TargetRotation = new Vector3(0f, 0f, -cardAngle);
+
+                print(controller.name + " -> " + controller.TargetPosition);
+            }
+
+            // transform.localEulerAngles = new Vector3(0f, 0f, halfTotalAngle / 2f);
+
+            /*
+
             switch (Controllers.Count.IsPair())
             {
                 case true:
@@ -58,12 +81,12 @@ public class HandController : MonoBehaviour
                         if (i < countHalf)
                         {
                             int cardPosition = (countHalf - i);
-                            controller.TargetX = -1 * INTERVAL * cardPosition + HALF_INTERVAL;
+                            controller.TargetX = -1 * DISTANCE * cardPosition + HALF_INTERVAL;
                         }
                         else
                         {
                             int cardPosition = (i + 1 - countHalf);
-                            controller.TargetX = INTERVAL * cardPosition - HALF_INTERVAL;
+                            controller.TargetX = DISTANCE * cardPosition - HALF_INTERVAL;
                         }
                     }
                     break;
@@ -78,7 +101,7 @@ public class HandController : MonoBehaviour
                         if (i < countMiddle)
                         {
                             int cardPosition = (countMiddle - i);
-                            controller.TargetX = -1 * INTERVAL * cardPosition;
+                            controller.TargetX = -1 * DISTANCE * cardPosition;
                         }
                         else if (i == countMiddle)
                         {
@@ -87,7 +110,7 @@ public class HandController : MonoBehaviour
                         else
                         {
                             int cardPosition = (i - countMiddle);
-                            controller.TargetX = INTERVAL * cardPosition;
+                            controller.TargetX = DISTANCE * cardPosition;
                         }
                     }
                     break;
@@ -100,6 +123,8 @@ public class HandController : MonoBehaviour
 
                 Controllers[i].TargetRotation = new Vector3(0f, 0f, angle);
             }
+            
+            */
         }
     }
 }
