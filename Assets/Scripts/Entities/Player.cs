@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
 
     private Player() { }
 
-    public static Player Create(HeroClass heroClass, Vector3 center, Vector3 hand, Vector3 mana, bool displayCrystals)
+    public static Player Create(HeroClass heroClass, Vector3 center, Vector3 hand, Vector3 mana, bool displayCrystals, bool inverted)
     {
         GameObject playerObject = new GameObject("Player_" + heroClass.Name());
         playerObject.transform.localScale = Vector3.one * 50f;
@@ -55,7 +55,7 @@ public class Player : MonoBehaviour
         
         player.ManaController = ManaController.Create(player, mana, displayCrystals);
         player.HeroController = HeroController.Create(player.Hero);
-        player.HandController = HandController.Create(player, hand);
+        player.HandController = HandController.Create(player, hand, inverted);
 
         return player;
     }

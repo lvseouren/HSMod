@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
         Vector3 bottomHand = new Vector3(0f, -11f, 0f);
         Vector3 bottomMana = new Vector3(8.05f, -3.25f, 0f);
 
-        BottomPlayer = Player.Create(HeroClass.DeathKnight, bottomCenter, bottomHand, bottomMana, true);
+        BottomPlayer = Player.Create(HeroClass.DeathKnight, bottomCenter, bottomHand, bottomMana, true, false);
 
         BottomPlayer.Hero.HeroPower = new RaiseGhoul(BottomPlayer.Hero);
 
@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
         Vector3 topHand = new Vector3(0f, 11f, 0f);
         Vector3 topMana = new Vector3(8.05f, 3.25f, 0f);
 
-        TopPlayer = Player.Create(HeroClass.DeathKnight, topCenter, topHand, topMana, false);
+        TopPlayer = Player.Create(HeroClass.DeathKnight, topCenter, topHand, topMana, false, true);
 
         TopPlayer.Hero.HeroPower = new RaiseGhoul(TopPlayer.Hero);
 

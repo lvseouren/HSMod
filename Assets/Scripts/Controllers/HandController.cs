@@ -8,11 +8,16 @@ public class HandController : MonoBehaviour
 
     private const float DISTANCE = 10.5f;
 
-    public static HandController Create(Player player, Vector3 handPosition)
+    public static HandController Create(Player player, Vector3 handPosition, bool inverted)
     {
         GameObject heroObject = new GameObject("HandController");
         heroObject.transform.ChangeParentAt(player.transform, handPosition);
         heroObject.transform.localScale = Vector3.one * 0.75f;
+
+        if (inverted)
+        {
+            heroObject.transform.localEulerAngles = new Vector3(0f, 0f, 180f);
+        }
 
         HandController handController = heroObject.AddComponent<HandController>();
         handController.Player = player;
