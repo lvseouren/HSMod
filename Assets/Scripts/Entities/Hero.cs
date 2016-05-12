@@ -120,7 +120,7 @@ public class Hero : Character
 
     public override void CheckDeath()
     {
-        if (this.IsAlive() == false)
+        if (IsAlive() == false)
         {
             // TODO : End game
         }
@@ -157,8 +157,6 @@ public class Hero : Character
 
     public override bool CanAttack()
     {
-        return true; // TODO : Delete this (true for testing purposes)
-
         if (IsFrozen == false)
         {
             if (CurrentAttack > 0 || Player.HasWeapon())
@@ -173,6 +171,7 @@ public class Hero : Character
                 }
             }
         }
+
         return false;
     }
 

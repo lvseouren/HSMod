@@ -15,7 +15,7 @@
 
     public override void Cast(Character target)
     {
-        int damage = 2 + this.Player.GetSpellPower();
+        int damage = 2 + Player.GetSpellPower();
 
         target.TryDamage(null, damage);
 

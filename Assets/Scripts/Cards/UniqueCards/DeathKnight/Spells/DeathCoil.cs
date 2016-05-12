@@ -17,13 +17,13 @@ public class DeathCoil : SpellCard
 
     public override void Cast(Character target)
     {
-        if (target.IsFriendlyOf(this.Player.Hero))
+        if (target.IsFriendlyOf(Player.Hero))
         {
             target.Heal(target.GetMissingHealth());
         }
         else
         {
-            int damage = 2 + this.Player.GetSpellPower();
+            int damage = 2 + Player.GetSpellPower();
 
             target.TryDamage(null, damage);
         }

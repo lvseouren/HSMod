@@ -57,7 +57,7 @@
         Buffs.AllBuffs.Add(buff);
 
         // Firing OnAdded for that buff
-        buff.OnAdded(this.Minion);
+        buff.OnAdded(Minion);
     }
 
     public void RemoveBuff(BaseBuff buff)
@@ -69,7 +69,7 @@
             Buffs.AllBuffs.Remove(buff);
 
             // Firing OnRemoved for that buff
-            buff.OnRemoved(this.Minion);
+            buff.OnRemoved(Minion);
         }
     }
 }

@@ -17,7 +17,7 @@ public class Necrosis : SpellCard
 
     public override void Cast(Character target)
     {
-        int damage = 4 + this.Player.GetSpellPower();
+        int damage = 4 + Player.GetSpellPower();
 
         target.TryDamage(null, damage);
     }

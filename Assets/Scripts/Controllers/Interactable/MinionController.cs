@@ -66,7 +66,7 @@ public class MinionController : BaseController
         string glowString = GetGlowString();
 
         // Loading the sprites
-        TokenRenderer.sprite = Resources.Load<Sprite>(tokenString + this.Minion.TypeName());
+        TokenRenderer.sprite = Resources.Load<Sprite>(tokenString + Minion.TypeName());
         WhiteGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "WhiteGlow");
         GreenGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "GreenGlow");
         RedGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "RedGlow");

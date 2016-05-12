@@ -9,14 +9,14 @@
     
     public void OnCast(Character target)
     {
-        SpellPreCastEvent spellPreCastEvent = EventManager.Instance.OnSpellPreCast(this.Player, this);
+        SpellPreCastEvent spellPreCastEvent = EventManager.Instance.OnSpellPreCast(Player, this);
 
         if (spellPreCastEvent.Status != PreStatus.Cancelled)
         {
             Cast(target);
         }
 
-        EventManager.Instance.OnSpellCasted(this.Player, this);
+        EventManager.Instance.OnSpellCasted(Player, this);
     }
 
     public virtual void Cast(Character target) { }
@@ -27,17 +27,17 @@
         if (target.IsHero())
         {
             // The target is the own Hero
-            if (this.Player.Hero == target.As<Hero>())
+            if (Player.Hero == target.As<Hero>())
             {
                 // True for AllCharacters
-                return (this.TargetType == TargetType.AllCharacters || this.TargetType == TargetType.FriendlyCharacters);
+                return (TargetType == TargetType.AllCharacters || TargetType == TargetType.FriendlyCharacters);
             }
 
             // The target is the enemy Hero
             else
             {
                 // True for AllCharacters and EnemyCharacters types
-                return (this.TargetType == TargetType.AllCharacters || this.TargetType == TargetType.EnemyCharacters);
+                return (TargetType == TargetType.AllCharacters || TargetType == TargetType.EnemyCharacters);
             }
         }
 
@@ -45,15 +45,15 @@
         else
         {
             // The target is friendly
-            if (this.Player == target.As<MinionCard>().Player)
+            if (Player == target.As<MinionCard>().Player)
             {
-                return (this.TargetType == TargetType.AllCharacters || this.TargetType == TargetType.AllMinions || this.TargetType == TargetType.FriendlyMinions);
+                return (TargetType == TargetType.AllCharacters || TargetType == TargetType.AllMinions || TargetType == TargetType.FriendlyMinions);
             }
 
             // The target is enemy
             else
             {
-                return (this.TargetType == TargetType.AllCharacters || this.TargetType == TargetType.AllMinions || this.TargetType == TargetType.EnemyMinions);
+                return (TargetType == TargetType.AllCharacters || TargetType == TargetType.AllMinions || TargetType == TargetType.EnemyMinions);
             }
         }
     }

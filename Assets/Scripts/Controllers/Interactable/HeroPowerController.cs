@@ -96,19 +96,19 @@ public class HeroPowerController : BaseController
 
     private void OnMouseEnter()
     {
-        this.SetWhiteRenderer(true);
+        SetWhiteRenderer(true);
     }
 
     private void OnMouseExit()
     {
-        this.SetWhiteRenderer(false);
+        SetWhiteRenderer(false);
     }
 
     private void OnMouseDown()
     {
-        if (this.HeroPower.IsAvailable())
+        if (HeroPower.IsAvailable())
         {
-            switch (this.HeroPower.TargetType)
+            switch (HeroPower.TargetType)
             {
                 case TargetType.NoTarget:
                     HeroPower.Use();
@@ -123,9 +123,9 @@ public class HeroPowerController : BaseController
 
     private void OnMouseUp()
     {
-        if (this.HeroPower.IsAvailable())
+        if (HeroPower.IsAvailable())
         {
-            if (this.HeroPower.TargetType != TargetType.NoTarget)
+            if (HeroPower.TargetType != TargetType.NoTarget)
             {
                 InterfaceManager.Instance.DisableArrow();
 
@@ -133,9 +133,9 @@ public class HeroPowerController : BaseController
                 
                 if (target != null)
                 {
-                    if (this.HeroPower.CanTarget(target))
+                    if (HeroPower.CanTarget(target))
                     {
-                        this.HeroPower.Use(target);
+                        HeroPower.Use(target);
                     }
                 }
             }
