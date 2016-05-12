@@ -52,9 +52,9 @@ public class InterfaceManager : MonoBehaviour
         bodyObject = CreateChildObject("ArrowBody", 0f);
 
         // Creating the SpriteRenderer for each UI GameObject
-        circleRenderer = CreateChildSprite(circleObject, "Sprites/UI/ArrowCircle", 50);
-        bodyRenderer = CreateChildSprite(bodyObject, "Sprites/UI/ArrowBody", 51);
-        arrowRenderer = CreateChildSprite(arrowObject, "Sprites/UI/Arrow", 52);
+        arrowRenderer = CreateChildSprite(arrowObject, "Sprites/UI/Arrow", 1002);
+        bodyRenderer = CreateChildSprite(bodyObject, "Sprites/UI/ArrowBody", 1001);
+        circleRenderer = CreateChildSprite(circleObject, "Sprites/UI/ArrowCircle", 1000);
     }
 
     private void LateUpdate()
@@ -63,6 +63,7 @@ public class InterfaceManager : MonoBehaviour
         {
             // Getting the world position of the mouse
             Vector3 worldMousePosition = Util.GetWorldMousePosition();
+            Vector3 worldNormalizedPosition = new Vector3(worldMousePosition.x, 100f, worldMousePosition.z);
 
             // Getting the direction vector from the minion to the mouse
             Vector3 directionVector = Input.mousePosition - screenOriginPosition;
@@ -75,14 +76,14 @@ public class InterfaceManager : MonoBehaviour
 
 
             // Arrow //
-            
-            arrowRenderer.transform.position = worldMousePosition;
+
+            arrowRenderer.transform.position = worldNormalizedPosition;
             arrowRenderer.transform.localEulerAngles = directionRotation;
 
             
             // Circle //
 
-            circleRenderer.transform.position = worldMousePosition;
+            circleRenderer.transform.position = worldNormalizedPosition;
 
 
             // Arrow Body //
@@ -125,9 +126,9 @@ public class InterfaceManager : MonoBehaviour
         return spriteRenderer;
     }
 
-    public void EnableArrow(BaseController controller)
+    public void EnableArrowAt(BaseController controller, Vector3 position)
     {
-        Vector3 screenPosition = Camera.main.WorldToScreenPoint(controller.transform.position);
+        Vector3 screenPosition = Camera.main.WorldToScreenPoint(position);
 
         screenOriginPosition = new Vector3(screenPosition.x, screenPosition.y, 0f);
         originController = controller;
@@ -136,6 +137,11 @@ public class InterfaceManager : MonoBehaviour
 
         arrowRenderer.enabled = true;
         bodyRenderer.enabled = true;
+    }
+
+    public void EnableArrow(BaseController controller)
+    {
+        EnableArrowAt(controller, controller.transform.position);
     }
 
     public void DisableArrow()
