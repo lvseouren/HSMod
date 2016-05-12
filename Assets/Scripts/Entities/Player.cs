@@ -47,8 +47,11 @@ public class Player : MonoBehaviour
         player.Hero = new Hero()
         {
             Player = player,
-            Class = heroClass
+            Class = heroClass,
+            BaseHealth = 30
         };
+
+        player.Hero.Initialize();
         
         player.ManaController = ManaController.Create(player, mana, displayCrystals);
         player.HeroController = HeroController.Create(player.Hero);

@@ -82,11 +82,20 @@ public class Hero : Character
     {
         HeroPreDamageEvent heroPreDamageEvent = EventManager.Instance.OnHeroPreDamage(this, attacker, damageAmount);
 
-        if (attacker.IsAlive())
+        if (attacker != null)
         {
-            this.Damage(heroPreDamageEvent.DamageAmount);
+            if (attacker.IsAlive())
+            {
+                Damage(heroPreDamageEvent.DamageAmount);
 
-            EventManager.Instance.OnHeroDamaged(this, attacker, heroPreDamageEvent.DamageAmount);
+                EventManager.Instance.OnHeroDamaged(this, attacker, heroPreDamageEvent.DamageAmount);
+            }
+        }
+        else
+        {
+            Damage(heroPreDamageEvent.DamageAmount);
+
+            EventManager.Instance.OnHeroDamaged(this, null, heroPreDamageEvent.DamageAmount);
         }
     }
 

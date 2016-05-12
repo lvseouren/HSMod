@@ -44,9 +44,9 @@
 
     #region Methods
 
-    public virtual void Spawn()
+    public virtual void Initialize()
     {
-        MaxHealth = CurrentHealth;
+        MaxHealth = BaseHealth;
         CurrentHealth = BaseHealth;
         CurrentAttack = BaseAttack;
         CurrentArmor = BaseArmor;
