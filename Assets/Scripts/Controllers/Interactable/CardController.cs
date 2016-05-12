@@ -3,7 +3,8 @@
 public class CardController : BaseController
 {
     public BaseCard Card;
-    
+
+    public int TargetRenderingOrder = 0;
     public Vector3 TargetPosition = Vector3.zero;
     public Vector3 TargetRotation = Vector3.zero;
 
@@ -137,12 +138,14 @@ public class CardController : BaseController
             case ControllerStatus.Inactive:
                 if (IsHovering && transform.localPosition.x == TargetPosition.x)
                 {
+                    SetRenderingOrder(500);
                     transform.localScale = Vector3.one * 2f;
                     transform.localEulerAngles = Vector3.zero;
                     transform.localPosition = Vector3.MoveTowards(transform.localPosition, targetZoomPosition, moveSpeed);
                 }
                 else
                 {
+                    SetRenderingOrder(TargetRenderingOrder);
                     transform.localScale = Vector3.one;
                     transform.localEulerAngles = TargetRotation;
                     transform.localPosition = Vector3.MoveTowards(transform.localPosition, TargetPosition, moveSpeed);
@@ -150,12 +153,14 @@ public class CardController : BaseController
                 break;
 
             case ControllerStatus.Dragging:
+                SetRenderingOrder(500);
                 transform.localScale = Vector3.one;
                 transform.localEulerAngles = Vector3.zero;
                 transform.position = Util.GetWorldMousePosition();
                 break;
 
-            case ControllerStatus.Targeting:    
+            case ControllerStatus.Targeting:
+                SetRenderingOrder(500);
                 transform.localScale = Vector3.one;
                 transform.localEulerAngles = Vector3.zero;
                 transform.localPosition = Vector3.MoveTowards(transform.localPosition, targetZoomPosition, moveSpeed);
@@ -184,7 +189,7 @@ public class CardController : BaseController
 
             case CardType.Spell:
                 Status = ControllerStatus.Targeting;
-                InterfaceManager.Instance.EnableArrow(this);
+                InterfaceManager.Instance.EnableArrowAt(this, new Vector3(TargetPosition.x, 13f, 0f));
                 break;
         }
     }

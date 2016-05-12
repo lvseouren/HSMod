@@ -60,6 +60,8 @@ public class HandController : MonoBehaviour
 
                 controller.TargetPosition = new Vector3(cardX, cardY, 0f);
                 controller.TargetRotation = new Vector3(0f, 0f, -cardAngle);
+
+                controller.TargetRenderingOrder = 200 + 10 * i;
             }
         }
     }
