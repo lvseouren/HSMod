@@ -858,9 +858,6 @@ GameObject:
   - 4: {fileID: 414038}
   - 33: {fileID: 3328354}
   - 23: {fileID: 2371270}
-  - 65: {fileID: 6539120}
-  - 95: {fileID: 9542054}
-  - 114: {fileID: 11474108}
   m_Layer: 0
   m_Name: Button_EndTurn
   m_TagString: Untagged
@@ -3495,47 +3492,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 128898}
   m_Mesh: {fileID: 4300090, guid: 6de5973833a9a4ddc8bd18025109d13f, type: 3}
---- !u!65 &6539120
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 194144}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 184.18384, y: 26.8817, z: 99.534}
-  m_Center: {x: -1477.2692, y: 41.918312, z: -626.948}
---- !u!95 &9542054
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 194144}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 71ea28287e828b54f942fc5af9404fe7, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &11474108
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 194144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d4457ea0ffefff4aa7ad1ad52082625, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsEnabled: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
