@@ -6,7 +6,7 @@ public class HandController : MonoBehaviour
     public Player Player;
     public List<CardController> Controllers = new List<CardController>();
 
-    private const float DISTANCE = 9.5f;
+    private const float DISTANCE = 10.5f;
 
     public static HandController Create(Player player, Vector3 handPosition)
     {
