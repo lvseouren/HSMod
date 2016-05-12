@@ -23,15 +23,16 @@ public class MinionController : BaseController
 
     public override void Initialize()
     {
-        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, Vector3.zero, 10);
-        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, Vector3.zero, 11);
-        WhiteGlowRenderer = CreateRenderer("WhiteGlow", Vector3.one * 2f, Vector3.zero, 12);
+        TokenRenderer = CreateRenderer("Token", Vector3.one, Vector3.zero, 14);
 
         MinionRenderer = CreateRenderer("Minion", Vector3.one, Vector3.zero, 13);
 
-        TokenRenderer = CreateRenderer("Token", Vector3.one, Vector3.zero, 14);
+        WhiteGlowRenderer = CreateRenderer("WhiteGlow", Vector3.one * 2f, Vector3.zero, 12);
+        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, Vector3.zero, 11);
+        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, Vector3.zero, 10);
         
         UpdateSprites();
+        UpdateNumbers();
     }
 
     public override void Remove()

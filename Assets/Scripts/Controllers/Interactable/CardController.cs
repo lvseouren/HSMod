@@ -87,6 +87,18 @@ public class CardController : BaseController
         }
     }
 
+    public void SetRenderingOrder(int order)
+    {
+        CostController.SetRenderingOrder(order + 3);
+        AttackController.SetRenderingOrder(order + 3);
+        AttributeController.SetRenderingOrder(order + 3);
+
+        CardRenderer.sortingOrder = order + 2;
+
+        ComboGlowRenderer.sortingOrder = order + 1;
+        GreenGlowRenderer.sortingOrder = order;
+    }
+
     private string GetGlowType()
     {
         switch (Card.TypeName())

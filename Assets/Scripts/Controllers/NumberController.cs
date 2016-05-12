@@ -60,6 +60,16 @@ public class NumberController : MonoBehaviour
         }
     }
 
+    public void SetRenderingOrder(int order)
+    {
+        Order = order;
+
+        foreach (Renderer renderer in Renderers)
+        {
+            renderer.sortingOrder = order;
+        }
+    }
+
     private SpriteRenderer CreateNumberRenderer(int number, string color)
     {
         GameObject baseObject = new GameObject("NumberRenderer_" + number);
