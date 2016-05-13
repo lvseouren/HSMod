@@ -187,14 +187,14 @@ public class GameManager : MonoBehaviour
         // Drawing 1 card
         CurrentPlayer.Draw();
 
-        // Adding 1 to the turn mana if it's lower than 10
-        if (CurrentPlayer.TurnMana < 10)
-        {
-            CurrentPlayer.TurnMana++;
-            CurrentPlayer.ManaController.UpdateAll();
-        }
+        // Adding 1 to the turn mana
+        CurrentPlayer.AddEmptyMana(1);
 
-        // Refilling mana crystalls
+        // Moving the overloaded mana crystals to the current turn
+        CurrentPlayer.CurrentOverloadedMana = CurrentPlayer.NextOverloadedMana;
+        CurrentPlayer.NextOverloadedMana = 0;
+
+        // Refilling mana crystals
         CurrentPlayer.RefillMana();
 
         // Updating card, hero and minion glows for the current player

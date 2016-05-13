@@ -30,10 +30,12 @@ public class Player : MonoBehaviour
     public int Fatigue;
 
     public int MaximumMana = 10;
+
     public int TurnMana = 1; // Testing purposes - switch back to 0 when finished
-    public int OverloadedMana;
     public int AvailableMana;
     public int UsedMana;
+    public int CurrentOverloadedMana;
+    public int NextOverloadedMana;
 
     #region Constructor
 
@@ -79,10 +81,50 @@ public class Player : MonoBehaviour
         // TODO
     }
 
+    public void AddMana(int quantity)
+    {
+        AvailableMana += quantity;
+
+        if (AvailableMana > MaximumMana)
+        {
+            AvailableMana = MaximumMana;
+        }
+        
+        ManaController.UpdateAll();
+    }
+
+    public void AddEmptyMana(int quantity)
+    {
+        TurnMana += quantity;
+
+        if (TurnMana > MaximumMana)
+        {
+            TurnMana = MaximumMana;
+        }
+
+        ManaController.UpdateAll();
+    }
+
+    public void AddOverloadedMana(int quantity)
+    {
+        NextOverloadedMana += quantity;
+
+        ManaController.UpdateAll();
+    }
+
+    public void UseMana(int quantity)
+    {
+        AvailableMana -= quantity;
+        UsedMana += quantity;
+
+        ManaController.UpdateAll();
+    }
+
     public void RefillMana()
     {
-        AvailableMana = TurnMana - OverloadedMana;
-        OverloadedMana = 0;
+        AvailableMana = Mathf.Clamp(TurnMana - CurrentOverloadedMana, 0, 10);
+
+        ManaController.UpdateAll();
     }
 
     public List<BaseCard> Draw(int draws)
@@ -263,7 +305,7 @@ public class Player : MonoBehaviour
 
     public int GetUsedMana()
     {
-        return TurnMana - OverloadedMana - AvailableMana;
+        return TurnMana - CurrentOverloadedMana - AvailableMana;
     }
 
     #endregion

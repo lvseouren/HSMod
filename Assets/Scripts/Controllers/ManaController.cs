@@ -53,7 +53,7 @@ public class ManaController : MonoBehaviour
                 count++;
             }
 
-            for (int i = 0; i < Player.TurnMana - Player.OverloadedMana - Player.AvailableMana; i++)
+            for (int i = 0; i < Player.TurnMana - Player.CurrentOverloadedMana - Player.AvailableMana; i++)
             {
                 SpriteRenderer manarRenderer = CreateManaRenderer("Used", new Vector3(count, 0f, 0f));
 
@@ -62,7 +62,7 @@ public class ManaController : MonoBehaviour
                 count++;
             }
 
-            for (int i = 0; i < Player.OverloadedMana; i++)
+            for (int i = 0; i < Player.CurrentOverloadedMana; i++)
             {
                 SpriteRenderer manarRenderer = CreateManaRenderer("Overloaded", new Vector3(count, 0f, 0f));
 
