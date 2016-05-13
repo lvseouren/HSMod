@@ -4,19 +4,15 @@ public class MinionController : BaseController
 {
     public Minion Minion;
 
-    public SpriteRenderer MinionRenderer;
     public SpriteRenderer TokenRenderer;
+    public SpriteRenderer MinionRenderer;
 
-    public bool HasTaunt = false;
-    public bool IsFrozen = false;
-    public bool IsStealth = false;
-
-    public static MinionController Create(MinionCard minion)
+    public static MinionController Create(BoardController parentBoard, MinionCard minion)
     {
-        GameObject minionObject = new GameObject(minion.Player.name + "_" + minion.Name);
+        GameObject minionObject = new GameObject(minion.Name);
+        minionObject.transform.ChangeParent(parentBoard.transform);
 
         MinionController minionController = minionObject.AddComponent<MinionController>();
-        minionController.HasTaunt = minion.HasTaunt;
 
         minionController.Initialize();
 
@@ -39,39 +35,33 @@ public class MinionController : BaseController
 
     public override void Remove()
     {
-        MinionRenderer.DisposeSprite();
-        Destroy(MinionRenderer);
-
-        TokenRenderer.DisposeSprite();
         Destroy(TokenRenderer);
 
-        WhiteGlowRenderer.DisposeSprite();
+        MinionRenderer.DisposeSprite();
+        Destroy(MinionRenderer);
+        
         Destroy(WhiteGlowRenderer);
-
-        GreenGlowRenderer.DisposeSprite();
-        Destroy(GreenGlowRenderer.gameObject);
-
-        RedGlowRenderer.DisposeSprite();
+        Destroy(GreenGlowRenderer);
         Destroy(RedGlowRenderer);
     }
 
     public override void UpdateSprites()
     {
         // Cleaning up the old sprites and textures to avoid memory leaks
-        TokenRenderer.DisposeSprite();
-        WhiteGlowRenderer.DisposeSprite();
-        GreenGlowRenderer.DisposeSprite();
-        RedGlowRenderer.DisposeSprite();
+        MinionRenderer.DisposeSprite();
 
         // Getting the path strings
-        string tokenString = GetTokenString();
-        string glowString = GetGlowString();
+        string tokenPath = GetTokenPath();
+        string glowPath = GetGlowPath();
 
         // Loading the sprites
-        TokenRenderer.sprite = Resources.Load<Sprite>(tokenString + Minion.TypeName());
-        WhiteGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "WhiteGlow");
-        GreenGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "GreenGlow");
-        RedGlowRenderer.sprite = Resources.Load<Sprite>(glowString + "RedGlow");
+        TokenRenderer.sprite = SpriteManager.Instance.Tokens[tokenPath];
+        
+        MinionRenderer.sprite = Resources.Load<Sprite>("Sprites/" + Minion.Card.Class.Name() + "/Minions/" + Minion.Card.TypeName());
+
+        WhiteGlowRenderer.sprite = SpriteManager.Instance.Glows[glowPath + "WhiteGlow"];
+        GreenGlowRenderer.sprite = SpriteManager.Instance.Glows[glowPath + "GreenGlow"];
+        RedGlowRenderer.sprite = SpriteManager.Instance.Glows[glowPath + "RedGlow"];
     }
 
     public override void UpdateNumbers()
@@ -79,38 +69,44 @@ public class MinionController : BaseController
         // TODO
     }
 
-    private string GetTokenString()
+    private string GetTokenPath()
     {
-        return "Sprites/" + Minion.Card.Class.Name() + "/Minions/";
+        if (Minion.Card.Rarity == CardRarity.Legendary)
+        {
+            return "Sprites/General/Minion_LegendaryToken";
+        }
+
+        return "Sprites/General/Minion_NormalToken";
     }
 
-    private string GetGlowString()
+    private string GetGlowPath()
     {
-        string glowString = "Sprites/Glows/Minion_";
+        string glowString = "Minion_";
 
-        switch (Minion.Card.Rarity)
+        if (Minion.Card.Rarity == CardRarity.Legendary)
         {
-            case CardRarity.Legendary:
-                glowString += "Legendary_";
-                break;
-
-            default:
-                glowString += "Normal_";
-                break;
+            glowString += "Legendary";
+        }
+        else
+        {
+            glowString += "Normal";
         }
         
-        // these were created at the top of this files
-        if (HasTaunt)
+        if (Minion.HasTaunt)
         {
-            glowString += "Taunt_";
+            glowString += "Taunt";
         }
 
-        if (IsFrozen)
+        return glowString + "_";
+
+        // Probably will look into something like a semi-transparent overlay instead of new sprites for Frozen and Stealth
+
+        if (Minion.IsFrozen)
         {
             glowString += "Frozen_";
         }
 
-        if (IsStealth)
+        if (Minion.IsStealth)
         {
             glowString += "Stealth_";
         }
