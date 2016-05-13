@@ -36,9 +36,9 @@ public class HeroController : BaseController
 
     public override void Initialize()
     {
-        AttackController = NumberController.Create("Attack_Controller", this.gameObject, new Vector3(-1.4f, -0.85f, 0f), 36);
-        HealthController = NumberController.Create("Health_Controller", this.gameObject, new Vector3(1.5f, -0.85f, 0f), 36);
-        ArmorController = NumberController.Create("Armor_Controller", this.gameObject, new Vector3(1.5f, 0f, 0f), 36);
+        AttackController = NumberController.Create("Attack_Controller", this.gameObject, new Vector3(-1.4f, -0.85f, 0f), 36, 0.45f);
+        HealthController = NumberController.Create("Health_Controller", this.gameObject, new Vector3(1.45f, -0.85f, 0f), 36, 0.45f);
+        ArmorController = NumberController.Create("Armor_Controller", this.gameObject, new Vector3(1.5f, 0f, 0f), 36, 0.45f);
 
         AttackRenderer = CreateRenderer("Attack_Sprite", Vector3.one * 0.55f, new Vector3(-1.5f, -0.75f, 0f), 34);
         HealthRenderer = CreateRenderer("Health_Sprite", Vector3.one * 0.55f, new Vector3(1.5f, -0.75f, 0f), 34);

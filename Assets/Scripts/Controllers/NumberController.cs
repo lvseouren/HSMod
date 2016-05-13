@@ -5,9 +5,10 @@ public class NumberController : MonoBehaviour
 {
     private Vector3 MainPosition;
     private int Order;
+    private float Size;
     private List<SpriteRenderer> Renderers = new List<SpriteRenderer>();
 
-    public static NumberController Create(string name, GameObject parent, Vector3 position, int order)
+    public static NumberController Create(string name, GameObject parent, Vector3 position, int order, float size)
     {
         GameObject controllerObject = new GameObject(name);
         controllerObject.transform.parent = parent.transform;
@@ -18,6 +19,7 @@ public class NumberController : MonoBehaviour
         NumberController numberController = controllerObject.AddComponent<NumberController>();
         numberController.MainPosition = position;
         numberController.Order = order;
+        numberController.Size = size;
 
         return numberController;
     }
@@ -36,10 +38,10 @@ public class NumberController : MonoBehaviour
             SpriteRenderer numberRenderer = CreateNumberRenderer(number, color);
             Renderers.Add(numberRenderer);
 
-            numberRenderer.transform.localPosition = new Vector3(i * 0.6f, 0f, 0f);
+            numberRenderer.transform.localPosition = new Vector3(i * Size, 0f, 0f);
         }
 
-        this.transform.localPosition = MainPosition - new Vector3((numberCharacters.Length - 1) * 0.3f, 0f, 0f);
+        this.transform.localPosition = MainPosition - new Vector3((numberCharacters.Length - 1) * Size / 2f, 0f, 0f);
     }
 
     public void DestroyRenderers()
@@ -74,7 +76,7 @@ public class NumberController : MonoBehaviour
     {
         GameObject baseObject = new GameObject("NumberRenderer_" + number);
         baseObject.transform.ChangeParent(this.transform);
-        baseObject.transform.localScale = Vector3.one * 0.5f;
+        baseObject.transform.localScale = Vector3.one * Size;
 
         SpriteRenderer spriteRenderer = baseObject.AddComponent<SpriteRenderer>();
         spriteRenderer.material = Resources.Load<Material>("Materials/SpriteOverrideMaterial");
