@@ -32,13 +32,13 @@
     public bool HasDivineShield = false;
     public bool IsImmune = false;
     public bool IsElusive = false;
+    public bool IsForgetful = false;
     public bool IsStealth = false;
 
     public int SpellPower = 0;
 
     public bool IsSilenced = false;
     public bool IsFrozen = false;
-    public bool IsForgetful = false;
     
     #endregion
 

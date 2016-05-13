@@ -48,6 +48,8 @@ public class Minion : Character
             }
         }
 
+        IsStealth = false;
+
         // Firing OnPreAttack events
         Buffs.OnPreAttack.OnNext(null);
         MinionPreAttackEvent minionPreAttackEvent = EventManager.Instance.OnMinionPreAttack(this, target);
@@ -76,8 +78,6 @@ public class Minion : Character
                 this.CheckDeath();
                 target.CheckDeath();
             }
-
-            this.IsStealth = false;
 
             // Firing OnAttacked events
             Buffs.OnAttacked.OnNext(null);

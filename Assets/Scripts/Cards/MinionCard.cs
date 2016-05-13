@@ -26,15 +26,11 @@
     public bool HasPoison = false;
     public bool HasWindfury = false;
     public bool HasDivineShield = false;
-    public bool IsImmune = false;
-    public bool IsElusive = false;
-    public bool IsStealth = false;
+    public bool HasElusiveness = false;
+    public bool HasStealth = false;
+    public bool IsForgetful = false;
 
     public int SpellPower = 0;
-
-    public bool IsSilenced = false;
-    public bool IsFrozen = false;
-    public bool IsForgetful = false;
 
     #endregion
 
