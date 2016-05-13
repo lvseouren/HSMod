@@ -66,6 +66,9 @@ public class CardController : BaseController
 
     public override void UpdateSprites()
     {
+        // Cleaning up the old sprites and textures to avoid memory leaks
+        CardRenderer.DisposeSprite();
+
         // Loading the sprites into the SpriteRenderers
         CardRenderer.sprite = Resources.Load<Sprite>("Sprites/" + Card.Class.Name() + "/Cards/" + Card.TypeName());
         GreenGlowRenderer.sprite = SpriteManager.Instance.Glows["Card_" + GlowType + "_GreenGlow"];

@@ -75,18 +75,14 @@ public class HeroController : BaseController
     {
         // Cleaning up the old sprites and textures to avoid memory leaks
         HeroRenderer.DisposeSprite();
-        AttackRenderer.DisposeSprite();
-        HealthRenderer.DisposeSprite();
-        GreenGlowRenderer.DisposeSprite();
-        RedGlowRenderer.DisposeSprite();
 
-        // Loading the sprites from the Resources folder
+        // Loading the sprites into the SpriteRenderers
         HeroRenderer.sprite = Resources.Load<Sprite>("Sprites/" + Hero.Class.Name() + "/Hero/" + Hero.Class.Name() + "_Portrait_Ingame");
-        AttackRenderer.sprite = Resources.Load<Sprite>("Sprites/General/Attack");
-        HealthRenderer.sprite = Resources.Load<Sprite>("Sprites/General/Health");
-        WhiteGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Hero_Portrait_WhiteGlow");
-        GreenGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Hero_Portrait_GreenGlow");
-        RedGlowRenderer.sprite = Resources.Load<Sprite>("Sprites/Glows/Hero_Portrait_RedGlow");
+        AttackRenderer.sprite = SpriteManager.Instance.Attributes["Attack"];
+        HealthRenderer.sprite = SpriteManager.Instance.Attributes["Health"];
+        WhiteGlowRenderer.sprite = SpriteManager.Instance.Glows["Hero_Portrait_WhiteGlow"];
+        GreenGlowRenderer.sprite = SpriteManager.Instance.Glows["Hero_Portrait_GreenGlow"];
+        RedGlowRenderer.sprite = SpriteManager.Instance.Glows["Hero_Portrait_RedGlow"];
     }
 
     public override void UpdateNumbers()
