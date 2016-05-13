@@ -78,6 +78,12 @@ public class ManaController : MonoBehaviour
         // TODO
     }
 
+    public void UpdateAll()
+    {
+        UpdateNumbers();
+        UpdateSprites();
+    }
+
     private SpriteRenderer CreateManaRenderer(string manaType, Vector3 position)
     {
         GameObject baseObject = new GameObject("ManaCrystal_" + manaType + "_Sprite");
