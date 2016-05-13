@@ -185,7 +185,7 @@ public class CardController : BaseController
     {
         switch (Card.GetCardType())
         {
-            case CardType.Minion:
+            case CardType.Minion: // TODO: if is frozen u can't do anything with it
             case CardType.Weapon:
                 Status = ControllerStatus.Dragging;
                 break;
@@ -203,7 +203,7 @@ public class CardController : BaseController
 
         switch (Card.GetCardType())
         {
-            case CardType.Minion:
+            case CardType.Minion: // TODO: if target has stealth u can't do anything to it.
             case CardType.Weapon:
                 // TODO : Check position and play or not
                 break;

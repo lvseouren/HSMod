@@ -8,6 +8,8 @@ public class MinionController : BaseController
     public SpriteRenderer TokenRenderer;
 
     public bool HasTaunt = false;
+    public bool IsFrozen = false;
+    public bool IsStealth = false;
 
     public static MinionController Create(MinionCard minion)
     {
@@ -97,9 +99,20 @@ public class MinionController : BaseController
                 break;
         }
         
+        // these were created at the top of this files
         if (HasTaunt)
         {
             glowString += "Taunt_";
+        }
+
+        if (IsFrozen)
+        {
+            glowString += "Frozen_";
+        }
+
+        if (IsStealth)
+        {
+            glowString += "Stealth_";
         }
 
         return glowString;
@@ -123,6 +136,12 @@ public class MinionController : BaseController
 
     private void OnMouseDown()
     {
+        if (Minion.IsFrozen)
+        {
+            Debug.Log("FROZEN MINION CANT ATTACK");
+            return;
+        }
+
         if (Minion.CanAttack())
         {
             InterfaceManager.Instance.EnableArrow(this);

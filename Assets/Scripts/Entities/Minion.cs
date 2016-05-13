@@ -77,6 +77,8 @@ public class Minion : Character
                 target.CheckDeath();
             }
 
+            this.IsStealth = false;
+
             // Firing OnAttacked events
             Buffs.OnAttacked.OnNext(null);
             EventManager.Instance.OnMinionAttacked(this, target);

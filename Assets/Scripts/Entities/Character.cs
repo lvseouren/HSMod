@@ -77,6 +77,8 @@
 
     public virtual bool CanAttack()
     {
+        if (this.IsFrozen) return false;
+
         return false;
     }
 
@@ -93,6 +95,8 @@
         else
         {
             Minion targetMinion = target.As<Minion>();
+
+            if (targetMinion.IsStealth) return false;
 
             if (targetMinion.HasTaunt)
             {
