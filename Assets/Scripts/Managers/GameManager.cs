@@ -29,7 +29,17 @@ public class GameManager : MonoBehaviour
     public Player TopPlayer;
     public Player BottomPlayer;
     public Player CurrentPlayer;
-    
+
+    private Vector3 BOTTOM_CENTER = new Vector3(798f, 60f, 230f);
+    private Vector3 BOTTOM_HAND = new Vector3(0f, -11f, 0f);
+    private Vector3 BOTTOM_MANA = new Vector3(8.05f, -3.25f, 0f);
+    private Vector3 BOTTOM_BOARD = new Vector3(0f, 5.5f, 0f);
+
+    private Vector3 TOP_CENTER = new Vector3(800f, 60f, 935f);
+    private Vector3 TOP_HAND = new Vector3(0f, 11f, 0f);
+    private Vector3 TOP_MANA = new Vector3(8.05f, 3.25f, 0f);
+    private Vector3 TOP_BOARD = new Vector3(0f, -4f, 0f);
+
     public void Start()
     {
         _instance = this;
@@ -39,49 +49,75 @@ public class GameManager : MonoBehaviour
 
         #region Test Zone
 
-        Vector3 bottomCenter = new Vector3(798f, 60f, 230f);
-        Vector3 bottomHand = new Vector3(0f, -11f, 0f);
-        Vector3 bottomMana = new Vector3(8.05f, -3.25f, 0f);
-
-        BottomPlayer = Player.Create(HeroClass.DeathKnight, bottomCenter, bottomHand, bottomMana, true, false);
-
-        BottomPlayer.Hero.HeroPower = new RaiseGhoul(BottomPlayer.Hero);
-
-        BottomPlayer.Deck = new List<BaseCard>()
+        PlayerParameters bottomParameters = new PlayerParameters()
         {
-            new CorpseExplosion(),
-            new AllWillServe(),
-            new DancingRuneblade(),
-            new SkeletonCommander(),
-            new DeathwhisperNecrolyte(),
-            new CorpseExplosion(),
-            new AllWillServe(),
-            new DancingRuneblade(),
-            new SkeletonCommander(),
-            new DeathwhisperNecrolyte()
+            HeroClass = HeroClass.DeathKnight,
+            HeroHealth = 30,
+            HeroArmor = 0,
+
+            PlayerPosition = BOTTOM_CENTER,
+
+            HandPosition = BOTTOM_HAND,
+            HandInverted = false,
+
+            ManaPosition = BOTTOM_MANA,
+            DisplayCrystals = true,
+
+            BoardPosition = BOTTOM_BOARD,
+
+            HeroPower = typeof(RaiseGhoul),
+
+            Deck = new List<BaseCard>()
+            {
+                new CorpseExplosion(),
+                new AllWillServe(),
+                new DancingRuneblade(),
+                new SkeletonCommander(),
+                new DeathwhisperNecrolyte(),
+                new CorpseExplosion(),
+                new AllWillServe(),
+                new DancingRuneblade(),
+                new SkeletonCommander(),
+                new DeathwhisperNecrolyte()
+            },
         };
 
-        Vector3 topCenter = new Vector3(800f, 60f, 935f);
-        Vector3 topHand = new Vector3(0f, 11f, 0f);
-        Vector3 topMana = new Vector3(8.05f, 3.25f, 0f);
+        BottomPlayer = Player.Create(bottomParameters);
 
-        TopPlayer = Player.Create(HeroClass.DeathKnight, topCenter, topHand, topMana, false, true);
-
-        TopPlayer.Hero.HeroPower = new RaiseGhoul(TopPlayer.Hero);
-
-        TopPlayer.Deck = new List<BaseCard>()
+        PlayerParameters topParameters = new PlayerParameters()
         {
-            new CorpseExplosion(),
-            new AllWillServe(),
-            new DancingRuneblade(),
-            new SkeletonCommander(),
-            new DeathwhisperNecrolyte(),
-            new CorpseExplosion(),
-            new AllWillServe(),
-            new DancingRuneblade(),
-            new SkeletonCommander(),
-            new DeathwhisperNecrolyte()
+            HeroClass = HeroClass.DeathKnight,
+            HeroHealth = 30,
+            HeroArmor = 0,
+
+            PlayerPosition = TOP_CENTER,
+
+            HandPosition = TOP_HAND,
+            HandInverted = true,
+
+            ManaPosition = TOP_MANA,
+            DisplayCrystals = false,
+
+            BoardPosition = TOP_BOARD,
+
+            HeroPower = typeof(RaiseGhoul),
+
+            Deck = new List<BaseCard>()
+            {
+                new CorpseExplosion(),
+                new AllWillServe(),
+                new DancingRuneblade(),
+                new SkeletonCommander(),
+                new DeathwhisperNecrolyte(),
+                new CorpseExplosion(),
+                new AllWillServe(),
+                new DancingRuneblade(),
+                new SkeletonCommander(),
+                new DeathwhisperNecrolyte()
+            },
         };
+
+        TopPlayer = Player.Create(topParameters);
 
         #endregion
 
@@ -99,6 +135,8 @@ public class GameManager : MonoBehaviour
         }
 
         Mulligan();
+
+        TurnStart();
     }
 
     public void Mulligan()

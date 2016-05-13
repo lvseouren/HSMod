@@ -24,7 +24,7 @@ public class CardController : BaseController
         GameObject cardObject = new GameObject(card.Name);
         
         BoxCollider cardCollider = cardObject.AddComponent<BoxCollider>();
-        cardCollider.size = new Vector3(3.5f, 5.5f, 0f);
+        cardCollider.size = new Vector3(3.5f, 5.5f, 1f);
 
         CardController controller = cardObject.AddComponent<CardController>();
         controller.Card = card;
@@ -38,9 +38,9 @@ public class CardController : BaseController
     
     public override void Initialize()
     {
-        CostController = NumberController.Create("CostController", this.gameObject, new Vector3(-1.375f, 2.15f, 0f), 43);
-        AttackController = NumberController.Create("AttackController", this.gameObject, new Vector3(-1.4f, -0.85f, 0f), 43);
-        AttributeController = NumberController.Create("AttributeController", this.gameObject, new Vector3(1.5f, 0f, 0f), 43);
+        CostController = NumberController.Create("CostController", this.gameObject, new Vector3(-1.375f, 2.15f, 0f), 43, 0.5f);
+        AttackController = NumberController.Create("AttackController", this.gameObject, new Vector3(-1.4f, -0.85f, 0f), 43, 0.5f);
+        AttributeController = NumberController.Create("AttributeController", this.gameObject, new Vector3(1.5f, 0f, 0f), 43, 0.5f);
 
         CardRenderer = CreateRenderer("Card", Vector3.one, Vector3.zero, 42);
         
@@ -66,6 +66,9 @@ public class CardController : BaseController
 
     public override void UpdateSprites()
     {
+        // Cleaning up the old sprites and textures to avoid memory leaks
+        CardRenderer.DisposeSprite();
+
         // Loading the sprites into the SpriteRenderers
         CardRenderer.sprite = Resources.Load<Sprite>("Sprites/" + Card.Class.Name() + "/Cards/" + Card.TypeName());
         GreenGlowRenderer.sprite = SpriteManager.Instance.Glows["Card_" + GlowType + "_GreenGlow"];

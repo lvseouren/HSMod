@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Threading;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -16,6 +19,7 @@ public class Player : MonoBehaviour
     public ManaController ManaController;
     public HeroController HeroController;
     public HandController HandController;
+    public BoardController BoardController;
     
     public List<SpellCard> UsedSpells = new List<SpellCard>();
     public List<MinionCard> DeadMinions = new List<MinionCard>();
@@ -35,27 +39,33 @@ public class Player : MonoBehaviour
 
     private Player() { }
 
-    public static Player Create(HeroClass heroClass, Vector3 center, Vector3 hand, Vector3 mana, bool displayCrystals, bool inverted)
+    public static Player Create(PlayerParameters parameters)
     {
-        GameObject playerObject = new GameObject("Player_" + heroClass.Name());
+        GameObject playerObject = new GameObject("Player_" + parameters.HeroClass.Name());
         playerObject.transform.localScale = Vector3.one * 50f;
         playerObject.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
-        playerObject.transform.position = center;
-        
+        playerObject.transform.position = parameters.PlayerPosition;
+
         Player player = playerObject.AddComponent<Player>();
+        
+        player.Deck = parameters.Deck;
+        player.ManaController = ManaController.Create(player, parameters.ManaPosition, parameters.DisplayCrystals);
+        player.HandController = HandController.Create(player, parameters.HandPosition, parameters.HandInverted);
+        player.BoardController = BoardController.Create(player, parameters.BoardPosition);
 
         player.Hero = new Hero()
         {
             Player = player,
-            Class = heroClass,
-            BaseHealth = 30
+            Class = parameters.HeroClass,
+            BaseHealth = parameters.HeroHealth,
+            BaseArmor = parameters.HeroArmor
         };
 
         player.Hero.Initialize();
-        
-        player.ManaController = ManaController.Create(player, mana, displayCrystals);
+
         player.HeroController = HeroController.Create(player.Hero);
-        player.HandController = HandController.Create(player, hand, inverted);
+
+        player.Hero.HeroPower = (BaseHeroPower) Activator.CreateInstance(parameters.HeroPower, new object[] { player.Hero });
 
         return player;
     }
