@@ -4,13 +4,15 @@ using UnityEngine;
 public class Minion : Character
 {
     public MinionCard Card;
-
+    public bool UnfreezeNextTurn = false;
     public BuffManager Buffs;
 
     #region Methods
     
     public override void Attack(Character target)
     {
+        if (IsFrozen) return;
+
         // Checking if minion is forgetful
         if (IsForgetful)
         {
@@ -188,6 +190,7 @@ public class Minion : Character
         SpellPower = 0;
 
         IsFrozen = false;
+        UnfreezeNextTurn = false;
         IsForgetful = false;
 
         IsSilenced = true;

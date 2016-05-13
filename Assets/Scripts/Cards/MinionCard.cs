@@ -20,6 +20,7 @@
 
     #region In-Game Effects
 
+    public bool HasFreeze = false;
     public bool HasTaunt = false;
     public bool HasCharge = false;
     public bool HasPoison = false;

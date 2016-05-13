@@ -38,6 +38,8 @@ public class EventManager
 
     public Subject<MinionPoisonedEvent> MinionPoisonedHandler = new Subject<MinionPoisonedEvent>();
 
+    public Subject<MinionFrozenEvent> MinionFrozenHandler = new Subject<MinionFrozenEvent>();
+
     // Hero Event Subjects //
     public Subject<HeroPreAttackEvent> HeroPreAttackHandler = new Subject<HeroPreAttackEvent>();
     public Subject<HeroAttackedEvent> HeroAttackedHandler = new Subject<HeroAttackedEvent>();
@@ -75,6 +77,22 @@ public class EventManager
     #endregion
 
     #region Handlers
+
+    public void OnMinionFrozen(Minion minion, Character freezingMinion)
+    {
+        MinionFrozenEvent minionFrozenEvent = new MinionFrozenEvent()
+        {
+            Minion = minion,
+            FreezingCharacter = freezingMinion
+        };
+
+        MinionFrozenHandler.OnNext(minionFrozenEvent);
+
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
+        {
+            battlefieldMinion.Buffs.OnMinionFrozen.OnNext(minionFrozenEvent);
+        }
+    }
 
     public void OnMinionPoisoned(Minion minion, Character attacker)
     {

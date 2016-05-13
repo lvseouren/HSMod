@@ -129,6 +129,20 @@ public class GameManager : MonoBehaviour
         // Firing OnTurnStart events
         EventManager.Instance.OnTurnStart(CurrentPlayer);
 
+        // unfreeze frozen minions or flag frozen minions for unfreezing on next turn
+        foreach (Minion m in _instance.GetAllMinions())
+        {
+            if (m.UnfreezeNextTurn)
+            {
+                m.UnfreezeNextTurn = false;
+                m.IsFrozen = false;
+            }
+            else
+            {
+                m.UnfreezeNextTurn = true;
+            }
+        }
+
         // Drawing 1 card
         CurrentPlayer.Draw();
 
