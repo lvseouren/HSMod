@@ -50,13 +50,26 @@ public class BoardController : MonoBehaviour
         BoardColliders.Clear();
     }
 
+    public bool ContainsPoint(Vector3 point)
+    {
+        if (point.x < transform.position.x + 13.5f && point.x > transform.position.x - 13.5f)
+        {
+            if (point.y < transform.position.y + 2f && point.y > transform.position.y - 2f)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public BoxCollider CreateSlot(float width, float horizontalPosition)
     {
         GameObject slot = new GameObject("Slot" + BoardColliders.Count);
         slot.transform.ChangeParentAt(this.transform, new Vector3(horizontalPosition, 0f, 0f));
 
         BoxCollider slotCollider = slot.AddComponent<BoxCollider>();
-        slotCollider.size = new Vector3(width, 4f, 1f);
+        slotCollider.size = new Vector3(width, 4f, 0.1f);
 
         return slotCollider;
     }

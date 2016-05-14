@@ -7,14 +7,21 @@ public class MinionController : BaseController
     public SpriteRenderer TokenRenderer;
     public SpriteRenderer MinionRenderer;
 
+    private BoxCollider Collider;
+
     // TODO : Frozen, Silenced, DivineShield, Taunt, etc... renderers
 
-    public static MinionController Create(BoardController parentBoard, MinionCard minion)
+    public static MinionController Create(BoardController parentBoard, Minion minion)
     {
-        GameObject minionObject = new GameObject(minion.Name);
+        GameObject minionObject = new GameObject(minion.Card.Name);
         minionObject.transform.ChangeParent(parentBoard.transform);
 
+        BoxCollider collider = minionObject.AddComponent<BoxCollider>();
+        collider.size = new Vector3(2.5f, 3.5f, 0.5f);
+
         MinionController minionController = minionObject.AddComponent<MinionController>();
+        minionController.Minion = minion;
+        minionController.Collider = collider;
 
         minionController.Initialize();
 
@@ -30,6 +37,9 @@ public class MinionController : BaseController
         WhiteGlowRenderer = CreateRenderer("WhiteGlow", Vector3.one * 2f, Vector3.zero, 12);
         GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, Vector3.zero, 11);
         RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, Vector3.zero, 10);
+
+        TokenRenderer.enabled = true;
+        MinionRenderer.enabled = true;
         
         UpdateSprites();
         UpdateNumbers();
@@ -75,10 +85,10 @@ public class MinionController : BaseController
     {
         if (Minion.Card.Rarity == CardRarity.Legendary)
         {
-            return "Sprites/General/Minion_LegendaryToken";
+            return "Minion_Legendary";
         }
 
-        return "Sprites/General/Minion_NormalToken";
+        return "Minion_Normal";
     }
 
     private string GetGlowPath()
@@ -120,6 +130,7 @@ public class MinionController : BaseController
 
     private void OnMouseEnter()
     {
+        print("mouse enters minion");
         SetWhiteRenderer(true);
 
         InterfaceManager.Instance.OnHoverStart(this);

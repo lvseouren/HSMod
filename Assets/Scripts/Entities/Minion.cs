@@ -4,11 +4,19 @@ using UnityEngine;
 public class Minion : Character
 {
     public MinionCard Card;
-    public bool UnfreezeNextTurn = false;
-    public BuffManager Buffs;
+    public BuffManager Buffs = new BuffManager();
+
+    #region Constructor
+
+    public Minion(MinionCard card)
+    {
+        Card = card;
+    }
+
+    #endregion
 
     #region Methods
-    
+
     public override void Attack(Character target)
     {
         if (IsFrozen) return;

@@ -62,6 +62,8 @@ public class CardController : BaseController
 
         Destroy(GreenGlowRenderer);
         Destroy(ComboGlowRenderer);
+
+        Destroy(this.gameObject);
     }
 
     public override void UpdateSprites()
@@ -204,11 +206,19 @@ public class CardController : BaseController
         switch (Card.GetCardType())
         {
             case CardType.Minion: // TODO: if target has stealth u can't do anything to it.
+                if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
+                {
+                    Card.Player.PlayMinion(Card.As<MinionCard>(), 0);
+                }
+                break;
+
+
             case CardType.Weapon:
-                // TODO : Check position and play or not
+                // TODO
                 break;
 
             case CardType.Spell:
+                // TODO
                 InterfaceManager.Instance.DisableArrow();
                 break;
         }

@@ -51,6 +51,12 @@ public class Player : MonoBehaviour
         Player player = playerObject.AddComponent<Player>();
         
         player.Deck = parameters.Deck;
+
+        foreach (BaseCard card in player.Deck)
+        {
+            card.Player = player;
+        }
+
         player.ManaController = ManaController.Create(player, parameters.ManaPosition, parameters.DisplayCrystals);
         player.HandController = HandController.Create(player, parameters.HandPosition, parameters.HandInverted);
         player.BoardController = BoardController.Create(player, parameters.BoardPosition);
@@ -75,6 +81,18 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Methods
+
+    public void PlayMinion(MinionCard minionCard, int position)
+    {
+        Minion minion = new Minion(minionCard);
+        MinionController minionController = MinionController.Create(BoardController, minion);
+
+        BoardController.UpdateSlots();
+
+        HandController.Remove(minionCard.Controller);
+
+        Hand.Remove(minionCard);
+    }
 
     public void ReplaceHero(Hero newHero)
     {

@@ -10,11 +10,6 @@ public static class Util
         if (renderer.sprite != null)
         {
             GameObject.Destroy(renderer.sprite);
-
-            if (renderer.sprite.texture != null)
-            {
-                GameObject.Destroy(renderer.sprite.texture);
-            }
         }
     }
 
