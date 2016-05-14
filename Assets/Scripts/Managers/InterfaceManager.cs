@@ -23,7 +23,7 @@ public class InterfaceManager : MonoBehaviour
     #endregion
 
     // Control Fields //
-    private bool IsDragging;
+    public bool IsDragging;
     private BaseController originController;
     private Vector3 worldOriginPosition = Vector3.zero;
 

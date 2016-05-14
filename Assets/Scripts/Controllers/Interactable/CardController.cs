@@ -139,7 +139,7 @@ public class CardController : BaseController
         switch (Status)
         {
             case ControllerStatus.Inactive:
-                if (IsHovering && transform.localPosition.x == TargetPosition.x)
+                if (IsHovering && transform.localPosition.x == TargetPosition.x && InterfaceManager.Instance.IsDragging == false)
                 {
                     SetRenderingOrder(500);
                     transform.localScale = Vector3.one * 2f;
