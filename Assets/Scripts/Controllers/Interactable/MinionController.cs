@@ -7,6 +7,8 @@ public class MinionController : BaseController
     public SpriteRenderer TokenRenderer;
     public SpriteRenderer MinionRenderer;
 
+    // TODO : Frozen, Silenced, DivineShield, Taunt, etc... renderers
+
     public static MinionController Create(BoardController parentBoard, MinionCard minion)
     {
         GameObject minionObject = new GameObject(minion.Name);

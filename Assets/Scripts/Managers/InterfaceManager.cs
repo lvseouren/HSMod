@@ -25,7 +25,7 @@ public class InterfaceManager : MonoBehaviour
     // Control Fields //
     private bool IsDragging;
     private BaseController originController;
-    private Vector3 screenOriginPosition = Vector3.zero;
+    private Vector3 worldOriginPosition = Vector3.zero;
 
     // Sprite GameObjects //
     private GameObject interfaceParent;
@@ -63,41 +63,39 @@ public class InterfaceManager : MonoBehaviour
         {
             // Getting the world position of the mouse
             Vector3 worldMousePosition = Util.GetWorldMousePosition();
-            Vector3 worldNormalizedPosition = new Vector3(worldMousePosition.x, 100f, worldMousePosition.z);
 
             // Getting the direction vector from the minion to the mouse
-            Vector3 directionVector = Input.mousePosition - screenOriginPosition;
+            Vector3 directionVector = worldMousePosition - worldOriginPosition;
 
             // Getting the angle that forms between the minion and the mouse
-            float directionAngle = Mathf.Atan2(directionVector.y, directionVector.x) * Mathf.Rad2Deg - 90;
+            float directionAngle = Mathf.Atan2(directionVector.x, directionVector.z) * Mathf.Rad2Deg;
 
             // Setting the arrow rotation 
-            Vector3 directionRotation = new Vector3(90f, 0f, directionAngle);
+            Vector3 directionRotation = new Vector3(90f, directionAngle, 0f);
 
 
             // Arrow //
 
-            arrowRenderer.transform.position = worldNormalizedPosition;
+            arrowRenderer.transform.position = worldMousePosition;
             arrowRenderer.transform.localEulerAngles = directionRotation;
 
             
             // Circle //
 
-            circleRenderer.transform.position = worldNormalizedPosition;
+            circleRenderer.transform.position = worldMousePosition;
 
 
             // Arrow Body //
 
             // Getting the position halfway between the mouse and the origin
-            Vector3 bodyPosition = Camera.main.ScreenToWorldPoint(screenOriginPosition + (directionVector / 2f) + new Vector3(0f, 0f, 1000f));
+            Vector3 bodyPosition = worldOriginPosition + directionVector / 2f;
 
             // Getting the body scale based on the distance between the mouse and the origin
-            Vector3 worldArrowDirection = worldMousePosition - Camera.main.ScreenToWorldPoint(screenOriginPosition + new Vector3(0f, 0f, 1000f));
-            float worldArrowScale = 0.27f * worldArrowDirection.magnitude;
+            float bodyScale = 0.27f * directionVector.magnitude;
 
             bodyRenderer.transform.localPosition = new Vector3(bodyPosition.x, 100f, bodyPosition.z);
             bodyRenderer.transform.localEulerAngles = directionRotation;
-            bodyRenderer.transform.localScale = new Vector3(80f, worldArrowScale, 80f);
+            bodyRenderer.transform.localScale = new Vector3(80f, bodyScale, 80f);
 
             // TODO : Animate the arrow
         }
@@ -128,9 +126,7 @@ public class InterfaceManager : MonoBehaviour
 
     public void EnableArrowAt(BaseController controller, Vector3 position)
     {
-        Vector3 screenPosition = Camera.main.WorldToScreenPoint(position);
-
-        screenOriginPosition = new Vector3(screenPosition.x, screenPosition.y, 0f);
+        worldOriginPosition = position;
         originController = controller;
 
         IsDragging = true;

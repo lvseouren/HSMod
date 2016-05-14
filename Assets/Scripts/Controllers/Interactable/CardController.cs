@@ -192,7 +192,7 @@ public class CardController : BaseController
 
             case CardType.Spell:
                 Status = ControllerStatus.Targeting;
-                InterfaceManager.Instance.EnableArrowAt(this, new Vector3(TargetPosition.x, 13f, 0f));
+                InterfaceManager.Instance.EnableArrow(this);
                 break;
         }
     }

@@ -98,7 +98,7 @@ public static class Util
     // Method to get the position of the mouse in the world space
     public static Vector3 GetWorldMousePosition()
     {
-        return Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0f, 0f, 1000f));
+        return Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0f, 0f, 1940f));
     }
 
     // Method to reset a transform
