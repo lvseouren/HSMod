@@ -8,7 +8,6 @@ public class BoardController : MonoBehaviour
     private List<MinionController> MinionControllers = new List<MinionController>();
 
     private Vector3 Center;
-
     private const float DISTANCE = 3f;
 
     public static BoardController Create(Player player, Vector3 boardCenter)
@@ -23,7 +22,7 @@ public class BoardController : MonoBehaviour
         boardController.Player = player;
         boardController.Center = boardCenter;
 
-        boardController.UpdateSlots();
+        boardController.UpdateBoard();
 
         return boardController;
     }
@@ -32,17 +31,17 @@ public class BoardController : MonoBehaviour
     {
         MinionControllers.Add(minion.Controller.As<MinionController>());
 
-        UpdateSlots();
+        UpdateBoard();
     }
 
     public void RemoveMinion(Minion minion)
     {
         MinionControllers.Remove(minion.Controller.As<MinionController>());
 
-        UpdateSlots();
+        UpdateBoard();
     }
 
-    public void UpdateSlots()
+    public void UpdateBoard()
     {
         if (MinionControllers.Count > 0)
         {
