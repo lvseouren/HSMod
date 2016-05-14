@@ -15,16 +15,18 @@ public class Ghoul : MinionCard
         BaseAttack = 1;
         BaseHealth = 1;
 
-        Charge = true;
+        HasCharge = true;
+
+        InitializeMinion();
     }
 
     public void Initialize()
     {
-        this.BuffManager.OnTurnEnd.Subscribe(x => this.OnTurnEnd());
+        Buffs.OnTurnEnd.Subscribe(x => OnTurnEnd());
     }
 
     public void OnTurnEnd()
     {
-        this.Die();
+        Minion.Die();
     }
 }

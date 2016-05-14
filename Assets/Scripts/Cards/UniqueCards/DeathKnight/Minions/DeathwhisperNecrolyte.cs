@@ -12,6 +12,8 @@ public class DeathwhisperNecrolyte : MinionCard
         BaseCost = 2;
         BaseAttack = 1;
         BaseHealth = 4;
+
+        InitializeMinion();
     }
 
     public void Aura()

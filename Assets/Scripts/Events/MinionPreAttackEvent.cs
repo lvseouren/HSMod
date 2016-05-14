@@ -1,11 +1,11 @@
 ﻿public class MinionPreAttackEvent
 {
-    public MinionCard Minion;
-    public ICharacter Target;
+    public Minion Minion;
+    public Character Target;
     
     public PreStatus Status = PreStatus.Normal;
 
-    public void SwitchTargetTo(ICharacter other)
+    public void SwitchTargetTo(Character other)
     {
         if (Status != PreStatus.Cancelled)
         {

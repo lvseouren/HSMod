@@ -1,6 +1,6 @@
 ﻿public class MinionPlayedEvent
 {
     public Player Player;
-    public MinionCard Minion;
+    public Minion Minion;
     // TODO : Board position
 }

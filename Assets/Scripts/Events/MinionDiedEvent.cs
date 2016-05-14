@@ -1,4 +1,4 @@
 ﻿public class MinionDiedEvent
 {
-    public MinionCard Minion;
+    public Minion Minion;
 }

@@ -1,12 +1,11 @@
 ﻿public class HeroPreAttackEvent
 {
     public Hero Hero;
-    public ICharacter Target;
-    public int Damage;
+    public Character Target;
 
     public PreStatus Status = PreStatus.Normal;
 
-    public void SwitchTargetTo(ICharacter other)
+    public void SwitchTargetTo(Character other)
     {
         if (Status != PreStatus.Cancelled)
         {

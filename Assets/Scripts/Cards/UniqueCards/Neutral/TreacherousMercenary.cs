@@ -15,13 +15,15 @@ public class TreacherousMercenary : MinionCard
         BaseAttack = 4;
         BaseHealth = 2;
 
-        Charge = true;
+        HasCharge = true;
 
-        this.BuffManager.Battlecry.Subscribe(x => this.Battlecry());
+        Buffs.Battlecry.Subscribe(x => Battlecry());
+
+        InitializeMinion();
     }
 
     public void Battlecry()
     {
-        this.Player.Hero.Damage(3);
+        Player.Hero.TryDamage(null, 3);
     }
 }

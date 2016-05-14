@@ -5,9 +5,9 @@
 
     public BuffType BuffType;
 
-    public virtual void OnAdded(MinionCard minion) { }
+    public virtual void OnAdded(Minion minion) { }
 
-    public virtual void OnRemoved(MinionCard minion) { }
+    public virtual void OnRemoved(Minion minion) { }
 
     public virtual void OnTurnStart() { }
 

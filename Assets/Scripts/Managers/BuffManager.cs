@@ -3,14 +3,14 @@ using System.Reactive.Subjects;
 
 public class BuffManager
 {
-    public MinionCard Minion;
+    public Minion Minion;
     public List<BaseBuff> AllBuffs = new List<BaseBuff>();
 
     #region Events
 
     // Self Events //
     public Subject<object> Battlecry = new Subject<object>();
-    public Subject<MinionCard> Deathrattle = new Subject<MinionCard>();
+    public Subject<Minion> Deathrattle = new Subject<Minion>();
 
     public Subject<object> OnPreAttack = new Subject<object>();
     public Subject<object> OnAttacked = new Subject<object>();
@@ -34,7 +34,7 @@ public class BuffManager
     public Subject<SecretRevealedEvent> OnSecretRevealed = new Subject<SecretRevealedEvent>();
 
     public Subject<MinionPlayedEvent> OnMinionPlayed = new Subject<MinionPlayedEvent>();
-    public Subject<MinionCard> OnMinionSummoned = new Subject<MinionCard>();
+    public Subject<Minion> OnMinionSummoned = new Subject<Minion>();
     public Subject<MinionPreAttackEvent> OnMinionPreAttack = new Subject<MinionPreAttackEvent>();
     public Subject<MinionAttackedEvent> OnMinionAttacked = new Subject<MinionAttackedEvent>();
     public Subject<MinionPreDamageEvent> OnMinionPreDamage = new Subject<MinionPreDamageEvent>();
@@ -42,6 +42,8 @@ public class BuffManager
     public Subject<MinionPreHealEvent> OnMinionPreHeal = new Subject<MinionPreHealEvent>();
     public Subject<MinionHealedEvent> OnMinionHealed = new Subject<MinionHealedEvent>();
     public Subject<MinionDiedEvent> OnMinionDied = new Subject<MinionDiedEvent>();
+    public Subject<MinionPoisonedEvent> OnMinionPoisoned = new Subject<MinionPoisonedEvent>();
+    public Subject<MinionFrozenEvent> OnMinionFrozen = new Subject<MinionFrozenEvent>();
 
     public Subject<object> OnCharacterPreHeal = new Subject<object>();
     public Subject<object> OnCharacterHealed = new Subject<object>();
@@ -71,7 +73,7 @@ public class BuffManager
             if (buff.BuffType != BuffType.Area)
             {
                 // Removing stats/effects from the buff
-                buff.OnRemoved(this.Minion);
+                buff.OnRemoved(Minion);
             }
         }
 
@@ -111,6 +113,8 @@ public class BuffManager
         OnMinionPreHeal.Dispose();
         OnMinionHealed.Dispose();
         OnMinionDied.Dispose();
+        OnMinionPoisoned.Dispose();
+        OnMinionFrozen.Dispose();
 
         OnCharacterPreHeal.Dispose();
         OnCharacterHealed.Dispose();

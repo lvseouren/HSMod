@@ -36,11 +36,13 @@ public static class Util
         return typeInstance.GetType().Name;
     }
 
+    // Method to know if an integer is odd or even
     public static bool IsPair(this int number)
     {
         return (number % 2 == 0);
     }
 
+    // Method to get the middle of an odd number
     public static int Middle(this int number)
     {
         return (int) Math.Round((number / 2) + 0.5);
@@ -68,7 +70,7 @@ public static class Util
     }
 
     // Method to get the character at the mouse position
-    public static ICharacter GetCharacterAtMouse()
+    public static Character GetCharacterAtMouse()
     {
         Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit[] hitInfo = Physics.RaycastAll(cameraRay);
@@ -96,61 +98,29 @@ public static class Util
     // Method to get the position of the mouse in the world space
     public static Vector3 GetWorldMousePosition()
     {
-        return Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0f, 0f, 1000f));
+        return Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0f, 0f, 1940f));
+    }
+
+    // Method to reset a transform
+    public static void Reset(this Transform self)
+    {
+        self.localPosition = Vector3.zero;
+        self.localEulerAngles = Vector3.zero;
+        self.localScale = Vector3.one;
     }
     
-    #region ICharacter Extension Methods
-
-    public static bool IsAlive(this ICharacter self)
+    // Method to reset a transform and set it at the parent origin
+    public static void ChangeParent(this Transform self, Transform parent)
     {
-        return (self.CurrentHealth > 0);
+        self.parent = parent;
+        self.Reset();
     }
 
-    public static bool IsFriendlyOf(this ICharacter self, ICharacter other)
+    // Method to reset a transform and position it respect another transform
+    public static void ChangeParentAt(this Transform self, Transform parent, Vector3 position)
     {
-        if (self.IsHero())
-        {
-            if (other.IsHero())
-            {
-                return self == other;
-            }
-            else
-            {
-                return self.As<Hero>().Player.Minions.Contains(other.As<MinionCard>());
-            }
-        }
-        else
-        {
-            if (other.IsHero())
-            {
-                return other.As<Hero>().Player.Minions.Contains(self.As<MinionCard>());
-            }
-            else
-            {
-                return self.As<MinionCard>().Player.Minions.Contains(other.As<MinionCard>());
-            }
-        }
+        self.parent = parent;
+        self.Reset();
+        self.localPosition = position;
     }
-
-    public static bool IsEnemyOf(this ICharacter self, ICharacter other)
-    {
-        return (self.IsFriendlyOf(other) == false);
-    }
-
-    public static bool IsHero(this ICharacter self)
-    {
-        return (self != null && self.GetType() == typeof (Hero));
-    }
-
-    public static bool IsMinion(this ICharacter self)
-    {
-        return (self != null && self.GetType() == typeof(MinionCard));
-    }
-
-    public static int GetMissingHealth(this ICharacter self)
-    {
-        return self.MaxHealth - self.CurrentHealth;
-    }
-
-    #endregion
 }

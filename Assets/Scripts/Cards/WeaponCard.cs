@@ -71,17 +71,25 @@
 
     #endregion
 
+    public void InitializeWeapon()
+    {
+        InitializeCard();
+
+        CurrentAttack = BaseAttack;
+        CurrentDurability = BaseDurability;
+    }
+
     public virtual void Attack()
     {
-        this.CurrentDurability -= 1;
+        CurrentDurability -= 1;
     }
 
     public virtual void Destroy()
     {
-
+        // TODO
     }
 
-    public virtual bool CanAttack(ICharacter target)
+    public virtual bool CanAttack(Character target)
     {
         return true;
     }

@@ -11,9 +11,11 @@ public class RaiseDead : SpellCard
         TargetType = TargetType.NoTarget;
 
         BaseCost = 3;
+
+        InitializeSpell();
     }
 
-    public override void Cast(ICharacter target)
+    public override void Cast(Character target)
     {
         // TODO : Summon 3/3 Ghoul
     }

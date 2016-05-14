@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
+// TODO : Check this script and adapt it (old script)
 public class CardPlatforms : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
 	public void OnPointerEnter(PointerEventData eventData)

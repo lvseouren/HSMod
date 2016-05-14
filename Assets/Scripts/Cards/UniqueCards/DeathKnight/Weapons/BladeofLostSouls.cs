@@ -11,10 +11,12 @@ public class BladeOfLostSouls : WeaponCard
         BaseCost = 3;
         BaseAttack = 3;
         BaseDurability = 2;
+
+        InitializeWeapon();
     }
 
     public override void Deathrattle()
     {
-        this.Player.Draw();
+        Player.Draw();
     }
 }
