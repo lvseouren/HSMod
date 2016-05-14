@@ -50,20 +50,16 @@ public class MinionController : BaseController
     public override void Remove()
     {
         Destroy(TokenRenderer);
-
-        MinionRenderer.DisposeSprite();
         Destroy(MinionRenderer);
-        
         Destroy(WhiteGlowRenderer);
         Destroy(GreenGlowRenderer);
         Destroy(RedGlowRenderer);
+
+        Destroy(this.gameObject);
     }
 
     public override void UpdateSprites()
     {
-        // Cleaning up the old sprites and textures to avoid memory leaks
-        MinionRenderer.DisposeSprite();
-
         // Getting the path strings
         string tokenPath = GetTokenPath();
         string glowPath = GetGlowPath();

@@ -53,14 +53,14 @@ public class HeroPowerController : BaseController
 
     public override void Remove()
     {
-        HeroPowerRenderer.DisposeSprite();
-        Destroy(HeroPowerRenderer);
-
         Destroy(FrontTokenRenderer);
         Destroy(BackTokenRenderer);
+        Destroy(HeroPowerRenderer);
         Destroy(WhiteGlowRenderer);
         Destroy(GreenGlowRenderer);
         Destroy(RedGlowRenderer);
+
+        Destroy(this.gameObject);
     }
 
     public override void UpdateSprites()

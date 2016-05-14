@@ -17,8 +17,8 @@ public class WeaponController : BaseController
         heroObject.transform.localScale = new Vector3(50f, 50f, 50f);
         heroObject.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
 
-        SphereCollider weaponCollider = heroObject.AddComponent<SphereCollider>();
-        weaponCollider.radius = 2f;
+        BoxCollider weaponCollider = heroObject.AddComponent<BoxCollider>();
+        weaponCollider.size = new Vector3(2f, 2f, 1f);
 
         WeaponController weaponController = heroObject.AddComponent<WeaponController>();
         weaponController.Weapon = weapon;

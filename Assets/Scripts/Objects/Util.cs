@@ -4,15 +4,6 @@ using UnityEngine;
 // Static class to hold useful extension methods
 public static class Util
 {
-    // Method to dispose the sprites and their textures in a SpriteRenderer
-    public static void DisposeSprite(this SpriteRenderer renderer)
-    {
-        if (renderer.sprite != null)
-        {
-            GameObject.Destroy(renderer.sprite);
-        }
-    }
-
     // Method to cast easily without the need of parenthesis
     public static T As<T>(this object self)
     {

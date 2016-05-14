@@ -69,16 +69,16 @@ public class GameManager : MonoBehaviour
 
             Deck = new List<BaseCard>()
             {
-                new CorpseExplosion(),
-                new AllWillServe(),
-                new DancingRuneblade(),
                 new SkeletonCommander(),
+                new CorpseExplosion(),
+                new DancingRuneblade(),
                 new DeathwhisperNecrolyte(),
                 new CorpseExplosion(),
                 new AllWillServe(),
                 new DancingRuneblade(),
                 new SkeletonCommander(),
-                new DeathwhisperNecrolyte()
+                new DeathwhisperNecrolyte(),
+                new AllWillServe()
             },
         };
 
@@ -104,16 +104,16 @@ public class GameManager : MonoBehaviour
 
             Deck = new List<BaseCard>()
             {
+                new SkeletonCommander(),
                 new DeathwhisperNecrolyte(),
                 new DancingRuneblade(),
+                new SkeletonCommander(),
+                new AllWillServe(),
+                new DeathwhisperNecrolyte(),
                 new CorpseExplosion(),
                 new AllWillServe(),
                 new DancingRuneblade(),
-                new SkeletonCommander(),
-                new DeathwhisperNecrolyte(),
-                new CorpseExplosion(),
-                new AllWillServe(),
-                new SkeletonCommander(),
+                new CorpseExplosion()
             },
         };
 
