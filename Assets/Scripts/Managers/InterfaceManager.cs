@@ -23,6 +23,7 @@ public class InterfaceManager : MonoBehaviour
     #endregion
 
     // Control Fields //
+    public bool IsTargeting;
     public bool IsDragging;
     private BaseController originController;
     private Vector3 worldOriginPosition = Vector3.zero;
@@ -59,7 +60,7 @@ public class InterfaceManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (IsDragging)
+        if (IsTargeting)
         {
             // Getting the world position of the mouse
             Vector3 worldMousePosition = Util.GetWorldMousePosition();
@@ -129,7 +130,7 @@ public class InterfaceManager : MonoBehaviour
         worldOriginPosition = position;
         originController = controller;
 
-        IsDragging = true;
+        IsTargeting = true;
 
         arrowRenderer.enabled = true;
         bodyRenderer.enabled = true;
@@ -142,7 +143,7 @@ public class InterfaceManager : MonoBehaviour
 
     public void DisableArrow()
     {
-        IsDragging = false;
+        IsTargeting = false;
 
         arrowRenderer.enabled = false;
         bodyRenderer.enabled = false;
@@ -152,7 +153,7 @@ public class InterfaceManager : MonoBehaviour
 
     public void OnHoverStart(BaseController controller)
     {
-        if (IsDragging && controller != originController)
+        if (IsTargeting && controller != originController)
         {
             circleRenderer.enabled = true;
         }

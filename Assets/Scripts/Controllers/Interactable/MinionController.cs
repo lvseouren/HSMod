@@ -4,8 +4,10 @@ public class MinionController : BaseController
 {
     public Minion Minion;
 
-    public SpriteRenderer TokenRenderer;
-    public SpriteRenderer MinionRenderer;
+    public Vector3 TargetPosition;
+
+    private SpriteRenderer TokenRenderer;
+    private SpriteRenderer MinionRenderer;
 
     private BoxCollider Collider;
 
@@ -128,9 +130,13 @@ public class MinionController : BaseController
 
     #region Unity Messages
 
+    private void Update()
+    {
+        transform.localPosition = TargetPosition;
+    }
+
     private void OnMouseEnter()
     {
-        print("mouse enters minion");
         SetWhiteRenderer(true);
 
         InterfaceManager.Instance.OnHoverStart(this);

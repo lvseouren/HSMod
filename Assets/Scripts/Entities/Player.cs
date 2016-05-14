@@ -85,13 +85,14 @@ public class Player : MonoBehaviour
     public void PlayMinion(MinionCard minionCard, int position)
     {
         Minion minion = new Minion(minionCard);
-        MinionController minionController = MinionController.Create(BoardController, minion);
+        minion.Controller = MinionController.Create(BoardController, minion);
 
-        BoardController.UpdateSlots();
+        Minions.Add(minion);
 
-        HandController.Remove(minionCard.Controller);
+        BoardController.AddMinion(minion, 0);
 
         Hand.Remove(minionCard);
+        HandController.Remove(minionCard.Controller);
     }
 
     public void ReplaceHero(Hero newHero)

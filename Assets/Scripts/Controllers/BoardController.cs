@@ -5,14 +5,19 @@ public class BoardController : MonoBehaviour
 {
     public Player Player;
 
-    public List<BoxCollider> BoardColliders = new List<BoxCollider>();
+    private List<MinionController> MinionControllers = new List<MinionController>();
 
     private Vector3 Center;
+
+    private const float DISTANCE = 3f;
 
     public static BoardController Create(Player player, Vector3 boardCenter)
     {
         GameObject boardObject = new GameObject("BoardController");
         boardObject.transform.ChangeParentAt(player.transform, boardCenter);
+
+        BoxCollider boardCollider = boardObject.AddComponent<BoxCollider>();
+        boardCollider.size = new Vector3(27f, 5f, 0.1f);
 
         BoardController boardController = boardObject.AddComponent<BoardController>();
         boardController.Player = player;
@@ -23,54 +28,51 @@ public class BoardController : MonoBehaviour
         return boardController;
     }
 
-    public void UpdateSlots()
+    public void AddMinion(Minion minion, int position)
     {
-        DestroySlots();
+        MinionControllers.Add(minion.Controller.As<MinionController>());
 
-        int slots = Player.Minions.Count + 1;
-        float slotSize = 27f / slots;
-
-        for (int i = 0; i < slots; i++)
-        {
-            CreateSlot(slotSize, i * slotSize);
-        }
-
-        float boardCenter = (slots * slotSize) - slotSize;
-
-        this.transform.localPosition = new Vector3(boardCenter, 0f, 0f) + Center;
+        UpdateSlots();
     }
 
-    public void DestroySlots()
+    public void RemoveMinion(Minion minion)
     {
-        foreach (BoxCollider slotCollider in BoardColliders)
-        {
-            Destroy(slotCollider.gameObject);
-        }
+        MinionControllers.Remove(minion.Controller.As<MinionController>());
 
-        BoardColliders.Clear();
+        UpdateSlots();
+    }
+
+    public void UpdateSlots()
+    {
+        if (MinionControllers.Count > 0)
+        {
+            float parentOffset = ((0.5f * MinionControllers.Count) - 0.5f) * -DISTANCE;
+
+            for (int i = 0; i < MinionControllers.Count; i++)
+            {
+                MinionControllers[i].TargetPosition = new Vector3(i * DISTANCE, 0f, 0f);
+            }
+
+            this.transform.localPosition = new Vector3(parentOffset, 0f, 0f) + Center;
+        }
+        else
+        {
+            this.transform.localPosition = Center;
+        }
     }
 
     public bool ContainsPoint(Vector3 point)
     {
-        if (point.x < transform.position.x + 13.5f && point.x > transform.position.x - 13.5f)
+        Vector3 localPoint = transform.InverseTransformPoint(point);
+
+        if (localPoint.x < 13.5f && localPoint.x > -13.5f)
         {
-            if (point.y < transform.position.y + 2f && point.y > transform.position.y - 2f)
+            if (localPoint.y < 2f && localPoint.y > -2f)
             {
                 return true;
             }
         }
 
         return false;
-    }
-
-    public BoxCollider CreateSlot(float width, float horizontalPosition)
-    {
-        GameObject slot = new GameObject("Slot" + BoardColliders.Count);
-        slot.transform.ChangeParentAt(this.transform, new Vector3(horizontalPosition, 0f, 0f));
-
-        BoxCollider slotCollider = slot.AddComponent<BoxCollider>();
-        slotCollider.size = new Vector3(width, 4f, 0.1f);
-
-        return slotCollider;
     }
 }

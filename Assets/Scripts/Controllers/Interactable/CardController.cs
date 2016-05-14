@@ -141,7 +141,7 @@ public class CardController : BaseController
         switch (Status)
         {
             case ControllerStatus.Inactive:
-                if (IsHovering && transform.localPosition.x == TargetPosition.x && InterfaceManager.Instance.IsDragging == false)
+                if (IsHovering && transform.localPosition.x == TargetPosition.x && InterfaceManager.Instance.IsTargeting == false && InterfaceManager.Instance.IsDragging == false)
                 {
                     SetRenderingOrder(500);
                     transform.localScale = Vector3.one * 2f;
@@ -190,6 +190,7 @@ public class CardController : BaseController
             case CardType.Minion: // TODO: if is frozen u can't do anything with it
             case CardType.Weapon:
                 Status = ControllerStatus.Dragging;
+                InterfaceManager.Instance.IsDragging = true;
                 break;
 
             case CardType.Spell:
@@ -206,15 +207,16 @@ public class CardController : BaseController
         switch (Card.GetCardType())
         {
             case CardType.Minion: // TODO: if target has stealth u can't do anything to it.
+                InterfaceManager.Instance.IsDragging = false;
                 if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
                 {
                     Card.Player.PlayMinion(Card.As<MinionCard>(), 0);
                 }
                 break;
 
-
             case CardType.Weapon:
                 // TODO
+                InterfaceManager.Instance.IsDragging = false;
                 break;
 
             case CardType.Spell:
