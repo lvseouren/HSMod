@@ -104,6 +104,8 @@ public class GameManager : MonoBehaviour
 
             Deck = new List<BaseCard>()
             {
+                new DeathwhisperNecrolyte(),
+                new DancingRuneblade(),
                 new CorpseExplosion(),
                 new AllWillServe(),
                 new DancingRuneblade(),
@@ -111,9 +113,7 @@ public class GameManager : MonoBehaviour
                 new DeathwhisperNecrolyte(),
                 new CorpseExplosion(),
                 new AllWillServe(),
-                new DancingRuneblade(),
                 new SkeletonCommander(),
-                new DeathwhisperNecrolyte()
             },
         };
 
