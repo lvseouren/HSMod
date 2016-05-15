@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
     private Vector3 BOTTOM_BOARD = new Vector3(0f, 5.5f, 0f);
 
     private Vector3 TOP_CENTER = new Vector3(800f, 60f, 935f);
-    private Vector3 TOP_HAND = new Vector3(0f, 11f, 0f);
+    private Vector3 TOP_HAND = new Vector3(0f, 12f, 0f);
     private Vector3 TOP_MANA = new Vector3(8.05f, 3.25f, 0f);
     private Vector3 TOP_BOARD = new Vector3(0f, -4f, 0f);
 

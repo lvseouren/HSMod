@@ -7,6 +7,8 @@ public class BoardController : MonoBehaviour
 
     private List<MinionController> MinionControllers = new List<MinionController>();
 
+    private BoxCollider Collider;
+
     private Vector3 Center;
     private const float DISTANCE = 3f;
 
@@ -21,6 +23,7 @@ public class BoardController : MonoBehaviour
         BoardController boardController = boardObject.AddComponent<BoardController>();
         boardController.Player = player;
         boardController.Center = boardCenter;
+        boardController.Collider = boardCollider;
 
         boardController.UpdateBoard();
 
