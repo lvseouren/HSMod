@@ -33,6 +33,7 @@ public class NumberController : MonoBehaviour
 
         for (int i = 0; i < numberCharacters.Length; i++)
         {
+            // TODO : Fix for negative numbers
             int number = int.Parse(numberCharacters[i].ToString());
 
             SpriteRenderer numberRenderer = CreateNumberRenderer(number, color);
@@ -48,7 +49,7 @@ public class NumberController : MonoBehaviour
     {
         foreach (SpriteRenderer renderer in Renderers)
         {
-            Destroy(renderer);
+            Destroy(renderer.gameObject);
         }
 
         Renderers.Clear();
@@ -83,7 +84,7 @@ public class NumberController : MonoBehaviour
         spriteRenderer.sprite = SpriteManager.Instance.Numbers[color][number];
         spriteRenderer.sortingLayerName = "Game";
         spriteRenderer.sortingOrder = Order;
-        spriteRenderer.enabled = false;
+        spriteRenderer.enabled = true;
 
         return spriteRenderer;
     }
