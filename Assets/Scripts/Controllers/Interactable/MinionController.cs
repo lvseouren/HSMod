@@ -9,6 +9,9 @@ public class MinionController : BaseController
     private SpriteRenderer TokenRenderer;
     private SpriteRenderer MinionRenderer;
 
+    private NumberController AttackController;
+    private NumberController HealthController;
+
     private BoxCollider Collider;
 
     // TODO : Frozen, Silenced, DivineShield, Taunt, etc... renderers
@@ -32,6 +35,9 @@ public class MinionController : BaseController
 
     public override void Initialize()
     {
+        AttackController = NumberController.Create("Attack_Controller", this.gameObject, new Vector3(-0.8f, -0.95f, 0f), 15, 0.35f);
+        HealthController = NumberController.Create("Health_Controller", this.gameObject, new Vector3(0.825f, -0.95f, 0f), 15, 0.35f);
+
         TokenRenderer = CreateRenderer("Token", Vector3.one, Vector3.zero, 14);
 
         MinionRenderer = CreateRenderer("Minion", Vector3.one, Vector3.zero, 13);
@@ -45,6 +51,9 @@ public class MinionController : BaseController
         
         UpdateSprites();
         UpdateNumbers();
+
+        AttackController.SetEnabled(true);
+        HealthController.SetEnabled(true);
     }
 
     public override void Remove()
@@ -76,7 +85,31 @@ public class MinionController : BaseController
 
     public override void UpdateNumbers()
     {
-        // TODO
+        if (Minion.CurrentAttack < Minion.BaseAttack)
+        {
+            AttackController.UpdateNumber(Minion.CurrentAttack, "Red");
+        }
+        else if (Minion.CurrentAttack == Minion.BaseAttack)
+        {
+            AttackController.UpdateNumber(Minion.CurrentAttack, "White");
+        }
+        else
+        {
+            AttackController.UpdateNumber(Minion.CurrentAttack, "Green");
+        }
+
+        if (Minion.CurrentHealth < Minion.BaseHealth)
+        {
+            HealthController.UpdateNumber(Minion.CurrentHealth, "Red");
+        }
+        else if (Minion.CurrentHealth == Minion.BaseHealth)
+        {
+            HealthController.UpdateNumber(Minion.CurrentHealth, "White");
+        }
+        else
+        {
+            HealthController.UpdateNumber(Minion.CurrentHealth, "Green");
+        }
     }
 
     private string GetTokenPath()

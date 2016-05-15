@@ -11,6 +11,15 @@ public class Minion : Character
     public Minion(MinionCard card)
     {
         Card = card;
+
+        CurrentAttack = card.CurrentAttack;
+        BaseAttack = card.BaseAttack;
+
+        CurrentHealth = card.CurrentHealth;
+        MaxHealth = card.CurrentAttack;
+        BaseHealth = card.BaseHealth;
+
+        CurrentArmor = 0;
     }
 
     #endregion
