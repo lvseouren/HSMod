@@ -38,14 +38,14 @@ public class CardController : BaseController
     
     public override void Initialize()
     {
-        CostController = NumberController.Create("CostController", this.gameObject, new Vector3(-1.375f, 2.15f, 0f), 43, 0.5f);
-        AttackController = NumberController.Create("AttackController", this.gameObject, new Vector3(-1.4f, -0.85f, 0f), 43, 0.5f);
-        AttributeController = NumberController.Create("AttributeController", this.gameObject, new Vector3(1.5f, 0f, 0f), 43, 0.5f);
+        CostController = NumberController.Create("Cost_Controller", this.gameObject, new Vector3(-1.375f, 2.15f, 0f), 43, 0.5f);
+        AttackController = NumberController.Create("Attack_Controller", this.gameObject, new Vector3(-1.4f, -0.85f, 0f), 43, 0.5f);
+        AttributeController = NumberController.Create("Attribute_Controller", this.gameObject, new Vector3(1.5f, 0f, 0f), 43, 0.5f);
 
-        CardRenderer = CreateRenderer("Card", Vector3.one, Vector3.zero, 42);
+        CardRenderer = CreateRenderer("Card_Sprite", Vector3.one, Vector3.zero, 42);
         
-        ComboGlowRenderer = CreateRenderer("ComboGlow", Vector3.one * 3f, new Vector3(0.065f, -0.05f, 0f), 41);
-        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 3f, new Vector3(0.065f, -0.05f, 0f), 40);
+        ComboGlowRenderer = CreateRenderer("ComboGlow_Sprite", Vector3.one * 3f, new Vector3(0.065f, -0.05f, 0f), 41);
+        GreenGlowRenderer = CreateRenderer("GreenGlow_Sprite", Vector3.one * 3f, new Vector3(0.065f, -0.05f, 0f), 40);
 
         CardRenderer.enabled = true;
 

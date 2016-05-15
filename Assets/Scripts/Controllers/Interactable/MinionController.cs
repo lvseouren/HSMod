@@ -38,13 +38,13 @@ public class MinionController : BaseController
         AttackController = NumberController.Create("Attack_Controller", this.gameObject, new Vector3(-0.8f, -0.95f, 0f), 15, 0.35f);
         HealthController = NumberController.Create("Health_Controller", this.gameObject, new Vector3(0.825f, -0.95f, 0f), 15, 0.35f);
 
-        TokenRenderer = CreateRenderer("Token", Vector3.one, Vector3.zero, 14);
+        TokenRenderer = CreateRenderer("Token_Sprite", Vector3.one, Vector3.zero, 14);
 
-        MinionRenderer = CreateRenderer("Minion", Vector3.one, Vector3.zero, 13);
+        MinionRenderer = CreateRenderer("Minion_Sprite", Vector3.one, Vector3.zero, 13);
 
-        WhiteGlowRenderer = CreateRenderer("WhiteGlow", Vector3.one * 2f, Vector3.zero, 12);
-        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 2f, Vector3.zero, 11);
-        RedGlowRenderer = CreateRenderer("RedGlow", Vector3.one * 2f, Vector3.zero, 10);
+        WhiteGlowRenderer = CreateRenderer("WhiteGlow_Sprite", Vector3.one * 2f, Vector3.zero, 12);
+        GreenGlowRenderer = CreateRenderer("GreenGlow_Sprite", Vector3.one * 2f, Vector3.zero, 11);
+        RedGlowRenderer = CreateRenderer("RedGlow_Sprite", Vector3.one * 2f, Vector3.zero, 10);
 
         TokenRenderer.enabled = true;
         MinionRenderer.enabled = true;
