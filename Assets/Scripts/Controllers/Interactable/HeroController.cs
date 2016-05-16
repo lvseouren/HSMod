@@ -59,7 +59,7 @@ public class HeroController : BaseController
         HealthController.SetEnabled(true);
     }
 
-    public override void Remove()
+    public override void DestroyController()
     {
         Destroy(HeroRenderer);
         Destroy(AttackRenderer);

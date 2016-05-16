@@ -51,7 +51,7 @@ public class HeroPowerController : BaseController
         CostController.SetEnabled(HeroPower.IsAvailable());
     }
 
-    public override void Remove()
+    public override void DestroyController()
     {
         Destroy(FrontTokenRenderer);
         Destroy(BackTokenRenderer);

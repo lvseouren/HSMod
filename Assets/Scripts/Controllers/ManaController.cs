@@ -26,6 +26,13 @@ public class ManaController : MonoBehaviour
         return manaController;
     }
 
+    public void DestroyController()
+    {
+        DestroyRenderers();
+
+        Destroy(this.gameObject);
+    }
+
     public void DestroyRenderers()
     {
         foreach (SpriteRenderer renderer in Crystals)
@@ -36,6 +43,7 @@ public class ManaController : MonoBehaviour
         Crystals.Clear();
     }
 
+    // TODO : Next turn overloaded mana
     public void UpdateSprites()
     {
         if (DisplayCrystals)

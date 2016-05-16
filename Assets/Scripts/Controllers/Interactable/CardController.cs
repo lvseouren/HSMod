@@ -55,7 +55,7 @@ public class CardController : BaseController
         CostController.SetEnabled(true);
     }
 
-    public override void Remove()
+    public override void DestroyController()
     {
         Destroy(CardRenderer);
         Destroy(GreenGlowRenderer);
@@ -205,13 +205,17 @@ public class CardController : BaseController
                 InterfaceManager.Instance.IsDragging = false;
                 if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
                 {
-                    Card.Player.PlayMinion(Card.As<MinionCard>(), 0);
+                    Card.Player.SummonMinion(Card.As<MinionCard>(), 0);
                 }
                 break;
 
             case CardType.Weapon:
                 // TODO
                 InterfaceManager.Instance.IsDragging = false;
+                if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
+                {
+                    Card.Player.EquipWeapon(Card.As<WeaponCard>());
+                }
                 break;
 
             case CardType.Spell:

@@ -8,7 +8,7 @@ public abstract class BaseController : MonoBehaviour
 
     public virtual void Initialize() { }
 
-    public virtual void Remove() { }
+    public virtual void DestroyController() { }
 
     public virtual void UpdateSprites() { }
 

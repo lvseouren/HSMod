@@ -63,7 +63,7 @@ public class MinionController : BaseController
         HealthController.SetEnabled(true);
     }
 
-    public override void Remove()
+    public override void DestroyController()
     {
         // Removing the NumberControllers
         AttackController.Remove();

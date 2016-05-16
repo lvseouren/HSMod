@@ -40,7 +40,7 @@ public class HandController : MonoBehaviour
         if (Controllers.Contains(cardController))
         {
             Controllers.Remove(cardController);
-            cardController.Remove();
+            cardController.DestroyController();
         }
 
         MoveCards();
