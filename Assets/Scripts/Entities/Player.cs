@@ -1,41 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Threading;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public Hero Hero;
-
     public Player Enemy;
 
+    public Hero Hero;
+    public Weapon Weapon;
     public List<BaseCard> Hand = new List<BaseCard>();
     public List<BaseCard> Deck = new List<BaseCard>();
     public List<Minion> Minions = new List<Minion>(7);
     public List<SpellCard> Secrets = new List<SpellCard>();
-    public WeaponCard Weapon;
 
     public ManaController ManaController;
     public HeroController HeroController;
     public HandController HandController;
     public BoardController BoardController;
-    
+
     public List<SpellCard> UsedSpells = new List<SpellCard>();
     public List<MinionCard> DeadMinions = new List<MinionCard>();
     
     public int MaxCardsInHand = 10;
     public int MaxCardsInDeck = 60;
 
-    public int Fatigue;
-
+    public int Fatigue = 0;
     public int MaximumMana = 10;
-
-    public int TurnMana = 1; // Testing purposes - switch back to 0 when finished
+    public int TurnMana = 0;
+    public int UsedMana = 0;
     public int AvailableMana;
-    public int UsedMana;
-    public int CurrentOverloadedMana;
-    public int NextOverloadedMana;
+    public int CurrentOverloadedMana = 0;
+    public int NextOverloadedMana = 0;
 
     #region Constructor
 
@@ -82,17 +77,49 @@ public class Player : MonoBehaviour
 
     #region Methods
 
-    public void PlayMinion(MinionCard minionCard, int position)
+    // TODO : Board positioning
+    public void SummonMinion(MinionCard minionCard, int position)
     {
+        // Creating a Minion and its Controller
         Minion minion = new Minion(minionCard);
         minion.Controller = MinionController.Create(BoardController, minion);
 
+        // Adding the Minion to the Player Minion list
         Minions.Add(minion);
 
+        // Adding the Minion to the BoardController
         BoardController.AddMinion(minion, 0);
+    }
 
-        Hand.Remove(minionCard);
-        HandController.Remove(minionCard.Controller);
+    public void EquipWeapon(WeaponCard weaponCard)
+    {
+        // Destroying the previous Weapon
+        DestroyWeapon();
+
+        // Creating a Weapon and its Controller
+        Weapon weapon = new Weapon(weaponCard);
+        weapon.Controller = WeaponController.Create(this, weapon);
+
+        // Setting the current Weapon as the new Weapon
+        Weapon = weapon;
+
+        // Firing the Weapon battlecry
+        Weapon.Card.Battlecry();
+    }
+
+    public void DestroyWeapon()
+    {
+        // Checking if the player has a Weapon
+        if (Weapon != null)
+        {
+            // Firing the Weapon deathrattle
+            Weapon.Card.Deathrattle();
+
+            // TODO : Animation, sound, etc...
+
+            // Setitng the current Weapon as null
+            Weapon = null;
+        }
     }
 
     public void ReplaceHero(Hero newHero)
@@ -102,24 +129,14 @@ public class Player : MonoBehaviour
 
     public void AddMana(int quantity)
     {
-        AvailableMana += quantity;
-
-        if (AvailableMana > MaximumMana)
-        {
-            AvailableMana = MaximumMana;
-        }
+        AvailableMana = Mathf.Min(AvailableMana + quantity, MaximumMana);
         
         ManaController.UpdateAll();
     }
 
     public void AddEmptyMana(int quantity)
     {
-        TurnMana += quantity;
-
-        if (TurnMana > MaximumMana)
-        {
-            TurnMana = MaximumMana;
-        }
+        TurnMana = Mathf.Min(TurnMana + quantity, MaximumMana);
 
         ManaController.UpdateAll();
     }
@@ -144,6 +161,46 @@ public class Player : MonoBehaviour
         AvailableMana = Mathf.Clamp(TurnMana - CurrentOverloadedMana, 0, 10);
 
         ManaController.UpdateAll();
+    }
+
+    // TODO : Animation
+    public void AddCardToHand(BaseCard card)
+    {
+        if (Hand.Count < MaxCardsInHand)
+        {
+            card.Controller = CardController.Create(card);
+            Hand.Add(card);
+        }
+        else
+        {
+            // TODO : Destroy card because hand is full
+        }
+    }
+
+    // TODO : Animation
+    public void AddCardToDeck(BaseCard card)
+    {
+        if (Deck.Count < MaxCardsInDeck)
+        {
+            Deck.Add(card);
+        }
+        else
+        {
+            // TODO : Destroy card because deck is full (?)
+        }
+    }
+
+    public void RemoveCardFromHand(BaseCard card)
+    {
+        if (Hand.Contains(card))
+        {
+            // Removing the Card from the Hand
+            Hand.Remove(card);
+            HandController.Remove(card.Controller);
+
+            // Destroying the CardController
+            card.Controller.DestroyController();
+        }
     }
 
     public List<BaseCard> Draw(int draws)
@@ -205,27 +262,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void EquipWeapon(WeaponCard weapon)
-    {
-        DestroyWeapon();
-
-        Weapon = weapon;
-
-        Weapon.Battlecry();
-    }
-
-    public void DestroyWeapon()
-    {
-        if (Weapon != null)
-        {
-            Weapon.Deathrattle();
-
-            // TODO : Animation
-
-            Weapon = null;
-        }
-    }
-
     public void UpdateGlows()
     {
         ResetGreenGlows();
@@ -239,7 +275,7 @@ public class Player : MonoBehaviour
                     break;
 
                 case 1:
-                    if (Weapon.Windfury)
+                    if (Weapon.HasWindfury)
                     {
                         HeroController.SetGreenRenderer(true);
                     }
