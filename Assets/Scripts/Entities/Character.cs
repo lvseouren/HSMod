@@ -78,8 +78,6 @@
 
     public virtual bool CanAttack()
     {
-        if (this.IsFrozen) return false;
-
         return false;
     }
 
