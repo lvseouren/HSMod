@@ -23,37 +23,66 @@
 
     public virtual bool CanTarget(Character target)
     {
-        // The target is a Hero
-        if (target.IsHero())
+        if (target != null)
         {
-            // The target is the own Hero
-            if (Player.Hero == target.As<Hero>())
+            // The target is a Hero
+            if (target.IsHero())
             {
-                // True for AllCharacters
-                return (TargetType == TargetType.AllCharacters || TargetType == TargetType.FriendlyCharacters);
+                // The target is the own Hero
+                if (Player.Hero == target.As<Hero>())
+                {
+                    // True for AllCharacters
+                    return (TargetType == TargetType.AllCharacters || TargetType == TargetType.FriendlyCharacters);
+                }
+
+                // The target is the enemy Hero
+                else
+                {
+                    // True for AllCharacters and EnemyCharacters types
+                    return (TargetType == TargetType.AllCharacters || TargetType == TargetType.EnemyCharacters);
+                }
             }
 
-            // The target is the enemy Hero
+            // The target is a Minion
             else
             {
-                // True for AllCharacters and EnemyCharacters types
-                return (TargetType == TargetType.AllCharacters || TargetType == TargetType.EnemyCharacters);
+                // The target is friendly
+                if (Player == target.As<Minion>().Player)
+                {
+                    return (TargetType == TargetType.AllCharacters || TargetType == TargetType.AllMinions || TargetType == TargetType.FriendlyMinions);
+                }
+
+                // The target is enemy
+                else
+                {
+                    return (TargetType == TargetType.AllCharacters || TargetType == TargetType.AllMinions || TargetType == TargetType.EnemyMinions);
+                }
             }
         }
 
-        // The target is a Minion
+        return false;
+    }
+
+    public override void Play()
+    {
+        if (TargetType == TargetType.NoTarget)
+        {
+            Player.UseMana(CurrentCost);
+
+            Cast(null);
+        }
         else
         {
-            // The target is friendly
-            if (Player == target.As<MinionCard>().Player)
-            {
-                return (TargetType == TargetType.AllCharacters || TargetType == TargetType.AllMinions || TargetType == TargetType.FriendlyMinions);
-            }
+            Character target = Util.GetCharacterAtMouse();
 
-            // The target is enemy
-            else
+            if (target != null)
             {
-                return (TargetType == TargetType.AllCharacters || TargetType == TargetType.AllMinions || TargetType == TargetType.EnemyMinions);
+                if (CanTarget(target))
+                {
+                    Player.UseMana(CurrentCost);
+
+                    Cast(target);
+                }
             }
         }
     }

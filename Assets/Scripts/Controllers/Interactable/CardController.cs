@@ -197,31 +197,65 @@ public class CardController : BaseController
 
     private void OnMouseUp()
     {
+        // Changing the status of the Card
         Status = ControllerStatus.Inactive;
 
-        switch (Card.GetCardType())
+        // Checking if the Player has enough mana to play the Card
+        if (Card.Player.AvailableMana >= Card.CurrentCost)
         {
-            case CardType.Minion: // TODO: if target has stealth u can't do anything to it.
-                InterfaceManager.Instance.IsDragging = false;
-                if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
-                {
-                    Card.Player.SummonMinion(Card.As<MinionCard>(), 0);
-                }
-                break;
+            switch (Card.GetCardType())
+            {
+                case CardType.Spell:
+                    InterfaceManager.Instance.DisableArrow();
 
-            case CardType.Weapon:
-                // TODO
-                InterfaceManager.Instance.IsDragging = false;
-                if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
-                {
-                    Card.Player.EquipWeapon(Card.As<WeaponCard>());
-                }
-                break;
+                    SpellCard spellCard = Card.As<SpellCard>();
 
-            case CardType.Spell:
-                // TODO
-                InterfaceManager.Instance.DisableArrow();
-                break;
+                    if (spellCard.TargetType == TargetType.NoTarget)
+                    {
+
+                    }
+                    else
+                    {
+                        Character target = Util.GetCharacterAtMouse();
+
+                        if (spellCard.CanTarget(target))
+                        {
+                            Card.Play();
+                        }
+                    }
+                    break;
+
+                case CardType.Minion:
+                    InterfaceManager.Instance.IsDragging = false;
+
+                    if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
+                    {
+                        Card.Play();
+                    }
+                    break;
+
+                case CardType.Weapon:
+                    InterfaceManager.Instance.IsDragging = false;
+
+                    // TODO : Check for a wider space instead of board
+                    if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
+                    {
+                        Card.Play();
+                    }
+                    break;
+            }
+
+            // Checking Card type
+            if (Card.GetCardType() == CardType.Spell)
+            {
+            }
+            else
+            {
+            }
+        }
+        else
+        {
+            // TODO : Display not enough mana message
         }
     }
 

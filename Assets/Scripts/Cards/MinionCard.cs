@@ -69,4 +69,15 @@
             buff.OnRemoved(Minion);
         }
     }
+
+    public override void Play()
+    {
+        if (Player.Minions.Count < 7)
+        {
+            Player.UseMana(CurrentCost);
+
+            Player.SummonMinion(this, 0);
+            Player.RemoveCardFromHand(this);
+        }
+    }
 }

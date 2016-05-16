@@ -88,7 +88,12 @@ public class Player : MonoBehaviour
         Minions.Add(minion);
 
         // Adding the Minion to the BoardController
-        BoardController.AddMinion(minion, 0);
+        BoardController.AddMinion(minion, position);
+    }
+
+    public void PlaySpell(SpellCard spellCard, Character target)
+    {
+        
     }
 
     public void EquipWeapon(WeaponCard weaponCard)
@@ -117,7 +122,7 @@ public class Player : MonoBehaviour
 
             // TODO : Animation, sound, etc...
 
-            // Setitng the current Weapon as null
+            // Setting the current Weapon as null
             Weapon = null;
         }
     }
