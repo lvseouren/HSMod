@@ -172,8 +172,12 @@ public class GameManager : MonoBehaviour
 
         foreach (Minion minion in CurrentPlayer.Minions)
         {
-            // Awaking minions
+            // Awaking minions and resetting turn attacks
             minion.IsSleeping = false;
+            minion.CurrentTurnAttacks = 0;
+
+            // Firing OnTurnStart events
+            minion.Buffs.OnTurnStart.OnNext(null);
 
             // Unfreezing frozen minions or flagging frozen minions for unfreezing on next turn
             if (minion.IsFrozen)
