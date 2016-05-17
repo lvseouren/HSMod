@@ -200,68 +200,69 @@ public class CardController : BaseController
         // Changing the status of the Card
         Status = ControllerStatus.Inactive;
 
-        // Checking if the Player has enough mana to play the Card
-        if (Card.Player.AvailableMana >= Card.CurrentCost)
+        InterfaceManager.Instance.DisableArrow();
+        InterfaceManager.Instance.IsDragging = false;
+
+        // Checking if it's the turn of the Player
+        if (GameManager.Instance.CurrentPlayer == Card.Player)
         {
-            switch (Card.GetCardType())
+            // Checking if the Player has enough mana to play the Card
+            if (Card.Player.AvailableMana >= Card.CurrentCost)
             {
-                case CardType.Spell:
-                    InterfaceManager.Instance.DisableArrow();
+                switch (Card.GetCardType())
+                {
+                    case CardType.Spell:
+                        SpellCard spellCard = Card.As<SpellCard>();
 
-                    SpellCard spellCard = Card.As<SpellCard>();
+                        if (spellCard.TargetType == TargetType.NoTarget)
+                        {
+                            // TODO : Check for a wider space instead of board
+                            if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
+                            {
+                                spellCard.PlayOn(null);
+                            }
+                        }
+                        else
+                        {
+                            Character target = Util.GetCharacterAtMouse();
 
-                    if (spellCard.TargetType == TargetType.NoTarget)
-                    {
+                            print(target);
+
+                            if (spellCard.CanTarget(target))
+                            {
+                                spellCard.PlayOn(target);
+                            }
+                        }
+                        break;
+
+                    case CardType.Minion:
+                        if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
+                        {
+                            Card.Play();
+                        }
+                        break;
+
+                    case CardType.Weapon:
                         // TODO : Check for a wider space instead of board
                         if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
                         {
-                            spellCard.PlayOn(null);
+                            Card.Play();
                         }
-                    }
-                    else
-                    {
-                        Character target = Util.GetCharacterAtMouse();
+                        break;
+                }
 
-                        print(target);
-
-                        if (spellCard.CanTarget(target))
-                        {
-                            spellCard.PlayOn(target);
-                        }
-                    }
-                    break;
-
-                case CardType.Minion:
-                    InterfaceManager.Instance.IsDragging = false;
-
-                    if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
-                    {
-                        Card.Play();
-                    }
-                    break;
-
-                case CardType.Weapon:
-                    InterfaceManager.Instance.IsDragging = false;
-
-                    // TODO : Check for a wider space instead of board
-                    if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
-                    {
-                        Card.Play();
-                    }
-                    break;
-            }
-
-            // Checking Card type
-            if (Card.GetCardType() == CardType.Spell)
-            {
+                // Checking Card type
+                if (Card.GetCardType() == CardType.Spell)
+                {
+                }
+                else
+                {
+                }
             }
             else
             {
+                // TODO : Display not enough mana message
             }
-        }
-        else
-        {
-            // TODO : Display not enough mana message
         }
     }
 
