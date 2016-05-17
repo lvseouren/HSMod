@@ -56,5 +56,6 @@
         Player.UseMana(CurrentCost);
 
         Player.PlaySpell(this, target);
+        Player.RemoveCardFromHand(this);
     }
 }
