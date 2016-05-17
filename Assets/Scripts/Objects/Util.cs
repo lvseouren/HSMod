@@ -59,11 +59,11 @@ public static class Util
     public static Character GetCharacterAtMouse()
     {
         Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit[] hitInfo = Physics.RaycastAll(cameraRay);
+        RaycastHit[] hits = Physics.RaycastAll(cameraRay);
 
-        if (hitInfo.Length > 0)
+        foreach (RaycastHit hit in hits)
         {
-            BaseController controller = hitInfo[0].collider.gameObject.GetComponent<MinionController>();
+            BaseController controller = hit.collider.gameObject.GetComponent<MinionController>();
 
             if (controller != null)
             {
