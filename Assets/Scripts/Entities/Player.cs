@@ -77,6 +77,11 @@ public class Player : MonoBehaviour
 
     #region Methods
 
+    public void SummonMinion(MinionCard minionCard)
+    {
+        SummonMinion(minionCard, Minions.Count);
+    }
+
     // TODO : Board positioning
     public void SummonMinion(MinionCard minionCard, int position)
     {
