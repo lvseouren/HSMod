@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 public class CorpseExplosion : SpellCard
 {
@@ -20,22 +19,19 @@ public class CorpseExplosion : SpellCard
 
     public override void Cast(Character target)
     {
-        target.As<Minion>().Buffs.Deathrattle.Subscribe(x => ExplodeCorpse());
+        target.As<Minion>().Buffs.Deathrattle.Subscribe(x => ExplodeCorpse(x));
     }
 
-    public void ExplodeCorpse()
+    public void ExplodeCorpse(Minion corpse)
     {
-        // Getting a reference to the list of enemy minions
-        List<Minion> enemyMinions = Player.Enemy.Minions;
-
-        // Iterating on the list to damage the minions
-        foreach (Minion minion in enemyMinions)
+        // Iterating on the list of enemy minions to damage them
+        foreach (Minion minion in corpse.Player.Enemy.Minions)
         {
             minion.TryDamage(null, 2);
         }
 
-        // Iterating on the list to check if the minions should die
-        foreach (Minion minion in enemyMinions)
+        // Iterating on the list of enemy minions to check if they should die
+        foreach (Minion minion in corpse.Player.Enemy.Minions)
         {
             minion.CheckDeath();
         }
