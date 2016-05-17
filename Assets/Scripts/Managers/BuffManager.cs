@@ -4,6 +4,7 @@ using System.Reactive.Subjects;
 public class BuffManager
 {
     public Minion Minion;
+
     public List<BaseBuff> AllBuffs = new List<BaseBuff>();
 
     #region Self Events
