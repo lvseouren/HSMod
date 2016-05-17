@@ -20,6 +20,17 @@ public class Minion : Character
         MaxHealth = card.CurrentAttack;
         BaseHealth = card.BaseHealth;
 
+        HasTaunt = card.HasTaunt;
+        HasCharge = card.HasCharge;
+        HasPoison = card.HasPoison;
+        HasWindfury = card.HasWindfury;
+        HasDivineShield = card.HasDivineShield;
+        IsElusive = card.IsElusive;
+        IsForgetful = card.IsForgetful;
+        IsStealth = card.IsStealth;
+
+        SpellPower = card.SpellPower;
+
         CurrentArmor = 0;
     }
 
@@ -283,15 +294,18 @@ public class Minion : Character
 
     public override bool CanAttack()
     {
-        if (IsFrozen == false && IsSleeping == false)
+        if (IsFrozen == false)
         {
-            if (HasWindfury)
+            if (IsSleeping == false || HasCharge)
             {
-                return CurrentTurnAttacks < 2;
-            }
-            else
-            {
-                return CurrentTurnAttacks < 1;
+                if (HasWindfury)
+                {
+                    return CurrentTurnAttacks < 2;
+                }
+                else
+                {
+                    return CurrentTurnAttacks < 1;
+                }
             }
         }
         return false;

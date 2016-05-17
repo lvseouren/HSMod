@@ -26,8 +26,8 @@
     public bool HasPoison = false;
     public bool HasWindfury = false;
     public bool HasDivineShield = false;
-    public bool HasElusiveness = false;
-    public bool HasStealth = false;
+    public bool IsElusive = false;
+    public bool IsStealth = false;
     public bool IsForgetful = false;
 
     public int SpellPower = 0;
