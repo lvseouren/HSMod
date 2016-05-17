@@ -8,6 +8,8 @@
         Class = HeroClass.DeathKnight;
         Rarity = CardRarity.Common;
 
+        TargetType = TargetType.AllCharacters;
+
         BaseCost = 2;
 
         InitializeSpell();
