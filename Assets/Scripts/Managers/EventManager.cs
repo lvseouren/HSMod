@@ -398,13 +398,13 @@ public class EventManager
         }
     }
 
-    public SpellPreCastEvent OnSpellPreCast(Player player, SpellCard spell)
+    public SpellPreCastEvent OnSpellPreCast(Player player, SpellCard spell, Character target)
     {
-        // WARNING : May have problems here with the target being null for NoTarget spells
         SpellPreCastEvent spellPreCastEvent = new SpellPreCastEvent()
         {
             Player = player,
-            Spell = spell
+            Spell = spell,
+            Target = target
         };
 
         SpellPreCastHandler.OnNext(spellPreCastEvent);
@@ -419,7 +419,6 @@ public class EventManager
 
     public void OnSpellCasted(Player player, SpellCard spell)
     {
-        // WARNING : May have problems here with the target being null for NoTarget spells
         SpellCastedEvent spellCastedEvent = new SpellCastedEvent()
         {
             Player = player,

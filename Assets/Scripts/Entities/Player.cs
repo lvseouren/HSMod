@@ -89,11 +89,33 @@ public class Player : MonoBehaviour
 
         // Adding the Minion to the BoardController
         BoardController.AddMinion(minion, position);
+
+        // TODO : Fire events
+
+        // Updating the Player glows
+        UpdateGlows();
     }
 
     public void PlaySpell(SpellCard spellCard, Character target)
     {
-        
+        // Firing OnSpellPreCast events
+        SpellPreCastEvent spellPreCastEvent = EventManager.Instance.OnSpellPreCast(this, spellCard, target);
+
+        // Re-setting the target, just in case it has changed on the PreCast events
+        target = spellPreCastEvent.Target;
+
+        // Checking if the Spell has not been cancelled
+        if (spellPreCastEvent.Status != PreStatus.Cancelled)
+        {
+            // Casting the Spell to the target
+            spellCard.Cast(target);
+        }
+
+        // Firing OnSpellCasted events
+        EventManager.Instance.OnSpellCasted(this, spellCard);
+
+        // Adding the Spell to the Played Spells list
+        UsedSpells.Add(spellCard);
     }
 
     public void EquipWeapon(WeaponCard weaponCard)
@@ -110,6 +132,9 @@ public class Player : MonoBehaviour
 
         // Firing the Weapon battlecry
         Weapon.Card.Battlecry();
+
+        // Updating the Player glows
+        UpdateGlows();
     }
 
     public void DestroyWeapon()
@@ -125,6 +150,9 @@ public class Player : MonoBehaviour
             // Setting the current Weapon as null
             Weapon = null;
         }
+
+        // Updating the Player glows
+        UpdateGlows();
     }
 
     public void ReplaceHero(Hero newHero)
@@ -137,6 +165,9 @@ public class Player : MonoBehaviour
         AvailableMana = Mathf.Min(AvailableMana + quantity, MaximumMana);
         
         ManaController.UpdateAll();
+
+        // Updating the Player glows
+        UpdateGlows();
     }
 
     public void AddEmptyMana(int quantity)
@@ -159,6 +190,9 @@ public class Player : MonoBehaviour
         UsedMana += quantity;
 
         ManaController.UpdateAll();
+
+        // Updating the Player glows
+        UpdateGlows();
     }
 
     public void RefillMana()
@@ -180,6 +214,9 @@ public class Player : MonoBehaviour
         {
             // TODO : Destroy card because hand is full
         }
+
+        // Updating the Player glows
+        UpdateGlows();
     }
 
     // TODO : Animation
@@ -193,6 +230,9 @@ public class Player : MonoBehaviour
         {
             // TODO : Destroy card because deck is full (?)
         }
+
+        // Updating the Player glows
+        UpdateGlows();
     }
 
     public void RemoveCardFromHand(BaseCard card)
@@ -206,6 +246,9 @@ public class Player : MonoBehaviour
             // Destroying the CardController
             card.Controller.DestroyController();
         }
+
+        // Updating the Player glows
+        UpdateGlows();
     }
 
     public List<BaseCard> Draw(int draws)
@@ -242,17 +285,24 @@ public class Player : MonoBehaviour
                 CardController drawnCardController = CardController.Create(drawnBaseCard);
                 drawnBaseCard.Controller = drawnCardController;
 
+                // Adding the Cardcontroller to the HandController
                 HandController.Add(drawnCardController);
 
                 // Firing OnDrawn events
                 drawnBaseCard.OnDrawn();
                 EventManager.Instance.OnCardDrawn(this, drawnBaseCard);
+
+                // Updating the Player glows
+                UpdateGlows();
                 
                 return drawnBaseCard;
             }
             else
             {
                 // TODO : Discard the card
+
+                // Updating the Player glows
+                UpdateGlows();
 
                 return null;
             }
@@ -262,6 +312,9 @@ public class Player : MonoBehaviour
             Fatigue++;
 
             Hero.TryDamage(null, Fatigue);
+
+            // Updating the Player glows
+            UpdateGlows();
 
             return null;
         }
@@ -292,7 +345,17 @@ public class Player : MonoBehaviour
         {
             if (card.CurrentCost <= AvailableMana)
             {
-                card.Controller.SetGreenRenderer(true);
+                if (card.GetCardType() == CardType.Minion)
+                {
+                    if (Minions.Count < 7)
+                    {
+                        card.Controller.SetGreenRenderer(true);
+                    }
+                }
+                else
+                {
+                    card.Controller.SetGreenRenderer(true);
+                }
             }
         }
 

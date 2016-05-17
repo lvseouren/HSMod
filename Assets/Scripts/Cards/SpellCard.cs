@@ -6,18 +6,6 @@
     {
         InitializeCard();
     }
-    
-    public void OnCast(Character target)
-    {
-        SpellPreCastEvent spellPreCastEvent = EventManager.Instance.OnSpellPreCast(Player, this);
-
-        if (spellPreCastEvent.Status != PreStatus.Cancelled)
-        {
-            Cast(target);
-        }
-
-        EventManager.Instance.OnSpellCasted(Player, this);
-    }
 
     public virtual void Cast(Character target) { }
 
@@ -29,7 +17,7 @@
             if (target.IsHero())
             {
                 // The target is the own Hero
-                if (Player.Hero == target.As<Hero>())
+                if (Player.Hero.IsFriendlyOf(target))
                 {
                     // True for AllCharacters
                     return (TargetType == TargetType.AllCharacters || TargetType == TargetType.FriendlyCharacters);
@@ -47,7 +35,7 @@
             else
             {
                 // The target is friendly
-                if (Player == target.As<Minion>().Player)
+                if (Player.Hero.IsFriendlyOf(target))
                 {
                     return (TargetType == TargetType.AllCharacters || TargetType == TargetType.AllMinions || TargetType == TargetType.FriendlyMinions);
                 }
@@ -63,27 +51,10 @@
         return false;
     }
 
-    public override void Play()
+    public void PlayOn(Character target)
     {
-        if (TargetType == TargetType.NoTarget)
-        {
-            Player.UseMana(CurrentCost);
+        Player.UseMana(CurrentCost);
 
-            Cast(null);
-        }
-        else
-        {
-            Character target = Util.GetCharacterAtMouse();
-
-            if (target != null)
-            {
-                if (CanTarget(target))
-                {
-                    Player.UseMana(CurrentCost);
-
-                    Cast(target);
-                }
-            }
-        }
+        Player.PlaySpell(this, target);
     }
 }

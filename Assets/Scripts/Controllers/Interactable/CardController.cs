@@ -212,15 +212,21 @@ public class CardController : BaseController
 
                     if (spellCard.TargetType == TargetType.NoTarget)
                     {
-
+                        // TODO : Check for a wider space instead of board
+                        if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
+                        {
+                            spellCard.PlayOn(null);
+                        }
                     }
                     else
                     {
                         Character target = Util.GetCharacterAtMouse();
 
+                        print(target);
+
                         if (spellCard.CanTarget(target))
                         {
-                            Card.Play();
+                            spellCard.PlayOn(target);
                         }
                     }
                     break;
