@@ -366,24 +366,9 @@ public class Player : MonoBehaviour
 
         foreach (Minion minion in Minions)
         {
-            if (minion.IsFrozen == false && minion.IsSleeping == false)
+            if (minion.CanAttack())
             {
-                if (minion.CanAttack())
-                {
-                    switch (minion.CurrentTurnAttacks)
-                    {
-                        case 0:
-                            minion.Controller.SetGreenRenderer(true);
-                            break;
-
-                        case 1:
-                            if (minion.HasWindfury)
-                            {
-                                minion.Controller.SetGreenRenderer(true);
-                            }
-                            break;
-                    }
-                }
+                minion.Controller.SetGreenRenderer(true);
             }
         }
     }
