@@ -43,6 +43,11 @@
         // TODO
     }
 
+    public void SetOwner(Player player)
+    {
+        Player = player;
+    }
+
     #endregion
 
     #region Hand/Deck Events

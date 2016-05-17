@@ -21,6 +21,9 @@
 
         target.TryDamage(null, damage);
         
-        Player.SummonMinion(new Ghoul());
+        MinionCard ghoul = new Ghoul();
+        ghoul.SetOwner(Player);
+
+        Player.SummonMinion(ghoul);
     }
 }
