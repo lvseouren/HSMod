@@ -20,7 +20,7 @@
         int damage = 2 + Player.GetSpellPower();
 
         target.TryDamage(null, damage);
-
-        // TODO : Summon 1/1
+        
+        Player.SummonMinion(new Ghoul());
     }
 }
