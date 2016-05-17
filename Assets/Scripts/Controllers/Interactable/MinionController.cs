@@ -208,7 +208,7 @@ public class MinionController : BaseController
 
             if (target != null)
             {
-                if (Minion.CanAttackTo(target))
+                if (Minion.CanAttack() && Minion.CanAttackTo(target))
                 {
                     // TODO : Animations, sounds, etc...
                     Minion.Attack(target);
