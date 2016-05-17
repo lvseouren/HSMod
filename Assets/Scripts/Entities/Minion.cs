@@ -10,6 +10,7 @@ public class Minion : Character
 
     public Minion(MinionCard card)
     {
+        Player = card.Player;
         Card = card;
 
         CurrentAttack = card.CurrentAttack;
@@ -163,7 +164,7 @@ public class Minion : Character
 
     private void Damage(int damageAmount)
     {
-        BaseHealth -= damageAmount;
+        CurrentHealth -= damageAmount;
 
         // TODO : Show health loss sprite + amount on token
 
