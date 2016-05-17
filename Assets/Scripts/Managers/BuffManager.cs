@@ -62,8 +62,8 @@ public class BuffManager
 
     public Subject<SpellCard> OnTargetedBySpell = new Subject<SpellCard>();
 
-    public Subject<object> OnTurnStart = new Subject<object>();
-    public Subject<object> OnTurnEnd = new Subject<object>();
+    public Subject<TurnEvent> OnTurnStart = new Subject<TurnEvent>();
+    public Subject<TurnEvent> OnTurnEnd = new Subject<TurnEvent>();
 
     #endregion
     

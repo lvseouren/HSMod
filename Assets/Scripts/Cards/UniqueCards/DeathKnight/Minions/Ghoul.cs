@@ -18,15 +18,15 @@ public class Ghoul : MinionCard
         HasCharge = true;
 
         InitializeMinion();
+
+        Buffs.OnTurnEnd.Subscribe(x => OnTurnEnd(x));
     }
 
-    public void Initialize()
+    public void OnTurnEnd(TurnEvent turnEvent)
     {
-        Buffs.OnTurnEnd.Subscribe(x => OnTurnEnd());
-    }
-
-    public void OnTurnEnd()
-    {
-        Minion.Die();
+        if (GameManager.Instance.CurrentPlayer == Player)
+        {
+            Minion.Die();
+        }
     }
 }
