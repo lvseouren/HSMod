@@ -291,6 +291,11 @@ public class Minion : Character
 
     #region Condition Checkers
 
+    public override bool IsMinion()
+    {
+        return true;
+    }
+
     public override bool CanAttack()
     {
         if (IsFrozen == false)

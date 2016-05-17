@@ -155,6 +155,11 @@ public class Hero : Character
 
     #region Condition Checkers
 
+    public override bool IsHero()
+    {
+        return true;
+    }
+
     public override bool CanAttack()
     {
         if (IsFrozen == false)

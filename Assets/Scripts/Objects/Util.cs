@@ -63,7 +63,7 @@ public static class Util
 
         foreach (RaycastHit hit in hits)
         {
-            BaseController controller = hit.collider.gameObject.GetComponent<MinionController>();
+            BaseController controller = hit.collider.gameObject.GetComponent<BaseController>();
 
             if (controller != null)
             {
