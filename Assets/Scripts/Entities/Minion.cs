@@ -141,6 +141,8 @@ public class Minion : Character
             Buffs.OnAttacked.OnNext(null);
             EventManager.Instance.OnMinionAttacked(this, target);
         }
+
+        Controller.UpdateSprites();
     }
 
     public override void Heal(int healAmount)
@@ -183,6 +185,7 @@ public class Minion : Character
         Buffs.OnPreDamage.OnNext(minionPreDamageEvent);
         EventManager.Instance.OnMinionPreDamage(minionPreDamageEvent);
 
+        // Substracting the damage to the current health of the Minion
         CurrentHealth -= minionPreDamageEvent.DamageAmount;
 
         // TODO : Show health loss sprite + amount on token

@@ -92,6 +92,9 @@ public class MinionController : BaseController
         WhiteGlowRenderer.sprite = SpriteManager.Instance.Glows[glowPath + "WhiteGlow"];
         GreenGlowRenderer.sprite = SpriteManager.Instance.Glows[glowPath + "GreenGlow"];
         RedGlowRenderer.sprite = SpriteManager.Instance.Glows[glowPath + "RedGlow"];
+
+        // Updating the green glow status depending on the Minion status
+        GreenGlowRenderer.enabled = Minion.CanAttack();
     }
 
     // TODO : Rewrite

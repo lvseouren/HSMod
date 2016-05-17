@@ -308,21 +308,21 @@ public class Player : MonoBehaviour
 
                 // Updating the Player glows
                 UpdateGlows();
-
-                return null;
             }
         }
         else
         {
+            // Suming 1 to the player fatigue
             Fatigue++;
 
+            // Dealing fatigue damage to the Hero
             Hero.Damage(null, Fatigue);
 
             // Updating the Player glows
             UpdateGlows();
-
-            return null;
         }
+
+        return null;
     }
 
     public void UpdateGlows()
