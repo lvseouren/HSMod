@@ -40,9 +40,10 @@ public class Minion : Character
 
     public override void Attack(Character target)
     {
-        if (IsFrozen) return;
+        // Removing stealth of the Minion
+        IsStealth = false;
 
-        // Checking if minion is forgetful
+        // Checking if minion is Forgetful
         if (IsForgetful)
         {
             // Checking if there's more than 1 enemy (hero + minions)
@@ -76,8 +77,6 @@ public class Minion : Character
                 }
             }
         }
-
-        IsStealth = false;
 
         // Firing OnPreAttack events
         Buffs.OnPreAttack.OnNext(null);
