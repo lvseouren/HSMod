@@ -19,7 +19,7 @@ public class UnholyFrenzy : SpellCard
     {
         int damage = 1 + Player.GetSpellPower();
 
-        target.TryDamage(null, damage);
+        target.Damage(null, damage);
 
         target.As<MinionCard>().AddBuff(new UnholyFrenzyBuff());
     }

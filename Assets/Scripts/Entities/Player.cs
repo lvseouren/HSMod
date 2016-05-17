@@ -316,7 +316,7 @@ public class Player : MonoBehaviour
         {
             Fatigue++;
 
-            Hero.TryDamage(null, Fatigue);
+            Hero.Damage(null, Fatigue);
 
             // Updating the Player glows
             UpdateGlows();

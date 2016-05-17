@@ -161,15 +161,8 @@ public class EventManager
         }
     }
 
-    public MinionPreDamageEvent OnMinionPreDamage(Minion minion, Character attacker, int damageAmount)
+    public MinionPreDamageEvent OnMinionPreDamage(MinionPreDamageEvent minionPreDamageEvent)
     {
-        MinionPreDamageEvent minionPreDamageEvent = new MinionPreDamageEvent()
-        {
-            Minion = minion,
-            Attacker = attacker,
-            DamageAmount = damageAmount
-        };
-
         MinionPreDamageHandler.OnNext(minionPreDamageEvent);
 
         foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
@@ -180,15 +173,8 @@ public class EventManager
         return minionPreDamageEvent;
     }
 
-    public void OnMinionDamaged(Minion minion, Character attacker, int damageAmount)
+    public void OnMinionDamaged(MinionDamagedEvent minionDamagedEvent)
     {
-        MinionDamagedEvent minionDamagedEvent = new MinionDamagedEvent()
-        {
-            Minion = minion,
-            Attacker = attacker,
-            DamageAmount = damageAmount
-        };
-
         MinionDamagedHandler.OnNext(minionDamagedEvent);
 
         foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())

@@ -19,6 +19,6 @@ public class Necrosis : SpellCard
     {
         int damage = 4 + Player.GetSpellPower();
 
-        target.TryDamage(null, damage);
+        target.Damage(null, damage);
     }
 }

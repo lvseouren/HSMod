@@ -57,7 +57,7 @@
 
     public virtual void Attack(Character target) { }
 
-    public virtual void TryDamage(Character attacker, int damage) { }
+    public virtual void Damage(Character attacker, int damage) { }
 
     public virtual void Heal(int heal) { }
 
@@ -156,6 +156,11 @@
     public virtual bool IsEnemyOf(Character other)
     {
         return (this.IsFriendlyOf(other) == false);
+    }
+
+    public bool IsDamaged()
+    {
+        return CurrentHealth != MaxHealth;
     }
 
     #endregion

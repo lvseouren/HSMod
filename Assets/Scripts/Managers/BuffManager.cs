@@ -6,21 +6,23 @@ public class BuffManager
     public Minion Minion;
     public List<BaseBuff> AllBuffs = new List<BaseBuff>();
 
-    #region Events
+    #region Self Events
 
-    // Self Events //
     public Subject<object> Battlecry = new Subject<object>();
     public Subject<Minion> Deathrattle = new Subject<Minion>();
 
     public Subject<object> OnPreAttack = new Subject<object>();
     public Subject<object> OnAttacked = new Subject<object>();
 
-    public Subject<int> OnPreDamage = new Subject<int>();
+    public Subject<MinionPreDamageEvent> OnPreDamage = new Subject<MinionPreDamageEvent>();
     public Subject<MinionDamagedEvent> OnDamaged = new Subject<MinionDamagedEvent>();
 
     public Subject<HeroPowerEvent> OnInspired = new Subject<HeroPowerEvent>();
 
-    // Global Events //
+    #endregion
+
+    #region Global Events
+
     public Subject<CardDrawnEvent> OnCardDrawn = new Subject<CardDrawnEvent>();
     public Subject<CardDiscardedEvent> OnCardDiscarded = new Subject<CardDiscardedEvent>();
     public Subject<CardPlayedEvent> OnCardPlayed = new Subject<CardPlayedEvent>();
@@ -66,10 +68,10 @@ public class BuffManager
     
     public void RemoveAll()
     {
-        // Looping on all buffs
+        // Iterating on the list of buffs
         foreach (BaseBuff buff in AllBuffs)
         {
-            // Checking if buff is not an area buff
+            // Checking if the buff is not an area buff
             if (buff.BuffType != BuffType.Area)
             {
                 // Removing stats/effects from the buff
@@ -80,7 +82,7 @@ public class BuffManager
         // Removing the buffs from the list
         AllBuffs.RemoveAll(buff => buff.BuffType != BuffType.Area);
 
-        // Disposing all subscribed events
+        // Disposing all subscribed handlers
         Battlecry.Dispose();
         Deathrattle.Dispose();
 

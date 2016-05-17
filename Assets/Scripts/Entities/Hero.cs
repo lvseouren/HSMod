@@ -57,7 +57,7 @@ public class Hero : Character
             
             if (target.IsHero())
             {
-                target.TryDamage(this, heroAttack);
+                target.Damage(this, heroAttack);
             }
             else
             {
@@ -65,8 +65,8 @@ public class Hero : Character
                 int minionAttack = target.CurrentAttack;
                 
                 // Damaging both characters
-                this.TryDamage(target, minionAttack);
-                target.TryDamage(this, heroAttack);
+                this.Damage(target, minionAttack);
+                target.Damage(this, heroAttack);
 
                 // Checking the death of both characters
                 this.CheckDeath();
@@ -78,7 +78,7 @@ public class Hero : Character
         }
     }
 
-    public override void TryDamage(Character attacker, int damageAmount)
+    public override void Damage(Character attacker, int damageAmount)
     {
         HeroPreDamageEvent heroPreDamageEvent = EventManager.Instance.OnHeroPreDamage(this, attacker, damageAmount);
 
