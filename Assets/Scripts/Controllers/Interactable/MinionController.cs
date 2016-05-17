@@ -202,14 +202,17 @@ public class MinionController : BaseController
     {
         InterfaceManager.Instance.DisableArrow();
 
-        Character target = Util.GetCharacterAtMouse();
-
-        if (target != null)
+        if (Minion.Player == GameManager.Instance.CurrentPlayer && Minion.CanAttack())
         {
-            if (Minion.CanAttackTo(target))
+            Character target = Util.GetCharacterAtMouse();
+
+            if (target != null)
             {
-                // TODO : Animations, sounds, etc...
-                Minion.Attack(target);
+                if (Minion.CanAttackTo(target))
+                {
+                    // TODO : Animations, sounds, etc...
+                    Minion.Attack(target);
+                }
             }
         }
     }
