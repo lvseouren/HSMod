@@ -104,14 +104,23 @@ public class Minion : Character
 
     public override void TryDamage(Character attacker, int damageAmount)
     {
+        // TODO : Gotta make the BuffManager methods to be able to modify the damage amounts
+
+        // Firing OnPreDamage events
         MinionPreDamageEvent minionPreDamageEvent = EventManager.Instance.OnMinionPreDamage(this, attacker, damageAmount);
+        Buffs.OnPreDamage.OnNext(minionPreDamageEvent.DamageAmount);
 
-        if (attacker.IsAlive())
+        if (attacker == null)
         {
-            // TODO : Gotta make the BuffManager methods to be able to modify the damage amounts
-            Buffs.OnPreDamage.OnNext(minionPreDamageEvent.DamageAmount);
-
             Damage(minionPreDamageEvent.DamageAmount);
+
+            EventManager.Instance.OnMinionDamaged(this, attacker, damageAmount);
+        }
+        else if (attacker.IsAlive())
+        {
+            Damage(minionPreDamageEvent.DamageAmount);
+
+            EventManager.Instance.OnMinionDamaged(this, attacker, damageAmount);
 
             if (attacker.HasPoison)
             {
@@ -122,9 +131,9 @@ public class Minion : Character
                     Destroy();
                 }
             }
-
-            EventManager.Instance.OnMinionDamaged(this, attacker, damageAmount);
         }
+
+        CheckDeath();
     }
 
     public override void Heal(int healAmount)
@@ -148,6 +157,8 @@ public class Minion : Character
 
         // TODO : Heal animation
         // TODO : Show heal sprite + healed amount
+
+        Controller.UpdateNumbers();
     }
 
     private void Damage(int damageAmount)
@@ -157,6 +168,25 @@ public class Minion : Character
         // TODO : Show health loss sprite + amount on token
 
         Controller.UpdateNumbers();
+    }
+
+    public override void CheckDeath()
+    {
+        if (IsAlive() == false)
+        {
+            // Firing Deathrattles and OnDied events
+            Buffs.Deathrattle.OnNext(this);
+            EventManager.Instance.OnMinionDied(this);
+
+            // Removing the minion from the Player board
+            Player.BoardController.RemoveMinion(this);
+
+            // Destroying the controller
+            Controller.DestroyController();
+
+            // Adding the card to the list of dead Minions
+            Player.DeadMinions.Add(Card);
+        }
     }
 
     public void AddBuff(BaseBuff buff)
