@@ -4,7 +4,7 @@ using UnityEngine;
 public class Minion : Character
 {
     public MinionCard Card;
-    public BuffManager Buffs = new BuffManager();
+    public BuffManager Buffs;
 
     #region Constructor
 
@@ -12,6 +12,7 @@ public class Minion : Character
     {
         Player = card.Player;
         Card = card;
+        Card.Minion = this;
 
         CurrentAttack = card.CurrentAttack;
         BaseAttack = card.BaseAttack;
@@ -32,6 +33,8 @@ public class Minion : Character
         SpellPower = card.SpellPower;
 
         CurrentArmor = 0;
+
+        Buffs = Card.Buffs;
     }
 
     #endregion
