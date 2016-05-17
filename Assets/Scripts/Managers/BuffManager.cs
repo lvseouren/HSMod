@@ -18,7 +18,7 @@ public class BuffManager
     public Subject<MinionPreDamageEvent> OnPreDamage = new Subject<MinionPreDamageEvent>();
     public Subject<MinionDamagedEvent> OnDamaged = new Subject<MinionDamagedEvent>();
 
-    public Subject<HeroPowerEvent> OnInspired = new Subject<HeroPowerEvent>();
+    public Subject<InspireEvent> OnInspired = new Subject<InspireEvent>();
 
     #endregion
 

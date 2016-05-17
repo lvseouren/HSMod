@@ -54,7 +54,7 @@ public class EventManager
 
     public Subject<HeroEquippedWeaponEvent> HeroEquippedWeaponHandler = new Subject<HeroEquippedWeaponEvent>();
 
-    public Subject<HeroPowerEvent> HeroPowerHandler = new Subject<HeroPowerEvent>();
+    public Subject<InspireEvent> InspireHandler = new Subject<InspireEvent>();
 
     // Spell Event Subjects //
     public Subject<SpellPreCastEvent> SpellPreCastHandler = new Subject<SpellPreCastEvent>();
@@ -368,19 +368,19 @@ public class EventManager
         }
     }
 
-    public void OnHeroPower(Hero hero, BaseHeroPower heroPower)
+    public void OnInspired(Hero hero, BaseHeroPower heroPower)
     {
-        HeroPowerEvent heroPowerEvent = new HeroPowerEvent()
+        InspireEvent inspireEvent = new InspireEvent()
         {
             Hero = hero,
             HeroPower = heroPower
         };
 
-        HeroPowerHandler.OnNext(heroPowerEvent);
+        InspireHandler.OnNext(inspireEvent);
 
         foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
-            battlefieldMinion.Buffs.OnInspired.OnNext(heroPowerEvent);
+            battlefieldMinion.Buffs.OnInspired.OnNext(inspireEvent);
         }
     }
 

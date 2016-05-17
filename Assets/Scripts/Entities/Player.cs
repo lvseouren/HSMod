@@ -160,6 +160,22 @@ public class Player : MonoBehaviour
         UpdateGlows();
     }
 
+    public void UseHeroPower(Character target)
+    {
+        // Using the mana needed for the HeroPower
+        UseMana(Hero.HeroPower.CurrentCost);
+
+        // Using the HeroPower on the specified target
+        Hero.HeroPower.Use(target);
+
+        // Adding 1 to the current uses and updating the sprites
+        Hero.HeroPower.CurrentUses++;
+        Hero.HeroPower.Controller.UpdateSprites();
+
+        // Firing OnInspired events
+        EventManager.Instance.OnInspired(Hero, Hero.HeroPower);
+    }
+
     public void ReplaceHero(Hero newHero)
     {
         // TODO

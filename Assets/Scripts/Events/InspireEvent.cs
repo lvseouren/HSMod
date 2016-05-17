@@ -1,4 +1,4 @@
-﻿public class HeroPowerEvent
+﻿public class InspireEvent
 {
     public Hero Hero;
     public BaseHeroPower HeroPower;

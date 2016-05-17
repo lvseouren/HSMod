@@ -1,6 +1,7 @@
 ﻿public abstract class BaseHeroPower
 {
-    // Base Stats //
+    #region Base Stats
+
     public string Name;
     public string Description;
     public HeroClass Class;
@@ -8,13 +9,18 @@
     public int BaseCost;
     public bool Golden = false;
 
-    // In-Game Stats //
+    #endregion
+
+    #region In-game Stats
+    
     public Hero Hero;
     public HeroPowerController Controller;
 
     public int CurrentCost;
     public int MaxUses = 1;
     public int CurrentUses;
+
+    #endregion
 
     #region Constructor
 
@@ -29,9 +35,7 @@
     #endregion
 
     #region Methods
-
-    public virtual void Use() { }
-
+    
     public virtual void Use(Character target) { }
 
     public virtual void Upgrade() { }
@@ -40,14 +44,14 @@
 
     #region Condition Checkers
 
-    public virtual bool CanTarget(Character target)
+    public bool IsAvailable()
     {
-        return true;
+        return (CurrentUses < MaxUses) && (CurrentCost <= Hero.Player.AvailableMana);
     }
 
-    public virtual bool IsAvailable()
+    public virtual bool CanTarget(Character target)
     {
-        return CurrentUses < MaxUses;
+        return target.IsElusive == false;
     }
 
     #endregion
