@@ -23,7 +23,6 @@ public class NumberController : MonoBehaviour
         return numberController;
     }
 
-    // TODO : Fix for negative numbers
     public void UpdateNumber(int wholeNumber, string color)
     {
         // Destroying all the SpriteRenderers
@@ -35,6 +34,12 @@ public class NumberController : MonoBehaviour
         // Iterating on the array of characters
         for (int i = 0; i < numberCharacters.Length; i++)
         {
+            // TODO : Fix for negative numbers
+            if (numberCharacters[i].ToString() == "-")
+            {
+                continue;
+            }
+
             // Calculating the position of the number
             Vector3 targetPosition = new Vector3(i * Size, 0f, 0f);
 
