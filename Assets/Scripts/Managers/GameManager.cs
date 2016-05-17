@@ -167,6 +167,9 @@ public class GameManager : MonoBehaviour
         // Firing OnTurnStart events
         EventManager.Instance.OnTurnStart(CurrentPlayer);
 
+        // Resetting hero power uses
+        CurrentPlayer.Hero.HeroPower.CurrentUses = 0;
+
         foreach (Minion minion in CurrentPlayer.Minions)
         {
             // Awaking minions

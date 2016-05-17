@@ -174,6 +174,9 @@ public class Player : MonoBehaviour
 
         // Firing OnInspired events
         EventManager.Instance.OnInspired(Hero, Hero.HeroPower);
+
+        // Updating the Player glows
+        UpdateGlows();
     }
 
     public void ReplaceHero(Hero newHero)
@@ -387,6 +390,11 @@ public class Player : MonoBehaviour
                 minion.Controller.SetGreenRenderer(true);
             }
         }
+
+        if (Hero.HeroPower.CurrentCost <= AvailableMana && Hero.HeroPower.CurrentUses < Hero.HeroPower.MaxUses)
+        {
+            Hero.HeroPower.Controller.SetGreenRenderer(true);
+        }
     }
 
     public void ResetGreenGlows()
@@ -402,6 +410,8 @@ public class Player : MonoBehaviour
         {
             minion.Controller.SetGreenRenderer(false);
         }
+
+        Hero.HeroPower.Controller.SetGreenRenderer(false);
     }
 
     public void UpdateAll()
