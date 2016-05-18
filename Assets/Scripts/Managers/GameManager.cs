@@ -26,8 +26,8 @@ public class GameManager : MonoBehaviour
 
     public GameState CurrentGameState;
 
-    public Player TopPlayer;
-    public Player BottomPlayer;
+    public Player EnemyPlayer;
+    public Player SelfPlayer;
     public Player CurrentPlayer;
 
     private Vector3 BOTTOM_CENTER = new Vector3(798f, 60f, 230f);
@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
             },
         };
 
-        BottomPlayer = Player.Create(bottomParameters);
+        SelfPlayer = Player.Create(bottomParameters);
 
         PlayerParameters topParameters = new PlayerParameters()
         {
@@ -117,21 +117,21 @@ public class GameManager : MonoBehaviour
             },
         };
 
-        TopPlayer = Player.Create(topParameters);
+        EnemyPlayer = Player.Create(topParameters);
 
         #endregion
 
-        BottomPlayer.Enemy = TopPlayer;
-        TopPlayer.Enemy = BottomPlayer;
+        SelfPlayer.Enemy = EnemyPlayer;
+        EnemyPlayer.Enemy = SelfPlayer;
 
         // Randomize the starting player
         if (Random.Range(0, 2) == 1)
         {
-            CurrentPlayer = TopPlayer;
+            CurrentPlayer = EnemyPlayer;
         }
         else
         {
-            CurrentPlayer = BottomPlayer;
+            CurrentPlayer = SelfPlayer;
         }
 
         Mulligan();
@@ -147,17 +147,16 @@ public class GameManager : MonoBehaviour
 
         // TODO : Rework mulligan
 
-        if (CurrentPlayer.Equals(BottomPlayer))
+        // TODO: Give coin
+        if (CurrentPlayer.Equals(SelfPlayer))
         {
-            BottomPlayer.Draw(3);
-            TopPlayer.Draw(4);
-            // TODO: Give TopPlayer coin
+            SelfPlayer.Draw(3);
+            EnemyPlayer.Draw(4);
         }
         else
         {
-            TopPlayer.Draw(3);
-            BottomPlayer.Draw(4);
-            // TODO: Give BottomPlayer coin
+            EnemyPlayer.Draw(3);
+            SelfPlayer.Draw(4);
         }
 
         Debugger.Log("Mulligan phase end");
@@ -246,18 +245,18 @@ public class GameManager : MonoBehaviour
     {
         Debugger.Log("Switching current player");
 
-        if (CurrentPlayer == BottomPlayer)
+        if (CurrentPlayer == SelfPlayer)
         {
-            CurrentPlayer = TopPlayer;
+            CurrentPlayer = EnemyPlayer;
         }
         else
         {
-            CurrentPlayer = BottomPlayer;
+            CurrentPlayer = SelfPlayer;
         }
     }
 
     public List<Minion> GetAllMinions()
     {
-        return TopPlayer.Minions.Concat(BottomPlayer.Minions).ToList();
+        return EnemyPlayer.Minions.Concat(SelfPlayer.Minions).ToList();
     }
 }
