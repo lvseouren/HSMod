@@ -20,6 +20,7 @@
         int damage = 2 + Player.GetSpellPower();
 
         target.Damage(null, damage);
+        target.CheckDeath();
         
         MinionCard ghoul = new Ghoul();
         ghoul.SetOwner(Player);
