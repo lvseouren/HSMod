@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 public class CorpseExplosion : SpellCard
 {
@@ -31,7 +32,7 @@ public class CorpseExplosion : SpellCard
         }
 
         // Iterating on the list of enemy minions to check if they should die
-        foreach (Minion minion in corpse.Player.Enemy.Minions)
+        foreach (Minion minion in corpse.Player.Enemy.Minions.ToList())
         {
             minion.CheckDeath();
         }
