@@ -214,7 +214,7 @@ public class GameManager : MonoBehaviour
         CurrentPlayer.RefillMana();
 
         // Updating card, hero and minion glows for the current player
-        CurrentPlayer.UpdateGlows();
+        CurrentPlayer.UpdateAllGlows();
 
         // Switching to Active Turn state
         CurrentGameState = GameState.Active;
@@ -259,17 +259,5 @@ public class GameManager : MonoBehaviour
     public List<Minion> GetAllMinions()
     {
         return TopPlayer.Minions.Concat(BottomPlayer.Minions).ToList();
-    }
-
-    public void UpdateAll()
-    {
-        foreach (Minion minion in GetAllMinions())
-        {
-            minion.Controller.UpdateNumbers();
-            minion.Controller.UpdateSprites();
-        }
-
-        TopPlayer.UpdateAll();
-        BottomPlayer.UpdateAll();
     }
 }

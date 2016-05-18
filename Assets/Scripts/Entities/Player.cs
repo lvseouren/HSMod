@@ -100,7 +100,7 @@ public class Player : MonoBehaviour
         // TODO : Fire events
 
         // Updating the Player glows
-        UpdateGlows();
+        UpdateAllGlows();
     }
 
     public void PlaySpell(SpellCard spellCard, Character target)
@@ -136,6 +136,9 @@ public class Player : MonoBehaviour
 
         // Adding the Spell to the Played Spells list
         UsedSpells.Add(spellCard);
+
+        // Updating the Player glows
+        UpdateAllGlows();
     }
 
     public void EquipWeapon(WeaponCard weaponCard)
@@ -156,7 +159,7 @@ public class Player : MonoBehaviour
         Weapon.Card.Battlecry();
 
         // Updating the Player glows
-        UpdateGlows();
+        UpdateAllGlows();
     }
 
     public void DestroyWeapon()
@@ -176,7 +179,7 @@ public class Player : MonoBehaviour
         }
 
         // Updating the Player glows
-        UpdateGlows();
+        UpdateAllGlows();
     }
 
     public void UseHeroPower(Character target)
@@ -197,12 +200,15 @@ public class Player : MonoBehaviour
         EventManager.Instance.OnInspired(Hero, Hero.HeroPower);
 
         // Updating the Player glows
-        UpdateGlows();
+        UpdateAllGlows();
     }
 
     public void ReplaceHero(Hero newHero)
     {
         // TODO
+
+        // Updating the Player glows
+        UpdateAllGlows();
     }
 
     public void AddMana(int quantity)
@@ -212,7 +218,7 @@ public class Player : MonoBehaviour
         ManaController.UpdateAll();
 
         // Updating the Player glows
-        UpdateGlows();
+        UpdateAllGlows();
     }
 
     public void AddEmptyMana(int quantity)
@@ -237,7 +243,7 @@ public class Player : MonoBehaviour
         ManaController.UpdateAll();
 
         // Updating the Player glows
-        UpdateGlows();
+        UpdateAllGlows();
     }
 
     public void RefillMana()
@@ -245,6 +251,9 @@ public class Player : MonoBehaviour
         AvailableMana = Mathf.Clamp(TurnMana - CurrentOverloadedMana, 0, 10);
 
         ManaController.UpdateAll();
+
+        // Updating the Player glows
+        UpdateAllGlows();
     }
 
     // TODO : Animation
@@ -261,7 +270,7 @@ public class Player : MonoBehaviour
         }
 
         // Updating the Player glows
-        UpdateGlows();
+        UpdateAllGlows();
     }
 
     // TODO : Animation
@@ -277,7 +286,7 @@ public class Player : MonoBehaviour
         }
 
         // Updating the Player glows
-        UpdateGlows();
+        UpdateAllGlows();
     }
 
     public void RemoveCardFromHand(BaseCard card)
@@ -293,7 +302,7 @@ public class Player : MonoBehaviour
         }
 
         // Updating the Player glows
-        UpdateGlows();
+        UpdateAllGlows();
     }
 
     public List<BaseCard> Draw(int draws)
@@ -338,7 +347,7 @@ public class Player : MonoBehaviour
                 EventManager.Instance.OnCardDrawn(this, drawnBaseCard);
 
                 // Updating the Player glows
-                UpdateGlows();
+                UpdateAllGlows();
                 
                 return drawnBaseCard;
             }
@@ -347,7 +356,7 @@ public class Player : MonoBehaviour
                 // TODO : Discard the card
 
                 // Updating the Player glows
-                UpdateGlows();
+                UpdateAllGlows();
             }
         }
         else
@@ -359,16 +368,24 @@ public class Player : MonoBehaviour
             Hero.Damage(null, Fatigue);
 
             // Updating the Player glows
-            UpdateGlows();
+            UpdateAllGlows();
         }
 
         return null;
     }
 
-    public void UpdateGlows()
+    public void UpdateAllGlows()
     {
         ResetGreenGlows();
 
+        UpdateWeaponGlow();
+        UpdateHandGlows();
+        UpdateMinionGlows();
+        UpdateHeroPowerGlow();
+    }
+
+    private void UpdateWeaponGlow()
+    {
         if (HasWeapon() || Hero.CurrentAttack > 0)
         {
             switch (Hero.CurrentTurnAttacks)
@@ -385,7 +402,10 @@ public class Player : MonoBehaviour
                     break;
             }
         }
+    }
 
+    private void UpdateHandGlows()
+    {
         foreach (BaseCard card in Hand)
         {
             if (card.CurrentCost <= AvailableMana)
@@ -403,7 +423,10 @@ public class Player : MonoBehaviour
                 }
             }
         }
+    }
 
+    private void UpdateMinionGlows()
+    {
         foreach (Minion minion in Minions)
         {
             if (minion.CanAttack())
@@ -411,10 +434,16 @@ public class Player : MonoBehaviour
                 minion.Controller.SetGreenRenderer(true);
             }
         }
+    }
 
-        if (Hero.HeroPower.CurrentCost <= AvailableMana && Hero.HeroPower.CurrentUses < Hero.HeroPower.MaxUses)
+    private void UpdateHeroPowerGlow()
+    {
+        if (Hero.HeroPower.CurrentCost <= AvailableMana)
         {
-            Hero.HeroPower.Controller.SetGreenRenderer(true);
+            if (Hero.HeroPower.CurrentUses < Hero.HeroPower.MaxUses)
+            {
+                Hero.HeroPower.Controller.SetGreenRenderer(true);
+            }
         }
     }
 
@@ -433,18 +462,6 @@ public class Player : MonoBehaviour
         }
 
         Hero.HeroPower.Controller.SetGreenRenderer(false);
-    }
-
-    public void UpdateAll()
-    {
-        HeroController.UpdateSprites();
-        HeroController.UpdateNumbers();
-
-        if (HasWeapon())
-        {
-            Weapon.Controller.UpdateSprites();
-            Weapon.Controller.UpdateNumbers();
-        }
     }
 
     #endregion
