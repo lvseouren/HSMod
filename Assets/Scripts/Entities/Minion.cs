@@ -43,6 +43,8 @@ public class Minion : Character
 
     public override void Attack(Character target)
     {
+        Debugger.LogMinion(this, "starting attack to " + target.GetName());
+
         // Removing stealth of the Minion
         IsStealth = false;
 
@@ -77,6 +79,8 @@ public class Minion : Character
 
                     // Setting the current target as the random target
                     target = possibleTargets[randomTarget];
+
+                    Debugger.LogMinion(this, "switched target to " + target.TypeName() + " (forgetful)");
                 }
             }
         }
@@ -94,9 +98,11 @@ public class Minion : Character
             // Redefining target in case it changed when firing events
             target = minionPreAttackEvent.Target;
 
-            // Getting the minion attack
+            // Getting both characters current attack
             int attackerAttack = CurrentAttack;
             int targetAttack = target.CurrentAttack;
+
+            Debugger.LogMinion(this, "attacking " + target.GetName());
 
             if (target.IsHero())
             {
@@ -122,6 +128,8 @@ public class Minion : Character
                     {
                         if (attackerAttack > 0)
                         {
+                            Debugger.LogMinion(this, "killed by posion of " + targetMinion.GetName());
+
                             EventManager.Instance.OnMinionPoisoned(targetMinion, this);
 
                             Destroy();
@@ -132,6 +140,8 @@ public class Minion : Character
                     {
                         if (targetAttack > 0)
                         {
+                            Debugger.LogMinion(targetMinion, "killed by posion of " + this.GetName());
+
                             EventManager.Instance.OnMinionPoisoned(this, targetMinion);
 
                             Destroy();
@@ -153,16 +163,12 @@ public class Minion : Character
         // Firing OnMinionPreHeal events
         MinionPreHealEvent minionPreHealEvent = EventManager.Instance.OnMinionPreHeal(this, healAmount);
 
-        int healeableHealth = MaxHealth - CurrentHealth;
+        // TODO : Check if heal is transformed to damage and if so, call Damage instead
 
-        if (minionPreHealEvent.HealAmount > healeableHealth)
-        {
-            CurrentHealth = MaxHealth;
-        }
-        else
-        {
-            CurrentHealth += minionPreHealEvent.HealAmount;
-        }
+        Debugger.LogMinion(this, "healing for " + minionPreHealEvent.HealAmount);
+
+        // Healing the minion
+        CurrentHealth = Mathf.Min(CurrentHealth + minionPreHealEvent.HealAmount, MaxHealth);
 
         // Firing OnMinionHealed events
         EventManager.Instance.OnMinionHealed(this, minionPreHealEvent.HealAmount);
@@ -188,6 +194,8 @@ public class Minion : Character
         Buffs.OnPreDamage.OnNext(minionPreDamageEvent);
         EventManager.Instance.OnMinionPreDamage(minionPreDamageEvent);
 
+        Debugger.LogMinion(this, "receiving " + minionPreDamageEvent.DamageAmount + " damage by " + attacker.GetName());
+
         // Substracting the damage to the current health of the Minion
         CurrentHealth -= minionPreDamageEvent.DamageAmount;
 
@@ -212,23 +220,14 @@ public class Minion : Character
     {
         if (IsAlive() == false)
         {
-            // Firing Deathrattles and OnDied events
-            Buffs.Deathrattle.OnNext(this);
-            EventManager.Instance.OnMinionDied(this);
-
-            // Removing the minion from the Player board
-            Player.BoardController.RemoveMinion(this);
-
-            // Destroying the controller
-            Controller.DestroyController();
-
-            // Adding the card to the list of dead Minions
-            Player.DeadMinions.Add(Card);
+            Die();
         }
     }
 
     public void Die()
     {
+        Debugger.LogMinion(this, "died");
+
         // TODO : Custom animations, sounds, etc ?
 
         // Firing OnMinionDied events
@@ -243,6 +242,8 @@ public class Minion : Character
 
     public void Destroy()
     {
+        Debugger.LogMinion(this, "destroyed");
+
         // TODO : Play destroy animation (dust and stuff)
 
         Remove();
@@ -253,6 +254,8 @@ public class Minion : Character
 
     private void Remove()
     {
+        Debugger.LogMinion(this, "removed");
+
         // Removing the minion from the player list of minions
         Player.Minions.Remove(this);
 
@@ -285,6 +288,8 @@ public class Minion : Character
 
     public void ReturnToHand()
     {
+        Debugger.LogMinion(this, "returns to Hand");
+
         // Removing the minion from the board
         Remove();
 
@@ -294,6 +299,8 @@ public class Minion : Character
 
     public void ReturnToDeck()
     {
+        Debugger.LogMinion(this, "returns to Deck");
+
         // Removing the minion from the board
         Remove();
 
@@ -303,6 +310,8 @@ public class Minion : Character
 
     public void Silence()
     {
+        Debugger.LogMinion(this, "silenced");
+
         // TODO : Play animations + sound and add silenced sprite
 
         Buffs.RemoveAll();
@@ -331,10 +340,12 @@ public class Minion : Character
 
         // TODO : Transform minion without triggering anything, destroy old minion
     }
-    
+
     #endregion
 
     #region Getter Methods
+    
+
 
     #endregion
 

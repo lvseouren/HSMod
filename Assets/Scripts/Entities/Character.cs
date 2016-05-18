@@ -66,7 +66,7 @@
     #endregion
 
     #region Getter Methods
-
+    
     public virtual int GetMissingHealth()
     {
         return MaxHealth - CurrentHealth;
