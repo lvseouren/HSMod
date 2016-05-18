@@ -85,6 +85,8 @@ public class Player : MonoBehaviour
     // TODO : Board positioning
     public void SummonMinion(MinionCard minionCard, int position)
     {
+        Debugger.LogPlayer(this, "summoning " + minionCard.Name + " at position " + position);
+
         // Creating a Minion and its Controller
         Minion minion = new Minion(minionCard);
         minion.Controller = MinionController.Create(BoardController, minion);
@@ -103,17 +105,30 @@ public class Player : MonoBehaviour
 
     public void PlaySpell(SpellCard spellCard, Character target)
     {
+        Debugger.LogPlayer(this, "starting to cast spell " + spellCard.Name + " to " + target);
+
         // Firing OnSpellPreCast events
         SpellPreCastEvent spellPreCastEvent = EventManager.Instance.OnSpellPreCast(this, spellCard, target);
 
-        // Re-setting the target, just in case it has changed on the PreCast events
-        target = spellPreCastEvent.Target;
+        if (target != spellPreCastEvent.Target)
+        {
+            Debugger.LogPlayer(this, " switching spell " + spellCard.Name + " target to " + target);
+
+            // Re-setting the target because it has changed on the PreCast events
+            target = spellPreCastEvent.Target;
+        }
 
         // Checking if the Spell has not been cancelled
         if (spellPreCastEvent.Status != PreStatus.Cancelled)
         {
+            Debugger.LogPlayer(this, "casting spell " + spellCard.Name + " to " + target);
+
             // Casting the Spell to the target
             spellCard.Cast(target);
+        }
+        else
+        {
+            Debugger.LogPlayer(this, "cancelled casting spell " + spellCard.Name);
         }
 
         // Firing OnSpellCasted events
@@ -125,6 +140,8 @@ public class Player : MonoBehaviour
 
     public void EquipWeapon(WeaponCard weaponCard)
     {
+        Debugger.LogPlayer(this, "equipping weapon " + weaponCard.Name);
+
         // Destroying the previous Weapon
         DestroyWeapon();
 
@@ -147,6 +164,8 @@ public class Player : MonoBehaviour
         // Checking if the player has a Weapon
         if (Weapon != null)
         {
+            Debugger.LogPlayer(this, "destroying weapon " + Weapon.Card.Name);
+
             // Firing the Weapon deathrattle
             Weapon.Card.Deathrattle();
 
@@ -162,6 +181,8 @@ public class Player : MonoBehaviour
 
     public void UseHeroPower(Character target)
     {
+        Debugger.LogPlayer(this, "using hero power " + Hero.HeroPower.Name + " to " + target.GetName());
+
         // Using the mana needed for the HeroPower
         UseMana(Hero.HeroPower.CurrentCost);
 

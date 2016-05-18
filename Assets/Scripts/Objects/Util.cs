@@ -10,6 +10,23 @@ public static class Util
         return (T) self;
     }
 
+    public static string GetName(this Character self)
+    {
+        if (self != null)
+        {
+            if (self.IsHero())
+            {
+                return self.As<Hero>().Class.Name();
+            }
+            else
+            {
+                return self.As<Minion>().Card.Name;
+            }
+        }
+
+        return "Nothing";
+    }
+
     // Method to get the name of an enum value
     public static string Name(this Enum enumValue)
     {

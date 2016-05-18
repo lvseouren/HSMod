@@ -141,6 +141,8 @@ public class GameManager : MonoBehaviour
 
     public void Mulligan()
     {
+        Debugger.Log("Mulligan phase start");
+        
         CurrentGameState = GameState.Mulligan;
 
         // TODO : Rework mulligan
@@ -157,10 +159,14 @@ public class GameManager : MonoBehaviour
             BottomPlayer.Draw(4);
             // TODO: Give BottomPlayer coin
         }
+
+        Debugger.Log("Mulligan phase end");
     }
 
     public void TurnStart()
     {
+        Debugger.Log("Turn start");
+
         // Switching to Start Turn state
         CurrentGameState = GameState.Start;
 
@@ -218,6 +224,8 @@ public class GameManager : MonoBehaviour
 
     public void TurnEnd()
     {
+        Debugger.Log("Turn end");
+
         // Switching to End Turn state
         CurrentGameState = GameState.End;
 
@@ -236,6 +244,8 @@ public class GameManager : MonoBehaviour
 
     public void SwitchCurrentPlayer()
     {
+        Debugger.Log("Switching current player");
+
         if (CurrentPlayer == BottomPlayer)
         {
             CurrentPlayer = TopPlayer;

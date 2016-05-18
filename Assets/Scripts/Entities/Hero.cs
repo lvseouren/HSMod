@@ -11,6 +11,8 @@ public class Hero : Character
 
     public override void Attack(Character target)
     {
+        Debugger.LogHero(this, "starting attack to " + target.GetName());
+
         // Checking if Hero is forgetful
         if (IsForgetful)
         {
@@ -37,6 +39,8 @@ public class Hero : Character
 
                     // Setting the current target as the random target
                     target = possibleTargets[Random.Range(0, possibleTargets.Count)];
+
+                    Debugger.LogHero(this, "switched target to " + target.TypeName() + " (forgetful)");
                 }
             }
         }
@@ -53,19 +57,20 @@ public class Hero : Character
             // Redefining target in case it changed when firing events
             target = heroPreAttackEvent.Target;
 
+            // Getting both characters current attack
             int heroAttack = GetHeroAttack();
-            
+            int targetAttack = target.CurrentAttack;
+
+            Debugger.LogHero(this, "attacking " + target.GetName());
+
             if (target.IsHero())
             {
                 target.Damage(this, heroAttack);
             }
             else
             {
-                // Getting the minion attack
-                int minionAttack = target.CurrentAttack;
-                
                 // Damaging both characters
-                this.Damage(target, minionAttack);
+                this.Damage(target, targetAttack);
                 target.Damage(this, heroAttack);
 
                 // Checking the death of both characters
@@ -86,6 +91,8 @@ public class Hero : Character
         {
             if (attacker.IsAlive())
             {
+                Debugger.LogHero(this, "receiving " + heroPreDamageEvent.DamageAmount + " damage by " + attacker.GetName());
+
                 Damage(heroPreDamageEvent.DamageAmount);
 
                 EventManager.Instance.OnHeroDamaged(this, attacker, heroPreDamageEvent.DamageAmount);
@@ -93,6 +100,8 @@ public class Hero : Character
         }
         else
         {
+            Debugger.LogHero(this, "receiving " + heroPreDamageEvent.DamageAmount + " damage by " + attacker.GetName());
+
             Damage(heroPreDamageEvent.DamageAmount);
 
             EventManager.Instance.OnHeroDamaged(this, null, heroPreDamageEvent.DamageAmount);
@@ -104,7 +113,9 @@ public class Hero : Character
         // Firing OnHeroPreHeal events 
         HeroPreHealEvent heroPreHealEvent = EventManager.Instance.OnHeroPreHeal(this, healAmount);
 
-        // TODO : Check if heal is transformed to damage and if so, call trydamage
+        // TODO : Check if heal is transformed to damage and if so, call Damage instead
+
+        Debugger.LogHero(this, "healing for " + heroPreHealEvent.HealAmount);
 
         // Updating the current health (clamped to MaxHealth)
         CurrentHealth = Mathf.Min(CurrentHealth + heroPreHealEvent.HealAmount, MaxHealth);
@@ -128,6 +139,8 @@ public class Hero : Character
 
     private void Damage(int damageAmount)
     {
+        Debugger.LogHero(this, "receiving " + damageAmount + " damage");
+
         CurrentHealth -= damageAmount;
 
         // TODO : Show health loss sprite + amount on hero portrait
@@ -138,7 +151,7 @@ public class Hero : Character
     #endregion
 
     #region Getter Methods
-
+    
     public int GetHeroAttack()
     {
         int attack = CurrentAttack;
