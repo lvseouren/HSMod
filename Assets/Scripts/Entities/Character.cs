@@ -39,6 +39,7 @@
 
     public bool IsSilenced = false;
     public bool IsFrozen = false;
+	public bool IsEnraged = false;
     public bool UnfreezeNextTurn = false;
 
     #endregion
