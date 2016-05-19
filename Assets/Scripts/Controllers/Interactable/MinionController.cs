@@ -169,10 +169,10 @@ public class MinionController : BaseController
             glowString += "Stealth_";
         }
 
-		if (Minion.IsEnraged)
-		{
-			glowString += "Enraged_";
-		}
+        if (Minion.IsEnraged)
+        {
+            glowString += "Enraged_";
+        }
 
         return glowString;
     }
