@@ -112,6 +112,22 @@ public class EventManager
         }
     }
 
+    public void OnMinionEnrageded(Minion minion, Character enragedMinion)
+    {
+        MinionEnragedEvent minionEnragedEvent = new MinionEnragedEvent()
+        {
+            Minion = minion,
+            EnragedCharacter = enragedMinion
+        };
+
+        MinionEnragedHandler.OnNext(minionEnragedEvent);
+
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
+        {
+            battlefieldMinion.Buffs.OnMinionEnraged.OnNext(minionEnragedEvent);
+        }
+    }
+
     public void OnMinionPoisoned(Minion minion, Character attacker)
     {
         MinionPoisonedEvent minionPoisonedEvent = new MinionPoisonedEvent()
