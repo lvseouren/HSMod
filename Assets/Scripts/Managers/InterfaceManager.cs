@@ -30,6 +30,7 @@ public class InterfaceManager : MonoBehaviour
     private Vector3 worldOriginPosition = Vector3.zero;
 
     // Sprite Renderers //
+    private SpriteRenderer turnRenderer;
     private SpriteRenderer arrowRenderer;
     private SpriteRenderer circleRenderer;
     private SpriteRenderer bodyRenderer;
@@ -40,9 +41,13 @@ public class InterfaceManager : MonoBehaviour
         _instance = this;
 
         // Creating the SpriteRenderer for each UI GameObject
+        turnRenderer = CreateChildSprite("Sprites/General/YourTurn", 1003);
         arrowRenderer = CreateChildSprite("Sprites/UI/Arrow", 1002);
         bodyRenderer = CreateChildSprite("Sprites/UI/ArrowBody", 1001);
         circleRenderer = CreateChildSprite("Sprites/UI/ArrowCircle", 1000);
+
+        turnRenderer.transform.localPosition = new Vector3(10f, 0f, 8f);
+        turnRenderer.transform.localEulerAngles = Vector3.right * 90f;
     }
 
     private void LateUpdate()
@@ -91,7 +96,7 @@ public class InterfaceManager : MonoBehaviour
 
     private SpriteRenderer CreateChildSprite(string sprite, int order)
     {
-        GameObject rendererObject = new GameObject(name);
+        GameObject rendererObject = new GameObject(sprite.Substring(sprite.LastIndexOf("/") + 1));
         rendererObject.transform.ChangeParent(this.transform);
 
         SpriteRenderer spriteRenderer = rendererObject.AddComponent<SpriteRenderer>();
@@ -151,5 +156,26 @@ public class InterfaceManager : MonoBehaviour
     public void DisableArrowCircle()
     {
         circleRenderer.enabled = false;
+    }
+
+    public void SpawnTurnSprite()
+    {
+        StartCoroutine(TurnSpriteFade());
+    }
+
+    private IEnumerator TurnSpriteFade()
+    {
+        turnRenderer.enabled = true;
+        turnRenderer.transform.localScale = Vector3.one;
+
+        yield return new WaitForSeconds(1f);
+
+        for (float i = 1f; i > 0f; i -= 0.02f)
+        {
+            turnRenderer.transform.localScale = Vector3.one * i;
+            yield return null;
+        }
+
+        turnRenderer.enabled = false;
     }
 }

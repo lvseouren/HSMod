@@ -169,6 +169,11 @@ public class GameManager : MonoBehaviour
         // Switching to Start Turn state
         CurrentGameState = GameState.Start;
 
+        if (CurrentPlayer == SelfPlayer)
+        {
+            InterfaceManager.Instance.SpawnTurnSprite();
+        }
+
         // Firing OnTurnStart events
         EventManager.Instance.OnTurnStart(CurrentPlayer);
 
