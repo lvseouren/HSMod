@@ -65,33 +65,30 @@ public class InterfaceManager : MonoBehaviour
             // Getting the world position of the mouse
             Vector3 worldMousePosition = Util.GetWorldMousePosition();
 
-            // Getting the direction vector from the minion to the mouse
+            // Calculating the direction vector from the minion to the mouse
             Vector3 directionVector = worldMousePosition - worldOriginPosition;
 
             // Getting the angle that forms between the minion and the mouse
             float directionAngle = Mathf.Atan2(directionVector.x, directionVector.z) * Mathf.Rad2Deg;
 
-            // Setting the arrow rotation 
+            // Calculating the direction rotation
             Vector3 directionRotation = new Vector3(90f, directionAngle, 0f);
 
 
-            // Arrow //
+            #region Arrow and Circle
 
             arrowRenderer.transform.position = worldMousePosition;
             arrowRenderer.transform.localEulerAngles = directionRotation;
-
-            
-            // Circle //
-
             circleRenderer.transform.position = worldMousePosition;
 
+            #endregion
 
-            // Arrow Body //
+            #region Body
 
-            // Getting the position halfway between the mouse and the origin
+            // Calculating the position halfway between the mouse and the origin
             Vector3 bodyPosition = worldOriginPosition + directionVector / 2f;
 
-            // Getting the body scale based on the distance between the mouse and the origin
+            // Calculating the body scale based on the distance between the mouse and the origin
             float bodyScale = 0.27f * directionVector.magnitude;
 
             bodyRenderer.transform.localPosition = new Vector3(bodyPosition.x, 100f, bodyPosition.z);
@@ -99,6 +96,8 @@ public class InterfaceManager : MonoBehaviour
             bodyRenderer.transform.localScale = new Vector3(80f, bodyScale, 80f);
 
             // TODO : Animate the arrow
+
+            #endregion
         }
     }
 
