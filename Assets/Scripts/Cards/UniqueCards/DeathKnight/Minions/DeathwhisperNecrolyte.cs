@@ -18,6 +18,6 @@ public class DeathwhisperNecrolyte : MinionCard
 
     public void Aura()
     {
-        // TODO : our other Undead have +1 Attack
+        // TODO : Your other Undead have +1 Attack
     }
 }

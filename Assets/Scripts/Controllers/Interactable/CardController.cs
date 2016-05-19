@@ -38,14 +38,14 @@ public class CardController : BaseController
     
     public override void Initialize()
     {
-        CostController = NumberController.Create("CostController", this.gameObject, new Vector3(-1.375f, 2.15f, 0f), 43, 0.5f);
-        AttackController = NumberController.Create("AttackController", this.gameObject, new Vector3(-1.4f, -0.85f, 0f), 43, 0.5f);
-        AttributeController = NumberController.Create("AttributeController", this.gameObject, new Vector3(1.5f, 0f, 0f), 43, 0.5f);
+        CostController = NumberController.Create("Cost_Controller", this.gameObject, new Vector3(-1.375f, 2.15f, 0f), 43, 0.5f);
+        AttackController = NumberController.Create("Attack_Controller", this.gameObject, new Vector3(-1.4f, -0.85f, 0f), 43, 0.5f);
+        AttributeController = NumberController.Create("Attribute_Controller", this.gameObject, new Vector3(1.5f, 0f, 0f), 43, 0.5f);
 
-        CardRenderer = CreateRenderer("Card", Vector3.one, Vector3.zero, 42);
+        CardRenderer = CreateRenderer("Card_Sprite", Vector3.one, Vector3.zero, 42);
         
-        ComboGlowRenderer = CreateRenderer("ComboGlow", Vector3.one * 3f, new Vector3(0.065f, -0.05f, 0f), 41);
-        GreenGlowRenderer = CreateRenderer("GreenGlow", Vector3.one * 3f, new Vector3(0.065f, -0.05f, 0f), 40);
+        ComboGlowRenderer = CreateRenderer("ComboGlow_Sprite", Vector3.one * 3f, new Vector3(0.065f, -0.05f, 0f), 41);
+        GreenGlowRenderer = CreateRenderer("GreenGlow_Sprite", Vector3.one * 3f, new Vector3(0.065f, -0.05f, 0f), 40);
 
         CardRenderer.enabled = true;
 
@@ -55,20 +55,17 @@ public class CardController : BaseController
         CostController.SetEnabled(true);
     }
 
-    public override void Remove()
+    public override void DestroyController()
     {
-        CardRenderer.DisposeSprite();
         Destroy(CardRenderer);
-
         Destroy(GreenGlowRenderer);
         Destroy(ComboGlowRenderer);
+
+        Destroy(this.gameObject);
     }
 
     public override void UpdateSprites()
     {
-        // Cleaning up the old sprites and textures to avoid memory leaks
-        CardRenderer.DisposeSprite();
-
         // Loading the sprites into the SpriteRenderers
         CardRenderer.sprite = Resources.Load<Sprite>("Sprites/" + Card.Class.Name() + "/Cards/" + Card.TypeName());
         GreenGlowRenderer.sprite = SpriteManager.Instance.Glows["Card_" + GlowType + "_GreenGlow"];
@@ -139,7 +136,7 @@ public class CardController : BaseController
         switch (Status)
         {
             case ControllerStatus.Inactive:
-                if (IsHovering && transform.localPosition.x == TargetPosition.x && InterfaceManager.Instance.IsDragging == false)
+                if (IsHovering && transform.localPosition.x == TargetPosition.x && InterfaceManager.Instance.IsTargeting == false && InterfaceManager.Instance.IsDragging == false)
                 {
                     SetRenderingOrder(500);
                     transform.localScale = Vector3.one * 2f;
@@ -188,6 +185,7 @@ public class CardController : BaseController
             case CardType.Minion: // TODO: if is frozen u can't do anything with it
             case CardType.Weapon:
                 Status = ControllerStatus.Dragging;
+                InterfaceManager.Instance.IsDragging = true;
                 break;
 
             case CardType.Spell:
@@ -199,18 +197,72 @@ public class CardController : BaseController
 
     private void OnMouseUp()
     {
+        // Changing the status of the Card
         Status = ControllerStatus.Inactive;
 
-        switch (Card.GetCardType())
-        {
-            case CardType.Minion: // TODO: if target has stealth u can't do anything to it.
-            case CardType.Weapon:
-                // TODO : Check position and play or not
-                break;
+        InterfaceManager.Instance.DisableArrow();
+        InterfaceManager.Instance.IsDragging = false;
 
-            case CardType.Spell:
-                InterfaceManager.Instance.DisableArrow();
-                break;
+        // Checking if it's the turn of the Player
+        if (GameManager.Instance.CurrentPlayer == Card.Player)
+        {
+            // Checking if the Player has enough mana to play the Card
+            if (Card.Player.AvailableMana >= Card.CurrentCost)
+            {
+                switch (Card.GetCardType())
+                {
+                    case CardType.Spell:
+                        SpellCard spellCard = Card.As<SpellCard>();
+
+                        if (spellCard.TargetType == TargetType.NoTarget)
+                        {
+                            // TODO : Check for a wider space instead of board
+                            if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
+                            {
+                                spellCard.PlayOn(null);
+                            }
+                        }
+                        else
+                        {
+                            Character target = Util.GetCharacterAtMouse();
+
+                            print(target);
+
+                            if (spellCard.CanTarget(target))
+                            {
+                                spellCard.PlayOn(target);
+                            }
+                        }
+                        break;
+
+                    case CardType.Minion:
+                        if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
+                        {
+                            Card.Play();
+                        }
+                        break;
+
+                    case CardType.Weapon:
+                        // TODO : Check for a wider space instead of board
+                        if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
+                        {
+                            Card.Play();
+                        }
+                        break;
+                }
+
+                // Checking Card type
+                if (Card.GetCardType() == CardType.Spell)
+                {
+                }
+                else
+                {
+                }
+            }
+            else
+            {
+                // TODO : Display not enough mana message
+            }
         }
     }
 

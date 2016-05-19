@@ -54,7 +54,7 @@ public class EventManager
 
     public Subject<HeroEquippedWeaponEvent> HeroEquippedWeaponHandler = new Subject<HeroEquippedWeaponEvent>();
 
-    public Subject<HeroPowerEvent> HeroPowerHandler = new Subject<HeroPowerEvent>();
+    public Subject<InspireEvent> InspireHandler = new Subject<InspireEvent>();
 
     // Spell Event Subjects //
     public Subject<SpellPreCastEvent> SpellPreCastHandler = new Subject<SpellPreCastEvent>();
@@ -161,15 +161,8 @@ public class EventManager
         }
     }
 
-    public MinionPreDamageEvent OnMinionPreDamage(Minion minion, Character attacker, int damageAmount)
+    public MinionPreDamageEvent OnMinionPreDamage(MinionPreDamageEvent minionPreDamageEvent)
     {
-        MinionPreDamageEvent minionPreDamageEvent = new MinionPreDamageEvent()
-        {
-            Minion = minion,
-            Attacker = attacker,
-            DamageAmount = damageAmount
-        };
-
         MinionPreDamageHandler.OnNext(minionPreDamageEvent);
 
         foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
@@ -180,15 +173,8 @@ public class EventManager
         return minionPreDamageEvent;
     }
 
-    public void OnMinionDamaged(Minion minion, Character attacker, int damageAmount)
+    public void OnMinionDamaged(MinionDamagedEvent minionDamagedEvent)
     {
-        MinionDamagedEvent minionDamagedEvent = new MinionDamagedEvent()
-        {
-            Minion = minion,
-            Attacker = attacker,
-            DamageAmount = damageAmount
-        };
-
         MinionDamagedHandler.OnNext(minionDamagedEvent);
 
         foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
@@ -382,29 +368,29 @@ public class EventManager
         }
     }
 
-    public void OnHeroPower(Hero hero, BaseHeroPower heroPower)
+    public void OnInspired(Hero hero, BaseHeroPower heroPower)
     {
-        HeroPowerEvent heroPowerEvent = new HeroPowerEvent()
+        InspireEvent inspireEvent = new InspireEvent()
         {
             Hero = hero,
             HeroPower = heroPower
         };
 
-        HeroPowerHandler.OnNext(heroPowerEvent);
+        InspireHandler.OnNext(inspireEvent);
 
         foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
-            battlefieldMinion.Buffs.OnInspired.OnNext(heroPowerEvent);
+            battlefieldMinion.Buffs.OnInspired.OnNext(inspireEvent);
         }
     }
 
-    public SpellPreCastEvent OnSpellPreCast(Player player, SpellCard spell)
+    public SpellPreCastEvent OnSpellPreCast(Player player, SpellCard spell, Character target)
     {
-        // WARNING : May have problems here with the target being null for NoTarget spells
         SpellPreCastEvent spellPreCastEvent = new SpellPreCastEvent()
         {
             Player = player,
-            Spell = spell
+            Spell = spell,
+            Target = target
         };
 
         SpellPreCastHandler.OnNext(spellPreCastEvent);
@@ -419,7 +405,6 @@ public class EventManager
 
     public void OnSpellCasted(Player player, SpellCard spell)
     {
-        // WARNING : May have problems here with the target being null for NoTarget spells
         SpellCastedEvent spellCastedEvent = new SpellCastedEvent()
         {
             Player = player,

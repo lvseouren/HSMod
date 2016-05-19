@@ -51,16 +51,16 @@ public class HeroPowerController : BaseController
         CostController.SetEnabled(HeroPower.IsAvailable());
     }
 
-    public override void Remove()
+    public override void DestroyController()
     {
-        HeroPowerRenderer.DisposeSprite();
-        Destroy(HeroPowerRenderer);
-
         Destroy(FrontTokenRenderer);
         Destroy(BackTokenRenderer);
+        Destroy(HeroPowerRenderer);
         Destroy(WhiteGlowRenderer);
         Destroy(GreenGlowRenderer);
         Destroy(RedGlowRenderer);
+
+        Destroy(this.gameObject);
     }
 
     public override void UpdateSprites()
@@ -111,7 +111,10 @@ public class HeroPowerController : BaseController
             switch (HeroPower.TargetType)
             {
                 case TargetType.NoTarget:
-                    HeroPower.Use();
+                    if (HeroPower.IsAvailable())
+                    {
+                        HeroPower.Hero.Player.UseHeroPower(null);
+                    }
                     break;
 
                 default:
@@ -123,19 +126,19 @@ public class HeroPowerController : BaseController
 
     private void OnMouseUp()
     {
+        InterfaceManager.Instance.DisableArrow();
+
         if (HeroPower.IsAvailable())
         {
             if (HeroPower.TargetType != TargetType.NoTarget)
             {
-                InterfaceManager.Instance.DisableArrow();
-
                 Character target = Util.GetCharacterAtMouse();
                 
                 if (target != null)
                 {
                     if (HeroPower.CanTarget(target))
                     {
-                        HeroPower.Use(target);
+                        HeroPower.Hero.Player.UseHeroPower(target);
                     }
                 }
             }

@@ -4,24 +4,27 @@ using UnityEngine;
 // Static class to hold useful extension methods
 public static class Util
 {
-    // Method to dispose the sprites and their textures in a SpriteRenderer
-    public static void DisposeSprite(this SpriteRenderer renderer)
-    {
-        if (renderer.sprite != null)
-        {
-            GameObject.Destroy(renderer.sprite);
-
-            if (renderer.sprite.texture != null)
-            {
-                GameObject.Destroy(renderer.sprite.texture);
-            }
-        }
-    }
-
     // Method to cast easily without the need of parenthesis
     public static T As<T>(this object self)
     {
         return (T) self;
+    }
+
+    public static string GetName(this Character self)
+    {
+        if (self != null)
+        {
+            if (self.IsHero())
+            {
+                return self.As<Hero>().Class.Name();
+            }
+            else
+            {
+                return self.As<Minion>().Card.Name;
+            }
+        }
+
+        return "Nothing";
     }
 
     // Method to get the name of an enum value
@@ -73,11 +76,11 @@ public static class Util
     public static Character GetCharacterAtMouse()
     {
         Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit[] hitInfo = Physics.RaycastAll(cameraRay);
+        RaycastHit[] hits = Physics.RaycastAll(cameraRay);
 
-        if (hitInfo.Length > 0)
+        foreach (RaycastHit hit in hits)
         {
-            BaseController controller = hitInfo[0].collider.gameObject.GetComponent<MinionController>();
+            BaseController controller = hit.collider.gameObject.GetComponent<BaseController>();
 
             if (controller != null)
             {

@@ -17,6 +17,13 @@ public class RaiseDead : SpellCard
 
     public override void Cast(Character target)
     {
-        // TODO : Summon 3/3 Ghoul
+        MinionCard ghoul = new Ghoul()
+        {
+            BaseAttack = 3,
+            BaseHealth = 3
+        };
+        ghoul.SetOwner(Player);
+
+        Player.SummonMinion(ghoul);
     }
 }

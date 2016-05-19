@@ -84,6 +84,14 @@
         CurrentDurability -= 1;
     }
 
+    public override void Play()
+    {
+        Player.UseMana(CurrentCost);
+
+        Player.EquipWeapon(this);
+        Player.RemoveCardFromHand(this);
+    }
+
     public virtual void Destroy()
     {
         // TODO

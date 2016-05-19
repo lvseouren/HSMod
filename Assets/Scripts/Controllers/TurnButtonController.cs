@@ -2,29 +2,20 @@
 
 public class TurnButtonController : MonoBehaviour
 {
-    public bool IsEnabled = false;
+    public bool IsEnabled = true;
 
     private Animator Animator;
     private Material ButtonMaterial;
 
+    private TurnButtonStatus Status;
+
+    private Vector3 BasePosition = new Vector3(1475f, 45f, 627.5f);
+    private Vector3 PressedPosition = new Vector3(1475f, 25f, 627.5f);
+    private Vector3 TargetPosition;
+
     private Vector2 yellowPosition = new Vector2(0f, 0f);
     private Vector2 greenPosition = new Vector2(0f, 0.5f);
     private Vector2 greyPosition = new Vector2(0.5f, 0f);
-
-    public static TurnButtonController Create()
-    {
-        GameObject buttonPrefab = Resources.Load<GameObject>("Prefabs/Button_EndTurn");
-        GameObject turnButton = Instantiate(buttonPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
-
-        TurnButtonController controller = turnButton.AddComponent<TurnButtonController>();
-
-        return controller;
-    }
-
-    private void Start()
-    {
-        ButtonMaterial = GetComponent<MeshRenderer>().material;
-    }
 
     public void UpdateStatus(TurnButtonStatus status)
     {
@@ -47,13 +38,33 @@ public class TurnButtonController : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        ButtonMaterial = GetComponent<MeshRenderer>().material;
+        TargetPosition = BasePosition;
+    }
+
+    private void Update()
+    {
+        transform.position = Vector3.MoveTowards(transform.position, TargetPosition, 5f);
+    }
+
     private void OnMouseDown()
     {
         if (IsEnabled)
         {
-            GameManager.Instance.TurnEnd();
+            TargetPosition = PressedPosition;
 
-            UpdateStatus(TurnButtonStatus.Inactive);
+            GameManager.Instance.TurnEnd();
+        }
+    }
+
+    private void OnMouseUp()
+    {
+        if (IsEnabled)
+        {
+            TargetPosition = BasePosition;
+
         }
     }
 }

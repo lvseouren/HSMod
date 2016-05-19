@@ -59,23 +59,20 @@ public class HeroController : BaseController
         HealthController.SetEnabled(true);
     }
 
-    public override void Remove()
+    public override void DestroyController()
     {
-        HeroRenderer.DisposeSprite();
         Destroy(HeroRenderer);
-        
         Destroy(AttackRenderer);
         Destroy(HealthRenderer);
         Destroy(GreenGlowRenderer);
         Destroy(RedGlowRenderer);
         Destroy(WhiteGlowRenderer);
+
+        Destroy(this.gameObject);
     }
 
     public override void UpdateSprites()
     {
-        // Cleaning up the old sprites and textures to avoid memory leaks
-        HeroRenderer.DisposeSprite();
-
         // Loading the sprites into the SpriteRenderers
         HeroRenderer.sprite = Resources.Load<Sprite>("Sprites/" + Hero.Class.Name() + "/Hero/" + Hero.Class.Name() + "_Portrait_Ingame");
         AttackRenderer.sprite = SpriteManager.Instance.Attributes["Attack"];

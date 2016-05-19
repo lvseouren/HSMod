@@ -22,6 +22,10 @@ public class DancingRuneblade : MinionCard
 
     public void Battlecry()
     {
-        // TODO : Gain Attack and Health equal to your weapon's Attack and Durability
+        if (Player.HasWeapon())
+        {
+            CurrentAttack += Player.Weapon.CurrentAttack;
+            CurrentHealth += Player.Weapon.CurrentDurability;
+        }
     }
 }

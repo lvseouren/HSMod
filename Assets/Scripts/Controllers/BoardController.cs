@@ -5,59 +5,76 @@ public class BoardController : MonoBehaviour
 {
     public Player Player;
 
-    public List<BoxCollider> BoardColliders = new List<BoxCollider>();
+    private List<MinionController> MinionControllers = new List<MinionController>();
+
+    private BoxCollider Collider;
 
     private Vector3 Center;
+    private const float DISTANCE = 3f;
 
     public static BoardController Create(Player player, Vector3 boardCenter)
     {
         GameObject boardObject = new GameObject("BoardController");
         boardObject.transform.ChangeParentAt(player.transform, boardCenter);
 
+        BoxCollider boardCollider = boardObject.AddComponent<BoxCollider>();
+        boardCollider.size = new Vector3(27f, 5f, 0.1f);
+
         BoardController boardController = boardObject.AddComponent<BoardController>();
         boardController.Player = player;
         boardController.Center = boardCenter;
+        boardController.Collider = boardCollider;
 
-        boardController.UpdateSlots();
+        boardController.UpdateBoard();
 
         return boardController;
     }
 
-    public void UpdateSlots()
+    public void AddMinion(Minion minion, int position)
     {
-        DestroySlots();
+        MinionControllers.Add(minion.Controller.As<MinionController>());
 
-        int slots = Player.Minions.Count + 1;
-        float slotSize = 27f / slots;
-
-        for (int i = 0; i < slots; i++)
-        {
-            CreateSlot(slotSize, i * slotSize);
-        }
-
-        float boardCenter = (slots * slotSize) - slotSize;
-
-        this.transform.localPosition = new Vector3(boardCenter, 0f, 0f) + Center;
+        UpdateBoard();
     }
 
-    public void DestroySlots()
+    public void RemoveMinion(Minion minion)
     {
-        foreach (BoxCollider slotCollider in BoardColliders)
-        {
-            Destroy(slotCollider.gameObject);
-        }
+        MinionControllers.Remove(minion.Controller.As<MinionController>());
 
-        BoardColliders.Clear();
+        UpdateBoard();
     }
 
-    public BoxCollider CreateSlot(float width, float horizontalPosition)
+    public void UpdateBoard()
     {
-        GameObject slot = new GameObject("Slot" + BoardColliders.Count);
-        slot.transform.ChangeParentAt(this.transform, new Vector3(horizontalPosition, 0f, 0f));
+        if (MinionControllers.Count > 0)
+        {
+            float parentOffset = ((0.5f * MinionControllers.Count) - 0.5f) * -DISTANCE;
 
-        BoxCollider slotCollider = slot.AddComponent<BoxCollider>();
-        slotCollider.size = new Vector3(width, 4f, 1f);
+            for (int i = 0; i < MinionControllers.Count; i++)
+            {
+                MinionControllers[i].TargetPosition = new Vector3(i * DISTANCE, 0f, 0f);
+            }
 
-        return slotCollider;
+            this.transform.localPosition = new Vector3(parentOffset, 0f, 0f) + Center;
+        }
+        else
+        {
+            this.transform.localPosition = Center;
+        }
+    }
+
+    public bool ContainsPoint(Vector3 point)
+    {
+        Vector3 localPoint = transform.InverseTransformPoint(point);
+
+        if (localPoint.x < 13.5f && localPoint.x > -13.5f)
+        {
+            if (localPoint.y < 2f && localPoint.y > -2f)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

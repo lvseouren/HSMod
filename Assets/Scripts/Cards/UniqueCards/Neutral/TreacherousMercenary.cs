@@ -24,6 +24,6 @@ public class TreacherousMercenary : MinionCard
 
     public void Battlecry()
     {
-        Player.Hero.TryDamage(null, 3);
+        Player.Hero.Damage(null, 3);
     }
 }

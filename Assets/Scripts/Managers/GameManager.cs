@@ -26,8 +26,8 @@ public class GameManager : MonoBehaviour
 
     public GameState CurrentGameState;
 
-    public Player TopPlayer;
-    public Player BottomPlayer;
+    public Player EnemyPlayer;
+    public Player SelfPlayer;
     public Player CurrentPlayer;
 
     private Vector3 BOTTOM_CENTER = new Vector3(798f, 60f, 230f);
@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
     private Vector3 BOTTOM_BOARD = new Vector3(0f, 5.5f, 0f);
 
     private Vector3 TOP_CENTER = new Vector3(800f, 60f, 935f);
-    private Vector3 TOP_HAND = new Vector3(0f, 11f, 0f);
+    private Vector3 TOP_HAND = new Vector3(0f, 12f, 0f);
     private Vector3 TOP_MANA = new Vector3(8.05f, 3.25f, 0f);
     private Vector3 TOP_BOARD = new Vector3(0f, -4f, 0f);
 
@@ -69,20 +69,20 @@ public class GameManager : MonoBehaviour
 
             Deck = new List<BaseCard>()
             {
-                new CorpseExplosion(),
-                new AllWillServe(),
-                new DancingRuneblade(),
                 new SkeletonCommander(),
+                new CorpseExplosion(),
+                new DancingRuneblade(),
                 new DeathwhisperNecrolyte(),
                 new CorpseExplosion(),
                 new AllWillServe(),
                 new DancingRuneblade(),
                 new SkeletonCommander(),
-                new DeathwhisperNecrolyte()
+                new DeathwhisperNecrolyte(),
+                new AllWillServe()
             },
         };
 
-        BottomPlayer = Player.Create(bottomParameters);
+        SelfPlayer = Player.Create(bottomParameters);
 
         PlayerParameters topParameters = new PlayerParameters()
         {
@@ -104,34 +104,34 @@ public class GameManager : MonoBehaviour
 
             Deck = new List<BaseCard>()
             {
-                new CorpseExplosion(),
-                new AllWillServe(),
+                new SkeletonCommander(),
+                new DeathwhisperNecrolyte(),
                 new DancingRuneblade(),
                 new SkeletonCommander(),
+                new AllWillServe(),
                 new DeathwhisperNecrolyte(),
                 new CorpseExplosion(),
                 new AllWillServe(),
                 new DancingRuneblade(),
-                new SkeletonCommander(),
-                new DeathwhisperNecrolyte()
+                new CorpseExplosion()
             },
         };
 
-        TopPlayer = Player.Create(topParameters);
+        EnemyPlayer = Player.Create(topParameters);
 
         #endregion
 
-        BottomPlayer.Enemy = TopPlayer;
-        TopPlayer.Enemy = BottomPlayer;
+        SelfPlayer.Enemy = EnemyPlayer;
+        EnemyPlayer.Enemy = SelfPlayer;
 
         // Randomize the starting player
         if (Random.Range(0, 2) == 1)
         {
-            CurrentPlayer = TopPlayer;
+            CurrentPlayer = EnemyPlayer;
         }
         else
         {
-            CurrentPlayer = BottomPlayer;
+            CurrentPlayer = SelfPlayer;
         }
 
         Mulligan();
@@ -141,35 +141,50 @@ public class GameManager : MonoBehaviour
 
     public void Mulligan()
     {
+        Debugger.Log("Mulligan phase start");
+        
         CurrentGameState = GameState.Mulligan;
 
         // TODO : Rework mulligan
 
-        if (CurrentPlayer.Equals(BottomPlayer))
+        // TODO: Give coin
+        if (CurrentPlayer.Equals(SelfPlayer))
         {
-            BottomPlayer.Draw(3);
-            TopPlayer.Draw(4);
-            // TODO: Give TopPlayer coin
+            SelfPlayer.Draw(3);
+            EnemyPlayer.Draw(4);
         }
         else
         {
-            TopPlayer.Draw(3);
-            BottomPlayer.Draw(4);
-            // TODO: Give BottomPlayer coin
+            EnemyPlayer.Draw(3);
+            SelfPlayer.Draw(4);
         }
+
+        Debugger.Log("Mulligan phase end");
     }
 
     public void TurnStart()
     {
+        Debugger.Log("Turn start");
+
         // Switching to Start Turn state
         CurrentGameState = GameState.Start;
 
         // Firing OnTurnStart events
         EventManager.Instance.OnTurnStart(CurrentPlayer);
 
-        // Unfreezing frozen minions or flagging frozen minions for unfreezing on next turn
-        foreach (Minion minion in GetAllMinions())
+        // Resetting hero power uses
+        CurrentPlayer.Hero.HeroPower.CurrentUses = 0;
+
+        foreach (Minion minion in CurrentPlayer.Minions)
         {
+            // Awaking minions and resetting turn attacks
+            minion.IsSleeping = false;
+            minion.CurrentTurnAttacks = 0;
+
+            // Firing OnTurnStart events
+            minion.Buffs.OnTurnStart.OnNext(null);
+
+            // Unfreezing frozen minions or flagging frozen minions for unfreezing on next turn
             if (minion.IsFrozen)
             {
                 if (minion.UnfreezeNextTurn)
@@ -198,7 +213,7 @@ public class GameManager : MonoBehaviour
         CurrentPlayer.RefillMana();
 
         // Updating card, hero and minion glows for the current player
-        CurrentPlayer.UpdateGlows();
+        CurrentPlayer.UpdateAllGlows();
 
         // Switching to Active Turn state
         CurrentGameState = GameState.Active;
@@ -208,6 +223,8 @@ public class GameManager : MonoBehaviour
 
     public void TurnEnd()
     {
+        Debugger.Log("Turn end");
+
         // Switching to End Turn state
         CurrentGameState = GameState.End;
 
@@ -226,30 +243,20 @@ public class GameManager : MonoBehaviour
 
     public void SwitchCurrentPlayer()
     {
-        if (CurrentPlayer == BottomPlayer)
+        Debugger.Log("Switching current player");
+
+        if (CurrentPlayer == SelfPlayer)
         {
-            CurrentPlayer = TopPlayer;
+            CurrentPlayer = EnemyPlayer;
         }
         else
         {
-            CurrentPlayer = BottomPlayer;
+            CurrentPlayer = SelfPlayer;
         }
     }
 
     public List<Minion> GetAllMinions()
     {
-        return TopPlayer.Minions.Concat(BottomPlayer.Minions).ToList();
-    }
-
-    public void UpdateAll()
-    {
-        foreach (Minion minion in GetAllMinions())
-        {
-            minion.Controller.UpdateNumbers();
-            minion.Controller.UpdateSprites();
-        }
-
-        TopPlayer.UpdateAll();
-        BottomPlayer.UpdateAll();
+        return EnemyPlayer.Minions.Concat(SelfPlayer.Minions).ToList();
     }
 }

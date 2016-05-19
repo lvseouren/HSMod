@@ -1,41 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Threading;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public Hero Hero;
-
     public Player Enemy;
 
+    public Hero Hero;
+    public Weapon Weapon;
     public List<BaseCard> Hand = new List<BaseCard>();
     public List<BaseCard> Deck = new List<BaseCard>();
     public List<Minion> Minions = new List<Minion>(7);
     public List<SpellCard> Secrets = new List<SpellCard>();
-    public WeaponCard Weapon;
 
     public ManaController ManaController;
     public HeroController HeroController;
     public HandController HandController;
     public BoardController BoardController;
-    
+
     public List<SpellCard> UsedSpells = new List<SpellCard>();
     public List<MinionCard> DeadMinions = new List<MinionCard>();
     
     public int MaxCardsInHand = 10;
     public int MaxCardsInDeck = 60;
 
-    public int Fatigue;
-
+    public int Fatigue = 0;
     public int MaximumMana = 10;
-
-    public int TurnMana = 1; // Testing purposes - switch back to 0 when finished
+    public int TurnMana = 0;
+    public int UsedMana = 0;
     public int AvailableMana;
-    public int UsedMana;
-    public int CurrentOverloadedMana;
-    public int NextOverloadedMana;
+    public int CurrentOverloadedMana = 0;
+    public int NextOverloadedMana = 0;
 
     #region Constructor
 
@@ -51,6 +46,12 @@ public class Player : MonoBehaviour
         Player player = playerObject.AddComponent<Player>();
         
         player.Deck = parameters.Deck;
+
+        foreach (BaseCard card in player.Deck)
+        {
+            card.Player = player;
+        }
+
         player.ManaController = ManaController.Create(player, parameters.ManaPosition, parameters.DisplayCrystals);
         player.HandController = HandController.Create(player, parameters.HandPosition, parameters.HandInverted);
         player.BoardController = BoardController.Create(player, parameters.BoardPosition);
@@ -76,31 +77,153 @@ public class Player : MonoBehaviour
 
     #region Methods
 
+    public void SummonMinion(MinionCard minionCard)
+    {
+        SummonMinion(minionCard, Minions.Count);
+    }
+
+    // TODO : Board positioning
+    public void SummonMinion(MinionCard minionCard, int position)
+    {
+        Debugger.LogPlayer(this, "summoning " + minionCard.Name + " at position " + position);
+
+        // Creating a Minion and its Controller
+        Minion minion = new Minion(minionCard);
+        minion.Controller = MinionController.Create(BoardController, minion);
+
+        // Adding the Minion to the Player Minion list
+        Minions.Add(minion);
+
+        // Adding the Minion to the BoardController
+        BoardController.AddMinion(minion, position);
+
+        // TODO : Fire events
+
+        // Updating the Player glows
+        UpdateAllGlows();
+    }
+
+    public void PlaySpell(SpellCard spellCard, Character target)
+    {
+        Debugger.LogPlayer(this, "starting to cast spell " + spellCard.Name + " to " + target);
+
+        // Firing OnSpellPreCast events
+        SpellPreCastEvent spellPreCastEvent = EventManager.Instance.OnSpellPreCast(this, spellCard, target);
+
+        if (target != spellPreCastEvent.Target)
+        {
+            Debugger.LogPlayer(this, " switching spell " + spellCard.Name + " target to " + target);
+
+            // Re-setting the target because it has changed on the PreCast events
+            target = spellPreCastEvent.Target;
+        }
+
+        // Checking if the Spell has not been cancelled
+        if (spellPreCastEvent.Status != PreStatus.Cancelled)
+        {
+            Debugger.LogPlayer(this, "casting spell " + spellCard.Name + " to " + target);
+
+            // Casting the Spell to the target
+            spellCard.Cast(target);
+        }
+        else
+        {
+            Debugger.LogPlayer(this, "cancelled casting spell " + spellCard.Name);
+        }
+
+        // Firing OnSpellCasted events
+        EventManager.Instance.OnSpellCasted(this, spellCard);
+
+        // Adding the Spell to the Played Spells list
+        UsedSpells.Add(spellCard);
+
+        // Updating the Player glows
+        UpdateAllGlows();
+    }
+
+    public void EquipWeapon(WeaponCard weaponCard)
+    {
+        Debugger.LogPlayer(this, "equipping weapon " + weaponCard.Name);
+
+        // Destroying the previous Weapon
+        DestroyWeapon();
+
+        // Creating a Weapon and its Controller
+        Weapon weapon = new Weapon(weaponCard);
+        weapon.Controller = WeaponController.Create(this, weapon);
+
+        // Setting the current Weapon as the new Weapon
+        Weapon = weapon;
+
+        // Firing the Weapon battlecry
+        Weapon.Card.Battlecry();
+
+        // Updating the Player glows
+        UpdateAllGlows();
+    }
+
+    public void DestroyWeapon()
+    {
+        // Checking if the player has a Weapon
+        if (Weapon != null)
+        {
+            Debugger.LogPlayer(this, "destroying weapon " + Weapon.Card.Name);
+
+            // Firing the Weapon deathrattle
+            Weapon.Card.Deathrattle();
+
+            // TODO : Animation, sound, etc...
+
+            // Setting the current Weapon as null
+            Weapon = null;
+        }
+
+        // Updating the Player glows
+        UpdateAllGlows();
+    }
+
+    public void UseHeroPower(Character target)
+    {
+        Debugger.LogPlayer(this, "using hero power " + Hero.HeroPower.Name + " to " + target.GetName());
+
+        // Using the mana needed for the HeroPower
+        UseMana(Hero.HeroPower.CurrentCost);
+
+        // Using the HeroPower on the specified target
+        Hero.HeroPower.Use(target);
+
+        // Adding 1 to the current uses and updating the sprites
+        Hero.HeroPower.CurrentUses++;
+        Hero.HeroPower.Controller.UpdateSprites();
+
+        // Firing OnInspired events
+        EventManager.Instance.OnInspired(Hero, Hero.HeroPower);
+
+        // Updating the Player glows
+        UpdateAllGlows();
+    }
+
     public void ReplaceHero(Hero newHero)
     {
         // TODO
+
+        // Updating the Player glows
+        UpdateAllGlows();
     }
 
     public void AddMana(int quantity)
     {
-        AvailableMana += quantity;
-
-        if (AvailableMana > MaximumMana)
-        {
-            AvailableMana = MaximumMana;
-        }
+        AvailableMana = Mathf.Min(AvailableMana + quantity, MaximumMana);
         
         ManaController.UpdateAll();
+
+        // Updating the Player glows
+        UpdateAllGlows();
     }
 
     public void AddEmptyMana(int quantity)
     {
-        TurnMana += quantity;
-
-        if (TurnMana > MaximumMana)
-        {
-            TurnMana = MaximumMana;
-        }
+        TurnMana = Mathf.Min(TurnMana + quantity, MaximumMana);
 
         ManaController.UpdateAll();
     }
@@ -118,6 +241,9 @@ public class Player : MonoBehaviour
         UsedMana += quantity;
 
         ManaController.UpdateAll();
+
+        // Updating the Player glows
+        UpdateAllGlows();
     }
 
     public void RefillMana()
@@ -125,6 +251,58 @@ public class Player : MonoBehaviour
         AvailableMana = Mathf.Clamp(TurnMana - CurrentOverloadedMana, 0, 10);
 
         ManaController.UpdateAll();
+
+        // Updating the Player glows
+        UpdateAllGlows();
+    }
+
+    // TODO : Animation
+    public void AddCardToHand(BaseCard card)
+    {
+        if (Hand.Count < MaxCardsInHand)
+        {
+            card.Controller = CardController.Create(card);
+            Hand.Add(card);
+        }
+        else
+        {
+            // TODO : Destroy card because hand is full
+        }
+
+        // Updating the Player glows
+        UpdateAllGlows();
+    }
+
+    // TODO : Animation
+    public void AddCardToDeck(BaseCard card)
+    {
+        if (Deck.Count < MaxCardsInDeck)
+        {
+            Deck.Add(card);
+        }
+        else
+        {
+            // TODO : Destroy card because deck is full (?)
+        }
+
+        // Updating the Player glows
+        UpdateAllGlows();
+    }
+
+    public void RemoveCardFromHand(BaseCard card)
+    {
+        if (Hand.Contains(card))
+        {
+            // Removing the Card from the Hand
+            Hand.Remove(card);
+            HandController.Remove(card.Controller);
+
+            // Destroying the CardController
+            card.Controller.DestroyController();
+        }
+
+        // Updating the Player glows
+        UpdateAllGlows();
     }
 
     public List<BaseCard> Draw(int draws)
@@ -161,11 +339,15 @@ public class Player : MonoBehaviour
                 CardController drawnCardController = CardController.Create(drawnBaseCard);
                 drawnBaseCard.Controller = drawnCardController;
 
+                // Adding the Cardcontroller to the HandController
                 HandController.Add(drawnCardController);
 
                 // Firing OnDrawn events
                 drawnBaseCard.OnDrawn();
                 EventManager.Instance.OnCardDrawn(this, drawnBaseCard);
+
+                // Updating the Player glows
+                UpdateAllGlows();
                 
                 return drawnBaseCard;
             }
@@ -173,44 +355,37 @@ public class Player : MonoBehaviour
             {
                 // TODO : Discard the card
 
-                return null;
+                // Updating the Player glows
+                UpdateAllGlows();
             }
         }
         else
         {
+            // Suming 1 to the player fatigue
             Fatigue++;
 
-            Hero.TryDamage(null, Fatigue);
+            // Dealing fatigue damage to the Hero
+            Hero.Damage(null, Fatigue);
 
-            return null;
+            // Updating the Player glows
+            UpdateAllGlows();
         }
+
+        return null;
     }
 
-    public void EquipWeapon(WeaponCard weapon)
-    {
-        DestroyWeapon();
-
-        Weapon = weapon;
-
-        Weapon.Battlecry();
-    }
-
-    public void DestroyWeapon()
-    {
-        if (Weapon != null)
-        {
-            Weapon.Deathrattle();
-
-            // TODO : Animation
-
-            Weapon = null;
-        }
-    }
-
-    public void UpdateGlows()
+    public void UpdateAllGlows()
     {
         ResetGreenGlows();
 
+        UpdateWeaponGlow();
+        UpdateHandGlows();
+        UpdateMinionGlows();
+        UpdateHeroPowerGlow();
+    }
+
+    private void UpdateWeaponGlow()
+    {
         if (HasWeapon() || Hero.CurrentAttack > 0)
         {
             switch (Hero.CurrentTurnAttacks)
@@ -220,42 +395,54 @@ public class Player : MonoBehaviour
                     break;
 
                 case 1:
-                    if (Weapon.Windfury)
+                    if (Weapon.HasWindfury)
                     {
                         HeroController.SetGreenRenderer(true);
                     }
                     break;
             }
         }
+    }
 
+    private void UpdateHandGlows()
+    {
         foreach (BaseCard card in Hand)
         {
             if (card.CurrentCost <= AvailableMana)
             {
-                card.Controller.SetGreenRenderer(true);
-            }
-        }
-
-        foreach (Minion minion in Minions)
-        {
-            if (minion.IsFrozen == false && minion.IsSleeping == false)
-            {
-                if (minion.CanAttack())
+                if (card.GetCardType() == CardType.Minion)
                 {
-                    switch (minion.CurrentTurnAttacks)
+                    if (Minions.Count < 7)
                     {
-                        case 0:
-                            minion.Controller.SetGreenRenderer(true);
-                            break;
-
-                        case 1:
-                            if (minion.HasWindfury)
-                            {
-                                minion.Controller.SetGreenRenderer(true);
-                            }
-                            break;
+                        card.Controller.SetGreenRenderer(true);
                     }
                 }
+                else
+                {
+                    card.Controller.SetGreenRenderer(true);
+                }
+            }
+        }
+    }
+
+    private void UpdateMinionGlows()
+    {
+        foreach (Minion minion in Minions)
+        {
+            if (minion.CanAttack())
+            {
+                minion.Controller.SetGreenRenderer(true);
+            }
+        }
+    }
+
+    private void UpdateHeroPowerGlow()
+    {
+        if (Hero.HeroPower.CurrentCost <= AvailableMana)
+        {
+            if (Hero.HeroPower.CurrentUses < Hero.HeroPower.MaxUses)
+            {
+                Hero.HeroPower.Controller.SetGreenRenderer(true);
             }
         }
     }
@@ -273,18 +460,8 @@ public class Player : MonoBehaviour
         {
             minion.Controller.SetGreenRenderer(false);
         }
-    }
 
-    public void UpdateAll()
-    {
-        HeroController.UpdateSprites();
-        HeroController.UpdateNumbers();
-
-        if (HasWeapon())
-        {
-            Weapon.Controller.UpdateSprites();
-            Weapon.Controller.UpdateNumbers();
-        }
+        Hero.HeroPower.Controller.SetGreenRenderer(false);
     }
 
     #endregion

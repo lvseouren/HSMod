@@ -39,7 +39,8 @@
 
     public bool IsSilenced = false;
     public bool IsFrozen = false;
-    
+    public bool UnfreezeNextTurn = false;
+
     #endregion
 
     #region Methods
@@ -56,7 +57,7 @@
 
     public virtual void Attack(Character target) { }
 
-    public virtual void TryDamage(Character attacker, int damage) { }
+    public virtual void Damage(Character attacker, int damage) { }
 
     public virtual void Heal(int heal) { }
 
@@ -65,7 +66,7 @@
     #endregion
 
     #region Getter Methods
-
+    
     public virtual int GetMissingHealth()
     {
         return MaxHealth - CurrentHealth;
@@ -77,8 +78,6 @@
 
     public virtual bool CanAttack()
     {
-        if (this.IsFrozen) return false;
-
         return false;
     }
 
@@ -157,6 +156,11 @@
     public virtual bool IsEnemyOf(Character other)
     {
         return (this.IsFriendlyOf(other) == false);
+    }
+
+    public bool IsDamaged()
+    {
+        return CurrentHealth != MaxHealth;
     }
 
     #endregion

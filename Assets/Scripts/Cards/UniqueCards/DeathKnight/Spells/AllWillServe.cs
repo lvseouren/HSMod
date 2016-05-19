@@ -8,6 +8,8 @@
         Class = HeroClass.DeathKnight;
         Rarity = CardRarity.Common;
 
+        TargetType = TargetType.AllCharacters;
+
         BaseCost = 2;
 
         InitializeSpell();
@@ -17,8 +19,12 @@
     {
         int damage = 2 + Player.GetSpellPower();
 
-        target.TryDamage(null, damage);
+        target.Damage(null, damage);
+        target.CheckDeath();
+        
+        MinionCard ghoul = new Ghoul();
+        ghoul.SetOwner(Player);
 
-        // TODO : Summon 1/1
+        Player.SummonMinion(ghoul);
     }
 }

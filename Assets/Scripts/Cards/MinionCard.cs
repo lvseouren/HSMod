@@ -26,8 +26,8 @@
     public bool HasPoison = false;
     public bool HasWindfury = false;
     public bool HasDivineShield = false;
-    public bool HasElusiveness = false;
-    public bool HasStealth = false;
+    public bool IsElusive = false;
+    public bool IsStealth = false;
     public bool IsForgetful = false;
 
     public int SpellPower = 0;
@@ -67,6 +67,17 @@
 
             // Firing OnRemoved for that buff
             buff.OnRemoved(Minion);
+        }
+    }
+
+    public override void Play()
+    {
+        if (Player.Minions.Count < 7)
+        {
+            Player.UseMana(CurrentCost);
+
+            Player.SummonMinion(this, 0);
+            Player.RemoveCardFromHand(this);
         }
     }
 }

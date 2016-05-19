@@ -12,7 +12,7 @@ GameObject:
   - 23: {fileID: 2327284}
   - 65: {fileID: 6587540}
   m_Layer: 0
-  m_Name: Button_EndTurn
+  m_Name: TurnButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,7 +25,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 193884}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1475, y: 45, z: 627.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -62,7 +62,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 193884}
-  m_Mesh: {fileID: 4300002, guid: 44aeef5c5276b4c3a9638b63af184ad5, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 0ad2c85e7d72f4f4db5aceca4fee46f5, type: 2}
 --- !u!65 &6587540
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -74,7 +74,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 185, y: 26, z: 100}
-  m_Center: {x: -1477.2692, y: 41.918312, z: -626.948}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
