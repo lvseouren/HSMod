@@ -29,7 +29,6 @@ public class InterfaceManager : MonoBehaviour
     private Vector3 worldOriginPosition = Vector3.zero;
 
     // Sprite GameObjects //
-    private GameObject interfaceParent;
     private GameObject arrowObject;
     private GameObject circleObject;
     private GameObject bodyObject;
@@ -41,11 +40,8 @@ public class InterfaceManager : MonoBehaviour
 
     private void Start()
     {
-        // Setting the Singleton Instance
+        // Setting the singleton instance
         _instance = this;
-
-        // Creating the parent GameObject for the UI
-        interfaceParent = new GameObject("InterfaceParent");
 
         // Creating the GameObjects for each UI component
         arrowObject = CreateChildObject("Arrow", 0f);
@@ -104,7 +100,7 @@ public class InterfaceManager : MonoBehaviour
     private GameObject CreateChildObject(string name, float position)
     {
         GameObject glowObject = new GameObject(name);
-        glowObject.transform.parent = interfaceParent.transform;
+        glowObject.transform.parent = this.transform;
         glowObject.transform.localPosition = new Vector3(0f, 0f, position);
         glowObject.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
         glowObject.transform.localScale = new Vector3(80f, 80f, 80f);
