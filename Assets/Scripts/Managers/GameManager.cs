@@ -169,6 +169,11 @@ public class GameManager : MonoBehaviour
         // Switching to Start Turn state
         CurrentGameState = GameState.Start;
 
+        if (CurrentPlayer == SelfPlayer)
+        {
+            InterfaceManager.Instance.SpawnTurnSprite();
+        }
+
         // Firing OnTurnStart events
         EventManager.Instance.OnTurnStart(CurrentPlayer);
 
@@ -213,7 +218,7 @@ public class GameManager : MonoBehaviour
         CurrentPlayer.RefillMana();
 
         // Updating card, hero and minion glows for the current player
-        CurrentPlayer.UpdateAllGlows();
+        CurrentPlayer.UpdateSprites();
 
         // Switching to Active Turn state
         CurrentGameState = GameState.Active;
@@ -232,7 +237,7 @@ public class GameManager : MonoBehaviour
         EventManager.Instance.OnTurnEnd(CurrentPlayer);
 
         // Resetting hero, card and minion glows for the current player
-        CurrentPlayer.ResetGreenGlows();
+        CurrentPlayer.ResetSprites();
 
         // Switching the player
         SwitchCurrentPlayer();

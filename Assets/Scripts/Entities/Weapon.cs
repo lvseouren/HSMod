@@ -25,6 +25,8 @@
 
         CurrentDurability = card.CurrentDurability;
         BaseDurability = card.BaseDurability;
+
+        HasWindfury = Card.HasWindfury;
     }
 
     #endregion
@@ -33,17 +35,14 @@
 
     public virtual void Use()
     {
+        Debugger.LogWeapon(this, "used");
+
         CurrentDurability--;
 
         if (CurrentDurability <= 0)
         {
             Remove();
         }
-    }
-
-    public void Remove()
-    {
-        
     }
 
     #endregion

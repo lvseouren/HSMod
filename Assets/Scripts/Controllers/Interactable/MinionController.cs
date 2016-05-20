@@ -157,7 +157,7 @@ public class MinionController : BaseController
 
         return glowString + "_";
 
-        // Probably will look into something like a semi-transparent overlay instead of new sprites for Frozen and Stealth
+        // Probably will look into something like a semi-transparent overlay instead of new sprites for Frozen, Stealth and Enraged
 
         if (Minion.IsFrozen)
         {
@@ -167,6 +167,11 @@ public class MinionController : BaseController
         if (Minion.IsStealth)
         {
             glowString += "Stealth_";
+        }
+
+        if (Minion.IsEnraged)
+        {
+            glowString += "Enraged_";
         }
 
         return glowString;

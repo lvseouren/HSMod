@@ -38,6 +38,8 @@ public class EventManager
 
     public Subject<MinionPoisonedEvent> MinionPoisonedHandler = new Subject<MinionPoisonedEvent>();
 
+    public Subject<MinionEnragedEvent> MinionEnragedHandler = new Subject<MinionEnragedEvent>();
+
     public Subject<MinionFrozenEvent> MinionFrozenHandler = new Subject<MinionFrozenEvent>();
 
     // Hero Event Subjects //
@@ -91,6 +93,22 @@ public class EventManager
         foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnMinionFrozen.OnNext(minionFrozenEvent);
+        }
+    }
+
+    public void OnMinionEnraged(Minion minion, Character enragedMinion)
+    {
+        MinionEnragedEvent minionEnragedEvent = new MinionEnragedEvent()
+        {
+            Minion = minion,
+            EnragedCharacter = enragedMinion
+        };
+
+        MinionEnragedHandler.OnNext(minionEnragedEvent);
+
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
+        {
+            battlefieldMinion.Buffs.OnMinionEnraged.OnNext(minionEnragedEvent);
         }
     }
 

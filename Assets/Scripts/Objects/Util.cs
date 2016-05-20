@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 
 // Static class to hold useful extension methods
@@ -70,6 +72,18 @@ public static class Util
             default:
                 return CardType.None;
         }
+    }
+
+    // Method to know if a list of cards contains a type of card
+    public static bool ContainsCardOfType<T>(this List<BaseCard> list)
+    {
+        return list.Count(x => x.GetType() == typeof(T)) > 0;
+    }
+
+    // Method to get all the cards of a type inside a list of cards
+    public static List<BaseCard> GetCardsOfType<T>(this List<BaseCard> list)
+    {
+        return list.Where(x => x.GetType() == typeof(T)).ToList();
     }
 
     // Method to get the character at the mouse position

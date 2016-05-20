@@ -23,4 +23,9 @@ public static class Debugger
     {
         Log(hero.GetName() + " " + action);
     }
+
+    public static void LogWeapon(Weapon weapon, string action)
+    {
+        Log(weapon.Card.Name + " " + action);
+    }
 }

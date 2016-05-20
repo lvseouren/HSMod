@@ -47,6 +47,7 @@ public class BuffManager
     public Subject<MinionDiedEvent> OnMinionDied = new Subject<MinionDiedEvent>();
     public Subject<MinionPoisonedEvent> OnMinionPoisoned = new Subject<MinionPoisonedEvent>();
     public Subject<MinionFrozenEvent> OnMinionFrozen = new Subject<MinionFrozenEvent>();
+    public Subject<MinionEnragedEvent> OnMinionEnraged = new Subject<MinionEnragedEvent>();
 
     public Subject<object> OnCharacterPreHeal = new Subject<object>();
     public Subject<object> OnCharacterHealed = new Subject<object>();
@@ -118,6 +119,7 @@ public class BuffManager
         OnMinionDied.Dispose();
         OnMinionPoisoned.Dispose();
         OnMinionFrozen.Dispose();
+        OnMinionEnraged.Dispose();
 
         OnCharacterPreHeal.Dispose();
         OnCharacterHealed.Dispose();

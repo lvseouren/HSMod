@@ -5,8 +5,8 @@ public class HeroPowerController : BaseController
     public BaseHeroPower HeroPower;
     
     private SpriteRenderer HeroPowerRenderer;
-    private SpriteRenderer FrontTokenRenderer;
-    private SpriteRenderer BackTokenRenderer;
+    public SpriteRenderer FrontTokenRenderer;
+    public SpriteRenderer BackTokenRenderer;
 
     private NumberController CostController;
 
@@ -91,7 +91,7 @@ public class HeroPowerController : BaseController
             CostController.UpdateNumber(HeroPower.CurrentCost, "Red");
         }
     }
-
+    
     #region Unity Messages
 
     private void OnMouseEnter()

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class InterfaceManager : MonoBehaviour
 {
@@ -28,12 +29,8 @@ public class InterfaceManager : MonoBehaviour
     private BaseController originController;
     private Vector3 worldOriginPosition = Vector3.zero;
 
-    // Sprite GameObjects //
-    private GameObject arrowObject;
-    private GameObject circleObject;
-    private GameObject bodyObject;
-
     // Sprite Renderers //
+    private SpriteRenderer turnRenderer;
     private SpriteRenderer arrowRenderer;
     private SpriteRenderer circleRenderer;
     private SpriteRenderer bodyRenderer;
@@ -43,15 +40,14 @@ public class InterfaceManager : MonoBehaviour
         // Setting the singleton instance
         _instance = this;
 
-        // Creating the GameObjects for each UI component
-        arrowObject = CreateChildObject("Arrow", 0f);
-        circleObject = CreateChildObject("ArrowCircle", 0f);
-        bodyObject = CreateChildObject("ArrowBody", 0f);
-
         // Creating the SpriteRenderer for each UI GameObject
-        arrowRenderer = CreateChildSprite(arrowObject, "Sprites/UI/Arrow", 1002);
-        bodyRenderer = CreateChildSprite(bodyObject, "Sprites/UI/ArrowBody", 1001);
-        circleRenderer = CreateChildSprite(circleObject, "Sprites/UI/ArrowCircle", 1000);
+        turnRenderer = CreateChildSprite("Sprites/General/YourTurn", 1003);
+        arrowRenderer = CreateChildSprite("Sprites/UI/Arrow", 1002);
+        bodyRenderer = CreateChildSprite("Sprites/UI/ArrowBody", 1001);
+        circleRenderer = CreateChildSprite("Sprites/UI/ArrowCircle", 1000);
+
+        turnRenderer.transform.localPosition = new Vector3(10f, 0f, 8f);
+        turnRenderer.transform.localEulerAngles = Vector3.right * 90f;
     }
 
     private void LateUpdate()
@@ -69,13 +65,14 @@ public class InterfaceManager : MonoBehaviour
 
             // Calculating the direction rotation
             Vector3 directionRotation = new Vector3(90f, directionAngle, 0f);
-
-
+            
             #region Arrow and Circle
 
             arrowRenderer.transform.position = worldMousePosition;
             arrowRenderer.transform.localEulerAngles = directionRotation;
+
             circleRenderer.transform.position = worldMousePosition;
+            circleRenderer.transform.localEulerAngles = Vector3.right * 90f;
 
             #endregion
 
@@ -85,11 +82,11 @@ public class InterfaceManager : MonoBehaviour
             Vector3 bodyPosition = worldOriginPosition + directionVector / 2f;
 
             // Calculating the body scale based on the distance between the mouse and the origin
-            float bodyScale = 0.27f * directionVector.magnitude;
+            float bodyScale = 0.003375f * directionVector.magnitude;
 
-            bodyRenderer.transform.localPosition = new Vector3(bodyPosition.x, 100f, bodyPosition.z);
+            bodyRenderer.transform.position = new Vector3(bodyPosition.x, 100f, bodyPosition.z);
             bodyRenderer.transform.localEulerAngles = directionRotation;
-            bodyRenderer.transform.localScale = new Vector3(80f, bodyScale, 80f);
+            bodyRenderer.transform.localScale = new Vector3(1f, bodyScale, 1f);
 
             // TODO : Animate the arrow
 
@@ -97,19 +94,11 @@ public class InterfaceManager : MonoBehaviour
         }
     }
 
-    private GameObject CreateChildObject(string name, float position)
+    private SpriteRenderer CreateChildSprite(string sprite, int order)
     {
-        GameObject glowObject = new GameObject(name);
-        glowObject.transform.parent = this.transform;
-        glowObject.transform.localPosition = new Vector3(0f, 0f, position);
-        glowObject.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
-        glowObject.transform.localScale = new Vector3(80f, 80f, 80f);
+        GameObject rendererObject = new GameObject(sprite.Substring(sprite.LastIndexOf("/") + 1));
+        rendererObject.transform.ChangeParent(this.transform);
 
-        return glowObject;
-    }
-
-    private SpriteRenderer CreateChildSprite(GameObject rendererObject, string sprite, int order)
-    {
         SpriteRenderer spriteRenderer = rendererObject.AddComponent<SpriteRenderer>();
         spriteRenderer.material = Resources.Load<Material>("Materials/SpriteOverrideMaterial");
         spriteRenderer.sortingLayerName = "Game";
@@ -167,5 +156,26 @@ public class InterfaceManager : MonoBehaviour
     public void DisableArrowCircle()
     {
         circleRenderer.enabled = false;
+    }
+
+    public void SpawnTurnSprite()
+    {
+        StartCoroutine(TurnSpriteFade());
+    }
+
+    private IEnumerator TurnSpriteFade()
+    {
+        turnRenderer.enabled = true;
+        turnRenderer.transform.localScale = Vector3.one;
+
+        yield return new WaitForSeconds(1f);
+
+        for (float i = 1f; i > 0f; i -= 0.02f)
+        {
+            turnRenderer.transform.localScale = Vector3.one * i;
+            yield return null;
+        }
+
+        turnRenderer.enabled = false;
     }
 }
