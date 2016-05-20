@@ -35,6 +35,8 @@ public class InterfaceManager : MonoBehaviour
     private SpriteRenderer circleRenderer;
     private SpriteRenderer bodyRenderer;
 
+    private IEnumerator TurnFadeCoroutine;
+
     private void Start()
     {
         // Setting the singleton instance
@@ -160,7 +162,13 @@ public class InterfaceManager : MonoBehaviour
 
     public void SpawnTurnSprite()
     {
-        StartCoroutine(TurnSpriteFade());
+        if (TurnFadeCoroutine != null)
+        {
+            StopCoroutine(TurnFadeCoroutine);
+        }
+
+        TurnFadeCoroutine = TurnSpriteFade();
+        StartCoroutine(TurnFadeCoroutine);
     }
 
     private IEnumerator TurnSpriteFade()
