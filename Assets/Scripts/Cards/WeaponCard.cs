@@ -9,8 +9,8 @@
     public int CurrentDurability;
 
     // Effects //
-    public bool Windfury = false;
-    public bool Forgetful = false;
+    public bool HasWindfury = false;
+    public bool IsForgetful = false;
 
     #region Events
 
@@ -90,15 +90,5 @@
 
         Player.EquipWeapon(this);
         Player.RemoveCardFromHand(this);
-    }
-
-    public virtual void Destroy()
-    {
-        // TODO
-    }
-
-    public virtual bool CanAttack(Character target)
-    {
-        return true;
     }
 }

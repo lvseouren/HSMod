@@ -5,7 +5,8 @@ public class WeaponController : BaseController
     public Weapon Weapon;
 
     public SpriteRenderer WeaponRenderer;
-    public SpriteRenderer TokenRenderer;
+    public SpriteRenderer OpenTokenRenderer;
+    public SpriteRenderer ClosedTokenRenderer;
 
     public NumberController AttackText;
     public NumberController DurabilityText;
@@ -26,5 +27,5 @@ public class WeaponController : BaseController
         return weaponController;
     }
 
-    // TODO
+
 }

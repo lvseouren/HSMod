@@ -12,7 +12,7 @@ public class VengefulSpirit : MinionCard
         MinionType = MinionType.Undead;
 
         BaseCost = 2;
-        BaseAttack = 2;
+        BaseAttack = 1;
         BaseHealth = 2;
 
         Buffs.Deathrattle.Subscribe(x => Deathrattle(x));
