@@ -331,26 +331,8 @@ public class Player : MonoBehaviour
         {
             if (Hand.Count < MaxCardsInHand)
             {
-                // Getting the first card in the Deck
-                BaseCard drawnBaseCard = Deck[0];
-
-                // Moving the card to the Hand
-                Hand.Add(drawnBaseCard);
-                Deck.Remove(drawnBaseCard);
-
-                // Creating the visual controller for the card
-                CardController drawnCardController = CardController.Create(drawnBaseCard);
-                drawnBaseCard.Controller = drawnCardController;
-
-                // Adding the Cardcontroller to the HandController
-                HandController.Add(drawnCardController);
-
-                // Firing OnDrawn events
-                drawnBaseCard.OnDrawn();
-                EventManager.Instance.OnCardDrawn(this, drawnBaseCard);
-
-                // Updating the Player glows
-                UpdateSprites();
+                // Drawing the first card in the deck
+                BaseCard drawnBaseCard = DrawFromDeck(Deck[0]);
                 
                 return drawnBaseCard;
             }

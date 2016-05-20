@@ -41,7 +41,7 @@
 
         if (CurrentDurability <= 0)
         {
-            Remove();
+            Player.DestroyWeapon();
         }
     }
 
