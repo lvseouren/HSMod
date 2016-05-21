@@ -70,15 +70,23 @@ public class GameManager : MonoBehaviour
             Deck = new List<BaseCard>()
             {
                 new SkeletonCommander(),
+                new GoblinMerchant(),
+                new IllFatedSquire(),
                 new CorpseExplosion(),
                 new DancingRuneblade(),
                 new DeathwhisperNecrolyte(),
+                new ArcaneAnomaly(),
+                new TreacherousMercenary(),
+                new GoblinMerchant(),
+                new IllFatedSquire(),
                 new CorpseExplosion(),
                 new AllWillServe(),
                 new DancingRuneblade(),
                 new SkeletonCommander(),
                 new DeathwhisperNecrolyte(),
-                new AllWillServe()
+                new AllWillServe(),
+                new TreacherousMercenary(),
+                new ArcaneAnomaly(),
             },
         };
 
@@ -104,15 +112,23 @@ public class GameManager : MonoBehaviour
 
             Deck = new List<BaseCard>()
             {
+                new ArcaneAnomaly(),
                 new SkeletonCommander(),
+                new TreacherousMercenary(),
+                new GoblinMerchant(),
+                new IllFatedSquire(),
                 new DeathwhisperNecrolyte(),
                 new DancingRuneblade(),
                 new SkeletonCommander(),
                 new AllWillServe(),
                 new DeathwhisperNecrolyte(),
+                new TreacherousMercenary(),
+                new GoblinMerchant(),
                 new CorpseExplosion(),
                 new AllWillServe(),
                 new DancingRuneblade(),
+                new IllFatedSquire(),
+                new ArcaneAnomaly(),
                 new CorpseExplosion()
             },
         };
