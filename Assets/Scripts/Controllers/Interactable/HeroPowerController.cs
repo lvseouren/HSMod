@@ -38,9 +38,9 @@ public class HeroPowerController : BaseController
 
         HeroPowerRenderer = CreateRenderer("HeroPower_Sprite", Vector3.one, Vector3.zero, 18);
 
-        WhiteGlowRenderer = CreateRenderer("WhiteGlow_Sprite", Vector3.one * 2f, Vector3.zero, 17);
-        GreenGlowRenderer = CreateRenderer("GreenGlow_Sprite", Vector3.one * 2f, Vector3.zero, 16);
-        RedGlowRenderer = CreateRenderer("RedGlow_Sprite", Vector3.one * 2f, Vector3.zero, 15);
+        WhiteGlowRenderer = CreateRenderer("WhiteGlow_Sprite", Vector3.one * 2f, new Vector3(0f, -0.12f, 0f), 17);
+        GreenGlowRenderer = CreateRenderer("GreenGlow_Sprite", Vector3.one * 2f, new Vector3(0f, -0.12f, 0f), 16);
+        RedGlowRenderer = CreateRenderer("RedGlow_Sprite", Vector3.one * 2f, new Vector3(0f, -0.12f, 0f), 15);
 
         FrontTokenRenderer.enabled = true;
         HeroPowerRenderer.enabled = true;
@@ -48,7 +48,7 @@ public class HeroPowerController : BaseController
         UpdateSprites();
         UpdateNumbers();
         
-        CostController.SetEnabled(HeroPower.IsAvailable());
+        CostController.SetEnabled(true);
     }
 
     public override void DestroyController()
