@@ -43,9 +43,17 @@ public class CardController : BaseController
         AttributeController = NumberController.Create("Attribute_Controller", this.gameObject, new Vector3(1.5f, 0f, 0f), 43, 0.5f);
 
         CardRenderer = CreateRenderer("Card_Sprite", Vector3.one, Vector3.zero, 42);
-        
-        ComboGlowRenderer = CreateRenderer("ComboGlow_Sprite", Vector3.one * 3f, new Vector3(0.065f, -0.05f, 0f), 41);
-        GreenGlowRenderer = CreateRenderer("GreenGlow_Sprite", Vector3.one * 3f, new Vector3(0.065f, -0.05f, 0f), 40);
+
+        if (Card.GetCardType() == CardType.Weapon)
+        {
+            ComboGlowRenderer = CreateRenderer("ComboGlow_Sprite", Vector3.one * 3f, new Vector3(0.0375f, -0.025f, 0f), 41);
+            GreenGlowRenderer = CreateRenderer("GreenGlow_Sprite", Vector3.one * 3f, new Vector3(0.0375f, -0.025f, 0f), 40);
+        }
+        else
+        {
+            ComboGlowRenderer = CreateRenderer("ComboGlow_Sprite", Vector3.one * 3f, new Vector3(0.065f, -0.05f, 0f), 41);
+            GreenGlowRenderer = CreateRenderer("GreenGlow_Sprite", Vector3.one * 3f, new Vector3(0.065f, -0.05f, 0f), 40);
+        }
 
         CardRenderer.enabled = true;
 
