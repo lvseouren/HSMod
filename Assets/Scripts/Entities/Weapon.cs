@@ -19,6 +19,7 @@
     public Weapon(WeaponCard card)
     {
         Card = card;
+        Player = card.Player;
 
         CurrentAttack = card.CurrentAttack;
         BaseAttack = card.BaseAttack;
