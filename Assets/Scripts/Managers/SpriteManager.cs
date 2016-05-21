@@ -62,7 +62,10 @@ public class SpriteManager : MonoBehaviour
             {"Minion_Taunt", Resources.Load<Sprite>("Sprites/General/Minion_TauntToken")},
 
             {"HeroPower_Front", Resources.Load<Sprite>("Sprites/General/HeroPower_FrontToken")},
-            {"HeroPower_Back", Resources.Load<Sprite>("Sprites/General/HeroPower_BackToken")}
+            {"HeroPower_Back", Resources.Load<Sprite>("Sprites/General/HeroPower_BackToken")},
+
+            {"Weapon_Open", Resources.Load<Sprite>("Sprites/General/Weapon_OpenToken")},
+            {"Weapon_Closed", Resources.Load<Sprite>("Sprites/General/Weapon_ClosedToken")},
         };
 
         Glows = new Dictionary<string, Sprite>()
