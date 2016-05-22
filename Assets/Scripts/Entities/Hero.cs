@@ -20,7 +20,7 @@ public class Hero : Character
             if (Player.Enemy.Minions.Count > 0)
             {
                 // Random 50% chance
-                if (Random.Range(0, 2) == 1)
+                if (RNG.RandomBool())
                 {
                     // TODO : Play forgetful trigger animation
 
