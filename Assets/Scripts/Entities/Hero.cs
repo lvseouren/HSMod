@@ -51,9 +51,6 @@ public class Hero : Character
         // Checking if the Attack was cancelled
         if (heroPreAttackEvent.Status != PreStatus.Cancelled)
         {
-            // Adding 1 to the current turn attacks counter
-            CurrentTurnAttacks++;
-
             // Redefining target in case it changed when firing events
             target = heroPreAttackEvent.Target;
 
@@ -76,6 +73,15 @@ public class Hero : Character
                 // Checking the death of both characters
                 this.CheckDeath();
                 target.CheckDeath();
+            }
+
+            // Adding 1 to the current turn attacks counter
+            CurrentTurnAttacks++;
+
+            // Using the weapon in case the Player has one
+            if (Player.HasWeapon())
+            {
+                Player.Weapon.Use();
             }
 
             // Firing OnAttacked events

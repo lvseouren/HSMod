@@ -44,6 +44,8 @@
         {
             Player.DestroyWeapon(); 
         }
+
+        Controller.UpdateNumbers();
     }
 
     #endregion
