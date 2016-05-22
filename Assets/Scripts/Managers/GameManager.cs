@@ -23,9 +23,7 @@ public class GameManager : MonoBehaviour
     private GameManager() { }
 
     #endregion
-
-    public GameState CurrentGameState;
-
+    
     public Player EnemyPlayer;
     public Player SelfPlayer;
     public Player CurrentPlayer;
@@ -166,8 +164,6 @@ public class GameManager : MonoBehaviour
     public void Mulligan()
     {
         Debugger.Log("Mulligan phase start");
-        
-        CurrentGameState = GameState.Mulligan;
 
         // TODO : Rework mulligan
 
@@ -190,9 +186,6 @@ public class GameManager : MonoBehaviour
     {
         Debugger.Log("Turn start");
 
-        // Switching to Start Turn state
-        CurrentGameState = GameState.Start;
-
         if (CurrentPlayer == SelfPlayer)
         {
             InterfaceManager.Instance.SpawnTurnSprite();
@@ -201,9 +194,11 @@ public class GameManager : MonoBehaviour
         // Firing OnTurnStart events
         EventManager.Instance.OnTurnStart(CurrentPlayer);
 
-        // Resetting hero power uses
+        // Resetting hero power uses and turn attacks
         CurrentPlayer.Hero.HeroPower.CurrentUses = 0;
+        CurrentPlayer.Hero.CurrentTurnAttacks = 0;
 
+        // Iterating on the player list of minions
         foreach (Minion minion in CurrentPlayer.Minions)
         {
             // Awaking minions and resetting turn attacks
@@ -244,18 +239,12 @@ public class GameManager : MonoBehaviour
         // Updating card, hero and minion glows for the current player
         CurrentPlayer.UpdateSprites();
 
-        // Switching to Active Turn state
-        CurrentGameState = GameState.Active;
-
         // TODO : Give the CurrentPlayer the control of the turn
     }
 
     public void TurnEnd()
     {
         Debugger.Log("Turn end");
-
-        // Switching to End Turn state
-        CurrentGameState = GameState.End;
 
         // Firing OnTurnEnd events
         EventManager.Instance.OnTurnEnd(CurrentPlayer);
