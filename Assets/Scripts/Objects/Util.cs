@@ -41,16 +41,12 @@ public static class Util
         return typeInstance.GetType().Name;
     }
 
-    // Method to know if an integer is odd or even
-    public static bool IsPair(this int number)
+    // Method to get the color of the displayed text
+    public static string GetColor(int current, int main)
     {
-        return (number % 2 == 0);
-    }
-
-    // Method to get the middle of an odd number
-    public static int Middle(this int number)
-    {
-        return (int) Math.Round((number / 2) + 0.5);
+        if (current > main) return "Green";
+        if (current == main) return "White";
+        return "Red";
     }
 
     // Method to get the CardType enum value of a card

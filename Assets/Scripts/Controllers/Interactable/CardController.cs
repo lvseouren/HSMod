@@ -87,18 +87,7 @@ public class CardController : BaseController
 
     public override void UpdateNumbers()
     {
-        if (Card.CurrentCost < Card.BaseCost)
-        {
-            CostController.UpdateNumber(Card.CurrentCost, "Green");
-        }
-        else if (Card.CurrentCost == Card.BaseCost)
-        {
-            CostController.UpdateNumber(Card.CurrentCost, "White");
-        }
-        else
-        {
-            CostController.UpdateNumber(Card.CurrentCost, "Red");
-        }
+        CostController.UpdateNumber(Card.CurrentCost, Util.GetColor(Card.CurrentCost, Card.BaseCost));
     }
 
     public void SetRenderingOrder(int order)

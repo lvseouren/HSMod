@@ -96,35 +96,11 @@ public class MinionController : BaseController
         // Updating the green glow status depending on the Minion status
         GreenGlowRenderer.enabled = Minion.CanAttack();
     }
-
-    // TODO : Rewrite
+    
     public override void UpdateNumbers()
     {
-        if (Minion.CurrentAttack < Minion.BaseAttack)
-        {
-            AttackController.UpdateNumber(Minion.CurrentAttack, "Red");
-        }
-        else if (Minion.CurrentAttack == Minion.BaseAttack)
-        {
-            AttackController.UpdateNumber(Minion.CurrentAttack, "White");
-        }
-        else
-        {
-            AttackController.UpdateNumber(Minion.CurrentAttack, "Green");
-        }
-
-        if (Minion.CurrentHealth < Minion.BaseHealth)
-        {
-            HealthController.UpdateNumber(Minion.CurrentHealth, "Red");
-        }
-        else if (Minion.CurrentHealth == Minion.BaseHealth)
-        {
-            HealthController.UpdateNumber(Minion.CurrentHealth, "White");
-        }
-        else
-        {
-            HealthController.UpdateNumber(Minion.CurrentHealth, "Green");
-        }
+        AttackController.UpdateNumber(Minion.CurrentAttack, Util.GetColor(Minion.CurrentAttack, Minion.BaseAttack));
+        HealthController.UpdateNumber(Minion.CurrentHealth, Util.GetColor(Minion.CurrentHealth, Minion.BaseHealth));
     }
 
     private string GetTokenPath()
