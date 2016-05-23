@@ -44,23 +44,28 @@ public class CardController : BaseController
 
         CardRenderer = CreateRenderer("Card_Sprite", Vector3.one, Vector3.zero, 42);
 
-        if (Card.GetCardType() == CardType.Weapon)
+        switch (Card.GetCardType())
         {
-            ComboGlowRenderer = CreateRenderer("ComboGlow_Sprite", Vector3.one * 3f, new Vector3(0.0375f, -0.025f, 0f), 41);
-            GreenGlowRenderer = CreateRenderer("GreenGlow_Sprite", Vector3.one * 3f, new Vector3(0.0375f, -0.025f, 0f), 40);
-        }
-        else
-        {
-            ComboGlowRenderer = CreateRenderer("ComboGlow_Sprite", Vector3.one * 3f, new Vector3(0.065f, -0.05f, 0f), 41);
-            GreenGlowRenderer = CreateRenderer("GreenGlow_Sprite", Vector3.one * 3f, new Vector3(0.065f, -0.05f, 0f), 40);
+            case CardType.Weapon:
+                ComboGlowRenderer = CreateRenderer("ComboGlow_Sprite", Vector3.one * 2.5f, new Vector3(0.0375f, 0.025f, 0f), 41);
+                GreenGlowRenderer = CreateRenderer("GreenGlow_Sprite", Vector3.one * 2.5f, new Vector3(0.0375f, 0.025f, 0f), 40);
+                break;
+
+            case CardType.Spell:
+                ComboGlowRenderer = CreateRenderer("ComboGlow_Sprite", Vector3.one * 2.5f, Vector3.zero, 41);
+                GreenGlowRenderer = CreateRenderer("GreenGlow_Sprite", Vector3.one * 2.5f, Vector3.zero, 40);
+                break;
+
+            case CardType.Minion:
+                ComboGlowRenderer = CreateRenderer("ComboGlow_Sprite", Vector3.one * 2.5f, new Vector3(0.07f, 0f, 0f), 41);
+                GreenGlowRenderer = CreateRenderer("GreenGlow_Sprite", Vector3.one * 2.5f, new Vector3(0.07f, 0f, 0f), 40);
+                break;
         }
 
         CardRenderer.enabled = true;
 
         UpdateSprites();
         UpdateNumbers();
-
-        CostController.SetEnabled(true);
     }
 
     public override void DestroyController()
@@ -110,7 +115,7 @@ public class CardController : BaseController
 
     private string GetGlowType()
     {
-        switch (Card.TypeName())
+        switch (Card.GetType().BaseType.Name)
         {
             case "MinionCard":
                 if (Card.As<MinionCard>().Rarity == CardRarity.Legendary)
