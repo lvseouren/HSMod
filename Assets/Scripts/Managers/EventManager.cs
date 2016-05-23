@@ -24,6 +24,7 @@ public class EventManager
 
     // Minion Event Subjects //
     public Subject<MinionPlayedEvent> MinionPlayedHandler = new Subject<MinionPlayedEvent>();
+    public Subject<MinionSummonedEvent> MinionSummonedHandler = new Subject<MinionSummonedEvent>();
 
     public Subject<MinionPreAttackEvent> MinionPreAttackHandler = new Subject<MinionPreAttackEvent>();
     public Subject<MinionAttackedEvent> MinionAttackedHandler = new Subject<MinionAttackedEvent>();
@@ -127,6 +128,22 @@ public class EventManager
             battlefieldMinion.Buffs.OnMinionPoisoned.OnNext(minionPoisonedEvent);
         }
 
+    }
+
+    public void OnMinionSummon(Player player, Minion minion)
+    {
+        MinionSummonedEvent minionSummonedEvent = new MinionSummonedEvent()
+        {
+            Player = player,
+            Minion = minion
+        };
+
+        MinionSummonedHandler.OnNext(minionSummonedEvent);
+
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
+        {
+            battlefieldMinion.Buffs.OnMinionSummoned.OnNext(minionSummonedEvent);
+        }
     }
 
     public void OnMinionPlayed(Player player, Minion minion)

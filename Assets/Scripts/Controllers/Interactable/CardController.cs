@@ -228,8 +228,6 @@ public class CardController : BaseController
                         {
                             Character target = Util.GetCharacterAtMouse();
 
-                            print(target);
-
                             if (spellCard.CanTarget(target))
                             {
                                 spellCard.PlayOn(target);
@@ -240,7 +238,10 @@ public class CardController : BaseController
                     case CardType.Minion:
                         if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
                         {
-                            Card.Play();
+                            if (Card.Player.Minions.Count < 7)
+                            {
+                                Card.Play();
+                            }
                         }
                         break;
 
@@ -251,14 +252,6 @@ public class CardController : BaseController
                             Card.Play();
                         }
                         break;
-                }
-
-                // Checking Card type
-                if (Card.GetCardType() == CardType.Spell)
-                {
-                }
-                else
-                {
                 }
             }
             else

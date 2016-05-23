@@ -77,6 +77,30 @@ public class Player : MonoBehaviour
 
     #region Methods
 
+    public void PlayMinion(MinionCard minionCard, int position)
+    {
+        Debugger.LogPlayer(this, "playing " + minionCard.Name + " at position " + position);
+
+        // Creating a Minion and its Controller
+        Minion minion = new Minion(minionCard);
+        minion.Controller = MinionController.Create(BoardController, minion);
+
+        // Adding the Minion to the Player Minion list
+        Minions.Add(minion);
+
+        // Adding the Minion to the BoardController
+        BoardController.AddMinion(minion, position);
+
+        // Firing OnPlayed and OnSummoned events
+        minion.Buffs.Battlecry.OnNext(null);
+
+        EventManager.Instance.OnMinionPlayed(this, minion);
+        EventManager.Instance.OnMinionSummon(this, minion);
+
+        // Updating the Player glows
+        UpdateSprites();
+    }
+
     public void SummonMinion(MinionCard minionCard)
     {
         SummonMinion(minionCard, Minions.Count);
@@ -97,7 +121,8 @@ public class Player : MonoBehaviour
         // Adding the Minion to the BoardController
         BoardController.AddMinion(minion, position);
 
-        // TODO : Fire events
+        // Firing summoned events
+        EventManager.Instance.OnMinionSummon(this, minion);
 
         // Updating the Player glows
         UpdateSprites();

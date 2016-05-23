@@ -37,7 +37,7 @@ public class BuffManager
     public Subject<SecretRevealedEvent> OnSecretRevealed = new Subject<SecretRevealedEvent>();
 
     public Subject<MinionPlayedEvent> OnMinionPlayed = new Subject<MinionPlayedEvent>();
-    public Subject<Minion> OnMinionSummoned = new Subject<Minion>();
+    public Subject<MinionSummonedEvent> OnMinionSummoned = new Subject<MinionSummonedEvent>();
     public Subject<MinionPreAttackEvent> OnMinionPreAttack = new Subject<MinionPreAttackEvent>();
     public Subject<MinionAttackedEvent> OnMinionAttacked = new Subject<MinionAttackedEvent>();
     public Subject<MinionPreDamageEvent> OnMinionPreDamage = new Subject<MinionPreDamageEvent>();
