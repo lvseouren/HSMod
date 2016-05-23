@@ -402,32 +402,25 @@ public class Player : MonoBehaviour
         ResetSprites();
 
         bool heroPowerUsable = Hero.HeroPower.IsUsable();
-
+        
         Hero.HeroPower.Controller.CostController.SetEnabled(heroPowerUsable);
         Hero.HeroPower.Controller.FrontTokenRenderer.enabled = heroPowerUsable;
         Hero.HeroPower.Controller.BackTokenRenderer.enabled = !heroPowerUsable;
 
-        if (GameManager.Instance.CurrentPlayer == this)
+        bool isCurrentPlayer = GameManager.Instance.CurrentPlayer == this;
+        
+        if (HasWeapon())
+        {
+            Weapon.Controller.OpenTokenRenderer.enabled = isCurrentPlayer;
+            Weapon.Controller.ClosedTokenRenderer.enabled = !isCurrentPlayer;
+        }
+
+        if (isCurrentPlayer)
         {
             UpdateHeroGlow();
             UpdateHandGlows();
             UpdateMinionGlows();
             UpdateHeroPowerGlow();
-
-            if (HasWeapon())
-            {
-                Weapon.Controller.OpenTokenRenderer.enabled = true;
-                Weapon.Controller.ClosedTokenRenderer.enabled = false;
-            }
-        }
-        else
-        {
-
-            if (HasWeapon())
-            {
-                Weapon.Controller.OpenTokenRenderer.enabled = false;
-                Weapon.Controller.ClosedTokenRenderer.enabled = true;
-            }
         }
     }
 
