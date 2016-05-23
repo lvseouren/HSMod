@@ -73,13 +73,13 @@ public static class Util
     // Method to know if a list of cards contains a type of card
     public static bool ContainsCardOfType<T>(this List<BaseCard> list)
     {
-        return list.Count(x => x.GetType() == typeof(T)) > 0;
+        return list.Count(x => x.GetType().BaseType == typeof(T)) > 0;
     }
 
     // Method to get all the cards of a type inside a list of cards
     public static List<BaseCard> GetCardsOfType<T>(this List<BaseCard> list)
     {
-        return list.Where(x => x.GetType() == typeof(T)).ToList();
+        return list.Where(x => x.GetType().BaseType == typeof(T)).ToList();
     }
 
     // Method to get the character at the mouse position
