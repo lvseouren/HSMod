@@ -68,27 +68,27 @@ public class GameManager : MonoBehaviour
             Deck = new List<BaseCard>()
             {
                 new BladeOfLostSouls(),
+                new BladeOfLostSouls(),
+                new SkeletonCommander(),
                 new SkeletonCommander(),
                 new GoblinMerchant(),
+                new GoblinMerchant(),
+                new IllFatedSquire(),
                 new IllFatedSquire(),
                 new CorpseExplosion(),
-                new DancingRuneblade(),
-                new DeathwhisperNecrolyte(),
+                new CorpseExplosion(),
+                new ArcaneAnomaly(),
                 new ArcaneAnomaly(),
                 new TreacherousMercenary(),
-                new UnholyRuneblade(),
-                new GoblinMerchant(),
-                new IllFatedSquire(),
-                new CorpseExplosion(),
+                new TreacherousMercenary(),
+                new AllWillServe(),
                 new AllWillServe(),
                 new DancingRuneblade(),
-                new SkeletonCommander(),
-                new BladeOfLostSouls(),
+                new DancingRuneblade(),
+                new DeathwhisperNecrolyte(),
                 new DeathwhisperNecrolyte(),
                 new UnholyRuneblade(),
-                new AllWillServe(),
-                new TreacherousMercenary(),
-                new ArcaneAnomaly()
+                new UnholyRuneblade(),
             },
         };
 
@@ -114,28 +114,28 @@ public class GameManager : MonoBehaviour
 
             Deck = new List<BaseCard>()
             {
-                new ArcaneAnomaly(),
-                new SkeletonCommander(),
                 new BladeOfLostSouls(),
-                new TreacherousMercenary(),
+                new BladeOfLostSouls(),
+                new SkeletonCommander(),
+                new SkeletonCommander(),
+                new GoblinMerchant(),
                 new GoblinMerchant(),
                 new IllFatedSquire(),
+                new IllFatedSquire(),
+                new CorpseExplosion(),
+                new CorpseExplosion(),
+                new ArcaneAnomaly(),
+                new ArcaneAnomaly(),
+                new TreacherousMercenary(),
+                new TreacherousMercenary(),
+                new AllWillServe(),
+                new AllWillServe(),
+                new DancingRuneblade(),
+                new DancingRuneblade(),
+                new DeathwhisperNecrolyte(),
                 new DeathwhisperNecrolyte(),
                 new UnholyRuneblade(),
-                new DancingRuneblade(),
-                new SkeletonCommander(),
-                new AllWillServe(),
-                new DeathwhisperNecrolyte(),
-                new TreacherousMercenary(),
-                new GoblinMerchant(),
-                new CorpseExplosion(),
-                new AllWillServe(),
-                new DancingRuneblade(),
-                new BladeOfLostSouls(),
-                new IllFatedSquire(),
-                new ArcaneAnomaly(),
-                new CorpseExplosion(),
-                new UnholyRuneblade()
+                new UnholyRuneblade(),
             },
         };
 
@@ -146,6 +146,10 @@ public class GameManager : MonoBehaviour
         // Setting Player enemies
         SelfPlayer.Enemy = EnemyPlayer;
         EnemyPlayer.Enemy = SelfPlayer;
+
+        // Shuffling both decks
+        SelfPlayer.Deck.Shuffle();
+        EnemyPlayer.Deck.Shuffle();
 
         // Randomizing the starting player
         CurrentPlayer = RNG.RandomChoice(SelfPlayer, EnemyPlayer);
@@ -200,7 +204,7 @@ public class GameManager : MonoBehaviour
             minion.CurrentTurnAttacks = 0;
 
             // Firing OnTurnStart events
-            minion.Buffs.OnTurnStart.OnNext(null);
+            EventManager.Instance.OnTurnStart(CurrentPlayer);
 
             // Unfreezing frozen minions or flagging frozen minions for unfreezing on next turn
             if (minion.IsFrozen)
@@ -232,8 +236,6 @@ public class GameManager : MonoBehaviour
 
         // Updating card, hero and minion glows for the current player
         CurrentPlayer.UpdateSprites();
-
-        // TODO : Give the CurrentPlayer the control of the turn
     }
 
     public void TurnEnd()
