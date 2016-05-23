@@ -87,6 +87,9 @@ public class Hero : Character
             // Firing OnAttacked events
             EventManager.Instance.OnHeroAttacked(this, target);
         }
+        
+        // Updating the Player glows
+        Player.UpdateSprites();
     }
 
     public override void Damage(Character attacker, int damageAmount)
