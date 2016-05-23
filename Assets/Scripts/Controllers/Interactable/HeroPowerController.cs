@@ -8,7 +8,7 @@ public class HeroPowerController : BaseController
     public SpriteRenderer FrontTokenRenderer;
     public SpriteRenderer BackTokenRenderer;
 
-    private NumberController CostController;
+    public NumberController CostController;
 
     private BoxCollider HeroPowerCollider;
 
