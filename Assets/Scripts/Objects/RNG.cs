@@ -8,6 +8,11 @@ public static class RNG
         return Random.Range(0, 2) == 0;
     }
 
+    public static T RandomChoice<T>(T first, T second)
+    {
+        return RandomBool() ? first : second;
+    }
+
     public static int RandomInteger(int min, int max)
     {
         return Random.Range(min, max + 1);

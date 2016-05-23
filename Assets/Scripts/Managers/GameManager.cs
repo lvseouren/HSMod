@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
 
         #region Test Zone
 
-        PlayerParameters bottomParameters = new PlayerParameters()
+        PlayerParameters selfParameters = new PlayerParameters()
         {
             HeroClass = HeroClass.DeathKnight,
             HeroHealth = 30,
@@ -92,9 +92,9 @@ public class GameManager : MonoBehaviour
             },
         };
 
-        SelfPlayer = Player.Create(bottomParameters);
+        SelfPlayer = Player.Create(selfParameters);
 
-        PlayerParameters topParameters = new PlayerParameters()
+        PlayerParameters enemyParameters = new PlayerParameters()
         {
             HeroClass = HeroClass.DeathKnight,
             HeroHealth = 30,
@@ -139,22 +139,16 @@ public class GameManager : MonoBehaviour
             },
         };
 
-        EnemyPlayer = Player.Create(topParameters);
+        EnemyPlayer = Player.Create(enemyParameters);
 
         #endregion
 
+        // Setting Player enemies
         SelfPlayer.Enemy = EnemyPlayer;
         EnemyPlayer.Enemy = SelfPlayer;
 
-        // Randomize the starting player
-        if (Random.Range(0, 2) == 1)
-        {
-            CurrentPlayer = EnemyPlayer;
-        }
-        else
-        {
-            CurrentPlayer = SelfPlayer;
-        }
+        // Randomizing the starting player
+        CurrentPlayer = RNG.RandomChoice(SelfPlayer, EnemyPlayer);
 
         Mulligan();
 
@@ -253,25 +247,21 @@ public class GameManager : MonoBehaviour
         CurrentPlayer.ResetSprites();
 
         // Switching the player
-        SwitchCurrentPlayer();
+        CurrentPlayer = CurrentPlayer.Enemy;
 
         // Starting the next turn
         TurnStart();
     }
 
-    public void SwitchCurrentPlayer()
+    public List<Character> GetAllCharacters()
     {
-        Debugger.Log("Switching current player");
+        List<Character> characters = GetAllMinions().Cast<Character>().ToList();
 
-        if (CurrentPlayer == SelfPlayer)
-        {
-            CurrentPlayer = EnemyPlayer;
-        }
-        else
-        {
-            CurrentPlayer = SelfPlayer;
-        }
-    }
+        characters.Add(SelfPlayer.Hero);
+        characters.Add(EnemyPlayer.Hero);
+
+        return characters;
+    } 
 
     public List<Minion> GetAllMinions()
     {
