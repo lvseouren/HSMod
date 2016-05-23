@@ -122,7 +122,7 @@ public class CardController : BaseController
                 {
                     return "LegendaryMinion";
                 }
-                return "Minion";
+                return "Weapon";
 
             case "SpellCard":
                 return "Spell";
