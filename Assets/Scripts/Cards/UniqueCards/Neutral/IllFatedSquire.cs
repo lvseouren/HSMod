@@ -27,9 +27,12 @@ public class IllFatedSquire : MinionCard
         {
             List<BaseCard> weaponsInDeck = minion.Player.Deck.GetCardsOfType<WeaponCard>();
 
-            BaseCard randomWeapon = RNG.RandomCard(weaponsInDeck);
+            if (weaponsInDeck.Count > 0)
+            {
+                BaseCard randomWeapon = RNG.RandomCard(weaponsInDeck);
 
-            minion.Player.DrawFromDeck(randomWeapon);
+                minion.Player.DrawFromDeck(randomWeapon);
+            }
         }
     }
 }
