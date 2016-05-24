@@ -35,6 +35,8 @@ public class InterfaceManager : MonoBehaviour
     private SpriteRenderer circleRenderer;
     private SpriteRenderer bodyRenderer;
 
+    private IEnumerator TurnFadeCoroutine;
+
     private void Start()
     {
         // Setting the singleton instance
@@ -160,17 +162,23 @@ public class InterfaceManager : MonoBehaviour
 
     public void SpawnTurnSprite()
     {
-        StartCoroutine(TurnSpriteFade());
+        if (TurnFadeCoroutine != null)
+        {
+            StopCoroutine(TurnFadeCoroutine);
+        }
+
+        TurnFadeCoroutine = TurnSpriteFade();
+        StartCoroutine(TurnFadeCoroutine);
     }
 
     private IEnumerator TurnSpriteFade()
     {
         turnRenderer.enabled = true;
-        turnRenderer.transform.localScale = Vector3.one;
+        turnRenderer.transform.localScale = Vector3.one * 1.5f;
 
         yield return new WaitForSeconds(1f);
 
-        for (float i = 1f; i > 0f; i -= 0.02f)
+        for (float i = 1.5f; i > 0f; i -= 0.1f)
         {
             turnRenderer.transform.localScale = Vector3.one * i;
             yield return null;

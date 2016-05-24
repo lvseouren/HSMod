@@ -23,9 +23,7 @@ public class GameManager : MonoBehaviour
     private GameManager() { }
 
     #endregion
-
-    public GameState CurrentGameState;
-
+    
     public Player EnemyPlayer;
     public Player SelfPlayer;
     public Player CurrentPlayer;
@@ -49,7 +47,7 @@ public class GameManager : MonoBehaviour
 
         #region Test Zone
 
-        PlayerParameters bottomParameters = new PlayerParameters()
+        PlayerParameters selfParameters = new PlayerParameters()
         {
             HeroClass = HeroClass.DeathKnight,
             HeroHealth = 30,
@@ -69,22 +67,42 @@ public class GameManager : MonoBehaviour
 
             Deck = new List<BaseCard>()
             {
+                new BladeOfLostSouls(),
+                new BladeOfLostSouls(),
                 new SkeletonCommander(),
+                new SkeletonCommander(),
+                new GoblinMerchant(),
+                new GoblinMerchant(),
+                new IllFatedSquire(),
+                new IllFatedSquire(),
                 new CorpseExplosion(),
-                new DancingRuneblade(),
-                new DeathwhisperNecrolyte(),
                 new CorpseExplosion(),
+                new ArcaneAnomaly(),
+                new ArcaneAnomaly(),
+                new TreacherousMercenary(),
+                new TreacherousMercenary(),
+                new AllWillServe(),
                 new AllWillServe(),
                 new DancingRuneblade(),
-                new SkeletonCommander(),
+                new DancingRuneblade(),
                 new DeathwhisperNecrolyte(),
-                new AllWillServe()
+                new DeathwhisperNecrolyte(),
+                new UnholyRuneblade(),
+                new UnholyRuneblade(),
+                new UnholyFrenzy(),
+                new UnholyFrenzy(),
+                new RaiseDead(),
+                new RaiseDead(),
+                new Necrosis(),
+                new Necrosis(),
+                new DeathCoil(),
+                new DeathCoil(),
             },
         };
 
-        SelfPlayer = Player.Create(bottomParameters);
+        SelfPlayer = Player.Create(selfParameters);
 
-        PlayerParameters topParameters = new PlayerParameters()
+        PlayerParameters enemyParameters = new PlayerParameters()
         {
             HeroClass = HeroClass.DeathKnight,
             HeroHealth = 30,
@@ -104,35 +122,53 @@ public class GameManager : MonoBehaviour
 
             Deck = new List<BaseCard>()
             {
+                new BladeOfLostSouls(),
+                new BladeOfLostSouls(),
                 new SkeletonCommander(),
-                new DeathwhisperNecrolyte(),
-                new DancingRuneblade(),
                 new SkeletonCommander(),
-                new AllWillServe(),
-                new DeathwhisperNecrolyte(),
+                new GoblinMerchant(),
+                new GoblinMerchant(),
+                new IllFatedSquire(),
+                new IllFatedSquire(),
                 new CorpseExplosion(),
+                new CorpseExplosion(),
+                new ArcaneAnomaly(),
+                new ArcaneAnomaly(),
+                new TreacherousMercenary(),
+                new TreacherousMercenary(),
+                new AllWillServe(),
                 new AllWillServe(),
                 new DancingRuneblade(),
-                new CorpseExplosion()
+                new DancingRuneblade(),
+                new DeathwhisperNecrolyte(),
+                new DeathwhisperNecrolyte(),
+                new UnholyRuneblade(),
+                new UnholyRuneblade(),
+                new UnholyFrenzy(),
+                new UnholyFrenzy(),
+                new RaiseDead(),
+                new RaiseDead(),
+                new Necrosis(),
+                new Necrosis(),
+                new DeathCoil(),
+                new DeathCoil(),
             },
         };
 
-        EnemyPlayer = Player.Create(topParameters);
+        EnemyPlayer = Player.Create(enemyParameters);
 
         #endregion
 
+        // Setting Player enemies
         SelfPlayer.Enemy = EnemyPlayer;
         EnemyPlayer.Enemy = SelfPlayer;
 
-        // Randomize the starting player
-        if (Random.Range(0, 2) == 1)
-        {
-            CurrentPlayer = EnemyPlayer;
-        }
-        else
-        {
-            CurrentPlayer = SelfPlayer;
-        }
+        // Shuffling both decks
+        SelfPlayer.Deck.Shuffle();
+        EnemyPlayer.Deck.Shuffle();
+
+        // Randomizing the starting player
+        CurrentPlayer = RNG.RandomChoice(SelfPlayer, EnemyPlayer);
 
         Mulligan();
 
@@ -142,8 +178,6 @@ public class GameManager : MonoBehaviour
     public void Mulligan()
     {
         Debugger.Log("Mulligan phase start");
-        
-        CurrentGameState = GameState.Mulligan;
 
         // TODO : Rework mulligan
 
@@ -166,9 +200,6 @@ public class GameManager : MonoBehaviour
     {
         Debugger.Log("Turn start");
 
-        // Switching to Start Turn state
-        CurrentGameState = GameState.Start;
-
         if (CurrentPlayer == SelfPlayer)
         {
             InterfaceManager.Instance.SpawnTurnSprite();
@@ -177,9 +208,11 @@ public class GameManager : MonoBehaviour
         // Firing OnTurnStart events
         EventManager.Instance.OnTurnStart(CurrentPlayer);
 
-        // Resetting hero power uses
+        // Resetting hero power uses and turn attacks
         CurrentPlayer.Hero.HeroPower.CurrentUses = 0;
+        CurrentPlayer.Hero.CurrentTurnAttacks = 0;
 
+        // Iterating on the player list of minions
         foreach (Minion minion in CurrentPlayer.Minions)
         {
             // Awaking minions and resetting turn attacks
@@ -187,7 +220,7 @@ public class GameManager : MonoBehaviour
             minion.CurrentTurnAttacks = 0;
 
             // Firing OnTurnStart events
-            minion.Buffs.OnTurnStart.OnNext(null);
+            EventManager.Instance.OnTurnStart(CurrentPlayer);
 
             // Unfreezing frozen minions or flagging frozen minions for unfreezing on next turn
             if (minion.IsFrozen)
@@ -219,19 +252,11 @@ public class GameManager : MonoBehaviour
 
         // Updating card, hero and minion glows for the current player
         CurrentPlayer.UpdateSprites();
-
-        // Switching to Active Turn state
-        CurrentGameState = GameState.Active;
-
-        // TODO : Give the CurrentPlayer the control of the turn
     }
 
     public void TurnEnd()
     {
         Debugger.Log("Turn end");
-
-        // Switching to End Turn state
-        CurrentGameState = GameState.End;
 
         // Firing OnTurnEnd events
         EventManager.Instance.OnTurnEnd(CurrentPlayer);
@@ -240,25 +265,16 @@ public class GameManager : MonoBehaviour
         CurrentPlayer.ResetSprites();
 
         // Switching the player
-        SwitchCurrentPlayer();
+        CurrentPlayer = CurrentPlayer.Enemy;
 
         // Starting the next turn
         TurnStart();
     }
 
-    public void SwitchCurrentPlayer()
+    public List<Character> GetAllCharacters()
     {
-        Debugger.Log("Switching current player");
-
-        if (CurrentPlayer == SelfPlayer)
-        {
-            CurrentPlayer = EnemyPlayer;
-        }
-        else
-        {
-            CurrentPlayer = SelfPlayer;
-        }
-    }
+        return SelfPlayer.GetAllCharacters().Concat(EnemyPlayer.GetAllCharacters()).ToList();
+    } 
 
     public List<Minion> GetAllMinions()
     {

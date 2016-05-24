@@ -19,6 +19,7 @@
     public Weapon(WeaponCard card)
     {
         Card = card;
+        Player = card.Player;
 
         CurrentAttack = card.CurrentAttack;
         BaseAttack = card.BaseAttack;
@@ -41,8 +42,10 @@
 
         if (CurrentDurability <= 0)
         {
-            Remove();
+            Player.DestroyWeapon(); 
         }
+
+        Controller.UpdateNumbers();
     }
 
     #endregion

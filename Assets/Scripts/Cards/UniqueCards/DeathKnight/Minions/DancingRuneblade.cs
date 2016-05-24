@@ -22,10 +22,12 @@ public class DancingRuneblade : MinionCard
 
     public void Battlecry()
     {
-        if (Player.HasWeapon())
+        if (Minion.Player.HasWeapon())
         {
-            CurrentAttack += Player.Weapon.CurrentAttack;
-            CurrentHealth += Player.Weapon.CurrentDurability;
+            Minion.CurrentAttack += Player.Weapon.CurrentAttack;
+            Minion.CurrentHealth += Player.Weapon.CurrentDurability;
+
+            Minion.Controller.UpdateNumbers();
         }
     }
 }

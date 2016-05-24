@@ -24,6 +24,7 @@ public class EventManager
 
     // Minion Event Subjects //
     public Subject<MinionPlayedEvent> MinionPlayedHandler = new Subject<MinionPlayedEvent>();
+    public Subject<MinionSummonedEvent> MinionSummonedHandler = new Subject<MinionSummonedEvent>();
 
     public Subject<MinionPreAttackEvent> MinionPreAttackHandler = new Subject<MinionPreAttackEvent>();
     public Subject<MinionAttackedEvent> MinionAttackedHandler = new Subject<MinionAttackedEvent>();
@@ -71,6 +72,9 @@ public class EventManager
     // Secret Event Subjects //
     public Subject<SecretPlayedEvent> SecretPlayedHandler = new Subject<SecretPlayedEvent>();
     public Subject<SecretRevealedEvent> SecretRevealedHandler = new Subject<SecretRevealedEvent>();
+
+    // Mana Event Subjects //
+    public Subject<ManaSpentEvent> ManaSpentHandler = new Subject<ManaSpentEvent>();
 
     // Turn Event Subjects //
     public Subject<TurnEvent> TurnStartHandler = new Subject<TurnEvent>();
@@ -127,6 +131,22 @@ public class EventManager
             battlefieldMinion.Buffs.OnMinionPoisoned.OnNext(minionPoisonedEvent);
         }
 
+    }
+
+    public void OnMinionSummon(Player player, Minion minion)
+    {
+        MinionSummonedEvent minionSummonedEvent = new MinionSummonedEvent()
+        {
+            Player = player,
+            Minion = minion
+        };
+
+        MinionSummonedHandler.OnNext(minionSummonedEvent);
+
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
+        {
+            battlefieldMinion.Buffs.OnMinionSummoned.OnNext(minionSummonedEvent);
+        }
     }
 
     public void OnMinionPlayed(Player player, Minion minion)
@@ -515,6 +535,22 @@ public class EventManager
         foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnSecretRevealed.OnNext(secretRevealedEvent);
+        }
+    }
+
+    public void OnManaSpent(Player player, int manaAmount)
+    {
+        ManaSpentEvent manaSpentEvent = new ManaSpentEvent()
+        {
+            Player = player,
+            ManaAmount = manaAmount
+        };
+
+        ManaSpentHandler.OnNext(manaSpentEvent);
+
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
+        {
+            battlefieldMinion.Buffs.OnManaSpent.OnNext(manaSpentEvent);
         }
     }
 

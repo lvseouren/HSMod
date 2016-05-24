@@ -37,7 +37,7 @@ public class BuffManager
     public Subject<SecretRevealedEvent> OnSecretRevealed = new Subject<SecretRevealedEvent>();
 
     public Subject<MinionPlayedEvent> OnMinionPlayed = new Subject<MinionPlayedEvent>();
-    public Subject<Minion> OnMinionSummoned = new Subject<Minion>();
+    public Subject<MinionSummonedEvent> OnMinionSummoned = new Subject<MinionSummonedEvent>();
     public Subject<MinionPreAttackEvent> OnMinionPreAttack = new Subject<MinionPreAttackEvent>();
     public Subject<MinionAttackedEvent> OnMinionAttacked = new Subject<MinionAttackedEvent>();
     public Subject<MinionPreDamageEvent> OnMinionPreDamage = new Subject<MinionPreDamageEvent>();
@@ -62,6 +62,8 @@ public class BuffManager
     public Subject<HeroEquippedWeaponEvent> OnHeroEquippedWeapon = new Subject<HeroEquippedWeaponEvent>();
 
     public Subject<SpellCard> OnTargetedBySpell = new Subject<SpellCard>();
+
+    public Subject<ManaSpentEvent> OnManaSpent = new Subject<ManaSpentEvent>();
 
     public Subject<TurnEvent> OnTurnStart = new Subject<TurnEvent>();
     public Subject<TurnEvent> OnTurnEnd = new Subject<TurnEvent>();
@@ -134,6 +136,8 @@ public class BuffManager
         OnHeroEquippedWeapon.Dispose();
         
         OnTargetedBySpell.Dispose();
+
+        OnManaSpent.Dispose();
 
         OnTurnStart.Dispose();
         OnTurnEnd.Dispose();

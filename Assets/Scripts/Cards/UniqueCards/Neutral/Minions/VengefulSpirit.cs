@@ -15,13 +15,16 @@ public class VengefulSpirit : MinionCard
         BaseAttack = 1;
         BaseHealth = 2;
 
-        Buffs.Deathrattle.Subscribe(x => Deathrattle(x));
+        Buffs.Deathrattle.Subscribe(Deathrattle);
 
         InitializeMinion();
     }
 
-    public void Deathrattle(Minion x)
+    public void Deathrattle(Minion deadMinion)
     {
-        // TODO : Spawn 2/1 Spiteful Wrath
+        MinionCard spitefulWrath = new SpitefulWrath();
+        spitefulWrath.SetOwner(deadMinion.Player);
+
+        deadMinion.Player.SummonMinion(spitefulWrath);
     }
 }

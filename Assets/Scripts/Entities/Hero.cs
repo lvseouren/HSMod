@@ -20,7 +20,7 @@ public class Hero : Character
             if (Player.Enemy.Minions.Count > 0)
             {
                 // Random 50% chance
-                if (Random.Range(0, 2) == 1)
+                if (RNG.RandomBool())
                 {
                     // TODO : Play forgetful trigger animation
 
@@ -51,9 +51,6 @@ public class Hero : Character
         // Checking if the Attack was cancelled
         if (heroPreAttackEvent.Status != PreStatus.Cancelled)
         {
-            // Adding 1 to the current turn attacks counter
-            CurrentTurnAttacks++;
-
             // Redefining target in case it changed when firing events
             target = heroPreAttackEvent.Target;
 
@@ -78,9 +75,21 @@ public class Hero : Character
                 target.CheckDeath();
             }
 
+            // Adding 1 to the current turn attacks counter
+            CurrentTurnAttacks++;
+
+            // Using the weapon in case the Player has one
+            if (Player.HasWeapon())
+            {
+                Player.Weapon.Use();
+            }
+
             // Firing OnAttacked events
             EventManager.Instance.OnHeroAttacked(this, target);
         }
+        
+        // Updating the Player glows
+        Player.UpdateSprites();
     }
 
     public override void Damage(Character attacker, int damageAmount)

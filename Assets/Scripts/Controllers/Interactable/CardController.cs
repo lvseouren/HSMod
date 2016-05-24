@@ -39,20 +39,33 @@ public class CardController : BaseController
     public override void Initialize()
     {
         CostController = NumberController.Create("Cost_Controller", this.gameObject, new Vector3(-1.375f, 2.15f, 0f), 43, 0.5f);
-        AttackController = NumberController.Create("Attack_Controller", this.gameObject, new Vector3(-1.4f, -0.85f, 0f), 43, 0.5f);
-        AttributeController = NumberController.Create("Attribute_Controller", this.gameObject, new Vector3(1.5f, 0f, 0f), 43, 0.5f);
+        AttackController = NumberController.Create("Attack_Controller", this.gameObject, new Vector3(-1.35f, -2.15f, 0f), 43, 0.5f);
+        AttributeController = NumberController.Create("Attribute_Controller", this.gameObject, new Vector3(1.5f, -2.15f, 0f), 43, 0.5f);
 
         CardRenderer = CreateRenderer("Card_Sprite", Vector3.one, Vector3.zero, 42);
-        
-        ComboGlowRenderer = CreateRenderer("ComboGlow_Sprite", Vector3.one * 3f, new Vector3(0.065f, -0.05f, 0f), 41);
-        GreenGlowRenderer = CreateRenderer("GreenGlow_Sprite", Vector3.one * 3f, new Vector3(0.065f, -0.05f, 0f), 40);
+
+        switch (Card.GetCardType())
+        {
+            case CardType.Weapon:
+                ComboGlowRenderer = CreateRenderer("ComboGlow_Sprite", Vector3.one * 2.5f, new Vector3(0.0375f, 0.025f, 0f), 41);
+                GreenGlowRenderer = CreateRenderer("GreenGlow_Sprite", Vector3.one * 2.5f, new Vector3(0.0375f, 0.025f, 0f), 40);
+                break;
+
+            case CardType.Spell:
+                ComboGlowRenderer = CreateRenderer("ComboGlow_Sprite", Vector3.one * 2.5f, Vector3.zero, 41);
+                GreenGlowRenderer = CreateRenderer("GreenGlow_Sprite", Vector3.one * 2.5f, Vector3.zero, 40);
+                break;
+
+            case CardType.Minion:
+                ComboGlowRenderer = CreateRenderer("ComboGlow_Sprite", Vector3.one * 2.5f, new Vector3(0.07f, 0f, 0f), 41);
+                GreenGlowRenderer = CreateRenderer("GreenGlow_Sprite", Vector3.one * 2.5f, new Vector3(0.07f, 0f, 0f), 40);
+                break;
+        }
 
         CardRenderer.enabled = true;
 
         UpdateSprites();
         UpdateNumbers();
-
-        CostController.SetEnabled(true);
     }
 
     public override void DestroyController()
@@ -74,17 +87,21 @@ public class CardController : BaseController
 
     public override void UpdateNumbers()
     {
-        if (Card.CurrentCost < Card.BaseCost)
+        CostController.UpdateNumber(Card.CurrentCost, Util.GetColor(Card.CurrentCost, Card.BaseCost));
+
+        switch (Card.GetCardType())
         {
-            CostController.UpdateNumber(Card.CurrentCost, "Green");
-        }
-        else if (Card.CurrentCost == Card.BaseCost)
-        {
-            CostController.UpdateNumber(Card.CurrentCost, "White");
-        }
-        else
-        {
-            CostController.UpdateNumber(Card.CurrentCost, "Red");
+            case CardType.Minion:
+                MinionCard minionCard = Card.As<MinionCard>();
+                AttackController.UpdateNumber(minionCard.CurrentAttack, Util.GetColor(minionCard.CurrentAttack, minionCard.BaseAttack));
+                AttributeController.UpdateNumber(minionCard.CurrentHealth, Util.GetColor(minionCard.CurrentHealth, minionCard.BaseHealth));
+                break;
+
+            case CardType.Weapon:
+                WeaponCard weaponCard = Card.As<WeaponCard>();
+                AttackController.UpdateNumber(weaponCard.CurrentAttack, Util.GetColor(weaponCard.CurrentAttack, weaponCard.BaseAttack));
+                AttributeController.UpdateNumber(weaponCard.CurrentDurability, Util.GetColor(weaponCard.CurrentDurability, weaponCard.BaseDurability));
+                break;
         }
     }
 
@@ -102,14 +119,14 @@ public class CardController : BaseController
 
     private string GetGlowType()
     {
-        switch (Card.TypeName())
+        switch (Card.GetType().BaseType.Name)
         {
             case "MinionCard":
                 if (Card.As<MinionCard>().Rarity == CardRarity.Legendary)
                 {
                     return "LegendaryMinion";
                 }
-                return "Minion";
+                return "Weapon";
 
             case "SpellCard":
                 return "Spell";
@@ -185,12 +202,21 @@ public class CardController : BaseController
             case CardType.Minion: // TODO: if is frozen u can't do anything with it
             case CardType.Weapon:
                 Status = ControllerStatus.Dragging;
+
                 InterfaceManager.Instance.IsDragging = true;
                 break;
 
             case CardType.Spell:
-                Status = ControllerStatus.Targeting;
-                InterfaceManager.Instance.EnableArrow(this);
+                if (Card.As<SpellCard>().TargetType == TargetType.NoTarget)
+                {
+                    Status = ControllerStatus.Dragging;
+                    InterfaceManager.Instance.IsDragging = true;
+                }
+                else
+                {
+                    Status = ControllerStatus.Targeting;
+                    InterfaceManager.Instance.EnableArrow(this);
+                }
                 break;
         }
     }
@@ -211,6 +237,24 @@ public class CardController : BaseController
             {
                 switch (Card.GetCardType())
                 {
+                    case CardType.Minion:
+                        if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
+                        {
+                            if (Card.Player.Minions.Count < 7)
+                            {
+                                Card.Play();
+                            }
+                        }
+                        break;
+
+                    case CardType.Weapon:
+                        // TODO : Check for a wider space instead of board
+                        if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
+                        {
+                            Card.Play();
+                        }
+                        break;
+
                     case CardType.Spell:
                         SpellCard spellCard = Card.As<SpellCard>();
 
@@ -226,37 +270,12 @@ public class CardController : BaseController
                         {
                             Character target = Util.GetCharacterAtMouse();
 
-                            print(target);
-
                             if (spellCard.CanTarget(target))
                             {
                                 spellCard.PlayOn(target);
                             }
                         }
                         break;
-
-                    case CardType.Minion:
-                        if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
-                        {
-                            Card.Play();
-                        }
-                        break;
-
-                    case CardType.Weapon:
-                        // TODO : Check for a wider space instead of board
-                        if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
-                        {
-                            Card.Play();
-                        }
-                        break;
-                }
-
-                // Checking Card type
-                if (Card.GetCardType() == CardType.Spell)
-                {
-                }
-                else
-                {
                 }
             }
             else

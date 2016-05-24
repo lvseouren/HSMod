@@ -55,7 +55,7 @@ public class Minion : Character
             if (Player.Enemy.Minions.Count > 0)
             {
                 // Random 50% chance
-                if (Random.Range(0, 2) == 1)
+                if (RNG.RandomBool())
                 {
                     // TODO : Play forgetful trigger animation
 
@@ -271,6 +271,9 @@ public class Minion : Character
 
         // Firing OnAdded for that buff
         buff.OnAdded(this);
+
+        // Updating controller numbers
+        Controller.UpdateNumbers();
     }
 
     public void RemoveBuff(BaseBuff buff)
@@ -283,6 +286,9 @@ public class Minion : Character
 
             // Firing OnRemoved for that buff
             buff.OnRemoved(this);
+
+            // Updating controller numbers
+            Controller.UpdateNumbers();
         }
     }
 

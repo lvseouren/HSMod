@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -77,15 +78,9 @@ public class Player : MonoBehaviour
 
     #region Methods
 
-    public void SummonMinion(MinionCard minionCard)
+    public void PlayMinion(MinionCard minionCard, int position)
     {
-        SummonMinion(minionCard, Minions.Count);
-    }
-
-    // TODO : Board positioning
-    public void SummonMinion(MinionCard minionCard, int position)
-    {
-        Debugger.LogPlayer(this, "summoning " + minionCard.Name + " at position " + position);
+        Debugger.LogPlayer(this, "playing " + minionCard.Name + " at position " + position);
 
         // Creating a Minion and its Controller
         Minion minion = new Minion(minionCard);
@@ -97,7 +92,45 @@ public class Player : MonoBehaviour
         // Adding the Minion to the BoardController
         BoardController.AddMinion(minion, position);
 
-        // TODO : Fire events
+        // Firing OnPlayed and OnSummoned events
+        minion.Buffs.Battlecry.OnNext(null);
+
+        EventManager.Instance.OnMinionPlayed(this, minion);
+        EventManager.Instance.OnMinionSummon(this, minion);
+
+        // Updating the Player glows
+        UpdateSprites();
+    }
+
+    public void SummonMinion(MinionCard minionCard)
+    {
+        SummonMinion(minionCard, Minions.Count);
+    }
+
+    // TODO : Board positioning
+    public void SummonMinion(MinionCard minionCard, int position)
+    {
+        Debugger.LogPlayer(this, "summoning " + minionCard.Name + " at position " + position);
+
+        if (Minions.Count < 7)
+        {
+            // Creating a Minion and its Controller
+            Minion minion = new Minion(minionCard);
+            minion.Controller = MinionController.Create(BoardController, minion);
+
+            // Adding the Minion to the Player Minion list
+            Minions.Add(minion);
+
+            // Adding the Minion to the BoardController
+            BoardController.AddMinion(minion, position);
+
+            // Firing summoned events
+            EventManager.Instance.OnMinionSummon(this, minion);
+        }
+        else
+        {
+            Debugger.LogPlayer(this, "couldn't summon " + minionCard.Name + " because board is full");
+        }
 
         // Updating the Player glows
         UpdateSprites();
@@ -214,7 +247,7 @@ public class Player : MonoBehaviour
         UpdateSprites();
     }
 
-    public void AddMana(int quantity)
+    public void AddTurnMana(int quantity)
     {
         AvailableMana = Mathf.Min(AvailableMana + quantity, MaximumMana);
         
@@ -240,9 +273,14 @@ public class Player : MonoBehaviour
 
     public void UseMana(int quantity)
     {
+        // Using the mana specified
         AvailableMana -= quantity;
         UsedMana += quantity;
 
+        // Firing OnManaSpent events
+        EventManager.Instance.OnManaSpent(this, quantity);
+
+        // Updating the mana controller
         ManaController.UpdateAll();
 
         // Updating the Player glows
@@ -331,26 +369,8 @@ public class Player : MonoBehaviour
         {
             if (Hand.Count < MaxCardsInHand)
             {
-                // Getting the first card in the Deck
-                BaseCard drawnBaseCard = Deck[0];
-
-                // Moving the card to the Hand
-                Hand.Add(drawnBaseCard);
-                Deck.Remove(drawnBaseCard);
-
-                // Creating the visual controller for the card
-                CardController drawnCardController = CardController.Create(drawnBaseCard);
-                drawnBaseCard.Controller = drawnCardController;
-
-                // Adding the Cardcontroller to the HandController
-                HandController.Add(drawnCardController);
-
-                // Firing OnDrawn events
-                drawnBaseCard.OnDrawn();
-                EventManager.Instance.OnCardDrawn(this, drawnBaseCard);
-
-                // Updating the Player glows
-                UpdateSprites();
+                // Drawing the first card in the deck
+                BaseCard drawnBaseCard = DrawFromDeck(Deck[0]);
                 
                 return drawnBaseCard;
             }
@@ -419,20 +439,26 @@ public class Player : MonoBehaviour
     {
         ResetSprites();
 
-        if (GameManager.Instance.CurrentPlayer == this)
+        bool heroPowerUsable = Hero.HeroPower.IsUsable();
+        
+        Hero.HeroPower.Controller.CostController.SetEnabled(heroPowerUsable);
+        Hero.HeroPower.Controller.FrontTokenRenderer.enabled = heroPowerUsable;
+        Hero.HeroPower.Controller.BackTokenRenderer.enabled = !heroPowerUsable;
+
+        bool isCurrentPlayer = GameManager.Instance.CurrentPlayer == this;
+        
+        if (HasWeapon())
         {
-            UpdateWeaponGlow();
+            Weapon.Controller.OpenTokenRenderer.enabled = isCurrentPlayer;
+            Weapon.Controller.ClosedTokenRenderer.enabled = !isCurrentPlayer;
+        }
+
+        if (isCurrentPlayer)
+        {
+            UpdateHeroGlow();
             UpdateHandGlows();
             UpdateMinionGlows();
             UpdateHeroPowerGlow();
-
-            Hero.HeroPower.Controller.FrontTokenRenderer.enabled = true;
-            Hero.HeroPower.Controller.BackTokenRenderer.enabled = false;
-        }
-        else
-        {
-            Hero.HeroPower.Controller.FrontTokenRenderer.enabled = false;
-            Hero.HeroPower.Controller.BackTokenRenderer.enabled = true;
         }
     }
 
@@ -453,7 +479,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void UpdateWeaponGlow()
+    private void UpdateHeroGlow()
     {
         if (HasWeapon() || Hero.CurrentAttack > 0)
         {
@@ -519,6 +545,15 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Getter Methods
+
+    public List<Character> GetAllCharacters()
+    {
+        List<Character> characters = new List<Character>();
+
+        characters.Add(Hero);
+
+        return characters.Concat(Minions.Cast<Character>()).ToList();
+    } 
     
     public int GetSpellPower()
     {

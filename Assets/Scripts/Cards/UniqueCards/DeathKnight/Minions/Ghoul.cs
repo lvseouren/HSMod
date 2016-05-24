@@ -19,7 +19,7 @@ public class Ghoul : MinionCard
 
         InitializeMinion();
 
-        Buffs.OnTurnEnd.Subscribe(x => OnTurnEnd(x));
+        Buffs.OnTurnEnd.Subscribe(OnTurnEnd);
     }
 
     public void OnTurnEnd(TurnEvent turnEvent)

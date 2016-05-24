@@ -17,17 +17,17 @@ public class SkeletonCommander : MinionCard
         BaseAttack = 1;
         BaseHealth = 1;
 
-        Buffs.Battlecry.Subscribe(x => Battlecry());
+        Buffs.Deathrattle.Subscribe(Deathrattle);
 
         InitializeMinion();
     }
 
-    public void Battlecry()
+    public void Deathrattle(Minion deadMinion)
     {
-        MinionPlayedSubscription = EventManager.Instance.MinionPlayedHandler.Subscribe(x => UndeadBuff(x));
+        MinionPlayedSubscription = EventManager.Instance.MinionPlayedHandler.Subscribe(OnMinionPlayed);
     }
 
-    public void UndeadBuff(MinionPlayedEvent minionPlayedEvent)
+    public void OnMinionPlayed(MinionPlayedEvent minionPlayedEvent)
     {
         if (minionPlayedEvent.Player == Player && minionPlayedEvent.Minion.Card.MinionType == MinionType.Undead)
         {

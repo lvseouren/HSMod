@@ -21,7 +21,9 @@ public class UnholyFrenzy : SpellCard
 
         target.Damage(null, damage);
 
-        target.As<MinionCard>().AddBuff(new UnholyFrenzyBuff());
+        target.As<Minion>().AddBuff(new UnholyFrenzyBuff());
+
+        target.CheckDeath();
     }
 }
 

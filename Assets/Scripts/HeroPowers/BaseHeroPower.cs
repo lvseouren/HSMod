@@ -46,7 +46,12 @@
 
     public bool IsAvailable()
     {
-        return (CurrentUses < MaxUses) && (CurrentCost <= Hero.Player.AvailableMana);
+        return IsUsable() && (CurrentCost <= Hero.Player.AvailableMana);
+    }
+
+    public bool IsUsable()
+    {
+        return (CurrentUses < MaxUses);
     }
 
     public virtual bool CanTarget(Character target)
