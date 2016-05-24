@@ -257,12 +257,7 @@ public class GameManager : MonoBehaviour
 
     public List<Character> GetAllCharacters()
     {
-        List<Character> characters = GetAllMinions().Cast<Character>().ToList();
-
-        characters.Add(SelfPlayer.Hero);
-        characters.Add(EnemyPlayer.Hero);
-
-        return characters;
+        return SelfPlayer.GetAllCharacters().Concat(EnemyPlayer.GetAllCharacters()).ToList();
     } 
 
     public List<Minion> GetAllMinions()

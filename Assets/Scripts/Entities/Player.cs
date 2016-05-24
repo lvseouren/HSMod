@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -532,6 +533,15 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Getter Methods
+
+    public List<Character> GetAllCharacters()
+    {
+        List<Character> characters = new List<Character>();
+
+        characters.Add(Hero);
+
+        return characters.Concat(Minions.Cast<Character>()).ToList();
+    } 
     
     public int GetSpellPower()
     {
