@@ -112,18 +112,25 @@ public class Player : MonoBehaviour
     {
         Debugger.LogPlayer(this, "summoning " + minionCard.Name + " at position " + position);
 
-        // Creating a Minion and its Controller
-        Minion minion = new Minion(minionCard);
-        minion.Controller = MinionController.Create(BoardController, minion);
+        if (Minions.Count < 7)
+        {
+            // Creating a Minion and its Controller
+            Minion minion = new Minion(minionCard);
+            minion.Controller = MinionController.Create(BoardController, minion);
 
-        // Adding the Minion to the Player Minion list
-        Minions.Add(minion);
+            // Adding the Minion to the Player Minion list
+            Minions.Add(minion);
 
-        // Adding the Minion to the BoardController
-        BoardController.AddMinion(minion, position);
+            // Adding the Minion to the BoardController
+            BoardController.AddMinion(minion, position);
 
-        // Firing summoned events
-        EventManager.Instance.OnMinionSummon(this, minion);
+            // Firing summoned events
+            EventManager.Instance.OnMinionSummon(this, minion);
+        }
+        else
+        {
+            Debugger.LogPlayer(this, "couldn't summon " + minionCard.Name + " because board is full");
+        }
 
         // Updating the Player glows
         UpdateSprites();

@@ -271,6 +271,9 @@ public class Minion : Character
 
         // Firing OnAdded for that buff
         buff.OnAdded(this);
+
+        // Updating controller numbers
+        Controller.UpdateNumbers();
     }
 
     public void RemoveBuff(BaseBuff buff)
@@ -283,6 +286,9 @@ public class Minion : Character
 
             // Firing OnRemoved for that buff
             buff.OnRemoved(this);
+
+            // Updating controller numbers
+            Controller.UpdateNumbers();
         }
     }
 
