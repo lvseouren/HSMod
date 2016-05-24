@@ -187,12 +187,21 @@ public class CardController : BaseController
             case CardType.Minion: // TODO: if is frozen u can't do anything with it
             case CardType.Weapon:
                 Status = ControllerStatus.Dragging;
+
                 InterfaceManager.Instance.IsDragging = true;
                 break;
 
             case CardType.Spell:
-                Status = ControllerStatus.Targeting;
-                InterfaceManager.Instance.EnableArrow(this);
+                if (Card.As<SpellCard>().TargetType == TargetType.NoTarget)
+                {
+                    Status = ControllerStatus.Dragging;
+                    InterfaceManager.Instance.IsDragging = true;
+                }
+                else
+                {
+                    Status = ControllerStatus.Targeting;
+                    InterfaceManager.Instance.EnableArrow(this);
+                }
                 break;
         }
     }
@@ -213,6 +222,24 @@ public class CardController : BaseController
             {
                 switch (Card.GetCardType())
                 {
+                    case CardType.Minion:
+                        if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
+                        {
+                            if (Card.Player.Minions.Count < 7)
+                            {
+                                Card.Play();
+                            }
+                        }
+                        break;
+
+                    case CardType.Weapon:
+                        // TODO : Check for a wider space instead of board
+                        if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
+                        {
+                            Card.Play();
+                        }
+                        break;
+
                     case CardType.Spell:
                         SpellCard spellCard = Card.As<SpellCard>();
 
@@ -232,24 +259,6 @@ public class CardController : BaseController
                             {
                                 spellCard.PlayOn(target);
                             }
-                        }
-                        break;
-
-                    case CardType.Minion:
-                        if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
-                        {
-                            if (Card.Player.Minions.Count < 7)
-                            {
-                                Card.Play();
-                            }
-                        }
-                        break;
-
-                    case CardType.Weapon:
-                        // TODO : Check for a wider space instead of board
-                        if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
-                        {
-                            Card.Play();
                         }
                         break;
                 }
