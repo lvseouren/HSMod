@@ -84,10 +84,6 @@ public class WeaponController : BaseController
         RedGlowRenderer.sprite = SpriteManager.Instance.Glows["Weapon_RedGlow"];
 
         // Updating the green glow status depending on the Minion status
-        print(Weapon);
-        print(Weapon.Player);
-        print(Weapon.Player.Hero);
-        print(Weapon.Player.Hero.CanAttack());
         GreenGlowRenderer.enabled = Weapon.Player.Hero.CanAttack();
     }
     
