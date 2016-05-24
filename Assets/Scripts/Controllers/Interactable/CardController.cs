@@ -39,8 +39,8 @@ public class CardController : BaseController
     public override void Initialize()
     {
         CostController = NumberController.Create("Cost_Controller", this.gameObject, new Vector3(-1.375f, 2.15f, 0f), 43, 0.5f);
-        AttackController = NumberController.Create("Attack_Controller", this.gameObject, new Vector3(-1.4f, -0.85f, 0f), 43, 0.5f);
-        AttributeController = NumberController.Create("Attribute_Controller", this.gameObject, new Vector3(1.5f, 0f, 0f), 43, 0.5f);
+        AttackController = NumberController.Create("Attack_Controller", this.gameObject, new Vector3(-1.35f, -2.15f, 0f), 43, 0.5f);
+        AttributeController = NumberController.Create("Attribute_Controller", this.gameObject, new Vector3(1.5f, -2.15f, 0f), 43, 0.5f);
 
         CardRenderer = CreateRenderer("Card_Sprite", Vector3.one, Vector3.zero, 42);
 
@@ -88,6 +88,21 @@ public class CardController : BaseController
     public override void UpdateNumbers()
     {
         CostController.UpdateNumber(Card.CurrentCost, Util.GetColor(Card.CurrentCost, Card.BaseCost));
+
+        switch (Card.GetCardType())
+        {
+            case CardType.Minion:
+                MinionCard minionCard = Card.As<MinionCard>();
+                AttackController.UpdateNumber(minionCard.CurrentAttack, Util.GetColor(minionCard.CurrentAttack, minionCard.BaseAttack));
+                AttributeController.UpdateNumber(minionCard.CurrentHealth, Util.GetColor(minionCard.CurrentHealth, minionCard.BaseHealth));
+                break;
+
+            case CardType.Weapon:
+                WeaponCard weaponCard = Card.As<WeaponCard>();
+                AttackController.UpdateNumber(weaponCard.CurrentAttack, Util.GetColor(weaponCard.CurrentAttack, weaponCard.BaseAttack));
+                AttributeController.UpdateNumber(weaponCard.CurrentDurability, Util.GetColor(weaponCard.CurrentDurability, weaponCard.BaseDurability));
+                break;
+        }
     }
 
     public void SetRenderingOrder(int order)
