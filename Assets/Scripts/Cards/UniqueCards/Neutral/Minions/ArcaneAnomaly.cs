@@ -1,4 +1,6 @@
-﻿public class ArcaneAnomaly : MinionCard
+﻿using System;
+
+public class ArcaneAnomaly : MinionCard
 {
     public ArcaneAnomaly()
     {
@@ -13,8 +15,18 @@
         BaseAttack = 2;
         BaseHealth = 1;
 
+        Buffs.OnManaSpent.Subscribe(OnManaSpent);
+
         InitializeMinion();
     }
 
-    // TODO
+    public void OnManaSpent(ManaSpentEvent manaSpentEvent)
+    {
+        if (manaSpentEvent.Player == Player)
+        {
+            Character randomTarget = RNG.RandomCharacter(Player.Enemy.GetAllCharacters());
+
+            randomTarget.Damage(null, 1);
+        }
+    }
 }
