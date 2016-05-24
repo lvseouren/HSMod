@@ -20,19 +20,19 @@ public class CorpseExplosion : SpellCard
 
     public override void Cast(Character target)
     {
-        target.As<Minion>().Buffs.Deathrattle.Subscribe(x => ExplodeCorpse(x));
+        target.As<Minion>().Buffs.Deathrattle.Subscribe(Deathrattle);
     }
 
-    public void ExplodeCorpse(Minion corpse)
+    public void Deathrattle(Minion deadMinion)
     {
         // Iterating on the list of enemy minions to damage them
-        foreach (Minion minion in corpse.Player.Enemy.Minions)
+        foreach (Minion minion in deadMinion.Player.Enemy.Minions)
         {
             minion.Damage(null, 2);
         }
 
         // Iterating on the list of enemy minions to check if they should die
-        foreach (Minion minion in corpse.Player.Enemy.Minions.ToList())
+        foreach (Minion minion in deadMinion.Player.Enemy.Minions.ToList())
         {
             minion.CheckDeath();
         }

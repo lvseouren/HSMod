@@ -1,5 +1,6 @@
 public class Necrosis : SpellCard
 {
+    // TODO : Cost update
     public Necrosis()
     {
         Name = "Necrosis";
