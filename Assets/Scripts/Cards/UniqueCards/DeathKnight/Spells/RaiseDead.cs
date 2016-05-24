@@ -1,5 +1,6 @@
 public class RaiseDead : SpellCard
 {
+    // TODO : Cost update
     public RaiseDead()
     {
         Name = "Raise Dead";
@@ -20,7 +21,9 @@ public class RaiseDead : SpellCard
         MinionCard ghoul = new Ghoul()
         {
             BaseAttack = 3,
-            BaseHealth = 3
+            CurrentAttack = 3,
+            BaseHealth = 3,
+            CurrentHealth = 3,
         };
         ghoul.SetOwner(Player);
 
