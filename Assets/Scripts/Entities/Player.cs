@@ -240,7 +240,7 @@ public class Player : MonoBehaviour
         UpdateSprites();
     }
 
-    public void AddMana(int quantity)
+    public void AddTurnMana(int quantity)
     {
         AvailableMana = Mathf.Min(AvailableMana + quantity, MaximumMana);
         

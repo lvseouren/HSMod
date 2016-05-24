@@ -17,6 +17,6 @@
 
     public override void Cast(Character target)
     {
-        Player.AddMana(1);
+        Player.AddTurnMana(1);
     }
 }
