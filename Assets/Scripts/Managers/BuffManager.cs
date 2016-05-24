@@ -63,6 +63,8 @@ public class BuffManager
 
     public Subject<SpellCard> OnTargetedBySpell = new Subject<SpellCard>();
 
+    public Subject<ManaSpentEvent> OnManaSpent = new Subject<ManaSpentEvent>();
+
     public Subject<TurnEvent> OnTurnStart = new Subject<TurnEvent>();
     public Subject<TurnEvent> OnTurnEnd = new Subject<TurnEvent>();
 
@@ -134,6 +136,8 @@ public class BuffManager
         OnHeroEquippedWeapon.Dispose();
         
         OnTargetedBySpell.Dispose();
+
+        OnManaSpent.Dispose();
 
         OnTurnStart.Dispose();
         OnTurnEnd.Dispose();

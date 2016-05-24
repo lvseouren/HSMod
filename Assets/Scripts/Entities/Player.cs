@@ -266,9 +266,14 @@ public class Player : MonoBehaviour
 
     public void UseMana(int quantity)
     {
+        // Using the mana specified
         AvailableMana -= quantity;
         UsedMana += quantity;
 
+        // Firing OnManaSpent events
+        EventManager.Instance.OnManaSpent(this, quantity);
+
+        // Updating the mana controller
         ManaController.UpdateAll();
 
         // Updating the Player glows

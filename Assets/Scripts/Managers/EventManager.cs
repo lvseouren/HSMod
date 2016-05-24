@@ -73,6 +73,9 @@ public class EventManager
     public Subject<SecretPlayedEvent> SecretPlayedHandler = new Subject<SecretPlayedEvent>();
     public Subject<SecretRevealedEvent> SecretRevealedHandler = new Subject<SecretRevealedEvent>();
 
+    // Mana Event Subjects //
+    public Subject<ManaSpentEvent> ManaSpentHandler = new Subject<ManaSpentEvent>();
+
     // Turn Event Subjects //
     public Subject<TurnEvent> TurnStartHandler = new Subject<TurnEvent>();
     public Subject<TurnEvent> TurnEndHandler = new Subject<TurnEvent>();
@@ -532,6 +535,22 @@ public class EventManager
         foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
         {
             battlefieldMinion.Buffs.OnSecretRevealed.OnNext(secretRevealedEvent);
+        }
+    }
+
+    public void OnManaSpent(Player player, int manaAmount)
+    {
+        ManaSpentEvent manaSpentEvent = new ManaSpentEvent()
+        {
+            Player = player,
+            ManaAmount = manaAmount
+        };
+
+        ManaSpentHandler.OnNext(manaSpentEvent);
+
+        foreach (Minion battlefieldMinion in GameManager.Instance.GetAllMinions())
+        {
+            battlefieldMinion.Buffs.OnManaSpent.OnNext(manaSpentEvent);
         }
     }
 
