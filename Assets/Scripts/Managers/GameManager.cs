@@ -89,6 +89,14 @@ public class GameManager : MonoBehaviour
                 new DeathwhisperNecrolyte(),
                 new UnholyRuneblade(),
                 new UnholyRuneblade(),
+                new UnholyFrenzy(),
+                new UnholyFrenzy(),
+                new RaiseDead(),
+                new RaiseDead(),
+                new Necrosis(),
+                new Necrosis(),
+                new DeathCoil(),
+                new DeathCoil(),
             },
         };
 
@@ -136,6 +144,14 @@ public class GameManager : MonoBehaviour
                 new DeathwhisperNecrolyte(),
                 new UnholyRuneblade(),
                 new UnholyRuneblade(),
+                new UnholyFrenzy(),
+                new UnholyFrenzy(),
+                new RaiseDead(),
+                new RaiseDead(),
+                new Necrosis(),
+                new Necrosis(),
+                new DeathCoil(),
+                new DeathCoil(),
             },
         };
 
