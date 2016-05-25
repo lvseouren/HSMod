@@ -106,7 +106,7 @@ public class HeroPowerController : BaseController
 
     private void OnMouseDown()
     {
-        if (HeroPower.IsAvailable())
+        if (HeroPower.Hero.Player == GameManager.Instance.CurrentPlayer && HeroPower.IsAvailable())
         {
             switch (HeroPower.TargetType)
             {
@@ -128,7 +128,7 @@ public class HeroPowerController : BaseController
     {
         InterfaceManager.Instance.DisableArrow();
 
-        if (HeroPower.IsAvailable())
+        if (HeroPower.Hero.Player == GameManager.Instance.CurrentPlayer && HeroPower.IsAvailable())
         {
             if (HeroPower.TargetType != TargetType.NoTarget)
             {
