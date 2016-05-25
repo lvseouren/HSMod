@@ -238,7 +238,7 @@ public class CardController : BaseController
                 switch (Card.GetCardType())
                 {
                     case CardType.Minion:
-                        if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
+                        if (Card.Player.BoardController.SelfBoardContainsPoint(Util.GetWorldMousePosition()))
                         {
                             if (Card.Player.Minions.Count < 7)
                             {
@@ -248,8 +248,7 @@ public class CardController : BaseController
                         break;
 
                     case CardType.Weapon:
-                        // TODO : Check for a wider space instead of board
-                        if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
+                        if (Card.Player.BoardController.AllBoardContainsPoint(Util.GetWorldMousePosition()))
                         {
                             Card.Play();
                         }
@@ -260,8 +259,7 @@ public class CardController : BaseController
 
                         if (spellCard.TargetType == TargetType.NoTarget)
                         {
-                            // TODO : Check for a wider space instead of board
-                            if (Card.Player.BoardController.ContainsPoint(Util.GetWorldMousePosition()))
+                            if (Card.Player.BoardController.AllBoardContainsPoint(Util.GetWorldMousePosition()))
                             {
                                 spellCard.PlayOn(null);
                             }

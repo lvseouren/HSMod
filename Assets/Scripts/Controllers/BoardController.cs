@@ -63,13 +63,28 @@ public class BoardController : MonoBehaviour
         }
     }
 
-    public bool ContainsPoint(Vector3 point)
+    public bool SelfBoardContainsPoint(Vector3 point)
     {
         Vector3 localPoint = transform.InverseTransformPoint(point);
 
         if (localPoint.x < 13.5f && localPoint.x > -13.5f)
         {
             if (localPoint.y < 2f && localPoint.y > -2f)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool AllBoardContainsPoint(Vector3 point)
+    {
+        Vector3 localPoint = transform.InverseTransformPoint(point);
+
+        if (localPoint.x < 25f && localPoint.x > -25f)
+        {
+            if (localPoint.y < 25f && localPoint.y > -2f)
             {
                 return true;
             }
