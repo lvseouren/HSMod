@@ -100,7 +100,7 @@ public class MinionController : BaseController
     public override void UpdateNumbers()
     {
         AttackController.UpdateNumber(Minion.CurrentAttack, Util.GetColor(Minion.CurrentAttack, Minion.BaseAttack));
-        HealthController.UpdateNumber(Minion.CurrentHealth, Util.GetColor(Minion.CurrentHealth, Minion.BaseHealth));
+        HealthController.UpdateNumber(Minion.CurrentHealth, Util.GetColor(Minion.CurrentHealth, Minion.MaxHealth));
     }
 
     private string GetTokenPath()
