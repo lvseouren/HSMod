@@ -9,6 +9,10 @@ public class MinionController : BaseController
     private SpriteRenderer TokenRenderer;
     private SpriteRenderer MinionRenderer;
 
+    private SpriteRenderer DeathrattleRenderer;
+    private SpriteRenderer TriggerRenderer;
+    private SpriteRenderer InspireRenderer;
+
     private NumberController AttackController;
     private NumberController HealthController;
 
