@@ -18,7 +18,7 @@ public class Minion : Character
         BaseAttack = card.BaseAttack;
 
         CurrentHealth = card.CurrentHealth;
-        MaxHealth = card.CurrentAttack;
+        MaxHealth = card.CurrentHealth;
         BaseHealth = card.BaseHealth;
 
         HasTaunt = card.HasTaunt;

@@ -9,6 +9,10 @@ public class MinionController : BaseController
     private SpriteRenderer TokenRenderer;
     private SpriteRenderer MinionRenderer;
 
+    private SpriteRenderer DeathrattleRenderer;
+    private SpriteRenderer TriggerRenderer;
+    private SpriteRenderer InspireRenderer;
+
     private NumberController AttackController;
     private NumberController HealthController;
 
@@ -40,7 +44,7 @@ public class MinionController : BaseController
     public override void Initialize()
     {
         // Creating the Attack and Health NumberControllers
-        AttackController = NumberController.Create("Attack_Controller", this.gameObject, new Vector3(-0.8f, -0.95f, 0f), 15, 0.35f);
+        AttackController = NumberController.Create("Attack_Controller", this.gameObject, new Vector3(-0.75f, -0.95f, 0f), 15, 0.35f);
         HealthController = NumberController.Create("Health_Controller", this.gameObject, new Vector3(0.825f, -0.95f, 0f), 15, 0.35f);
 
         // Creating the SpriteRenderers for the token, the minion and its glows
@@ -100,7 +104,7 @@ public class MinionController : BaseController
     public override void UpdateNumbers()
     {
         AttackController.UpdateNumber(Minion.CurrentAttack, Util.GetColor(Minion.CurrentAttack, Minion.BaseAttack));
-        HealthController.UpdateNumber(Minion.CurrentHealth, Util.GetColor(Minion.CurrentHealth, Minion.BaseHealth));
+        HealthController.UpdateNumber(Minion.CurrentHealth, Util.GetColor(Minion.CurrentHealth, Minion.MaxHealth));
     }
 
     private string GetTokenPath()
